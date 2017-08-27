@@ -1,4 +1,4 @@
-package com.pl.ski_jumping.model;
+package com.pl.ski_jumping.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,12 +13,16 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SkiJumper {
+@Entity
+@Table(name = "jumper")
+public class SkiJumperEntity {
+    @Id
+    private int id;
     private int rank;
     private int bib;
-    private int fis_code;
     private String name;
     private String lastName;
+    private int year;
     private String nationality;
     private double first_jump;
     private double points_for_first_jump;

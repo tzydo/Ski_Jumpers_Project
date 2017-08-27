@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -25,20 +26,20 @@ public class Configurations {
 
     @Bean
     public DataSource dataSource(){
-        final BasicDataSource dataSource = new BasicDataSource();
-//        dataSource.setDriverClassName(environment.getProperty("jdbc.driverClassName"));
-        dataSource.setUrl(environment.getProperty("jdbc.url"));
-        dataSource.setUsername(environment.getProperty("jdbc.user"));
-        dataSource.setPassword(environment.getProperty("jdbc.password"));
+        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+        driverManagerDataSource.setDriverClassName(environment.getProperty("jdbc.className"));
+        driverManagerDataSource.setUrl(environment.getProperty("jdbc.url"));
+        driverManagerDataSource.setUsername(environment.getProperty("jdbc.user"));
+        driverManagerDataSource.setPassword(environment.getProperty("jdbc.password"));
 
-        return dataSource;
+        return driverManagerDataSource;
     }
 
     @Bean
     public LocalSessionFactoryBean localSessionFactoryBean(){
         final LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(new String[]{"com.pl.ski.jumping.model"});
+        sessionFactory.setPackagesToScan(new String[]{"com.pl.ski_jumping.model"});
         sessionFactory.setHibernateProperties(hibernateProperties());
 
         return sessionFactory;
