@@ -5,15 +5,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
+@Builder
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class SkiJumper {
+@Table(name = "jumper")
+public class SkiJumper implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private int rank;
     private int bib;
     private int fis_code;
