@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "api")
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("api")
 public class HomeController {
 
     @Autowired

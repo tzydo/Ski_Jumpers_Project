@@ -6,6 +6,9 @@ import {AppComponent} from './home/app.component';
 import {SearchComponent} from './search/search.component';
 import {ClassificationComponent} from "./classification/classification.component";
 import {AddJumper} from "./add/addJumper.component";
+import {JumperSerivce} from "./model/jumper.service";
+import {HttpModule} from "@angular/http";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -16,6 +19,8 @@ import {AddJumper} from "./add/addJumper.component";
   ],
   imports: [
     BrowserModule,
+    HttpModule,
+    FormsModule,
     RouterModule.forRoot([
       {
         path: 'home',
@@ -36,7 +41,7 @@ import {AddJumper} from "./add/addJumper.component";
       }
     ])
   ],
-  providers: [],
+  providers: [JumperSerivce],
   bootstrap: [AppComponent]
 })
 export class AppModule {

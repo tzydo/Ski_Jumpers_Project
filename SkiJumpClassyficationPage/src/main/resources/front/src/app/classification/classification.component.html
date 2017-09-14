@@ -1,1 +1,33 @@
-classification
+<table class="table table-hover" style="margin-top: 20px; text-align: center">
+  <thead>
+    <tr>
+      <th>rank</th>
+      <th>bib</th>
+      <th>fis_code</th>
+      <th>name</th>
+      <th>lastName</th>
+      <th>nationality</th>
+      <th>first_jump</th>
+      <th>point_for_first_jump</th>
+      <th>second_jump</th>
+      <th>points_for_second_jump</th>
+      <th>total_points</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let jumper of jumpersList">
+      <tr>
+        <td>{{jumper.rank}}</td>
+        <td>{{jumper.bib}}</td>
+        <td>{{jumper.fis_code}}</td>
+        <td>{{jumper.name}}</td>
+        <td>{{jumper.lastName}}</td>
+        <td>{{jumper.nationality}}</td>
+        <td>{{jumper.first_jump}}</td>
+        <td>{{jumper.points_for_first_jump}}</td>
+        <td>{{jumper.second_jump}}</td>
+        <td>{{jumper.points_for_second_jump}}</td>
+        <td>{{jumper.total_points}}</td>
+        <td><span><i class="fa fa-user-times" aria-hidden="true"></i></span></td>
+      </tr>
+    </tbody>
+  </table>
