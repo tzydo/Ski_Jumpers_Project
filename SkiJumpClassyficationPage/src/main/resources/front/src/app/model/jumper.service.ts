@@ -8,7 +8,7 @@ export class JumperSerivce{
   constructor(private http: Http) {}
 
   getAll(): Observable<any>{
-    return this.http.get('http://localhost:8080/api/jumpers/all')
+    return this.http.get('/api/jumpers/all')
                 .map((response: Response) => {
                     return response.json();
                   }
