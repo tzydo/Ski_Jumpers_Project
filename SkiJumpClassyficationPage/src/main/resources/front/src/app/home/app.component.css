@@ -1,3 +1,11 @@
-.homeLogo {
-  margin-top: 10px;
+body {
+  background: url("../../photo/tlo.png")no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.well{
+  background-color: rgba(245, 245, 245, 0.56);
 }

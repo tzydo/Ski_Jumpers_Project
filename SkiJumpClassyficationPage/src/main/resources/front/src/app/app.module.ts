@@ -23,6 +23,8 @@ import {FormsModule} from "@angular/forms";
     FormsModule,
     RouterModule.forRoot([
       {
+        path: ' ', redirectTo: '/home', pathMatch: 'full'
+      }, {
         path: 'home',
         component: AppComponent
       }, {
@@ -34,8 +36,6 @@ import {FormsModule} from "@angular/forms";
       }, {
         path: 'add',
         component: AddJumper
-      }, {
-        path: ' ', redirectTo: '/home', pathMatch: 'full'
       }, {
         path: '**', redirectTo: 'home', pathMatch: 'full'
       }

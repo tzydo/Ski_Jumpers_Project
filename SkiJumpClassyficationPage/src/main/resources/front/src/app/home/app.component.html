@@ -1,13 +1,19 @@
-<div class="jumbotron homeLogo">
-  <h1>Hello </h1>
-</div>
-<nav>
-  <a routerLink="/search" class="btn btn-info" role="button">Search</a>
-  <a routerLink="/classification" class="btn btn-info" role="button">Classification</a>
-  <a routerLink="/add" class="btn btn-info" role="button">Add jumper</a>
+<body>
+  <div class="container">
+    <h1>Hello </h1>
+    <nav >
+      <a routerLink="/search" class="btn btn-info" role="button">Search</a>
+      <a routerLink="/classification" class="btn btn-info" role="button">Classification</a>
+      <a routerLink="/add" class="btn btn-info" role="button">Add jumper</a>
 
-</nav>
-<router-outlet></router-outlet>
+    </nav>
+
+    <div class="well" style="margin-top: 20px;">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+</body>
 
 
 

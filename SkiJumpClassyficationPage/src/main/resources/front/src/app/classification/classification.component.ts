@@ -5,6 +5,7 @@ import {Jumper} from "../model/jumper";
 @Component({
   selector: 'app-classification',
   templateUrl: './classification.component.html',
+  styleUrls: ['./classification.component.css'],
   providers: [JumperSerivce]
 })
 
