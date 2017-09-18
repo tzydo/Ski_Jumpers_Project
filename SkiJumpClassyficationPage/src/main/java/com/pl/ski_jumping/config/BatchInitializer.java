@@ -1,7 +1,8 @@
 package com.pl.ski_jumping.config;
 
+import com.pl.ski_jumping.batchModel.CountryItemProcessor;
 import com.pl.ski_jumping.model.SkiJumper;
-import com.pl.ski_jumping.model.SkiJumperItemProcessor;
+import com.pl.ski_jumping.batchModel.SkiJumperItemProcessor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -20,13 +21,22 @@ import org.springframework.context.annotation.Configuration;
 public class BatchInitializer {
 
     @Autowired
-    public FlatFileItemReader itemReader;
+    public FlatFileItemReader skiJumperItemReader;
 
     @Autowired
-    public SkiJumperItemProcessor itemProcessor;
+    public FlatFileItemReader countryItemReader;
 
     @Autowired
-    public JdbcBatchItemWriter itemWriter;
+    public SkiJumperItemProcessor skiJumperItemProcessor;
+
+    @Autowired
+    public CountryItemProcessor countryItemProcessor;
+
+    @Autowired
+    public JdbcBatchItemWriter skiJumperItemWriter;
+
+    @Autowired
+    public JdbcBatchItemWriter countryItemWriter;
 
     @Autowired
     public StepBuilderFactory stepBuilderFactory;
@@ -35,11 +45,20 @@ public class BatchInitializer {
     public JobBuilderFactory jobBuilderFactory;
 
     @Bean
-    public TaskletStep step(){
-        return stepBuilderFactory.get("step1").<SkiJumper, SkiJumper>chunk(10)
-                .reader(itemReader)
-                .processor(itemProcessor)
-                .writer(itemWriter)
+    public TaskletStep step1(){
+        return stepBuilderFactory.get("loading skijumper list").<SkiJumper, SkiJumper>chunk(10)
+                .reader(skiJumperItemReader)
+                .processor(skiJumperItemProcessor)
+                .writer(skiJumperItemWriter)
+                .build();
+    }
+
+    @Bean
+    public TaskletStep step2(){
+        return stepBuilderFactory.get("loading countries").chunk(10)
+                .reader(countryItemReader)
+                .processor(countryItemProcessor)
+                .writer(countryItemWriter)
                 .build();
     }
 
@@ -47,7 +66,8 @@ public class BatchInitializer {
     public Job importUserJob() {
         return jobBuilderFactory.get("import ski jumper list")
                 .incrementer(new RunIdIncrementer())
-                .flow(step()) //insert to db
+                .flow(step1()) //insert to db
+                .next(step2())
                 .end()
                 .build();
     }

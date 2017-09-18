@@ -3,7 +3,9 @@ create database IF NOT EXISTS skijumper CHARACTER SET utf8 COLLATE utf8_bin;
 
 use skijumper;
 
-DROP TABLE IF EXISTS jumper ;
+DROP TABLE IF EXISTS jumper;
+DROP TABLE IF EXISTS country;
+
 CREATE TABLE jumper (
   id int not null auto_increment primary key,
   rank int,
@@ -18,4 +20,10 @@ CREATE TABLE jumper (
   second_jump double,
   points_for_second_jump double,
   total_points double
+);
+
+
+CREATE TABLE country (
+  id int not null auto_increment PRIMARY KEY,
+  name varchar(50)
 );
