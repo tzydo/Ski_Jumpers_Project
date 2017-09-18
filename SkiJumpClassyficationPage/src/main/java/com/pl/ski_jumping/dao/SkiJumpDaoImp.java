@@ -1,5 +1,6 @@
 package com.pl.ski_jumping.dao;
 
+import com.pl.ski_jumping.model.Country;
 import com.pl.ski_jumping.model.SkiJumper;
 import org.springframework.stereotype.Repository;
 
@@ -67,5 +68,10 @@ public class SkiJumpDaoImp implements SkiJumperDao {
     public List<Integer> getFisCodeList() {
         String querry = "select fis_code from SkiJumper";
         return entityManager.createQuery(querry).getResultList();
+    }
+
+    @Override
+    public List<Country> getCountries() {
+        return (List<Country>) entityManager.createQuery("from Country").getResultList();
     }
 }

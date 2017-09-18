@@ -1,5 +1,6 @@
 package com.pl.ski_jumping.service;
 
+import com.pl.ski_jumping.model.Country;
 import com.pl.ski_jumping.model.SkiJumper;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface SkiJumperService {
     void deleteAll();
     int getJumpersCount();
     int getFisCode();
+    List<Country> getCountries();
 }

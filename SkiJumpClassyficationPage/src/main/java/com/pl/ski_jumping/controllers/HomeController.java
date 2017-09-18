@@ -1,5 +1,6 @@
 package com.pl.ski_jumping.controllers;
 
+import com.pl.ski_jumping.model.Country;
 import com.pl.ski_jumping.model.SkiJumper;
 import com.pl.ski_jumping.service.SkiJumperService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,5 +92,11 @@ public class HomeController {
         return skiJumperService.getFisCode();
     }
 
+
+
+    @RequestMapping(value = "jumpers/countries", method = RequestMethod.GET)
+    public ResponseEntity<List<Country>> getCountriesList(){
+        return new ResponseEntity<List<Country>>(skiJumperService.getCountries(), HttpStatus.OK);
+    }
 }
 

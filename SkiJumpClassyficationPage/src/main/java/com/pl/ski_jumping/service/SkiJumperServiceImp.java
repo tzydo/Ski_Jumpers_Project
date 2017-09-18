@@ -1,6 +1,7 @@
 package com.pl.ski_jumping.service;
 
 import com.pl.ski_jumping.dao.SkiJumperDao;
+import com.pl.ski_jumping.model.Country;
 import com.pl.ski_jumping.model.SkiJumper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,6 +77,11 @@ public class SkiJumperServiceImp implements SkiJumperService{
         }while(value);
 
         return fis_code;
+    }
+
+    @Override
+    public List<Country> getCountries() {
+        return skiJumperDao.getCountries();
     }
 
 }

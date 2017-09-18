@@ -1,5 +1,6 @@
 package com.pl.ski_jumping.dao;
 
+import com.pl.ski_jumping.model.Country;
 import com.pl.ski_jumping.model.SkiJumper;
 
 import java.util.List;
@@ -15,4 +16,5 @@ public interface SkiJumperDao{
     void deleteAll();
     int getJumpersCount();
     List<Integer> getFisCodeList();
+    List<Country> getCountries();
 }

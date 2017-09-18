@@ -9,7 +9,6 @@ import com.pl.ski_jumping.batchModel.SkiJumperItemProcessor;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
-import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +82,7 @@ public class BatchConfiguration {
     @Bean
     public FlatFileItemReader countryItemReader(){
         FlatFileItemReader<Country> countryReader = new FlatFileItemReader<>();
-        countryReader.setResource(new ClassPathResource("nationality.csv"));
+        countryReader.setResource(new ClassPathResource("countries.csv"));
         countryReader.setLineMapper(new DefaultLineMapper<Country>(){{
             setLineTokenizer(new DelimitedLineTokenizer(){{
                 setNames(new String[]{"name"});
