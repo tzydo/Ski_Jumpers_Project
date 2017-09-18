@@ -13,4 +13,6 @@ public interface SkiJumperDao{
     void update(SkiJumper skiJumper);
     void deleteByRank(int rank);
     void deleteAll();
+    int getJumpersCount();
+    List<Integer> getFisCodeList();
 }

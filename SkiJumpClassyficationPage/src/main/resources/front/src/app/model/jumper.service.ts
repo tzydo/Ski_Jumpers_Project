@@ -14,4 +14,18 @@ export class JumperSerivce{
                   }
                 );
   }
+
+  getJumpersCount(): Observable<number>{
+    return this.http.get('api/jumpers/getCountJumpers')
+                .map((response: Response) => {
+                  return response.json();
+                });
+  }
+
+  getJumperFisCode(): Observable<number>{
+    return this.http.get('/api/jumpers/getNewFisCode')
+          .map((response: Response)=> {
+      return response.json();
+    });
+  }
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class SkiJumperServiceImp implements SkiJumperService{
@@ -55,4 +56,26 @@ public class SkiJumperServiceImp implements SkiJumperService{
     public void deleteAll() {
         skiJumperDao.deleteAll();
     }
+
+    @Override
+    public int getJumpersCount() {
+        int jumpersCount = skiJumperDao.getJumpersCount();
+        return jumpersCount;
+    }
+
+    @Override
+    public int getFisCode() {
+        List<Integer> fisCodeList = skiJumperDao.getFisCodeList();
+        Random randomValue = new Random();
+        boolean value = true;
+        int fis_code;
+
+        do{
+            fis_code =  randomValue.nextInt(9900) + 999;
+            if(!fisCodeList.contains(fis_code))value = false;
+        }while(value);
+
+        return fis_code;
+    }
+
 }

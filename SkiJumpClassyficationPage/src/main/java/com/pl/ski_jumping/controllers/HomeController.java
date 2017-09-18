@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigInteger;
 import java.util.List;
 
 @RestController
@@ -73,6 +75,20 @@ public class HomeController {
     public ResponseEntity<List<SkiJumper>> findall() {
         skiJumpers = skiJumperService.findAll();
         return new ResponseEntity<List<SkiJumper>>(skiJumpers, HttpStatus.OK);
+    }
+
+
+
+    @RequestMapping(value = "jumpers/getCountJumpers", method = RequestMethod.GET)
+    public int getCountJumpers(){
+        return skiJumperService.getJumpersCount();
+    }
+
+
+
+    @RequestMapping(value = "jumpers/getNewFisCode", method = RequestMethod.GET)
+    public int getJumperFisCode(){
+        return skiJumperService.getFisCode();
     }
 
 }
