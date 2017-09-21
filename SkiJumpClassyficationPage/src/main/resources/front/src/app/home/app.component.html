@@ -1,17 +1,16 @@
 <body>
   <div class="container">
-    <h1>Hello </h1>
+    <h1>{{tittle}} </h1>
     <nav >
+      <a routerLink="/home" class="btn btn-info" role="button">Dashboard</a>
       <a routerLink="/search" class="btn btn-info" role="button">Search</a>
       <a routerLink="/classification" class="btn btn-info" role="button">Classification</a>
       <a routerLink="/add" class="btn btn-info" role="button">Add jumper</a>
-
     </nav>
 
-    <div class="well" style="margin-top: 20px;">
+    <div class="containerForBody">
       <router-outlet></router-outlet>
     </div>
-
   </div>
 </body>
 

@@ -98,5 +98,12 @@ public class HomeController {
     public ResponseEntity<List<Country>> getCountriesList(){
         return new ResponseEntity<List<Country>>(skiJumperService.getCountries(), HttpStatus.OK);
     }
+
+
+
+    @RequestMapping(value = "jumpers/countries-by-pattern", method = RequestMethod.GET)
+    public ResponseEntity<List<Country>> getCountryListByPattern(@RequestParam("pattern")String pattern){
+        return new ResponseEntity<List<Country>>(skiJumperService.getCountriesByPattern(pattern), HttpStatus.OK);
+    }
 }
 

@@ -84,4 +84,9 @@ public class SkiJumperServiceImp implements SkiJumperService{
         return skiJumperDao.getCountries();
     }
 
+    @Override
+    public List<Country> getCountriesByPattern(String pattern) {
+        return skiJumperDao.getCountriesByPattern(pattern);
+    }
+
 }

@@ -10,7 +10,7 @@ public class CountryMapper implements FieldSetMapper<Country> {
     public Country mapFieldSet(FieldSet fieldSet) throws BindException {
 
         return new Country().builder()
-                .name(fieldSet.readString("name"))
+                .name(fieldSet.readString("name").toLowerCase())
                 .build();
 
     }

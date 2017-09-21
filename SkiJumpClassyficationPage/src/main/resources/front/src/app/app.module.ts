@@ -6,27 +6,32 @@ import {AppComponent} from './home/app.component';
 import {SearchComponent} from './search/search.component';
 import {ClassificationComponent} from "./classification/classification.component";
 import {AddJumper} from "./add/addJumper.component";
-import {JumperSerivce} from "./model/jumper.service";
+import {JumperSerivce} from "./service/jumper.service";
 import {HttpModule} from "@angular/http";
 import {FormsModule} from "@angular/forms";
+import {CountryService} from "./service/country.service";
+import {AutoCompleteModule} from 'primeng/primeng';
+import {DashboardComponent} from "./dashboard/dashboard.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent,
     ClassificationComponent,
-    AddJumper
+    AddJumper,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     FormsModule,
+    AutoCompleteModule,
     RouterModule.forRoot([
       {
-        path: ' ', redirectTo: '/home', pathMatch: 'full'
+        path: ' ', redirectTo: 'home'
       }, {
         path: 'home',
-        component: AppComponent
+        component: DashboardComponent
       }, {
         path: 'search',
         component: SearchComponent
@@ -41,7 +46,7 @@ import {FormsModule} from "@angular/forms";
       }
     ])
   ],
-  providers: [JumperSerivce],
+  providers: [JumperSerivce, CountryService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

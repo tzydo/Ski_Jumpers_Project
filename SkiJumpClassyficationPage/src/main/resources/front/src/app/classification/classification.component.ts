@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core'
-import {JumperSerivce} from "../model/jumper.service";
+import {JumperSerivce} from "../service/jumper.service";
 import {Jumper} from "../model/jumper";
 
 @Component({

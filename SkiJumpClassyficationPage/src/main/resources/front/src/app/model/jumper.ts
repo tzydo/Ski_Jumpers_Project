@@ -8,7 +8,8 @@ export class Jumper {
   public nationality: string;
   public first_jump: number;
   public points_for_first_jump: number;
-  public second_jump:number;
-  public points_for_second_jump:number;
+  public second_jump: number;
+  public points_for_second_jump: number;
   public total_points: number;
+
 }

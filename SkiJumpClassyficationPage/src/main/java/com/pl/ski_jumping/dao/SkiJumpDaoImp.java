@@ -74,4 +74,12 @@ public class SkiJumpDaoImp implements SkiJumperDao {
     public List<Country> getCountries() {
         return (List<Country>) entityManager.createQuery("from Country").getResultList();
     }
+
+    @Override
+    public List<Country> getCountriesByPattern(String pattern) {
+        String querry = "from Country where name LIKE :pattern";
+        return (List<Country>) entityManager.createQuery(querry)
+                                    .setParameter("pattern", "%" +pattern +"%")
+                                    .getResultList();
+    }
 }

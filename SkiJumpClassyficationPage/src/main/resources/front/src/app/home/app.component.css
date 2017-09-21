@@ -9,3 +9,11 @@ body {
 .well{
   background-color: rgba(245, 245, 245, 0.56);
 }
+
+.nav {
+  margin-top: 20px;
+}
+
+.containerForBody {
+  min-height: 700px;
+}

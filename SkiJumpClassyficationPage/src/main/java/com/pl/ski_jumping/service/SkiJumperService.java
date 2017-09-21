@@ -16,4 +16,5 @@ public interface SkiJumperService {
     int getJumpersCount();
     int getFisCode();
     List<Country> getCountries();
+    List<Country> getCountriesByPattern(String pattern);
 }

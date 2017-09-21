@@ -17,4 +17,5 @@ public interface SkiJumperDao{
     int getJumpersCount();
     List<Integer> getFisCodeList();
     List<Country> getCountries();
+    List<Country> getCountriesByPattern(String pattern);
 }
