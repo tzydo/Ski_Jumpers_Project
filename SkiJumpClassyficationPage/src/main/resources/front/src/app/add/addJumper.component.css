@@ -1,10 +1,4 @@
-.span {
-  height: 500px !important;
-  overflow: scroll;
-}
 .well {
   margin-top: 40px;
   background-color: rgba(245, 245, 245, 0.56);
 }
-
-

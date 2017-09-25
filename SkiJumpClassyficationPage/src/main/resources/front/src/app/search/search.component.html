@@ -1,2 +1,51 @@
-search
+<div class="well">
+  <span class="badge">{{message}}</span>
+  <div class="row" style="text-align: center; font-size: 18px;">
+    <div class=" col-sm-offset-1 col-sm-2 rank">
+      <div class="thumbnail" STYLE="background-color: transparent; border:none;">
+        <input type="text" class="form-control" id="rank" placeholder="rank" name="rank" [(ngModel)]="rank">
+      </div>
+    </div>
+
+    <div class=" col-sm-2 bib">
+      <div class="thumbnail" STYLE="background-color: transparent; border:none;">
+        <input type="text" class="form-control" id="bib" placeholder="bib" name="bib" [(ngModel)]="bib">
+      </div>
+    </div>
+
+    <div class="col-sm-2 fis_code">
+      <div class="thumbnail" STYLE="background-color: transparent; border:none;">
+        <input type="text" class="form-control" id="fis_code" placeholder="fis_code" name="fis_code"
+               [(ngModel)]="fis_code">
+      </div>
+    </div>
+
+    <div class="col-sm-2 name">
+      <div class="thumbnail" STYLE="background-color: transparent; border:none;">
+        <input type="text" class="form-control" id="name" placeholder="name" name="name" [(ngModel)]="name">
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="text-align: center; font-size: 18px;">
+    <div class=" col-sm-offset-3 col-sm-2 surname">
+      <div class="thumbnail" STYLE="background-color: transparent; border:none;">
+        <input type="text" class="form-control" id="surname" placeholder="surname" name="surname"
+               [(ngModel)]="surname">
+      </div>
+    </div>
+
+    <div class="col-sm-2 nationality">
+      <div class="thumbnail" STYLE="background-color: transparent; border:none;">
+        <input type="text" class="form-control" id="nationality" placeholder="nationality" name="nationality"
+               [(ngModel)]="nationality">
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-success">Search</button>
+
+  </div>
+</div>
+
+
 

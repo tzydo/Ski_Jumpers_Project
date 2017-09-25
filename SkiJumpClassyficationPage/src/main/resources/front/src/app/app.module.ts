@@ -12,6 +12,7 @@ import {FormsModule} from "@angular/forms";
 import {CountryService} from "./service/country.service";
 import {AutoCompleteModule} from 'primeng/primeng';
 import {DashboardComponent} from "./dashboard/dashboard.component";
+import {FooterComponent} from "./footer/footer.component";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
     SearchComponent,
     ClassificationComponent,
     AddJumper,
-    DashboardComponent
+    DashboardComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

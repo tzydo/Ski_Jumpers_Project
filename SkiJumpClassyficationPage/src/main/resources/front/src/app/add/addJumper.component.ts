@@ -4,10 +4,12 @@ import {OnInit } from "@angular/core"
 import {CountryService} from "../service/country.service";
 import {AutoCompleteModule} from 'primeng/primeng';
 import {Country} from "../model/country";
-import {Jumper} from "../model/jumper";
+
+
 @Component({
   selector: 'app-addJumper',
   templateUrl: './addJumper.component.html',
+  styleUrls: ['./addJumper.component.css'],
   providers: [JumperSerivce, CountryService, AutoCompleteModule],
 })
 
