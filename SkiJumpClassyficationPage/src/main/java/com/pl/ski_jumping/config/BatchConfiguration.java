@@ -36,7 +36,7 @@ public class BatchConfiguration {
                 setDelimiter(";");
                 setNames(new String[]
                         {"rank", "bib", "fis_code",
-                                "name", "lastName",
+                                "name", "surname",
                                 "nationality", "first_jump",
                                 "points_for_first_jump",
                                 "second_jump", "points_for_second_jump",
@@ -54,12 +54,12 @@ public class BatchConfiguration {
         writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
         writer.setSql("insert into jumper " +
                 "(rank, bib, fis_code," +
-                "name, lastName, nationality, " +
+                "name, surname, nationality, " +
                 "first_jump, points_for_first_jump," +
                 "second_jump , points_for_second_jump," +
                 "total_points)" +
                 "values( :rank, :bib, :fis_code," +
-                ":name, :lastName, :nationality, " +
+                ":name, :surname, :nationality, " +
                 ":first_jump, :points_for_first_jump," +
                 ":second_jump , :points_for_second_jump," +
                 ":total_points)");

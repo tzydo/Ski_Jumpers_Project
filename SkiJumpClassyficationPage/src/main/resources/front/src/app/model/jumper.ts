@@ -4,7 +4,7 @@ export class Jumper {
   public bib: number;
   public fis_code: number;
   public name: string;
-  public lastName: string;
+  public surname: string;
   public nationality: string;
   public first_jump: number;
   public points_for_first_jump: number;

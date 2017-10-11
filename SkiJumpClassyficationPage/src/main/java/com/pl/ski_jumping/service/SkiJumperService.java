@@ -9,6 +9,7 @@ public interface SkiJumperService {
     List<SkiJumper> findAll();
     SkiJumper findByRank(int rank);
     List<SkiJumper> findByName(String name);
+    List<SkiJumper> getJumpersByPattenr(String pattern);
     void save(SkiJumper skiJumper);
     void update(SkiJumper skiJumper);
     void deleteByRank(int rank);

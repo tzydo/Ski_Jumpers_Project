@@ -12,7 +12,7 @@ CREATE TABLE jumper (
   bib int,
   fis_code int,
   name varchar(50),
-  lastName varchar(50),
+  surname varchar(50),
   year int,
   nationality varchar(50),
   first_jump double,

@@ -10,6 +10,7 @@ public interface SkiJumperDao{
     List<SkiJumper> findAll();
     SkiJumper findByRank(int rank);
     List<SkiJumper> findByName(String name);
+    List<SkiJumper> getJumperByPattern(String pattern);
     void save(SkiJumper skiJumper);
     void update(SkiJumper skiJumper);
     void deleteByRank(int rank);

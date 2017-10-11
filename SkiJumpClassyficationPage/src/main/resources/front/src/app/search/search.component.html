@@ -1,3 +1,10 @@
+<script>
+  $(document).ready(function() {
+    alert("Przykładowy tekst.");
+  });
+</script>
+
+
 <div class="well">
   <span class="badge">{{message}}</span>
   <div class="row" style="text-align: center; font-size: 18px;">
@@ -6,7 +13,6 @@
         <input type="text" class="form-control" id="rank" placeholder="rank" name="rank" [(ngModel)]="rank">
       </div>
     </div>
-
     <div class=" col-sm-2 bib">
       <div class="thumbnail" STYLE="background-color: transparent; border:none;">
         <input type="text" class="form-control" id="bib" placeholder="bib" name="bib" [(ngModel)]="bib">
@@ -42,7 +48,8 @@
       </div>
     </div>
 
-    <button type="button" class="btn btn-success">Search</button>
+    <button type="button" class="btn btn-success"
+            (click)="findJumperByPattern(rank, bib, fis_code, name, surname, nationality)">Search</button>
 
   </div>
 </div>

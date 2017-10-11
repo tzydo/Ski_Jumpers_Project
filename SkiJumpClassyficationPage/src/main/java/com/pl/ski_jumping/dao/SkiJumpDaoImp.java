@@ -37,6 +37,13 @@ public class SkiJumpDaoImp implements SkiJumperDao {
     }
 
     @Override
+    public List<SkiJumper> getJumperByPattern(String pattern) {
+        return (List<SkiJumper>) entityManager.createQuery("from SkiJumper where :pattern")
+                                                .setParameter("pattern", pattern)
+                                                .getResultList();
+    }
+
+    @Override
     public void save(SkiJumper skiJumper) {
         entityManager.persist(skiJumper);
     }
@@ -79,7 +86,7 @@ public class SkiJumpDaoImp implements SkiJumperDao {
     public List<Country> getCountriesByPattern(String pattern) {
         String querry = "from Country where name LIKE :pattern";
         return (List<Country>) entityManager.createQuery(querry)
-                                    .setParameter("pattern", "%" +pattern +"%")
-                                    .getResultList();
+                .setParameter("pattern", "%" + pattern + "%")
+                .getResultList();
     }
 }

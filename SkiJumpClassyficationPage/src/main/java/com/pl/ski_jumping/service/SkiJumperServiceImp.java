@@ -35,6 +35,11 @@ public class SkiJumperServiceImp implements SkiJumperService{
     }
 
     @Override
+    public List<SkiJumper> getJumpersByPattenr(String pattern) {
+        return skiJumperDao.getJumperByPattern(pattern);
+    }
+
+    @Override
     @Transactional
     public void save(SkiJumper skiJumper) {
         skiJumperDao.save(skiJumper);

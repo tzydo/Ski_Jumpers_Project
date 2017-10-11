@@ -23,7 +23,7 @@ public class SkiJumper implements Serializable {
     private int bib;
     private int fis_code;
     private String name;
-    private String lastName;
+    private String surname;
     private String nationality;
     private double first_jump;
     private double points_for_first_jump;
