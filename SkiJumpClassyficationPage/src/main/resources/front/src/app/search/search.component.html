@@ -50,9 +50,23 @@
 
     <button type="button" class="btn btn-success"
             (click)="findJumperByPattern(rank, bib, fis_code, name, surname, nationality)">Search</button>
-
   </div>
 </div>
 
 
+<div class="container">
+  <tbody *ngFor="let item of jumperList">
+    <!--<div style="width: 300px; background-color: #337ab7">-->
+    <div class="col-sm-4 well" style="float: left">
+    <span>id: </span>{{item.id}}
+    <span>rank: </span>{{item.rank}}
+    <span>bib: </span>{{item.bib}}
+    <span>fis_code: </span>{{item.fis_code}}
+    <span>name: </span>{{item.name}}
+    <span>surname: </span>{{item.surname}}
+    <span>nationality: </span>{{item.nationality}}
+    <span>total points: </span>{{item.total_points}}
+    </div>
+  </tbody>
+</div>
 

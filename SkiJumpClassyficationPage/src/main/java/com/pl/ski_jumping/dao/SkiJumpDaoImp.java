@@ -38,9 +38,9 @@ public class SkiJumpDaoImp implements SkiJumperDao {
 
     @Override
     public List<SkiJumper> getJumperByPattern(String pattern) {
-        return (List<SkiJumper>) entityManager.createQuery("from SkiJumper where :pattern")
-                                                .setParameter("pattern", pattern)
-                                                .getResultList();
+        String querry = "from SkiJumper where "+pattern;
+        System.out.println(querry);
+        return (List<SkiJumper>) entityManager.createQuery(querry).getResultList();
     }
 
     @Override

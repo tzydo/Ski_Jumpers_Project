@@ -4,7 +4,7 @@ footer {
   vertical-align: middle;
   position:absolute;
   bottom:0;
-  width:100%;
+  width:auto;
   height:60px;		/* Wysokość nagłówka */
   background:rgba(235,235,235, 0.59);
 }

@@ -103,15 +103,20 @@ public class HomeController {
 
 
     @RequestMapping(value = "jumpers/get-jumpers-by-patterns", method = RequestMethod.GET)
-    public ResponseEntity<List<SkiJumper>> getJumperByPatterns(@RequestParam(value = "rank", required = false) Integer rank,
-                                    @RequestParam(value = "bib", required = false) Integer bib,
-                                    @RequestParam(value = "fis_code", required = false) Integer fis_code,
-                                    @RequestParam(value = "name", required = false) String name,
-                                    @RequestParam(value = "surname", required = false) String surname,
-                                    @RequestParam(value = "nationality", required = false) String nationality) {
+    public ResponseEntity<List<SkiJumper>> getJumperByPatterns(
+//    public String getJumperByPatterns(
+                                        @RequestParam(value = "rank", required = false) Integer rank,
+                                        @RequestParam(value = "bib", required = false) Integer bib,
+                                        @RequestParam(value = "fis_code", required = false) Integer fis_code,
+                                        @RequestParam(value = "name", required = false) String name,
+                                        @RequestParam(value = "surname", required = false) String surname,
+                                        @RequestParam(value = "nationality", required = false) String nationality) {
 
         String querry = QuerryPattern.getQuerry(rank, bib, fis_code, name, surname, nationality);
-       return new ResponseEntity<List<SkiJumper>>(skiJumperService.getJumpersByPattenr(querry), HttpStatus.OK);
+
+//        return querry;
+
+        return new ResponseEntity<List<SkiJumper>>(skiJumperService.getJumpersByPattenr(querry), HttpStatus.OK);
     }
 }
 

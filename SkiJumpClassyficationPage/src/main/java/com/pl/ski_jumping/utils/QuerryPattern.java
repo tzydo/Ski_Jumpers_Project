@@ -10,14 +10,15 @@ public final class QuerryPattern {
     private QuerryPattern() {}
 
     public static String getQuerry(Integer rank, Integer bib, Integer fis_code, String name, String surname, String nationality) {
+
         StringBuilder querry = new StringBuilder();
         if (checkInt(rank)) querry.append("rank = " + rank);
         if (checkInt(bib)) querry.append((querry.toString().equals("") ? "" : " AND ") + "bib = " + bib);
         if (checkInt(fis_code)) querry.append((querry.toString().equals("") ? "" : " AND ") + "fis_code = " + fis_code);
-        if (checkString(name)) querry.append((querry.toString().equals("") ? "" : " AND ") + "name = " + name);
-        if (checkString(surname)) querry.append((querry.toString().equals("") ? "" : " AND ") + "surname = " + surname);
+        if (checkString(name)) querry.append((querry.toString().equals("") ? "" : " AND ") + "name = '" + name+"'");
+        if (checkString(surname)) querry.append((querry.toString().equals("") ? "" : " AND ") + "surname = '" + surname +"'");
         if (checkString(nationality))
-            querry.append((querry.toString().equals("") ? "" : " AND ") + "nationality = " + nationality);
+            querry.append((querry.toString().equals("") ? "" : " AND ") + "nationality = '" + nationality +"'");
 
         return querry.toString();
     }
