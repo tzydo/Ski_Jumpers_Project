@@ -1,8 +1,8 @@
 package com.pl.ski_jumping.config;
 
 import com.pl.ski_jumping.batchModel.CountryItemProcessor;
-import com.pl.ski_jumping.model.SkiJumper;
 import com.pl.ski_jumping.batchModel.SkiJumperItemProcessor;
+import com.pl.ski_jumping.model.SkiJumper;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;

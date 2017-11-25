@@ -23,4 +23,7 @@ export class ClassificationComponent implements OnInit{
     );
   }
 
+  deleteJumperbyRank(rank: any) :void{
+    this.jumperService.deleteJumperByRank(rank);
+  }
 }

@@ -1,11 +1,11 @@
 package com.pl.ski_jumping.config;
 
 import com.pl.ski_jumping.batchModel.CountryItemProcessor;
+import com.pl.ski_jumping.batchModel.SkiJumperItemProcessor;
 import com.pl.ski_jumping.mapper.CountryMapper;
 import com.pl.ski_jumping.mapper.SkiJumperSetMapper;
 import com.pl.ski_jumping.model.Country;
 import com.pl.ski_jumping.model.SkiJumper;
-import com.pl.ski_jumping.batchModel.SkiJumperItemProcessor;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;

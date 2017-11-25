@@ -50,9 +50,39 @@
 
     <button type="button" class="btn btn-success"
             (click)="findJumperByPattern(rank, bib, fis_code, name, surname, nationality)">Search</button>
-
   </div>
 </div>
 
 
+<div class="container-fluid" style="margin-top: 70px;" >
+  <div *ngFor="let item of jumperList">
+    <!--<div style="width: 300px; background-color: #337ab7">-->
+    <div class="col-sm-push-1 col-sm-3 well"
+         style="float: left; background-color: rgba(255,255,255,0.79); margin: 20px; colot: rgba(0,0,0,1)">
+      <div class="col-sm-2">
+          <tbody class="center">
+              <tr><td>id: </td><td>{{item.id}}</td></tr>
+              <tr><td>rank: </td><td>{{item.rank}}</td></tr>
+              <tr><td>bib: </td><td>{{item.bib}}</td></tr>
+              <tr><td>fis_code: </td><td>{{item.fis_code}}</td></tr>
+              <tr><td>name: </td><td>{{item.name}}</td></tr>
+              <tr><td>surname: </td><td>{{item.surname}}</td></tr>
+              <tr><td>nationality: </td><td>{{item.nationality}}</td></tr>
+              <tr><td>total points: </td><td>{{item.total_points}}</td></tr>
+          </tbody>
+      </div>
+      <div style="float: left; width: 100px; height: 100px;">
+        <img src="../../photo/image.png"/>
+      </div>
+      <!--<span>id: </span>{{item.id}}-->
+      <!--<span>rank: </span>{{item.rank}}-->
+      <!--<span>bib: </span>{{item.bib}}-->
+      <!--<span>fis_code: </span>{{item.fis_code}}-->
+      <!--<span>name: </span>{{item.name}}-->
+      <!--<span>surname: </span>{{item.surname}}-->
+      <!--<span>nationality: </span>{{item.nationality}}-->
+      <!--<span>total points: </span>{{item.total_points}}-->
+    </div>
+  </div>
+</div>
 

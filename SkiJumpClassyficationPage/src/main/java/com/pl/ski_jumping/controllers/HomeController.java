@@ -1,15 +1,17 @@
 package com.pl.ski_jumping.controllers;
 
 import com.pl.ski_jumping.model.Country;
-import com.pl.ski_jumping.utils.QuerryPattern;
 import com.pl.ski_jumping.model.SkiJumper;
 import com.pl.ski_jumping.service.SkiJumperService;
+import com.pl.ski_jumping.utils.QuerryPattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("api")
@@ -56,16 +58,16 @@ public class HomeController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-
+    @Transactional
     @RequestMapping(value = "jumpers/delete", method = RequestMethod.DELETE)
     public ResponseEntity deleteAll() {
         skiJumperService.deleteAll();
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-
-    @RequestMapping(value = "jumpers/{rank}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteByRank(@PathVariable("rank") int rank) {
+    @Transactional
+    @RequestMapping(value = "jumpers/delete", method = RequestMethod.POST)
+    public ResponseEntity deleteByRank(@RequestParam("rank") int rank) {
         skiJumperService.deleteByRank(rank);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -103,15 +105,20 @@ public class HomeController {
 
 
     @RequestMapping(value = "jumpers/get-jumpers-by-patterns", method = RequestMethod.GET)
-    public ResponseEntity<List<SkiJumper>> getJumperByPatterns(@RequestParam(value = "rank", required = false) Integer rank,
-                                    @RequestParam(value = "bib", required = false) Integer bib,
-                                    @RequestParam(value = "fis_code", required = false) Integer fis_code,
-                                    @RequestParam(value = "name", required = false) String name,
-                                    @RequestParam(value = "surname", required = false) String surname,
-                                    @RequestParam(value = "nationality", required = false) String nationality) {
+    public ResponseEntity<List<SkiJumper>> getJumperByPatterns(
+//    public String getJumperByPatterns(
+                                        @RequestParam(value = "rank", required = false) Integer rank,
+                                        @RequestParam(value = "bib", required = false) Integer bib,
+                                        @RequestParam(value = "fis_code", required = false) Integer fis_code,
+                                        @RequestParam(value = "name", required = false) String name,
+                                        @RequestParam(value = "surname", required = false) String surname,
+                                        @RequestParam(value = "nationality", required = false) String nationality) {
 
         String querry = QuerryPattern.getQuerry(rank, bib, fis_code, name, surname, nationality);
-       return new ResponseEntity<List<SkiJumper>>(skiJumperService.getJumpersByPattenr(querry), HttpStatus.OK);
+
+//        return querry;
+
+        return new ResponseEntity<List<SkiJumper>>(skiJumperService.getJumpersByPattenr(querry), HttpStatus.OK);
     }
 }
 
