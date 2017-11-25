@@ -3,15 +3,15 @@ package com.pl.ski_jumping.dao;
 import com.pl.ski_jumping.model.Country;
 import com.pl.ski_jumping.model.SkiJumper;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.math.BigInteger;
 import java.util.List;
 
 
 @Repository
+@Transactional
 public class SkiJumpDaoImp implements SkiJumperDao {
 
     @PersistenceContext
@@ -24,7 +24,7 @@ public class SkiJumpDaoImp implements SkiJumperDao {
 
     @Override
     public SkiJumper findByRank(int rank) {
-        return (SkiJumper) entityManager.createQuery("from SkiJumper where rank=:rank")
+        return (SkiJumper) entityManager.createQuery("from SkiJumper where id = :rank")
                 .setParameter("rank", rank)
                 .getSingleResult();
     }
@@ -52,15 +52,21 @@ public class SkiJumpDaoImp implements SkiJumperDao {
         entityManager.merge(skiJumper);
     }
 
-    @Override
+    @Transactional
     public void deleteByRank(int rank) {
-        entityManager.remove(findByRank(rank));
+        try {
+            SkiJumper skiJumper = entityManager.find(SkiJumper.class, rank);
+            System.out.println(skiJumper.toString());
+            entityManager.remove(skiJumper);
+            System.out.println("delete");
+        }catch (NullPointerException ex) {
+            System.out.println("error");
+        }
     }
 
-    @Override
+    @Transactional
     public void deleteAll() {
-        Query query = entityManager.createNativeQuery("TRUNCATE TABLE SkiJumper");
-        query.executeUpdate();
+        entityManager.createNativeQuery("truncate table jumper").executeUpdate();
     }
 
     @Override

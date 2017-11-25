@@ -1,6 +1,5 @@
 package com.pl.ski_jumping.utils;
 
-
 /**
  * Created by Zyzio on 06.10.2017.
  */

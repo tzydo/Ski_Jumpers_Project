@@ -1,15 +1,17 @@
 package com.pl.ski_jumping.controllers;
 
 import com.pl.ski_jumping.model.Country;
-import com.pl.ski_jumping.utils.QuerryPattern;
 import com.pl.ski_jumping.model.SkiJumper;
 import com.pl.ski_jumping.service.SkiJumperService;
+import com.pl.ski_jumping.utils.QuerryPattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("api")
@@ -56,16 +58,16 @@ public class HomeController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-
+    @Transactional
     @RequestMapping(value = "jumpers/delete", method = RequestMethod.DELETE)
     public ResponseEntity deleteAll() {
         skiJumperService.deleteAll();
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-
-    @RequestMapping(value = "jumpers/{rank}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteByRank(@PathVariable("rank") int rank) {
+    @Transactional
+    @RequestMapping(value = "jumpers/delete", method = RequestMethod.POST)
+    public ResponseEntity deleteByRank(@RequestParam("rank") int rank) {
         skiJumperService.deleteByRank(rank);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

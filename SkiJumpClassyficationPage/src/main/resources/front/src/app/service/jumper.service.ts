@@ -1,11 +1,13 @@
 import {Injectable} from '@angular/core'
-import {Http, Response} from '@angular/http'
+import {Http, Response, Headers} from '@angular/http'
 import 'rxjs/add/operator/map'
 import {Observable} from "rxjs";
 import {Jumper} from "../model/jumper";
+import {HttpParams} from "@angular/common/http";
 
 @Injectable()
 export class JumperSerivce {
+
   constructor(private http: Http) {
   }
 
@@ -48,4 +50,16 @@ export class JumperSerivce {
         return response.json();
       });
   }
+
+  deleteJumperByRank(rank: number){
+    // console.log("/api/jumpers/delete/"+rank);
+    // this.http.delete('/api/jumpers/delete/?rank='+rank)}
+
+
+    console.log(rank.toString());
+    var body ="rank="+rank.toString();
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    this.http.post("/api/jumpers/delete/",body,{headers: headers}).subscribe();
+    }
 }
