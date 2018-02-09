@@ -5,7 +5,8 @@ import {RouterModule} from '@angular/router'
 import {AppComponent} from './home/app.component';
 import {SearchComponent} from './search/search.component';
 import {ClassificationComponent} from "./classification/classification.component";
-import {AddJumper} from "./add/addJumper.component";
+import {AddJumper} from "./addJumper/addJumper.component";
+import {JumperDetail} from "./jumperDetail/jumperDetail.component";
 import {JumperSerivce} from "./service/jumper.service";
 import {HttpModule} from "@angular/http";
 import {FormsModule} from "@angular/forms";
@@ -20,6 +21,7 @@ import {FooterComponent} from "./footer/footer.component";
     SearchComponent,
     ClassificationComponent,
     AddJumper,
+    JumperDetail,
     DashboardComponent,
     FooterComponent
   ],
@@ -43,6 +45,9 @@ import {FooterComponent} from "./footer/footer.component";
       }, {
         path: 'add',
         component: AddJumper
+      },{
+        path: 'jumper-detail/:rank',
+        component: JumperDetail
       }, {
         path: '**', redirectTo: 'home', pathMatch: 'full'
       }

@@ -16,7 +16,7 @@
         <th>total_points</th>
       </tr>
       </thead>
-      <tbody *ngFor="let jumper of jumpersList">
+      <tbody *ngFor="let jumper of jumpersList" (click)="onSelect(jumper.rank)">
       <tr>
         <td>{{jumper.rank}}</td>
         <td>{{jumper.bib}}</td>
@@ -29,7 +29,8 @@
         <td>{{jumper.second_jump}}</td>
         <td>{{jumper.points_for_second_jump}}</td>
         <td>{{jumper.total_points}}</td>
-        <td><span><i class="fa  fa-user-times" (click)="deleteJumperbyRank(jumper.rank)" aria-hidden="true"></i></span></td>
+        <td><span><i class="fa  fa-user-times" (click)="deleteJumperbyRank(jumper.rank)" aria-hidden="true"></i></span>
+        </td>
       </tr>
       </tbody>
     </table>

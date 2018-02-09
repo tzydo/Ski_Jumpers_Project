@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core'
 import {JumperSerivce} from "../service/jumper.service";
 import {Jumper} from "../model/jumper";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-classification',
@@ -9,13 +10,18 @@ import {Jumper} from "../model/jumper";
   providers: [JumperSerivce]
 })
 
-export class ClassificationComponent implements OnInit{
+export class ClassificationComponent implements OnInit {
 
   jumpersList: Jumper[] = [];
 
-  constructor(private jumperService: JumperSerivce){}
+  constructor(private jumperService: JumperSerivce, private router: Router) {
+  }
 
-  ngOnInit(){
+  onSelect(rank) {
+    this.router.navigate(['/jumper-detail', rank]);
+  }
+
+  ngOnInit() {
     this.jumperService.getAll().subscribe(
       (jumper: any[]) => {
         this.jumpersList = jumper;
@@ -23,7 +29,12 @@ export class ClassificationComponent implements OnInit{
     );
   }
 
-  deleteJumperbyRank(rank: any) :void{
-    this.jumperService.deleteJumperByRank(rank);
+  deleteJumperbyRank(rank: any): void {
+    for (var i = 0; i < this.jumpersList.length; i++) {
+      if (this.jumpersList[i]["rank"] == rank) {
+        this.jumpersList.splice(i, 1);
+        this.jumperService.deleteJumperByRank(rank);
+      }
+    }
   }
 }

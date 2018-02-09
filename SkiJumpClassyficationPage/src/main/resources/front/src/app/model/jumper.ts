@@ -11,5 +11,4 @@ export class Jumper {
   public second_jump: number;
   public points_for_second_jump: number;
   public total_points: number;
-
 }

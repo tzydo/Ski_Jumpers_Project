@@ -17,11 +17,13 @@ import java.util.List;
 @RequestMapping("api")
 public class HomeController {
 
-    @Autowired
-    SkiJumperService skiJumperService;
-
+    private final SkiJumperService skiJumperService;
     private List<SkiJumper> skiJumpers;
     private SkiJumper skiJumper;
+
+    public HomeController(SkiJumperService skiJumperService) {
+        this.skiJumperService = skiJumperService;
+    }
 
 
     @RequestMapping(value = "jumpers", method = RequestMethod.GET)

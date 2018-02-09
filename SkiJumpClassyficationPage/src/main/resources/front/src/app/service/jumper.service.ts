@@ -11,6 +11,10 @@ export class JumperSerivce {
   constructor(private http: Http) {
   }
 
+  getOne(rank: number): Observable<any> {
+    return this.http.get('/api/jumpers/'+rank).map((response: Response) => {return response.json();});
+  }
+
   getAll(): Observable<any> {
     return this.http.get('/api/jumpers/all')
       .map((response: Response) => {
@@ -26,12 +30,12 @@ export class JumperSerivce {
 
     if (rank) querry = querry.concat("&rank=" + rank);
     if (bib) querry = querry.concat("&bib=" + bib);
-    if (fis_code) querry = querry.concat("&fis_code="+fis_code);
-    if (name) querry = querry.concat("&name="+name);
-    if (surname) querry = querry.concat("&surname="+surname);
-    if (nationality) querry = querry.concat("&nationality="+nationality);
+    if (fis_code) querry = querry.concat("&fis_code=" + fis_code);
+    if (name) querry = querry.concat("&name=" + name);
+    if (surname) querry = querry.concat("&surname=" + surname);
+    if (nationality) querry = querry.concat("&nationality=" + nationality);
     // console.log(querry.toString());
-    return this.http.get('/api/jumpers/get-jumpers-by-patterns?'+querry)
+    return this.http.get('/api/jumpers/get-jumpers-by-patterns?' + querry)
       .map((response: Response) => {
         return response.json();
       });
@@ -51,15 +55,16 @@ export class JumperSerivce {
       });
   }
 
-  deleteJumperByRank(rank: number){
+  deleteJumperByRank(rank: number) {
     // console.log("/api/jumpers/delete/"+rank);
     // this.http.delete('/api/jumpers/delete/?rank='+rank)}
 
 
     console.log(rank.toString());
-    var body ="rank="+rank.toString();
+    var body = "rank=" + rank.toString();
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    this.http.post("/api/jumpers/delete/",body,{headers: headers}).subscribe();
-    }
+    this.http.post("/api/jumpers/delete/?rank=" + rank, body, {headers: headers}).subscribe();
+    // this.http.delete("/api/jumpers/delete/?rank="+rank).subscribe();
+  }
 }
