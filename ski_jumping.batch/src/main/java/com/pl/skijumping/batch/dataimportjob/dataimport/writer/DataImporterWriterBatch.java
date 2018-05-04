@@ -1,4 +1,4 @@
-package com.pl.skijumping.batch.job.dataimport.writer;
+package com.pl.skijumping.batch.dataimportjob.dataimport.writer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

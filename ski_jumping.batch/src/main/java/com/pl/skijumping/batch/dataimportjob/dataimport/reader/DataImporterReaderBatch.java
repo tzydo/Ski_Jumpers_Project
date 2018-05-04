@@ -1,4 +1,4 @@
-package com.pl.skijumping.batch.job.dataimport.reader;
+package com.pl.skijumping.batch.dataimportjob.dataimport.reader;
 
 import com.pl.skijumping.common.util.FileUtil;
 import org.springframework.batch.item.ItemReader;

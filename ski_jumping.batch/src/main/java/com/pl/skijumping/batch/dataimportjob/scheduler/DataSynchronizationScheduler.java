@@ -1,4 +1,4 @@
-package com.pl.skijumping.batch.scheduler;
+package com.pl.skijumping.batch.dataimportjob.scheduler;
 
 import com.pl.skijumping.common.exception.InternalServiceException;
 import org.slf4j.Logger;
@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import static com.pl.skijumping.batch.configuration.DataSynchronization.DATA_SYNCHRONIZATION_JOB_NAME;
+import static com.pl.skijumping.batch.dataimportjob.configuration.DataSynchronization.DATA_SYNCHRONIZATION_JOB_NAME;
 
 @Component
 public class DataSynchronizationScheduler {

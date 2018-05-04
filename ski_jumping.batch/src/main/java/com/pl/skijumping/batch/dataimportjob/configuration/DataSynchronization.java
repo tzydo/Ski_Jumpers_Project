@@ -1,16 +1,13 @@
-package com.pl.skijumping.batch.configuration;
+package com.pl.skijumping.batch.dataimportjob.configuration;
 
-import com.pl.skijumping.batch.job.dataimport.processor.DataImporterProcessorBatch;
-import com.pl.skijumping.batch.job.dataimport.reader.DataImporterReaderBatch;
-import com.pl.skijumping.batch.job.dataimport.writer.DataImporterWriterBatch;
+import com.pl.skijumping.batch.dataimportjob.dataimport.processor.DataImporterProcessorBatch;
+import com.pl.skijumping.batch.dataimportjob.dataimport.reader.DataImporterReaderBatch;
+import com.pl.skijumping.batch.dataimportjob.dataimport.writer.DataImporterWriterBatch;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.batch.core.job.builder.JobBuilder;
-import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;

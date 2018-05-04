@@ -1,4 +1,4 @@
-package com.pl.skijumping.batch.job.dataimport.processor;
+package com.pl.skijumping.batch.dataimportjob.dataimport.processor;
 
 import com.pl.skijumping.client.HtmlDownloader;
 import org.slf4j.Logger;
