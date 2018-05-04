@@ -1,5 +1,0 @@
-skijumping:
-  settings:
-    host: http://www.fis-ski.com/ski-jumping/events-and-places/results/
-    directory: tmp
-    fileName: tmp/SkiJumping.txt

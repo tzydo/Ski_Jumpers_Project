@@ -1,0 +1,19 @@
+#second, minute, hour, day of month, month, day(s) of week
+skijumping:
+  settings:
+    host: ${HOST:http://www.fis-ski.com/ski-jumping/events-and-places/results/}
+    directory: ${DIRECTORY:tmp}
+    fileName: ${FILE_NAME:tmp/SkiJumping.txt}
+    scheduler:
+      cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0 6 * * *}
+      enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:true}
+spring:
+  jpa:
+    hibernate.ddl-auto: ${hibernate.ddl-auto:create-drop}
+  datasource:
+    url: ${URL:jdbc:mysql://localhost:3306/skijumper?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC}
+    username: ${USER:root}
+    password: ${PASSWORD:mortall1994}
+  batch:
+    job:
+      enabled: ${ENABLE:false}
