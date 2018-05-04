@@ -21,6 +21,7 @@
 
     <modules>
         <module>ski_jumping.domain</module>
+        <module>ski_jumping.client</module>
     </modules>
 
     <dependencyManagement>
