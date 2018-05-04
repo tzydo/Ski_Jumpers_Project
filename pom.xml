@@ -22,10 +22,16 @@
     <modules>
         <module>ski_jumping.domain</module>
         <module>ski_jumping.client</module>
+        <module>ski_jumping.common</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>ski_jumping</groupId>
+                <artifactId>ski_jumping.common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-test</artifactId>

@@ -11,13 +11,10 @@
     </parent>
 
     <artifactId>ski_jumping.common</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <version>0.0.1-SNAPSHOT</version>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
