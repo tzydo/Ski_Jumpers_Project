@@ -1,24 +1,23 @@
-package com.pl.skijumping.batch.dataimportjob.dataimport.reader;
+package com.pl.skijumping.batch.dataimportjob.dataimport;
 
+import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.common.util.FileUtil;
-import org.springframework.batch.item.ItemReader;
 
 import java.io.File;
 import java.util.Optional;
 
-public class DataImporterReaderBatch implements ItemReader<Boolean> {
+class FilePreparation {
 
     private final String directory;
     private final String fileName;
 
-    public DataImporterReaderBatch(String directory,
-                                   String fileName) {
+    FilePreparation(String directory,
+                           String fileName) {
         this.directory = directory;
         this.fileName = fileName;
     }
 
-    @Override
-    public Boolean read() throws Exception {
+    Boolean prepare() throws InternalServiceException {
         if (!FileUtil.createDirectory(this.directory)) {
             return false;
         }
