@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableBatchProcessing
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.pl.skijumping.*")
 @EnableScheduling
 @EnableJpaRepositories
 public class BatchApplication {

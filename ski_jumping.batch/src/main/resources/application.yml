@@ -5,7 +5,7 @@ skijumping:
     directory: ${DIRECTORY:tmp}
     fileName: ${FILE_NAME:tmp/SkiJumping.txt}
     scheduler:
-      cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 */20 * * * *}
+      cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0/20 * * * *}
       enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:true}
 spring:
   jpa:

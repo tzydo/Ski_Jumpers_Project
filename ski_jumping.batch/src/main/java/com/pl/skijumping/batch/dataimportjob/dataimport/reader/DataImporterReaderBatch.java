@@ -28,11 +28,6 @@ public class DataImporterReaderBatch implements ItemReader<Boolean> {
             FileUtil.deleteFile(file.get().getPath());
         }
 
-        if (!FileUtil.createFile(this.fileName)) {
-            return false;
-        }
-
-
-        return true;
+        return FileUtil.createFile(this.fileName);
     }
 }

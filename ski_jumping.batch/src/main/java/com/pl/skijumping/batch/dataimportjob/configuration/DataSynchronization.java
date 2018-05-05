@@ -8,6 +8,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 public class DataSynchronization {
     public static final String DATA_SYNCHRONIZATION_JOB_NAME = "Data_Synchronization_Job";
     private static final String DATA_IMPORTER_STEP_NAME = "Data_Importer_Step";
+    private static final String DATA_IMPORTER_STEP_FINISHER = "Data_Importer_Step_Finisher";
 
     private final String host;
     private final String directory;
@@ -44,6 +46,7 @@ public class DataSynchronization {
     public Job dataSynchronizationJob() {
         return this.jobBuilder.get(DATA_SYNCHRONIZATION_JOB_NAME)
                 .start(dataSynchronizationStep())
+                .next(dataSynchronizationFinchStep())
                 .build();
     }
 
@@ -55,6 +58,18 @@ public class DataSynchronization {
                 .processor(dataImporterProcessor())
                 .writer(dataImporterWriter())
                 .build();
+    }
+
+    @Bean
+    public Step dataSynchronizationFinchStep() {
+        return this.stepBuilder.get(DATA_IMPORTER_STEP_FINISHER)
+                .tasklet(checkCorrectlySaveFileStep())
+                .build();
+    }
+
+    @Bean
+    public Tasklet checkCorrectlySaveFileStep() {
+        return new CheckCorrectlySaveFile();
     }
 
     @Bean
@@ -71,7 +86,7 @@ public class DataSynchronization {
 
     @Bean
     @StepScope
-    public ItemWriter dataImporterWriter() {
+    public ItemWriter<String> dataImporterWriter() {
         return new DataImporterWriterBatch();
     }
 
