@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class DataImporter {
-    public static final String DATA_SYNCHRONIZE_JOB_NAME = "Data_Synchronize_Job";
+    public static final String DATA_IMPORT_JOB_NAME = "Data_Import_Job";
     private static final String DATA_IMPORTER_STEP_NAME = "Data_Importer_Step";
 
     private final String host;
@@ -33,10 +33,9 @@ public class DataImporter {
         this.stepBuilder = stepBuilder;
     }
 
-
-    @Bean(name = DATA_SYNCHRONIZE_JOB_NAME)
-    public Job dataSynchronizeJob() {
-        return this.jobBuilder.get(DATA_SYNCHRONIZE_JOB_NAME)
+    @Bean(name = DATA_IMPORT_JOB_NAME)
+    public Job dataImportJob() {
+        return this.jobBuilder.get(DATA_IMPORT_JOB_NAME)
                 .start(dataImporterStep())
                 .build();
     }
