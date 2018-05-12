@@ -1,10 +1,10 @@
-package com.pl.skijumping.service;
+package com.pl.skijumping.domain.service;
 
-import com.pl.skijumping.SkiJumpingApplication;
-import com.pl.skijumping.dto.CountryDTO;
-import com.pl.skijumping.entity.Country;
-import com.pl.skijumping.mapper.CountryMapper;
-import com.pl.skijumping.repository.CountryRepository;
+import com.pl.skijumping.domain.SkiJumpingApplication;
+import com.pl.skijumping.domain.dto.CountryDTO;
+import com.pl.skijumping.domain.entity.Country;
+import com.pl.skijumping.domain.mapper.CountryMapper;
+import com.pl.skijumping.domain.repository.CountryRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

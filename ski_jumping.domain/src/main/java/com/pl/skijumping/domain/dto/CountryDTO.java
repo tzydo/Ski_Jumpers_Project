@@ -1,4 +1,4 @@
-package com.pl.skijumping.dto;
+package com.pl.skijumping.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.pl.skijumping.entity;
+package com.pl.skijumping.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.pl.skijumping.utils;
+package com.pl.skijumping.domain.utils;
 
 /**
  * Created by Zyzio on 06.10.2017.

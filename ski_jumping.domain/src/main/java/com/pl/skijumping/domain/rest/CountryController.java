@@ -1,9 +1,7 @@
-package com.pl.skijumping.rest;
+package com.pl.skijumping.domain.rest;
 
-import com.pl.skijumping.dto.CountryDTO;
-import com.pl.skijumping.entity.Country;
-import com.pl.skijumping.service.CountryService;
-import com.pl.skijumping.service.SkiJumperService;
+import com.pl.skijumping.domain.dto.CountryDTO;
+import com.pl.skijumping.domain.service.CountryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;

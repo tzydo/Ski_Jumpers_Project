@@ -1,9 +1,9 @@
-package com.pl.skijumping.service;
+package com.pl.skijumping.domain.service;
 
-import com.pl.skijumping.dto.SkiJumperDTO;
-import com.pl.skijumping.entity.SkiJumper;
-import com.pl.skijumping.mapper.SkiJumperMapper;
-import com.pl.skijumping.repository.SkiJumperRepository;
+import com.pl.skijumping.domain.dto.SkiJumperDTO;
+import com.pl.skijumping.domain.entity.SkiJumper;
+import com.pl.skijumping.domain.mapper.SkiJumperMapper;
+import com.pl.skijumping.domain.repository.SkiJumperRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

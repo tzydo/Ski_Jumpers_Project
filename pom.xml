@@ -25,6 +25,7 @@
         <module>ski_jumping.client</module>
         <module>ski_jumping.common</module>
         <module>ski_jumping.batch</module>
+        <module>ski_jumping.service</module>
     </modules>
 
     <dependencyManagement>
@@ -32,6 +33,16 @@
             <dependency>
                 <groupId>ski_jumping</groupId>
                 <artifactId>ski_jumping.common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>ski_jumping</groupId>
+                <artifactId>ski_jumping.domain</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>ski_jumping</groupId>
+                <artifactId>ski_jumping.service</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>

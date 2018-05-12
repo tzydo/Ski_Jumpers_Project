@@ -1,4 +1,4 @@
-package com.pl.skijumping;
+package com.pl.skijumping.domain;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,9 +7,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.pl.skijumping.*")
+@ComponentScan(basePackages = "com.pl.skijumping.domain.*")
 @EnableJpaRepositories()
-@EntityScan("com.pl.skijumping.entity")
+@EntityScan("com.pl.skijumping.domain.entity")
 public class SkiJumpingApplication {
     public static void main(String[] args) {
         SpringApplication.run(SkiJumpingApplication.class, args);

@@ -1,6 +1,6 @@
-package com.pl.skijumping.repository;
+package com.pl.skijumping.domain.repository;
 
-import com.pl.skijumping.entity.SkiJumper;
+import com.pl.skijumping.domain.entity.SkiJumper;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

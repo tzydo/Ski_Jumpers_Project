@@ -1,7 +1,7 @@
-package com.pl.skijumping.rest;
+package com.pl.skijumping.domain.rest;
 
-import com.pl.skijumping.dto.SkiJumperDTO;
-import com.pl.skijumping.service.SkiJumperService;
+import com.pl.skijumping.domain.dto.SkiJumperDTO;
+import com.pl.skijumping.domain.service.SkiJumperService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;

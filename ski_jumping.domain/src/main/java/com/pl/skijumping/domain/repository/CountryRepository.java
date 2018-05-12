@@ -1,9 +1,7 @@
-package com.pl.skijumping.repository;
+package com.pl.skijumping.domain.repository;
 
-import com.pl.skijumping.entity.Country;
+import com.pl.skijumping.domain.entity.Country;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
