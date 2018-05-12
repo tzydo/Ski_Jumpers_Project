@@ -21,6 +21,10 @@
         </dependency>
         <dependency>
             <groupId>ski_jumping</groupId>
+            <artifactId>ski_jumping.service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ski_jumping</groupId>
             <artifactId>ski_jumping.client</artifactId>
         </dependency>
         <dependency>
