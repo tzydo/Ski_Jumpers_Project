@@ -2,6 +2,7 @@ package com.pl.skijumping.batch.dataimportjob.scheduler;
 
 import com.pl.skijumping.batch.BatchApplication;
 import com.pl.skijumping.batch.BatchApplicationTest;
+import com.pl.skijumping.common.util.FileUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,35 +11,38 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static com.pl.skijumping.batch.dataimportjob.configuration.DataImporter.DATA_SYNCHRONIZE_JOB_NAME;
+import java.io.File;
+import java.util.Optional;
+
+import static com.pl.skijumping.batch.dataimportjob.configuration.DataImporter.DATA_IMPORT_JOB_NAME;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles(profiles = "test")
-@ContextConfiguration(classes = {BatchApplication.class, BatchApplicationTest.class})
-@TestPropertySource(properties = {
-        "skijumping.settings.host=http://www.fis-ski.com/ski-jumping/events-and-places/results/",
-        "skijumping.settings.directory=testTMP",
-        "skijumping.settings.fileName=testTMP/testSkiJumper.txt",
-        "skijumping.settings.scheduler.enable=true",
-        "skijumping.settings.scheduler.cron= 0 0/20 * * * *"
-})
+@SpringBootTest(classes = BatchApplicationTest.class)
+@DataJpaTest
+//@ContextConfiguration(classes = BatchApplicationTest.class)
 public class DataImporterSchedulerTest {
     @Autowired
-    @Qualifier(DATA_SYNCHRONIZE_JOB_NAME)
+    @Qualifier(DATA_IMPORT_JOB_NAME)
     private Job job;
     @Autowired
     private JobLauncher jobLauncherTestUtils;
 
     @Test
     public void importDataTest() throws Exception {
-        DataSynchronizationScheduler dataSynchronizationScheduler =
-                new DataSynchronizationScheduler(jobLauncherTestUtils, job, true);
-        ExitStatus exitStatus = dataSynchronizationScheduler.synchronizeData().getExitStatus();
+        DataImportScheduler dataImportScheduler =
+                new DataImportScheduler(jobLauncherTestUtils, job, true);
+        ExitStatus exitStatus = dataImportScheduler.importData().getExitStatus();
         Assertions.assertThat(exitStatus).isEqualTo(ExitStatus.COMPLETED);
+
+        Optional<File> file = FileUtil.getFile("testTMP/testSkiJumper.txt");
+        Assertions.assertThat(file.isPresent()).isTrue();
+        Assertions.assertThat(file.get().isFile()).isTrue();
     }
 }

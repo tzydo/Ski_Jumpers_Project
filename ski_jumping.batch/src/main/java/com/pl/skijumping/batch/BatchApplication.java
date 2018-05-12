@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableBatchProcessing
 @SpringBootApplication(scanBasePackages = "com.pl.skijumping.*")
 @EnableScheduling
-@EnableJpaRepositories
+@EnableJpaRepositories(basePackages = "com.pl.skijumping.domain.repository")
 public class BatchApplication {
     public static void main(String[] args) {
         SpringApplication.run(BatchApplication.class, args);

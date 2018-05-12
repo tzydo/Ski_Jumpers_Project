@@ -1,0 +1,25 @@
+skijumping:
+  settings:
+    host: ${HOST:http://www.fis-ski.com/ski-jumping/events-and-places/results/}
+    directory: ${DIRECTORY:tmp}
+    fileName: ${FILE_NAME:tmp/SkiJumping.txt}
+    scheduler:
+          importData:
+            cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/20 * * * *}
+            enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:true}
+          synchronize:
+            cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0/20 * * * *}
+            enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:true}
+spring:
+  jpa:
+    database: ${DATABASE:HSQL}
+    hibernate.ddl-auto: ${DDL-AUTO:create-drop}
+    properties:
+      hibernate.dialect: ${HIBERNATE_DIALECT:org.hibernate.dialect.HSQLDialect}
+  datasource:
+    driverClassName: ${DRIVER_CLASS_NAME:org.hsqldb.jdbcDriver}
+    url: ${URL:jdbc:hsqldb:mem:scratchdb}
+    username: ${USERNAME:sa}
+    password: ${PASSWORD:}
+  profiles:
+    active: ${DEV_PROFILE:test}

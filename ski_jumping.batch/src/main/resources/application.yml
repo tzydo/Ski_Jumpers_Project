@@ -5,11 +5,18 @@ skijumping:
     directory: ${DIRECTORY:tmp}
     fileName: ${FILE_NAME:tmp/SkiJumping.txt}
     scheduler:
-      cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0/20 * * * *}
-      enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:true}
+      importData:
+        cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/20 * * * *}
+        enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:true}
+      synchronize:
+        cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0/20 * * * *}
+        enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:true}
 spring:
+  profiles:
+    active: ${DEV_PROFILE:dev}
   jpa:
-    hibernate.ddl-auto: ${hibernate.ddl-auto:create-drop}
+    hibernate:
+      ddl-auto: ${hibernate.ddl-auto:create-drop}
   datasource:
     url: ${URL:jdbc:mysql://localhost:3306/skijumper?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC}
     username: ${USER:root}
