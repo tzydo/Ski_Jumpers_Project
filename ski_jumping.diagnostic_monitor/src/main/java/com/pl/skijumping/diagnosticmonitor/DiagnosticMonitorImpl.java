@@ -2,13 +2,15 @@ package com.pl.skijumping.diagnosticmonitor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DiagnosticMonitorImpl implements DiagnosticMonitor {
     private static final Logger LOGGER = LoggerFactory.getLogger(DiagnosticMonitorImpl.class);
     private final SlackCommunicator slackCommunicator;
 
-    public DiagnosticMonitorImpl(SlackCommunicator slackCommunicator) {
-        this.slackCommunicator = slackCommunicator;
+    public DiagnosticMonitorImpl() {
+        slackCommunicator = new SlackCommunicator();
     }
 
     @Override
