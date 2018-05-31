@@ -5,10 +5,9 @@ class RegexpPattern {
     }
 
     static final String TOURNAMENT_YEAR = "<option\\svalue\\=\\\"(.+?)\"\\s";
-    static final String SEASON_DATA = ".*<div\\sclass=\"date\">.*\"date-day\">(.+?)</span>.*\"date-month\">(.+?)</span.*\"date-year\">(.+?)</span>.*data-race=\"(.+?)\".*";
-
-
-    static final String RACE_DATA = "<div\\s*class=\"date-text\">\\s*<h6>(.+?)</h6>\\s*<div>\\" +
-            "s*<p>(.+?)</p>\\s*<p>(.+?)</p>\\s*<p>(.+?)</p>\\s*</div>";
-
+    static final String FIRST_STEP_DATA_RACE = "<div\\sclass=\"date\">(.*?)<!--\\sdate-content\\s-->";
+    static final String SECOND_STEP_DATA_RACE = "data-race=\"(.+?)<div id=\"mobile_race";
+    static final String THIRD_STEP_DATA_RACE = "data-race=\"(.+?)\".*big-flag-(.+?)\">.*<h6>(.+?)</h6>.*";
+    static final String FOURTH_STEP_DATA_RACE = "<p>(.+?)</p>";
+    static final String SEASON_DATE = ".*<div\\sclass=\"date\">.*\"date-day\">(.+?)</span>.*\"date-month\">(.+?)</span.*\"date-year\">(.+?)</span>";
 }

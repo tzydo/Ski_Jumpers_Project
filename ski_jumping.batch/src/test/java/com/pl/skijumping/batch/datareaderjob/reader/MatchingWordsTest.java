@@ -34,45 +34,37 @@ public class MatchingWordsTest {
         Assertions.assertThat(seasonDataMatchWords.get()).containsAll(Arrays.asList("2015", "2016", "2017", "2018", "2019"));
     }
 
-//    @Test
-//    public void getDataRaceMatchingWordsTest() {
-//        MatchingWords matchingWords = new MatchingWords();
-//        String text ="<div class=\"date-content\">" +
-//                "<div class=\"date-race ladies \"\n" +
-//                "data-race=\"5014\" data-race-sectorcode=\"JP\">\n" +
-//                "<div class=\"date-flag\"><div><div\n" +
-//                "class=\"sprite-big-flag big-flag-GER\">" +
-//                "</div>GER</div>" +
-//                "</div>\n" +
-//                "<div class=\"date-text\">\n" +
-//                "<h6>Oberstdorf</h6>\n" +
-//                "<div>\n" +
-//                "<p>World Cup</p>\n" +
-//                "<p>Ski Jumping</p>\n" +
-//                "<p>Ladies' HS106</p>\n" +
-//                "</div></div></div>\n" +
-//                "<div id=\"mobile_race_5014\"\n" +
-//                "class=\"container_mobile_race\"></div>\n" +
-//                "<div class=\"date-race men \"\n" +
-//                "data-race=\"4960\" data-race-sectorcode=\"JP\">\n" +
-//                "<div class=\"date-flag\">\n" +
-//                "<div><div\n" +
-//                "class=\"sprite-big-flag big-flag-SLO\"></div>\n" +
-//                "SLO</div>\n" +
-//                "</div>\n" +
-//                "<div class=\"date-text\">\n" +
-//                "<h6>Planica</h6>\n" +
-//                "<div>\n" +
-//                "<p>World Cup</p>\n" +
-//                "<p>Ski Jumping</p>\n" +
-//                "<p>Men's Team HS240</p>\n" +
-//                "</div></div></div>";
-//
-//        Optional<List<String>> seasonDataMatchWords = matchingWords.getRaceData(text);
-//
-//        Assertions.assertThat(seasonDataMatchWords.isPresent()).isTrue();
-//        Assertions.assertThat(seasonDataMatchWords.get()).isNotEmpty();
-//        Assertions.assertThat(seasonDataMatchWords.get().size()).isEqualTo(5);
-//        Assertions.assertThat(seasonDataMatchWords.get()).containsAll(Arrays.asList("2015", "2016", "2017", "2018", "2019"));
-//    }
+    @Test
+    public void getRaceDataFirstStepTest() {
+        MatchingWords matchingWords = new MatchingWords();
+
+        String text = "<div class=\"date\">testText<!-- date-content -->" +
+                "<div class=\"date\">secondTestText<!-- date-content -->"+
+                "<div class=\"date\">thirdTestText<!-- date-content -->";
+
+        Optional<List<String>> seasonDataMatchWords = matchingWords.getRaceDataFirstStep(text);
+        Assertions.assertThat(seasonDataMatchWords.isPresent()).isTrue();
+        Assertions.assertThat(seasonDataMatchWords.get()).isNotEmpty();
+        Assertions.assertThat(seasonDataMatchWords.get().size()).isEqualTo(3);
+        Assertions.assertThat(seasonDataMatchWords.get()).
+                containsAll(Arrays.asList("testText", "secondTestText", "thirdTestText"));
+    }
+
+    @Test
+    public void getRaceDataSecondStepTest() {
+        MatchingWords matchingWords = new MatchingWords();
+
+        String text = "data-race=\"testText<div id=\"mobile_race" +
+                "data-race=\"secondTestText<div id=\"mobile_race"+
+                "data-race=\"thirdTestText<div id=\"mobile_race";
+
+        Optional<List<String>> seasonDataMatchWords = matchingWords.getRaceDataSecondStep(text);
+        Assertions.assertThat(seasonDataMatchWords.isPresent()).isTrue();
+        Assertions.assertThat(seasonDataMatchWords.get()).isNotEmpty();
+        Assertions.assertThat(seasonDataMatchWords.get().size()).isEqualTo(3);
+        Assertions.assertThat(seasonDataMatchWords.get()).
+                containsAll(Arrays.asList("data-race=\"testText<div id=\"mobile_race",
+                        "data-race=\"secondTestText<div id=\"mobile_race",
+                        "data-race=\"thirdTestText<div id=\"mobile_race"));
+    }
 }
