@@ -1,26 +1,27 @@
 package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.steps;
 
 import com.pl.skijumping.batch.datareaderjob.reader.matchingword.MatchingWords;
+import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.domain.dto.DataRaceDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
 
 public class FourthStep {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FourthStep.class);
     private final String words;
+    private final DiagnosticMonitor diagnosticMonitor;
 
-    public FourthStep(String readWords) {
+    public FourthStep(String readWords, DiagnosticMonitor diagnosticMonitor) {
         this.words = readWords;
+        this.diagnosticMonitor = diagnosticMonitor;
     }
 
     public void setValue(DataRaceDTO dataRaceDTO) {
         MatchingWords matchingWords = new MatchingWords();
         Optional<List<String>> matchingWordsList = matchingWords.getRaceDataFourthStep(words);
         if(!matchingWordsList.isPresent()) {
-            LOGGER.error(String.format("Not found any matching words for step four, in words: %s", words));
+            diagnosticMonitor.logError(
+                    String.format("Not found any matching words for step four, in words: %s", words), getClass());
             return;
         }
 

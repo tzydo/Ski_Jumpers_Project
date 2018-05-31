@@ -2,26 +2,27 @@ package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.steps;
 
 import com.pl.skijumping.batch.datareaderjob.reader.matchingword.MatchingWords;
 import com.pl.skijumping.common.exception.InternalServiceException;
+import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.domain.dto.DataRaceDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
 
 public class ThirdStep {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ThirdStep.class);
     private final String words;
+    private final DiagnosticMonitor diagnosticMonitor;
 
-    public ThirdStep(String words) {
+
+    public ThirdStep(String words, DiagnosticMonitor diagnosticMonitor) {
         this.words = words;
+        this.diagnosticMonitor = diagnosticMonitor;
     }
 
     public DataRaceDTO setValues(DataRaceDTO dataRaceDTO) throws InternalServiceException {
         MatchingWords matchingWords = new MatchingWords();
         Optional<List<String>> dataList = matchingWords.getRaceDataThirdStep(words);
         if (!dataList.isPresent()) {
-            LOGGER.error("Cannot find any matching words in three step");
+            diagnosticMonitor.logError("Cannot find any matching words in three step", getClass());
             return null;
         }
 

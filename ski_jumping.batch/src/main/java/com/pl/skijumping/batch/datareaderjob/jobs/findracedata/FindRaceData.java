@@ -3,6 +3,7 @@ package com.pl.skijumping.batch.datareaderjob.jobs.findracedata;
 import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.FindRaceDataProcessorBatch;
 import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.reader.FindRaceDataReaderBatch;
 import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.writer.FindRaceDataWriterBatch;
+import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.domain.dto.DataRaceDTO;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -22,13 +23,16 @@ public class FindRaceData {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final String filePath;
+    private final DiagnosticMonitor diagnosticMonitor;
 
     public FindRaceData(JobBuilderFactory jobBuilderFactory,
-                              StepBuilderFactory stepBuilderFactory,
-                              @Value("${skijumping.settings.fileName}")String filePath) {
+                        StepBuilderFactory stepBuilderFactory,
+                        @Value("${skijumping.settings.fileName}") String filePath,
+                        DiagnosticMonitor diagnosticMonitor) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
         this.filePath = filePath;
+        this.diagnosticMonitor = diagnosticMonitor;
     }
 
     @Bean(name = FIND_RACE_DATA_YEAR_JOB_NAME)
@@ -41,7 +45,7 @@ public class FindRaceData {
     @Bean
     public Step findTournamentYearStep() {
         return stepBuilderFactory.get(FIND_RACE_DATA_STEP_NAME)
-                .<String,DataRaceDTO>chunk(1)
+                .<String, DataRaceDTO>chunk(1)
                 .reader(findDataReaderBatch())
                 .processor(findRaceDataProcessorBatch())
                 .writer(findRaceDataWriterBatch())
@@ -51,19 +55,19 @@ public class FindRaceData {
     @Bean
     @StepScope
     public ItemStreamReader<String> findDataReaderBatch() {
-        return new FindRaceDataReaderBatch(this.filePath);
+        return new FindRaceDataReaderBatch(this.filePath, this.diagnosticMonitor);
     }
 
 
     @Bean
     @StepScope
     public ItemProcessor<String, DataRaceDTO> findRaceDataProcessorBatch() {
-        return new FindRaceDataProcessorBatch();
+        return new FindRaceDataProcessorBatch(this.diagnosticMonitor);
     }
 
     @Bean
     @StepScope
     public FindRaceDataWriterBatch findRaceDataWriterBatch() {
-        return new FindRaceDataWriterBatch();
+        return new FindRaceDataWriterBatch(this.diagnosticMonitor);
     }
 }

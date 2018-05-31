@@ -4,9 +4,8 @@ import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.steps.F
 import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.steps.ThirdStep;
 import com.pl.skijumping.batch.datareaderjob.reader.matchingword.MatchingWords;
 import com.pl.skijumping.common.exception.InternalServiceException;
+import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.domain.dto.DataRaceDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,11 +13,12 @@ import java.util.List;
 import java.util.Optional;
 
 class FindRaceDataProcessor {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FindRaceDataProcessor.class);
     private final String readWords;
+    private final DiagnosticMonitor diagnosticMonitor;
 
-    public FindRaceDataProcessor(String readWords) {
+    public FindRaceDataProcessor(String readWords, DiagnosticMonitor diagnosticMonitor) {
         this.readWords = readWords;
+        this.diagnosticMonitor = diagnosticMonitor;
     }
 
     public List<DataRaceDTO> findData() throws InternalServiceException {
@@ -26,10 +26,10 @@ class FindRaceDataProcessor {
         MatchingWords matchingWords = new MatchingWords();
         Optional<List<String>> dateList = matchingWords.getRaceDate(readWords);
         if (!dateList.isPresent()) {
-            LOGGER.error("Cannot find matching dates in find race data processor");
+            diagnosticMonitor.logError("Cannot find matching dates in find race data processor", getClass());
         }
 
-        LocalDateSetter localDateSetter = new LocalDateSetter(dateList.get());
+        LocalDateSetter localDateSetter = new LocalDateSetter(dateList.get(), diagnosticMonitor);
         LocalDate raceDate = localDateSetter.setDate();
         if (raceDate == null) {
             return new ArrayList<>();
@@ -37,7 +37,7 @@ class FindRaceDataProcessor {
 
         Optional<List<String>> dataList = matchingWords.getRaceDataSecondStep(readWords);
         if (!dataList.isPresent()) {
-            LOGGER.error("Not found any matching words in find race data processor");
+            diagnosticMonitor.logError("Not found any matching words in find race data processor", getClass());
             return new ArrayList<>();
         }
 
@@ -47,10 +47,10 @@ class FindRaceDataProcessor {
             DataRaceDTO dataRaceDTO = new DataRaceDTO();
             dataRaceDTO.setDate(raceDate);
 
-            ThirdStep thirdStep = new ThirdStep(foundMatchingWords);
+            ThirdStep thirdStep = new ThirdStep(foundMatchingWords, diagnosticMonitor);
             dataRaceDTO = thirdStep.setValues(dataRaceDTO);
 
-            FourthStep fourthStep = new FourthStep(foundMatchingWords);
+            FourthStep fourthStep = new FourthStep(foundMatchingWords, diagnosticMonitor);
             fourthStep.setValue(dataRaceDTO);
             dataRaceDTOList.add(dataRaceDTO);
         }

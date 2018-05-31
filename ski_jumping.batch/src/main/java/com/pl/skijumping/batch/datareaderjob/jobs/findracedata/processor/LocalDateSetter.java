@@ -1,25 +1,25 @@
 package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor;
 
 import com.pl.skijumping.common.exception.InternalServiceException;
+import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.domain.dto.Months;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.List;
 
 class LocalDateSetter {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LocalDateSetter.class);
     private final List<String> dateList;
+    private final DiagnosticMonitor diagnosticMonitor;
 
-    public LocalDateSetter(List<String> dateList) {
+    public LocalDateSetter(List<String> dateList, DiagnosticMonitor diagnosticMonitor) {
         this.dateList = dateList;
+        this.diagnosticMonitor = diagnosticMonitor;
     }
 
     public LocalDate setDate() throws InternalServiceException {
         if (dateList == null || dateList.isEmpty()) {
-            LOGGER.error("Not found any value to create date");
+            diagnosticMonitor.logError("Not found any value to create date", getClass());
             return null;
         }
 
@@ -35,14 +35,17 @@ class LocalDateSetter {
         try {
             return LocalDate.of(year, month, day);
         } catch (DateTimeException | NullPointerException e) {
-            LOGGER.error("Cannot set date from values: day = %s, month = %s, year = %s", day, month, year);
+            diagnosticMonitor.logError(
+                    String.format("Cannot set date from values: day = %d, month = %d, year = %d", day, month, year)
+                    , getClass());
             return null;
         }
     }
 
     private Integer getValue(List<String> dateList, int needValue) {
         if (dateList.size() < needValue) {
-            LOGGER.error(String.format("Cannot get %d from list, value exceed the range", needValue));
+            diagnosticMonitor.logError(
+                    String.format("Cannot get %d from list, value exceed the range", needValue), getClass());
             return null;
         }
 
@@ -50,7 +53,8 @@ class LocalDateSetter {
         try {
             value = Integer.parseInt(dateList.get(needValue));
         } catch (NumberFormatException e) {
-            LOGGER.error(String.format("Cannot change value from string:%s to integer!", dateList.get(needValue)));
+            diagnosticMonitor.logError(
+                    String.format("Cannot change value from string:%s to integer!", dateList.get(needValue)), getClass());
         }
         return value;
     }
