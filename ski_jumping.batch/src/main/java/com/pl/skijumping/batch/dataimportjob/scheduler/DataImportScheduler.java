@@ -28,13 +28,13 @@ public class DataImportScheduler {
 
     public DataImportScheduler(JobLauncher jobLauncher,
                                @Qualifier(DATA_IMPORT_JOB_NAME)Job dataImportJob,
-                               @Value("${skijumping.settings.importData.enable}")Boolean isEnable) {
+                               @Value("${skijumping.settings.scheduler.importData.enable}")Boolean isEnable) {
         this.jobLauncher = jobLauncher;
         this.dataImportJob = dataImportJob;
         this.isEnable = isEnable;
     }
 
-    @Scheduled(cron = "${skijumping.settings.importData.cron}")
+    @Scheduled(cron = "${skijumping.settings.scheduler.importData.cron}")
     public JobExecution importData() throws InternalServiceException {
         if(!isEnable) {
             return null;
