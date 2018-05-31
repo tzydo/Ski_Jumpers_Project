@@ -21,7 +21,7 @@
 //    private final StepBuilderFactory stepBuilder;
 //
 //
-//    public DataSynchronize(@Value("${skijumping.settings.scheduler.enable}") String filePath,
+//    public DataSynchronize(@Value("${skijumping.settings.scheduler.synchronize.enable}") String filePath,
 //                           JobBuilderFactory jobBuilder,
 //                           StepBuilderFactory stepBuilder) {
 //        this.filePath = filePath;
