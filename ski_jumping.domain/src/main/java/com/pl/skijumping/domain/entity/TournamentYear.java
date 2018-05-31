@@ -11,7 +11,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @Builder
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames={"year"})})
+@Table(name = "Tournament_Year")
 public class TournamentYear implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

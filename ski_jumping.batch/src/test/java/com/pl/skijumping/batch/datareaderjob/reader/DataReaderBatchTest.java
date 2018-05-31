@@ -12,11 +12,9 @@ import java.io.IOException;
 @Profile("test")
 public class DataReaderBatchTest {
 
-
     @Test
     public void open() throws IOException {
         File file = new ClassPathResource("testSkiJumper.txt").getFile();
-//        File file = new File("testSkiJumper.txt");
         DataReaderBatch dataReaderBatch = new DataReaderBatch(file.getPath());
         dataReaderBatch.read();
     }
