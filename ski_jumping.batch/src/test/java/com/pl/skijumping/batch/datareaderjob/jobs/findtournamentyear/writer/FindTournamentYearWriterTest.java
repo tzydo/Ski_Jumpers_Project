@@ -1,11 +1,13 @@
 package com.pl.skijumping.batch.datareaderjob.jobs.findtournamentyear.writer;
 
 import com.pl.skijumping.batch.BatchApplicationTest;
+import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.domain.dto.TournamentYearDTO;
 import com.pl.skijumping.service.TournamentYearService;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -23,12 +25,15 @@ public class FindTournamentYearWriterTest {
     @Autowired
     private TournamentYearService tournamentYearService;
 
+    @Mock
+    private DiagnosticMonitor diagnosticMonitor;
+
     @Test
     @Transactional
     public void writeTest() {
         List<String> matchingWords = Arrays.asList("1234", "3211", "1222", "1222");
 
-        FindTournamentYearWriter findTournamentYearWriter = new FindTournamentYearWriter(tournamentYearService);
+        FindTournamentYearWriter findTournamentYearWriter = new FindTournamentYearWriter(tournamentYearService, diagnosticMonitor);
         findTournamentYearWriter.write(Collections.singletonList(matchingWords));
 
         Optional<List<TournamentYearDTO>> tournamentYearDTOS = tournamentYearService.findAll();
@@ -45,7 +50,7 @@ public class FindTournamentYearWriterTest {
 
     @Test
     public void writeNullTest() {
-        FindTournamentYearWriter findTournamentYearWriter = new FindTournamentYearWriter(tournamentYearService);
+        FindTournamentYearWriter findTournamentYearWriter = new FindTournamentYearWriter(tournamentYearService, diagnosticMonitor);
         findTournamentYearWriter.write(null);
         Optional<List<TournamentYearDTO>> tournamentYearDTOS = tournamentYearService.findAll();
         Assertions.assertThat(tournamentYearDTOS.isPresent()).isTrue();
@@ -54,7 +59,7 @@ public class FindTournamentYearWriterTest {
 
     @Test
     public void writeEmptyListTest() {
-        FindTournamentYearWriter findTournamentYearWriter = new FindTournamentYearWriter(tournamentYearService);
+        FindTournamentYearWriter findTournamentYearWriter = new FindTournamentYearWriter(tournamentYearService, diagnosticMonitor);
         findTournamentYearWriter.write(new ArrayList<>());
         Optional<List<TournamentYearDTO>> tournamentYearDTOS = tournamentYearService.findAll();
         Assertions.assertThat(tournamentYearDTOS.isPresent()).isTrue();

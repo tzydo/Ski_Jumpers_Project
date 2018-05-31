@@ -3,6 +3,7 @@ package com.pl.skijumping.batch.datareaderjob.jobs.findtournamentyear;
 import com.pl.skijumping.batch.datareaderjob.jobs.findtournamentyear.processor.FindTournamentYearProcessor;
 import com.pl.skijumping.batch.datareaderjob.jobs.findtournamentyear.writer.FindTournamentYearWriter;
 import com.pl.skijumping.batch.datareaderjob.reader.DataReaderBatch;
+import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.service.TournamentYearService;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -23,15 +24,18 @@ public class FindTournamentYear {
     private final StepBuilderFactory stepBuilderFactory;
     private final TournamentYearService tournamentYearService;
     private final String filePath;
+    private final DiagnosticMonitor diagnosticMonitor;
 
     public FindTournamentYear(JobBuilderFactory jobBuilderFactory,
                               StepBuilderFactory stepBuilderFactory,
                               @Value("${skijumping.settings.fileName}")String filePath,
-                              TournamentYearService tournamentYearService) {
+                              TournamentYearService tournamentYearService,
+                              DiagnosticMonitor diagnosticMonitor) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
         this.filePath = filePath;
         this.tournamentYearService = tournamentYearService;
+        this.diagnosticMonitor = diagnosticMonitor;
     }
 
     @Bean(name = FIND_TOURNAMENT_YEAR_JOB_NAME)
@@ -61,12 +65,12 @@ public class FindTournamentYear {
     @Bean
     @StepScope
     public FindTournamentYearProcessor findTournamentYearProcessor() {
-        return new FindTournamentYearProcessor();
+        return new FindTournamentYearProcessor(diagnosticMonitor);
     }
 
     @Bean
     @StepScope
     public FindTournamentYearWriter findTournamentYearWriter() {
-        return new FindTournamentYearWriter(tournamentYearService);
+        return new FindTournamentYearWriter(tournamentYearService, diagnosticMonitor);
     }
 }

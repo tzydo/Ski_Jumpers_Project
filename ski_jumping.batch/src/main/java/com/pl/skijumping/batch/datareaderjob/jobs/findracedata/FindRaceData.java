@@ -58,7 +58,6 @@ public class FindRaceData {
         return new FindRaceDataReaderBatch(this.filePath, this.diagnosticMonitor);
     }
 
-
     @Bean
     @StepScope
     public ItemProcessor<String, DataRaceDTO> findRaceDataProcessorBatch() {

@@ -15,7 +15,7 @@ public class DiagnosticMonitorImpl implements DiagnosticMonitor {
 
     @Override
     public void logError(String errorMessage, Class<?> classType) {
-        String message = String.format("Error in class %s, message: \n", classType.getName());
+        String message = String.format("Error in class %s, message: \n %s", classType.getSimpleName(), errorMessage);
         LOGGER.error(message);
         slackCommunicator.sendMessage(message);
     }
