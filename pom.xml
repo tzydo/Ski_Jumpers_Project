@@ -26,6 +26,7 @@
         <module>ski_jumping.common</module>
         <module>ski_jumping.batch</module>
         <module>ski_jumping.service</module>
+        <module>ski_jumping.diagnostic_monitor</module>
     </modules>
 
     <dependencyManagement>
