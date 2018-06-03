@@ -5,9 +5,9 @@ import com.github.seratch.jslack.api.webhook.Payload;
 
 import java.io.IOException;
 
-class SlackCommunicator {
+class SlackClient {
     private static final String URL = "https://hooks.slack.com/services/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";
-    public SlackCommunicator() {
+    public SlackClient() {
     }
 
     public void sendMessage(String message) {

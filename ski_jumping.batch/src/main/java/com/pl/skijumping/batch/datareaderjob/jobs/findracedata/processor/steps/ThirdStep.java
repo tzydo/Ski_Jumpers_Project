@@ -19,7 +19,7 @@ public class ThirdStep {
     }
 
     public DataRaceDTO setValues(DataRaceDTO dataRaceDTO) throws InternalServiceException {
-        MatchingWords matchingWords = new MatchingWords();
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
         Optional<List<String>> dataList = matchingWords.getRaceDataThirdStep(words);
         if (!dataList.isPresent()) {
             diagnosticMonitor.logError("Cannot find any matching words in three step", getClass());

@@ -1,7 +1,6 @@
 package com.pl.skijumping.batch.datareaderjob.reader.matchingword;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +9,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class FindMatchingWords {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FindMatchingWords.class);
+    private final DiagnosticMonitor diagnosticMonitor;
+
+    public FindMatchingWords(DiagnosticMonitor diagnosticMonitor) {
+        this.diagnosticMonitor = diagnosticMonitor;
+    }
 
     public Optional<List<String>> getSeasonData(String words, String regexp, Boolean exactMatch) {
         if (words == null || words.isEmpty()) {
-            LOGGER.error("Cannot find matching words from null");
+            diagnosticMonitor.logError("Cannot find matching words from null", getClass());
             return Optional.empty();
         }
 
@@ -26,7 +29,7 @@ class FindMatchingWords {
 
     private Optional<List<String>> getExactMatchWordList(String words, String regexp) {
         if (words == null || regexp == null) {
-            LOGGER.error("Wrong parameters in matching words method");
+            diagnosticMonitor.logError("Wrong parameters in matching words method. Parameter cannot be null", getClass());
             return Optional.empty();
         }
         Pattern pattern = Pattern.compile(regexp);
@@ -49,7 +52,7 @@ class FindMatchingWords {
 
     private Optional<List<String>> getMatchWordList(String words, String regexp) {
         if (words == null || regexp == null) {
-            LOGGER.error("Wrong parameters in matching words method");
+            diagnosticMonitor.logError("Wrong parameters in matching words method. Parameter cannot be null", getClass());
             return Optional.empty();
         }
         Pattern pattern = Pattern.compile(regexp);

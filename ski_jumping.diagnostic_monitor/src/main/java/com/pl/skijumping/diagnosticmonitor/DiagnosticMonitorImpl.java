@@ -7,17 +7,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class DiagnosticMonitorImpl implements DiagnosticMonitor {
     private static final Logger LOGGER = LoggerFactory.getLogger(DiagnosticMonitorImpl.class);
-    private final SlackCommunicator slackCommunicator;
+    private final SlackClient slackClient;
 
     public DiagnosticMonitorImpl() {
-        slackCommunicator = new SlackCommunicator();
+        slackClient = new SlackClient();
     }
 
     @Override
     public void logError(String errorMessage, Class<?> classType) {
         String message = String.format("Error in class %s, message: \n %s", classType.getSimpleName(), errorMessage);
         LOGGER.error(message);
-        slackCommunicator.sendMessage(message);
+        slackClient.sendMessage(message);
     }
 
     @Override

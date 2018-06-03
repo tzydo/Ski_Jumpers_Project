@@ -58,7 +58,7 @@ public class FindTournamentYear {
     @Bean
     @StepScope
     public DataReaderBatch dataReaderBatch() {
-        return new DataReaderBatch(this.filePath);
+        return new DataReaderBatch(this.filePath, this.diagnosticMonitor);
     }
 
 

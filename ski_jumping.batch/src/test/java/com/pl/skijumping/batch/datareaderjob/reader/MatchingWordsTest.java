@@ -1,19 +1,27 @@
 package com.pl.skijumping.batch.datareaderjob.reader;
 
 import com.pl.skijumping.batch.datareaderjob.reader.matchingword.MatchingWords;
+import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.context.annotation.Profile;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 @Profile("test")
+@RunWith(MockitoJUnitRunner.class)
 public class MatchingWordsTest {
+
+    @Mock
+    private DiagnosticMonitor diagnosticMonitor;
 
     @Test
     public void getSeasonDataMatchWordsTest() {
-        MatchingWords matchingWords = new MatchingWords();
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
 
         String text = "<div id=\"filters\">" +
                 "<fieldset>" +
@@ -36,7 +44,7 @@ public class MatchingWordsTest {
 
     @Test
     public void getRaceDataFirstStepTest() {
-        MatchingWords matchingWords = new MatchingWords();
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
 
         String text = "<div class=\"date\">testText<!-- date-content -->" +
                 "<div class=\"date\">secondTestText<!-- date-content -->"+
@@ -52,7 +60,7 @@ public class MatchingWordsTest {
 
     @Test
     public void getRaceDataSecondStepTest() {
-        MatchingWords matchingWords = new MatchingWords();
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
 
         String text = "data-race=\"testText<div id=\"mobile_race" +
                 "data-race=\"secondTestText<div id=\"mobile_race"+

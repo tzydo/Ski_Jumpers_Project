@@ -17,7 +17,7 @@ public class FourthStep {
     }
 
     public void setValue(DataRaceDTO dataRaceDTO) {
-        MatchingWords matchingWords = new MatchingWords();
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
         Optional<List<String>> matchingWordsList = matchingWords.getRaceDataFourthStep(words);
         if(!matchingWordsList.isPresent()) {
             diagnosticMonitor.logError(

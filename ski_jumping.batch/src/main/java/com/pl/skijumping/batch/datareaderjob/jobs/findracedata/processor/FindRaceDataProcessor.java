@@ -23,7 +23,7 @@ class FindRaceDataProcessor {
 
     public List<DataRaceDTO> findData() throws InternalServiceException {
 
-        MatchingWords matchingWords = new MatchingWords();
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
         Optional<List<String>> dateList = matchingWords.getRaceDate(readWords);
         if (!dateList.isPresent()) {
             diagnosticMonitor.logError("Cannot find matching dates in find race data processor", getClass());

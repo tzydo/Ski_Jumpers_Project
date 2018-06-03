@@ -1,5 +1,6 @@
 package com.pl.skijumping.batch.datareaderjob.reader;
 
+import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemReader;
@@ -9,34 +10,35 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class DataReaderBatch implements ItemReader<String>{
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataReaderBatch.class);
+public class DataReaderBatch implements ItemReader<String> {
     private final String filePath;
+    private final DiagnosticMonitor diagnosticMonitor;
 
-    public DataReaderBatch(String filePath) {
+    public DataReaderBatch(String filePath, DiagnosticMonitor diagnosticMonitor) {
         this.filePath = filePath;
+        this.diagnosticMonitor = diagnosticMonitor;
     }
 
     @Override
     public String read() {
-        LOGGER.info("Start reading from file {}", filePath);
+        diagnosticMonitor.logInfo(String.format("Start reading from file %s", filePath));
         List<String> fileLines;
         try {
             fileLines = Files.readAllLines(Paths.get(filePath));
-            LOGGER.info("Found {} lines to convert", fileLines.size());
+            diagnosticMonitor.logInfo(String.format("Found %d lines to convert", fileLines.size()));
         } catch (IOException e) {
-            LOGGER.error("Cannot read content from file {}", filePath);
+            diagnosticMonitor.logError(String.format("Cannot read content from file %s", filePath), getClass());
             return null;
         }
 
         if (fileLines == null || fileLines.isEmpty()) {
-            LOGGER.info("File content is null or empty");
+            diagnosticMonitor.logInfo("File content is null or empty");
             return null;
         }
 
         String fileContent = String.join("", fileLines);
 
-        LOGGER.info(String.format("Finish reading file from: %s", filePath));
-        return fileContent.replace("  ","");
+        diagnosticMonitor.logInfo(String.format("Finish reading file from: %s", filePath));
+        return fileContent.replace("  ", "");
     }
 }

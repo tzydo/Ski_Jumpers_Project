@@ -22,7 +22,7 @@ public class FindTournamentYearProcessor implements ItemProcessor<String, List<S
             diagnosticMonitor.logError("Cannot find matching words, file is empty", getClass());
             return new ArrayList<>();
         }
-        MatchingWords matchingWords = new MatchingWords();
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
         Optional<List<String>> tournamentYears = matchingWords.getTournamentYears(fileContent);
         if (!tournamentYears.isPresent() || tournamentYears.get().isEmpty()) {
             diagnosticMonitor.logError("Not found any matching words.", getClass());

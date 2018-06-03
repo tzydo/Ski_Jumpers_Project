@@ -32,13 +32,13 @@ public class FindRaceDataReaderBatch implements ItemStreamReader<String> {
 
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
-        DataReaderBatch dataReaderBatch = new DataReaderBatch(filePath);
+        DataReaderBatch dataReaderBatch = new DataReaderBatch(filePath, diagnosticMonitor);
         String fileContent = dataReaderBatch.read();
         if (fileContent == null || fileContent.isEmpty()) {
             diagnosticMonitor.logError("Cannot read race data from file", getClass());
             return;
         }
-        MatchingWords matchingWords = new MatchingWords();
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
         Optional<List<String>> raceDataFirstStep = matchingWords.getRaceDataFirstStep(fileContent);
         if (!raceDataFirstStep.isPresent()) {
             diagnosticMonitor.logError("Not found matching words for first step data race job", getClass());
