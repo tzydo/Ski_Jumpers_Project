@@ -18,6 +18,7 @@
         <mysql-connector.version>8.0.11</mysql-connector.version>
         <lombok.version>1.16.18</lombok.version>
         <spring-batch.version>4.0.1.RELEASE</spring-batch.version>
+        <querydsl.version>4.2.1</querydsl.version>
     </properties>
 
     <modules>
@@ -125,6 +126,17 @@
                 <artifactId>hsqldb</artifactId>
                 <version>${hsqldb.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-jpa</artifactId>
+                <version>${querydsl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-apt</artifactId>
+                <version>${querydsl.version}</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
