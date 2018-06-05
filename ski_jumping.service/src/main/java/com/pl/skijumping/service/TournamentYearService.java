@@ -1,9 +1,9 @@
 package com.pl.skijumping.service;
 
-import com.pl.skijumping.domain.dto.TournamentYearDTO;
 import com.pl.skijumping.domain.entity.TournamentYear;
-import com.pl.skijumping.domain.mapper.TournamentYearMapper;
 import com.pl.skijumping.domain.repository.TournamentYearRepository;
+import com.pl.skijumping.dto.TournamentYearDTO;
+import com.pl.skijumping.service.mapper.TournamentYearMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

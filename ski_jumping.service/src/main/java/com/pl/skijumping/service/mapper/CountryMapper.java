@@ -1,7 +1,7 @@
-package com.pl.skijumping.domain.mapper;
+package com.pl.skijumping.service.mapper;
 
-import com.pl.skijumping.domain.dto.CountryDTO;
 import com.pl.skijumping.domain.entity.Country;
+import com.pl.skijumping.dto.CountryDTO;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

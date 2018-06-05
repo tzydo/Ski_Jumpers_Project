@@ -1,5 +1,6 @@
 package com.pl.skijumping.domain.entity;
 
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,7 +22,6 @@ public class CompetitionType {
     @NotNull
     @Column(name = "competition_type")
     private String competitionType;
-
 
     @NotNull
     @Column(name = "competition_name")

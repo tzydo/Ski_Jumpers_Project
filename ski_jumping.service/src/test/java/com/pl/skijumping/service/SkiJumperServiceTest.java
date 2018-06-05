@@ -4,8 +4,6 @@ import com.pl.skijumping.domain.mapper.SkiJumperMapper;
 import com.pl.skijumping.domain.repository.SkiJumperRepository;
 import com.pl.skijumping.domain.dto.SkiJumperDTO;
 import com.pl.skijumping.domain.entity.SkiJumper;
-import com.pl.skijumping.domain.mapper.SkiJumperMapper;
-import com.pl.skijumping.domain.repository.SkiJumperRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
