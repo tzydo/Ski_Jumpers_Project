@@ -1,4 +1,4 @@
-package com.pl.skijumping.domain.dto;
+package com.pl.skijumping.dto;
 
 public enum Months {
     JAN(1),
