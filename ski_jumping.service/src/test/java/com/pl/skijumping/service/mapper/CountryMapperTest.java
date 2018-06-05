@@ -1,8 +1,8 @@
-package com.pl.skijumping.domain.mapper;
+package com.pl.skijumping.service.mapper;
 
-import com.pl.skijumping.domain.SkiJumpingApplication;
-import com.pl.skijumping.domain.dto.CountryDTO;
 import com.pl.skijumping.domain.entity.Country;
+import com.pl.skijumping.dto.CountryDTO;
+import com.pl.skijumping.service.ApplicationTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.List;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = SkiJumpingApplication.class)
+@SpringBootTest(classes = ApplicationTest.class)
 @ActiveProfiles("test")
 public class CountryMapperTest {
 
