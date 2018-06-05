@@ -27,6 +27,7 @@
         <module>ski_jumping.batch</module>
         <module>ski_jumping.service</module>
         <module>ski_jumping.diagnostic_monitor</module>
+        <module>ski_jumping.dto</module>
     </modules>
 
     <dependencyManagement>
@@ -39,6 +40,11 @@
             <dependency>
                 <groupId>ski_jumping</groupId>
                 <artifactId>ski_jumping.domain</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>ski_jumping</groupId>
+                <artifactId>ski_jumping.dto</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
