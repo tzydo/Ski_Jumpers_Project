@@ -2,7 +2,7 @@ package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor;
 
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import com.pl.skijumping.domain.dto.Months;
+import com.pl.skijumping.dto.Months;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;

@@ -1,13 +1,12 @@
 package com.pl.skijumping.service;
 
+import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.domain.entity.DataRace;
 import com.pl.skijumping.domain.entity.QDataRace;
 import com.pl.skijumping.domain.repository.DataRaceRepository;
 import com.pl.skijumping.dto.DataRaceDTO;
 import com.pl.skijumping.service.mapper.DataRaceMapper;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,13 +15,16 @@ import java.util.Optional;
 
 @Service
 public class DataRaceService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataRaceService.class);
     private final DataRaceRepository dataRaceRepository;
     private final DataRaceMapper dataRaceMapper;
+    private final DiagnosticMonitor diagnosticMonitor;
 
-    public DataRaceService(DataRaceRepository dataRaceRepository, DataRaceMapper dataRaceMapper) {
+    public DataRaceService(DataRaceRepository dataRaceRepository,
+                           DataRaceMapper dataRaceMapper,
+                           DiagnosticMonitor diagnosticMonitor) {
         this.dataRaceRepository = dataRaceRepository;
         this.dataRaceMapper = dataRaceMapper;
+        this.diagnosticMonitor = diagnosticMonitor;
     }
 
     public List<DataRaceDTO> findAll() {
@@ -34,32 +36,60 @@ public class DataRaceService {
         return dataRaceMapper.toDTO(dataRaceList);
     }
 
-//    public DataRaceDTO saveOrUpdate(DataRaceDTO dataRaceDTO) {
-//        QDataRace qDataRace = QDataRace.dataRace;
-//        findByParams(dataRaceDTO)
-//        BooleanExpression booleanExpression = qDataRace.id.eq(id);
-//        dataRaceRepository.findAll(booleanExpression);
-//    }
-
-
-    public Optional<DataRaceDTO> findByParams(DataRaceDTO dataRaceDTO) {
+    public DataRaceDTO save(DataRaceDTO dataRaceDTO) {
         if (dataRaceDTO == null) {
-            return Optional.empty();
+            return null;
         }
-        QDataRace qDataRace = QDataRace.dataRace;
-        BooleanExpression booleanExpression =
-                qDataRace.date.eq(dataRaceDTO.getDate())
-                        .and(qDataRace.city.eq(dataRaceDTO.getCity()))
-                        .and(qDataRace.shortCountryName.eq(dataRaceDTO.getShortCountryName()))
-                        .and(qDataRace.raceId.eq(dataRaceDTO.getRaceId()));
+        DataRace dataRace = dataRaceMapper.fromDTO(dataRaceDTO);
+        if (isCompetitionType(dataRace)) return dataRaceDTO;
+        Optional<DataRace> foundDataRace = findByDataRace(dataRace);
 
-        DataRace dataRace = (DataRace) dataRaceRepository.findOne(booleanExpression);
-
-        if(dataRace == null) {
-            return Optional.empty();
+        if(!foundDataRace.isPresent()){
+            return dataRaceMapper.toDTO(dataRaceRepository.save(dataRace));
         }
 
-        return Optional.of(dataRaceMapper.toDTO(dataRace));
+        return dataRaceMapper.toDTO(foundDataRace.get());
     }
 
+    public DataRace save(DataRace dataRace) {
+        if (dataRace == null) {
+            return null;
+        }
+
+        if(isCompetitionType(dataRace)) return dataRace;
+        Optional<DataRace> foundDataRace = findByDataRace(dataRace);
+        return foundDataRace.orElseGet(() -> dataRaceRepository.save(dataRace));
+    }
+
+    private Optional<DataRace> findByDataRace(DataRace dataRace) {
+        if (dataRace == null) {
+            return Optional.empty();
+        }
+
+        QDataRace qDataRace = QDataRace.dataRace;
+        BooleanExpression booleanExpression =
+                qDataRace.date.eq(dataRace.getDate())
+                        .and(qDataRace.city.eq(dataRace.getCity()))
+                        .and(qDataRace.shortCountryName.eq(dataRace.getShortCountryName()))
+                        .and(qDataRace.raceId.eq(dataRace.getRaceId()))
+                .and(qDataRace.competitionTypeId.eq(dataRace.getCompetitionTypeId()));
+
+        DataRace foundDataRace = (DataRace) dataRaceRepository.findOne(booleanExpression);
+
+        if (foundDataRace == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(foundDataRace);
+    }
+
+    private boolean isCompetitionType(DataRace dataRace) {
+        if(dataRace.getCompetitionTypeId() == null) {
+            diagnosticMonitor.logError(String.format(
+                    "Cannot save dataRace, competition type cannot be null for object: %s",
+                    dataRace.toString()), getClass());
+            return true;
+        }
+        return false;
+    }
 }

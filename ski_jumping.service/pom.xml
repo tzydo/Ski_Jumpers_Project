@@ -47,6 +47,10 @@
             <artifactId>hsqldb</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>ski_jumping</groupId>
+            <artifactId>ski_jumping.diagnostic_monitor</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

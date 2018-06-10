@@ -1,7 +1,7 @@
 package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor;
 
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import com.pl.skijumping.domain.dto.DataRaceDTO;
+import com.pl.skijumping.dto.DataRaceDTO;
 import org.springframework.batch.item.ItemProcessor;
 
 public class FindRaceDataProcessorBatch implements ItemProcessor<String, DataRaceDTO> {

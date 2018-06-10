@@ -16,5 +16,5 @@ public class DataRaceDTO {
     private String shortCountryName;
     private String competitionName;
     private String competitionType;
-    private Integer raceId;
+    private Long raceId;
 }

@@ -2,7 +2,7 @@ package com.pl.skijumping.batch.datareaderjob.jobs.findtournamentyear.writer;
 
 import com.pl.skijumping.batch.BatchApplicationTest;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import com.pl.skijumping.domain.dto.TournamentYearDTO;
+import com.pl.skijumping.dto.TournamentYearDTO;
 import com.pl.skijumping.service.TournamentYearService;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;

@@ -2,11 +2,11 @@ package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.steps;
 
 import com.pl.skijumping.batch.datareaderjob.reader.matchingword.MatchingWords;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import com.pl.skijumping.domain.dto.DataRaceDTO;
+import com.pl.skijumping.dto.DataRaceDTO;
 
 import java.util.List;
 import java.util.Optional;
-
+//ToDo zmienic nazwe na getCompetitionType
 public class FourthStep {
     private final String words;
     private final DiagnosticMonitor diagnosticMonitor;

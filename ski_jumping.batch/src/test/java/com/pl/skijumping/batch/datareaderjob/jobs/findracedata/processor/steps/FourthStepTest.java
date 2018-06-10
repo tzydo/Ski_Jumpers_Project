@@ -1,7 +1,7 @@
 package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.steps;
 
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import com.pl.skijumping.domain.dto.DataRaceDTO;
+import com.pl.skijumping.dto.DataRaceDTO;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -4,7 +4,7 @@ import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.FindRac
 import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.reader.FindRaceDataReaderBatch;
 import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.writer.FindRaceDataWriterBatch;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import com.pl.skijumping.domain.dto.DataRaceDTO;
+import com.pl.skijumping.dto.DataRaceDTO;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -67,6 +67,7 @@ public class FindRaceData {
     @Bean
     @StepScope
     public FindRaceDataWriterBatch findRaceDataWriterBatch() {
-        return new FindRaceDataWriterBatch(this.diagnosticMonitor);
+//        return new FindRaceDataWriterBatch(this.com this.diagnosticMonitor);
+        return null;
     }
 }

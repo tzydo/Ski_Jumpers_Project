@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,6 +48,11 @@ public class CompetitionTypeService {
         }
 
         return Optional.of(competitionTypeMapper.toDTO(competitionType));
+    }
+
+    public List<CompetitionTypeDTO> findAll() {
+        List<CompetitionType> competitionTypeList = competitionTypeRepository.findAll();
+        return competitionTypeMapper.toDTO(competitionTypeList);
     }
 
     public Optional<CompetitionTypeDTO> findByTypeAndName(String type, String name) {

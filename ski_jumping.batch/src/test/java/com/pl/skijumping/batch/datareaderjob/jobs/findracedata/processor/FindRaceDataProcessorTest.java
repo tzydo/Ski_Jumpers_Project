@@ -2,7 +2,7 @@ package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor;
 
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import com.pl.skijumping.domain.dto.DataRaceDTO;
+import com.pl.skijumping.dto.DataRaceDTO;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,10 +37,10 @@ public class FindRaceDataProcessorTest {
     public void findDataTest() throws InternalServiceException {
         List<DataRaceDTO> expectedDataRaceDTOList = Arrays.asList(
                 new DataRaceDTO().builder()
-                        .date(LocalDate.of(2018, 3, 25)).raceId(4961).city("Planica")
+                        .date(LocalDate.of(2018, 3, 25)).raceId(4961l).city("Planica")
                         .shortCountryName("SLO").competitionName("World Cup").competitionType("Men's HS240").build(),
                 new DataRaceDTO().builder()
-                        .date(LocalDate.of(2018, 3, 25)).raceId(5015).city("Oberstdorf")
+                        .date(LocalDate.of(2018, 3, 25)).raceId(5015l).city("Oberstdorf")
                         .shortCountryName("GER").competitionName("World Cup").competitionType("Ladies' HS106").build()
         );
         FindRaceDataProcessor findRaceDataProcessor = new FindRaceDataProcessor(words, diagnosticMonitor);

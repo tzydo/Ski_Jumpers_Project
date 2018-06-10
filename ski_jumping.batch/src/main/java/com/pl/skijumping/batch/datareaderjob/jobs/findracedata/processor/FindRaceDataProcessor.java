@@ -5,7 +5,7 @@ import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.steps.T
 import com.pl.skijumping.batch.datareaderjob.reader.matchingword.MatchingWords;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import com.pl.skijumping.domain.dto.DataRaceDTO;
+import com.pl.skijumping.dto.DataRaceDTO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

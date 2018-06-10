@@ -3,11 +3,11 @@ package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.steps;
 import com.pl.skijumping.batch.datareaderjob.reader.matchingword.MatchingWords;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import com.pl.skijumping.domain.dto.DataRaceDTO;
+import com.pl.skijumping.dto.DataRaceDTO;
 
 import java.util.List;
 import java.util.Optional;
-
+//TODo zmienic nazwe na getRaceIdStep
 public class ThirdStep {
     private final String words;
     private final DiagnosticMonitor diagnosticMonitor;
@@ -41,10 +41,10 @@ public class ThirdStep {
         return words.get(index);
     }
 
-    private Integer getRaceId(List<String> dataList) throws InternalServiceException {
-        Integer raceId;
+    private Long getRaceId(List<String> dataList) throws InternalServiceException {
+        Long raceId;
         try {
-            raceId = Integer.parseInt(dataList.get(0));
+            raceId = Long.parseLong(dataList.get(0));
         } catch (NumberFormatException e) {
             throw new InternalServiceException(
                     String.format("Cannot parse word: %s to race id", dataList.get(0)));

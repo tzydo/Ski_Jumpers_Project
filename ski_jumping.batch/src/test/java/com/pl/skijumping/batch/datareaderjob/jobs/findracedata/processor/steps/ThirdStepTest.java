@@ -2,7 +2,7 @@ package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.steps;
 
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import com.pl.skijumping.domain.dto.DataRaceDTO;
+import com.pl.skijumping.dto.DataRaceDTO;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ public class ThirdStepTest {
         DataRaceDTO actualDataRaceDTO = thirdStep.setValues(new DataRaceDTO());
 
         DataRaceDTO expectedDataRaceDTO = new DataRaceDTO();
-        expectedDataRaceDTO.setRaceId(4961);
+        expectedDataRaceDTO.setRaceId(4961l);
         expectedDataRaceDTO.setShortCountryName("SLO");
         expectedDataRaceDTO.setCity("Planica");
 

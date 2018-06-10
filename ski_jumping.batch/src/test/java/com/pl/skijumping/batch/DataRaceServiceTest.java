@@ -31,19 +31,19 @@ public class DataRaceServiceTest {
         dataRace.setCity("test");
         dataRace.setDate(LocalDate.now());
         dataRace.setShortCountryName("test");
-        dataRace.setRaceId(1);
+        dataRace.setRaceId(1l);
 
         DataRace dataRace2 = new DataRace();
         dataRace2.setCity("test2");
         dataRace2.setDate(LocalDate.now().plusDays(1));
         dataRace2.setShortCountryName("test2");
-        dataRace2.setRaceId(2);
+        dataRace2.setRaceId(2l);
 
         DataRace dataRace3 = new DataRace();
         dataRace3.setCity("test3");
         dataRace3.setDate(LocalDate.now().plusDays(2));
         dataRace3.setShortCountryName("test3");
-        dataRace3.setRaceId(3);
+        dataRace3.setRaceId(3l);
 
 
 

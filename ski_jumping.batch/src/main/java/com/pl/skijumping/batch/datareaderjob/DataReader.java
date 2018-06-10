@@ -5,6 +5,8 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+// RUN ALL YOBS
+// ToDo zmiana nazwy
 @Configuration
 public class DataReader {
     private static final String DATA_READER_JOB_NAME = "Data_Reader_Job";

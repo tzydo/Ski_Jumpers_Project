@@ -28,25 +28,33 @@ public abstract class DataRaceMapper {
 
     @AfterMapping
     public DataRace setCompetitionTypeID(@MappingTarget DataRace dataRace, DataRaceDTO dataRaceDTO) {
-        CompetitionTypeDTO competitionTypeDTO = new CompetitionTypeDTO();
-        competitionTypeDTO.setCompetitionName(dataRaceDTO.getCompetitionName());
-        competitionTypeDTO.setCompetitionType(dataRaceDTO.getCompetitionType());
-        Long id = competitionTypeService.save(competitionTypeDTO).getId();
-        dataRace.setCompetitionTypeId(id);
+        if (dataRaceDTO.getCompetitionName() == null || dataRaceDTO.getCompetitionType() == null) {
+            return dataRace;
+        }
+
+        Optional<CompetitionTypeDTO> competitionTypeDTO = competitionTypeService
+                .findByTypeAndName(dataRaceDTO.getCompetitionType(), dataRaceDTO.getCompetitionName());
+
+        if (!competitionTypeDTO.isPresent()) {
+            dataRace.setCompetitionTypeId(null);
+            return dataRace;
+        }
+        dataRace.setCompetitionTypeId(competitionTypeDTO.get().getId());
         return dataRace;
     }
 
     @AfterMapping
     public DataRaceDTO setCompetitionTypeID(@MappingTarget DataRaceDTO dataRaceDTO, DataRace dataRace) {
-        Optional<CompetitionTypeDTO> competitionTypeDTO = competitionTypeService.find(dataRace.getCompetitionTypeId());
-        dataRaceDTO.setCompetitionType(null);
-        dataRaceDTO.setCompetitionName(null);
+        Optional<CompetitionTypeDTO> competitionTypeDTO =
+                competitionTypeService.find(dataRace.getCompetitionTypeId());
 
-        if(competitionTypeDTO.isPresent()) {
+        if (competitionTypeDTO.isPresent()) {
             dataRaceDTO.setCompetitionType(competitionTypeDTO.get().getCompetitionType());
             dataRaceDTO.setCompetitionName(competitionTypeDTO.get().getCompetitionName());
             return dataRaceDTO;
         }
+        dataRaceDTO.setCompetitionType(null);
+        dataRaceDTO.setCompetitionName(null);
 
         return dataRaceDTO;
     }

@@ -26,11 +26,11 @@ public class DataRace {
     @Column(name = "short_country_name", nullable = false)
     private String shortCountryName;
 
-    //    @ManyToOne
-//    @Column(name = "competition_type")
+//    @ManyToOne
+    @Column(name = "competition_type")
 //    @JoinColumn(name = "competition_type_id")
-//    private CompetitionType competitionType;
+    private Long competitionTypeId;
 
     @Column(name = "race_id", nullable = false, unique = true)
-    private Integer raceId;
+    private Long raceId;
 }
