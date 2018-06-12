@@ -42,9 +42,16 @@ public class DataRaceService {
         }
         DataRace dataRace = dataRaceMapper.fromDTO(dataRaceDTO);
         if (isCompetitionType(dataRace)) return dataRaceDTO;
-        Optional<DataRace> foundDataRace = findByDataRace(dataRace);
+        Optional<DataRace> foundDataRace;
+        try {
+            foundDataRace = findByDataRace(dataRace);
+        } catch (IllegalArgumentException e) {
+            diagnosticMonitor.logError(
+                    String.format("Cannot find object with null value!. Object: %s", dataRace.toString()), getClass());
+            return null;
+        }
 
-        if(!foundDataRace.isPresent()){
+        if (!foundDataRace.isPresent()) {
             return dataRaceMapper.toDTO(dataRaceRepository.save(dataRace));
         }
 
@@ -56,12 +63,12 @@ public class DataRaceService {
             return null;
         }
 
-        if(isCompetitionType(dataRace)) return dataRace;
+        if (isCompetitionType(dataRace)) return dataRace;
         Optional<DataRace> foundDataRace = findByDataRace(dataRace);
         return foundDataRace.orElseGet(() -> dataRaceRepository.save(dataRace));
     }
 
-    private Optional<DataRace> findByDataRace(DataRace dataRace) {
+    public Optional<DataRace> findByDataRace(DataRace dataRace) {
         if (dataRace == null) {
             return Optional.empty();
         }
@@ -72,7 +79,7 @@ public class DataRaceService {
                         .and(qDataRace.city.eq(dataRace.getCity()))
                         .and(qDataRace.shortCountryName.eq(dataRace.getShortCountryName()))
                         .and(qDataRace.raceId.eq(dataRace.getRaceId()))
-                .and(qDataRace.competitionTypeId.eq(dataRace.getCompetitionTypeId()));
+                        .and(qDataRace.competitionTypeId.eq(dataRace.getCompetitionTypeId()));
 
         DataRace foundDataRace = (DataRace) dataRaceRepository.findOne(booleanExpression);
 
@@ -84,7 +91,7 @@ public class DataRaceService {
     }
 
     private boolean isCompetitionType(DataRace dataRace) {
-        if(dataRace.getCompetitionTypeId() == null) {
+        if (dataRace.getCompetitionTypeId() == null) {
             diagnosticMonitor.logError(String.format(
                     "Cannot save dataRace, competition type cannot be null for object: %s",
                     dataRace.toString()), getClass());

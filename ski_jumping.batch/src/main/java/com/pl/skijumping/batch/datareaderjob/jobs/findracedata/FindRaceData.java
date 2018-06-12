@@ -5,6 +5,8 @@ import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.reader.FindRaceDa
 import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.writer.FindRaceDataWriterBatch;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.DataRaceDTO;
+import com.pl.skijumping.service.CompetitionTypeService;
+import com.pl.skijumping.service.DataRaceService;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -23,15 +25,21 @@ public class FindRaceData {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final String filePath;
+    private final CompetitionTypeService competitionTypeService;
+    private final DataRaceService dataRaceService;
     private final DiagnosticMonitor diagnosticMonitor;
 
     public FindRaceData(JobBuilderFactory jobBuilderFactory,
                         StepBuilderFactory stepBuilderFactory,
                         @Value("${skijumping.settings.fileName}") String filePath,
+                        CompetitionTypeService competitionTypeService,
+                        DataRaceService dataRaceService,
                         DiagnosticMonitor diagnosticMonitor) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
         this.filePath = filePath;
+        this.competitionTypeService = competitionTypeService;
+        this.dataRaceService = dataRaceService;
         this.diagnosticMonitor = diagnosticMonitor;
     }
 
@@ -67,7 +75,6 @@ public class FindRaceData {
     @Bean
     @StepScope
     public FindRaceDataWriterBatch findRaceDataWriterBatch() {
-//        return new FindRaceDataWriterBatch(this.com this.diagnosticMonitor);
-        return null;
+        return new FindRaceDataWriterBatch(this.competitionTypeService, dataRaceService, diagnosticMonitor);
     }
 }
