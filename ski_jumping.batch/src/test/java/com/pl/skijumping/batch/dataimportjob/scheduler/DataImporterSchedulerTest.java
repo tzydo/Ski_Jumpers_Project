@@ -1,6 +1,7 @@
 package com.pl.skijumping.batch.dataimportjob.scheduler;
 
 import com.pl.skijumping.batch.BatchApplicationTest;
+import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.common.util.FileUtil;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.assertj.core.api.Assertions;
@@ -8,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -43,5 +45,12 @@ public class DataImporterSchedulerTest {
         Assertions.assertThat(file.isPresent()).isTrue();
         Assertions.assertThat(file.get().isFile()).isTrue();
         file.get().delete();
+    }
+
+    @Test
+    public void importDataWhenEnableFalseTest() throws InternalServiceException {
+        DataImportScheduler dataImportScheduler = new DataImportScheduler(jobLauncherTestUtils, job, false, diagnosticMonitor);
+        JobExecution jobExecution = dataImportScheduler.importData();
+        Assertions.assertThat(jobExecution).isNull();
     }
 }
