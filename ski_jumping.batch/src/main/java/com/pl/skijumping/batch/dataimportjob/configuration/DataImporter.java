@@ -1,9 +1,11 @@
 package com.pl.skijumping.batch.dataimportjob.configuration;
 
 import com.pl.skijumping.batch.dataimportjob.dataimport.DataImporterTasklet;
+import com.pl.skijumping.batch.listener.StepListener;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -14,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DataImporter {
     public static final String DATA_IMPORT_JOB_NAME = "Data_Import_Job";
-    private static final String DATA_IMPORTER_STEP_NAME = "Data_Importer_Step";
+    public static final String DATA_IMPORTER_STEP_NAME = "Data_Importer_Step";
 
     private final String host;
     private final String directory;
@@ -44,15 +46,21 @@ public class DataImporter {
                 .build();
     }
 
-    @Bean
+    @Bean(name = DATA_IMPORTER_STEP_NAME)
     public Step dataImporterStep() {
         return this.stepBuilder.get(DATA_IMPORTER_STEP_NAME)
                 .tasklet(dataImporterTasklet())
+                .listener(stepExecutionListener())
                 .build();
     }
 
     @Bean
     public Tasklet dataImporterTasklet() {
         return new DataImporterTasklet(host, directory, fileName, diagnosticMonitor);
+    }
+
+    @Bean
+    public StepExecutionListener stepExecutionListener() {
+        return new StepListener();
     }
 }

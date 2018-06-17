@@ -26,9 +26,13 @@ public class DataImporterTasklet implements Tasklet {
 
     @Override
     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
+        String errorMessage;
         FilePreparation filePreparation = new FilePreparation(directory, fileName);
         if (!filePreparation.prepare()) {
-            stepContribution.setExitStatus(ExitStatus.FAILED);
+            ExitStatus e = new ExitStatus(ExitStatus.FAILED.getExitCode(), "cos");
+            stepContribution.setExitStatus(e);
+            errorMessage = String.format("Cannot create file %s in path: %s", fileName, directory);
+            setExitStatus(stepContribution, errorMessage, ExitStatus.FAILED);
             return RepeatStatus.FINISHED;
         }
 
@@ -37,13 +41,18 @@ public class DataImporterTasklet implements Tasklet {
         String filePath = fileDownloader.downloadSource();
 
         if (filePath == null) {
-            diagnosticMonitor.logError("Job data import FAILED", getClass());
-            stepContribution.setExitStatus(ExitStatus.FAILED);
+            errorMessage = "Job data import FAILED";
+            diagnosticMonitor.logError(errorMessage, getClass());
+            setExitStatus(stepContribution, errorMessage, ExitStatus.FAILED);
             return RepeatStatus.FINISHED;
         }
 
         diagnosticMonitor.logInfo("Job data import successfully finished");
         stepContribution.setExitStatus(ExitStatus.COMPLETED);
         return RepeatStatus.FINISHED;
+    }
+
+    private void setExitStatus(StepContribution stepContribution, String errorMessage, ExitStatus status) {
+        stepContribution.setExitStatus(new ExitStatus(status.getExitCode(), errorMessage));
     }
 }
