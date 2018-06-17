@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class FindTournamentYearProcessor implements ItemProcessor<String, List<String>> {
+public class FindTournamentYearProcessorBatch implements ItemProcessor<String, List<String>> {
     private final DiagnosticMonitor diagnosticMonitor;
 
-    public FindTournamentYearProcessor(DiagnosticMonitor diagnosticMonitor) {
+    public FindTournamentYearProcessorBatch(DiagnosticMonitor diagnosticMonitor) {
         this.diagnosticMonitor = diagnosticMonitor;
     }
 
