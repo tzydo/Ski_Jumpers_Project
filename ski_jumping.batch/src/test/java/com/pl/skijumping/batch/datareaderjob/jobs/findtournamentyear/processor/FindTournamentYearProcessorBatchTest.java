@@ -1,6 +1,7 @@
 package com.pl.skijumping.batch.datareaderjob.jobs.findtournamentyear.processor;
 
 import com.pl.skijumping.batch.SetupUtilTests;
+import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -20,12 +21,14 @@ public class FindTournamentYearProcessorBatchTest {
     }
 
     @Test
-    public void processWhenNotFoundMatchingWordsTest() throws Exception {
+    public void processWhenNotFoundMatchingWordsTest() {
         DiagnosticMonitor diagnosticMonitorMock = SetupUtilTests.getDiagnosticMonitorMock();
         FindTournamentYearProcessorBatch findTournamentYearProcessorBatch = new FindTournamentYearProcessorBatch(diagnosticMonitorMock);
-        List<String> processedWords = findTournamentYearProcessorBatch.process("test test test");
+        Throwable throwable = Assertions.catchThrowable(() -> {
+            findTournamentYearProcessorBatch.process("test test test");
+        });
 
-        Assertions.assertThat(processedWords).isEqualTo(new ArrayList<>());
+        Assertions.assertThat(throwable).isInstanceOf(InternalServiceException.class);
     }
 
     @Test

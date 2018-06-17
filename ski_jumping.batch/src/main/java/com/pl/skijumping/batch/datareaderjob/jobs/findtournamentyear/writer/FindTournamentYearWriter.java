@@ -7,6 +7,7 @@ import org.springframework.batch.item.ItemWriter;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class FindTournamentYearWriter implements ItemWriter<List<String>> {
     private final TournamentYearService tournamentYearService;
@@ -32,7 +33,7 @@ public class FindTournamentYearWriter implements ItemWriter<List<String>> {
         diagnosticMonitor.logInfo("Finish saving tournament years to database");
     }
 
-    private TournamentYearDTO saveYear(String year) {
-        return tournamentYearService.save(new TournamentYearDTO(null, year)).get();
+    private Optional<TournamentYearDTO> saveYear(String year) {
+        return tournamentYearService.save(new TournamentYearDTO(null, year));
     }
 }
