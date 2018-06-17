@@ -1,5 +1,6 @@
 package com.pl.skijumping.batch.dataimportjob.scheduler;
 
+import com.pl.skijumping.batch.util.JobRunner;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.springframework.batch.core.Job;
@@ -26,8 +27,8 @@ public class DataImportScheduler {
     private final DiagnosticMonitor diagnosticMonitor;
 
     public DataImportScheduler(JobLauncher jobLauncher,
-                               @Qualifier(DATA_IMPORT_JOB_NAME)Job dataImportJob,
-                               @Value("${skijumping.settings.scheduler.importData.enable}")Boolean isEnable,
+                               @Qualifier(DATA_IMPORT_JOB_NAME) Job dataImportJob,
+                               @Value("${skijumping.settings.scheduler.importData.enable}") Boolean isEnable,
                                DiagnosticMonitor diagnosticMonitor) {
         this.jobLauncher = jobLauncher;
         this.dataImportJob = dataImportJob;
@@ -37,23 +38,8 @@ public class DataImportScheduler {
 
     @Scheduled(cron = "${skijumping.settings.scheduler.importData.cron}")
     public JobExecution importData() throws InternalServiceException {
-        if(!isEnable) {
-            return null;
-        }
-        isEnable = false;
-        JobExecution jobExecution;
-        try {
-            diagnosticMonitor.logInfo(String.format("Starting job: %s", DATA_IMPORT_JOB_NAME));
-            jobExecution = jobLauncher.run(dataImportJob, new JobParameters());
-        } catch (JobExecutionAlreadyRunningException | JobRestartException
-                | JobInstanceAlreadyCompleteException | JobParametersInvalidException e) {
-            diagnosticMonitor.logError(String.format("Error during job %s", DATA_IMPORT_JOB_NAME), this.getClass());
-            throw new InternalServiceException(
-                    String.format("An error occurred while %s job", DATA_IMPORT_JOB_NAME), e);
-        }
-
-        diagnosticMonitor.logInfo(String.format("Finish successfully job %s", DATA_IMPORT_JOB_NAME));
-        isEnable = true;
-        return jobExecution;
+        JobRunner jobRunner = new JobRunner(
+                isEnable, diagnosticMonitor, jobLauncher, dataImportJob, DATA_IMPORT_JOB_NAME);
+        return jobRunner.run();
     }
 }

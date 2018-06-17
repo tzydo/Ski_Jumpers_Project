@@ -1,12 +1,14 @@
 package com.pl.skijumping.batch.datareaderjob.jobs.findtournamentyear;
 
-import com.pl.skijumping.batch.datareaderjob.jobs.findtournamentyear.processor.FindTournamentYearProcessor;
+import com.pl.skijumping.batch.datareaderjob.jobs.findtournamentyear.processor.FindTournamentYearProcessorBatch;
+import com.pl.skijumping.batch.datareaderjob.jobs.findtournamentyear.reader.FindTournamentYearReaderBatch;
 import com.pl.skijumping.batch.datareaderjob.jobs.findtournamentyear.writer.FindTournamentYearWriter;
-import com.pl.skijumping.batch.datareaderjob.reader.DataReaderBatch;
+import com.pl.skijumping.batch.listener.StepListener;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.service.TournamentYearService;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -18,8 +20,8 @@ import java.util.List;
 
 @Configuration
 public class FindTournamentYear {
-    private static final String FIND_TOURNAMENT_YEAR_JOB_NAME = "Find_Tournament_Year_Job";
-    private static final String FIND_TOURNAMENT_YEAR_STEP_NAME = "Find_Tournament_Year_Step";
+    public static final String FIND_TOURNAMENT_YEAR_JOB_NAME = "Find_Tournament_Year_Job";
+    public static final String FIND_TOURNAMENT_YEAR_STEP_NAME = "Find_Tournament_Year_Step";
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final TournamentYearService tournamentYearService;
@@ -45,32 +47,39 @@ public class FindTournamentYear {
                 .build();
     }
 
-    @Bean
+    @Bean(name = FIND_TOURNAMENT_YEAR_STEP_NAME)
     public Step findTournamentYearStep() {
         return stepBuilderFactory.get(FIND_TOURNAMENT_YEAR_STEP_NAME)
                 .<String,List<String>>chunk(1)
-                .reader(dataReaderBatch())
+                .reader(findTournamentYearReaderBatch())
                 .processor(findTournamentYearProcessor())
                 .writer(findTournamentYearWriter())
+                .listener(stepExecutionListener())
                 .build();
     }
 
     @Bean
     @StepScope
-    public DataReaderBatch dataReaderBatch() {
-        return new DataReaderBatch(this.filePath, this.diagnosticMonitor);
+    public FindTournamentYearReaderBatch findTournamentYearReaderBatch() {
+        return new FindTournamentYearReaderBatch(this.filePath, this.diagnosticMonitor);
     }
 
 
     @Bean
     @StepScope
-    public FindTournamentYearProcessor findTournamentYearProcessor() {
-        return new FindTournamentYearProcessor(diagnosticMonitor);
+    public FindTournamentYearProcessorBatch findTournamentYearProcessor() {
+        return new FindTournamentYearProcessorBatch(diagnosticMonitor);
     }
 
     @Bean
     @StepScope
     public FindTournamentYearWriter findTournamentYearWriter() {
         return new FindTournamentYearWriter(tournamentYearService, diagnosticMonitor);
+    }
+
+    @Bean
+    @StepScope
+    public StepExecutionListener stepExecutionListener() {
+        return new StepListener();
     }
 }
