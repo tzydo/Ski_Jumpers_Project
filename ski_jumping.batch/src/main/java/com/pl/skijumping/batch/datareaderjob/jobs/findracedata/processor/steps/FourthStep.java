@@ -6,7 +6,7 @@ import com.pl.skijumping.dto.DataRaceDTO;
 
 import java.util.List;
 import java.util.Optional;
-//ToDo zmienic nazwe na getCompetitionType
+
 public class FourthStep {
     private final String words;
     private final DiagnosticMonitor diagnosticMonitor;
@@ -19,7 +19,7 @@ public class FourthStep {
     public void setValue(DataRaceDTO dataRaceDTO) {
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
         Optional<List<String>> matchingWordsList = matchingWords.getRaceDataFourthStep(words);
-        if(!matchingWordsList.isPresent()) {
+        if (!matchingWordsList.isPresent()) {
             diagnosticMonitor.logError(
                     String.format("Not found any matching words for step four, in words: %s", words), getClass());
             return;
@@ -30,7 +30,7 @@ public class FourthStep {
     }
 
     private String getValue(List<String> words, int index) {
-        if(words == null || words.isEmpty() || words.size() <index) {
+        if (words == null || words.isEmpty() || words.size() < index) {
             return null;
         }
 

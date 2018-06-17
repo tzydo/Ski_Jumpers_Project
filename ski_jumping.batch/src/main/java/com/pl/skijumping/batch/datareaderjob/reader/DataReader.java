@@ -1,37 +1,42 @@
 package com.pl.skijumping.batch.datareaderjob.reader;
 
+import com.pl.skijumping.common.util.FileUtil;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.batch.item.ItemReader;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
-public class DataReaderBatch implements ItemReader<String> {
+public class DataReader {
     private final String filePath;
     private final DiagnosticMonitor diagnosticMonitor;
 
-    public DataReaderBatch(String filePath, DiagnosticMonitor diagnosticMonitor) {
+    public DataReader(String filePath, DiagnosticMonitor diagnosticMonitor) {
         this.filePath = filePath;
         this.diagnosticMonitor = diagnosticMonitor;
     }
 
-    @Override
     public String read() {
         diagnosticMonitor.logInfo(String.format("Start reading from file %s", filePath));
         List<String> fileLines;
         try {
-            fileLines = Files.readAllLines(Paths.get(filePath));
+            Optional<File> file = FileUtil.getFile(filePath);
+            if (!file.isPresent()) {
+                String errorMessage = "Cannot read from not existing file";
+                diagnosticMonitor.logError(errorMessage, getClass());
+                return null;
+            }
+
+            fileLines = Files.readAllLines(file.get().toPath());
             diagnosticMonitor.logInfo(String.format("Found %d lines to convert", fileLines.size()));
         } catch (IOException e) {
             diagnosticMonitor.logError(String.format("Cannot read content from file %s", filePath), getClass());
             return null;
         }
 
-        if (fileLines == null || fileLines.isEmpty()) {
+        if (fileLines.isEmpty()) {
             diagnosticMonitor.logInfo("File content is null or empty");
             return null;
         }

@@ -7,7 +7,7 @@ import com.pl.skijumping.dto.DataRaceDTO;
 
 import java.util.List;
 import java.util.Optional;
-//TODo zmienic nazwe na getRaceIdStep
+
 public class ThirdStep {
     private final String words;
     private final DiagnosticMonitor diagnosticMonitor;
@@ -34,7 +34,7 @@ public class ThirdStep {
     }
 
     private String getValue(List<String> words, int index) {
-        if(words == null || words.isEmpty() || words.size() < index) {
+        if (words == null || words.isEmpty() || words.size() < index) {
             return null;
         }
 
@@ -46,8 +46,10 @@ public class ThirdStep {
         try {
             raceId = Long.parseLong(dataList.get(0));
         } catch (NumberFormatException e) {
-            throw new InternalServiceException(
-                    String.format("Cannot parse word: %s to race id", dataList.get(0)));
+            String errorMessage = String.format("Cannot parse word: %s to race id",
+                    dataList.get(0));
+            diagnosticMonitor.logError(errorMessage, getClass());
+            throw new InternalServiceException(errorMessage);
         }
         return raceId;
     }

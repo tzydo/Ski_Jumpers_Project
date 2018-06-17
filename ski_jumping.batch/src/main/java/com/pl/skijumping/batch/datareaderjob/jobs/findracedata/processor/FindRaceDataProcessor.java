@@ -27,6 +27,7 @@ class FindRaceDataProcessor {
         Optional<List<String>> dateList = matchingWords.getRaceDate(readWords);
         if (!dateList.isPresent()) {
             diagnosticMonitor.logError("Cannot find matching dates in find race data processor", getClass());
+            return new ArrayList<>();
         }
 
         LocalDateSetter localDateSetter = new LocalDateSetter(dateList.get(), diagnosticMonitor);

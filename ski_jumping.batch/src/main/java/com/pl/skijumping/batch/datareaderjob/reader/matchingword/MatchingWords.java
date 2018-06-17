@@ -7,9 +7,11 @@ import java.util.Optional;
 
 public class MatchingWords {
     private final DiagnosticMonitor diagnosticMonitor;
+
     public MatchingWords(DiagnosticMonitor diagnosticMonitor) {
         this.diagnosticMonitor = diagnosticMonitor;
     }
+
     public Optional<List<String>> getTournamentYears(String words) {
         if (isEmpty(words)) return Optional.empty();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
@@ -21,6 +23,7 @@ public class MatchingWords {
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
         return findMatchingWords.getSeasonData(words, RegexpPattern.FIRST_STEP_DATA_RACE, true);
     }
+
     public Optional<List<String>> getRaceDataSecondStep(String words) {
         if (isEmpty(words)) return Optional.empty();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);

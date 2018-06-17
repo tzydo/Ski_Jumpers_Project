@@ -1,8 +1,8 @@
 package com.pl.skijumping.batch.datareaderjob.jobs.findracedata;
 
 import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.FindRaceDataProcessorBatch;
-import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.reader.FindRaceDataReaderBatch;
 import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.writer.FindRaceDataWriterBatch;
+import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.reader.DataReaderBatch;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.DataRaceDTO;
 import com.pl.skijumping.service.CompetitionTypeService;
@@ -18,10 +18,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Configuration
 public class FindRaceData {
-    private static final String FIND_RACE_DATA_YEAR_JOB_NAME = "Find_Race_Data_Job";
-    private static final String FIND_RACE_DATA_STEP_NAME = "Find_Race_Data_Step";
+    public static final String FIND_RACE_DATA_JOB_NAME = "Find_Race_Data_Job";
+    public static final String FIND_RACE_DATA_STEP_NAME = "Find_Race_Data_Step";
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final String filePath;
@@ -43,18 +45,18 @@ public class FindRaceData {
         this.diagnosticMonitor = diagnosticMonitor;
     }
 
-    @Bean(name = FIND_RACE_DATA_YEAR_JOB_NAME)
-    public Job findTournamentYearJob() {
-        return jobBuilderFactory.get(FIND_RACE_DATA_YEAR_JOB_NAME)
-                .start(findTournamentYearStep())
+    @Bean(name = FIND_RACE_DATA_JOB_NAME)
+    public Job findRaceDataJob() {
+        return jobBuilderFactory.get(FIND_RACE_DATA_JOB_NAME)
+                .start(findRaceDataStep())
                 .build();
     }
 
-    @Bean
-    public Step findTournamentYearStep() {
+    @Bean(name = FIND_RACE_DATA_STEP_NAME)
+    public Step findRaceDataStep() {
         return stepBuilderFactory.get(FIND_RACE_DATA_STEP_NAME)
-                .<String, DataRaceDTO>chunk(1)
-                .reader(findDataReaderBatch())
+                .<String, List<DataRaceDTO>>chunk(1)
+                .reader(dataReaderBatch())
                 .processor(findRaceDataProcessorBatch())
                 .writer(findRaceDataWriterBatch())
                 .build();
@@ -62,13 +64,13 @@ public class FindRaceData {
 
     @Bean
     @StepScope
-    public ItemStreamReader<String> findDataReaderBatch() {
-        return new FindRaceDataReaderBatch(this.filePath, this.diagnosticMonitor);
+    public ItemStreamReader<String> dataReaderBatch() {
+        return new DataReaderBatch(this.filePath, this.diagnosticMonitor);
     }
 
     @Bean
     @StepScope
-    public ItemProcessor<String, DataRaceDTO> findRaceDataProcessorBatch() {
+    public ItemProcessor<String, List<DataRaceDTO>> findRaceDataProcessorBatch() {
         return new FindRaceDataProcessorBatch(this.diagnosticMonitor);
     }
 

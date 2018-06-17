@@ -1,6 +1,6 @@
 package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.reader;
 
-import com.pl.skijumping.batch.datareaderjob.reader.DataReaderBatch;
+import com.pl.skijumping.batch.datareaderjob.reader.DataReader;
 import com.pl.skijumping.batch.datareaderjob.reader.matchingword.MatchingWords;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.springframework.batch.item.ExecutionContext;
@@ -11,12 +11,12 @@ import org.springframework.batch.item.support.ListItemReader;
 import java.util.List;
 import java.util.Optional;
 
-public class FindRaceDataReaderBatch implements ItemStreamReader<String> {
+public class DataReaderBatch implements ItemStreamReader<String> {
     private final String filePath;
     private final DiagnosticMonitor diagnosticMonitor;
     private ListItemReader<String> listItemReader;
 
-    public FindRaceDataReaderBatch(String filePath, DiagnosticMonitor diagnosticMonitor) {
+    public DataReaderBatch(String filePath, DiagnosticMonitor diagnosticMonitor) {
         this.filePath = filePath;
         this.diagnosticMonitor = diagnosticMonitor;
     }
@@ -32,8 +32,8 @@ public class FindRaceDataReaderBatch implements ItemStreamReader<String> {
 
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
-        DataReaderBatch dataReaderBatch = new DataReaderBatch(filePath, diagnosticMonitor);
-        String fileContent = dataReaderBatch.read();
+        DataReader dataReader = new DataReader(filePath, diagnosticMonitor);
+        String fileContent = dataReader.read();
         if (fileContent == null || fileContent.isEmpty()) {
             diagnosticMonitor.logError("Cannot read race data from file", getClass());
             return;
