@@ -44,6 +44,6 @@ public class DataReader {
         String fileContent = String.join("", fileLines);
 
         diagnosticMonitor.logInfo(String.format("Finish reading file from: %s", filePath));
-        return fileContent.replace("  ", "");
+        return fileContent.replaceAll("   ", "");
     }
 }

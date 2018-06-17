@@ -21,7 +21,7 @@ public class MatchingWords {
     public Optional<List<String>> getRaceDataFirstStep(String words) {
         if (isEmpty(words)) return Optional.empty();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getSeasonData(words, RegexpPattern.FIRST_STEP_DATA_RACE, true);
+        return findMatchingWords.getSeasonData(words, RegexpPattern.FIRST_STEP_DATA_RACE, false);
     }
 
     public Optional<List<String>> getRaceDataSecondStep(String words) {

@@ -13,7 +13,7 @@ public class FindTournamentYearDecider implements JobExecutionDecider {
 
     @Override
     public FlowExecutionStatus decide(JobExecution jobExecution, StepExecution stepExecution) {
-        ExitStatus exitStatus = jobExecution.getExitStatus();
+        ExitStatus exitStatus = stepExecution.getExitStatus();
         if(exitStatus.getExitCode().equals(ExitStatus.COMPLETED.getExitCode())) {
             return new FlowExecutionStatus(COMPLETE_TOURNAMENT_YEAR_FINDING);
         }

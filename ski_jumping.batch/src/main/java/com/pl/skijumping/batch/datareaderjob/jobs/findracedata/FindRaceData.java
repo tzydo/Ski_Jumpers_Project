@@ -3,12 +3,14 @@ package com.pl.skijumping.batch.datareaderjob.jobs.findracedata;
 import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.FindRaceDataProcessorBatch;
 import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.writer.FindRaceDataWriterBatch;
 import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.reader.DataReaderBatch;
+import com.pl.skijumping.batch.listener.StepListener;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.DataRaceDTO;
 import com.pl.skijumping.service.CompetitionTypeService;
 import com.pl.skijumping.service.DataRaceService;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -59,6 +61,7 @@ public class FindRaceData {
                 .reader(dataReaderBatch())
                 .processor(findRaceDataProcessorBatch())
                 .writer(findRaceDataWriterBatch())
+                .listener(stepListener())
                 .build();
     }
 
@@ -78,5 +81,10 @@ public class FindRaceData {
     @StepScope
     public FindRaceDataWriterBatch findRaceDataWriterBatch() {
         return new FindRaceDataWriterBatch(this.competitionTypeService, dataRaceService, diagnosticMonitor);
+    }
+
+    @Bean
+    public StepExecutionListener stepListener() {
+        return new StepListener();
     }
 }
