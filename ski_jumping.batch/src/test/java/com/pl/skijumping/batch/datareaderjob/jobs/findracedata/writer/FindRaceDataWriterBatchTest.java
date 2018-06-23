@@ -2,8 +2,10 @@ package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.writer;
 
 import com.pl.skijumping.batch.BatchApplicationTest;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
+import com.pl.skijumping.dto.CompetitionNameDTO;
 import com.pl.skijumping.dto.CompetitionTypeDTO;
 import com.pl.skijumping.dto.DataRaceDTO;
+import com.pl.skijumping.service.CompetitionNameService;
 import com.pl.skijumping.service.CompetitionTypeService;
 import com.pl.skijumping.service.DataRaceService;
 import org.assertj.core.api.Assertions;
@@ -31,6 +33,8 @@ public class FindRaceDataWriterBatchTest {
     @Autowired
     private CompetitionTypeService competitionTypeService;
     @Autowired
+    private CompetitionNameService competitionNameService;
+    @Autowired
     private DataRaceService dataRaceService;
 
     @Test
@@ -38,7 +42,7 @@ public class FindRaceDataWriterBatchTest {
     public void writeWhenNullTest() {
         List<DataRaceDTO> expectedDataRaceDTOList = dataRaceService.findAll();
         FindRaceDataWriterBatch findRaceDataWriterBatch =
-                new FindRaceDataWriterBatch(competitionTypeService, dataRaceService, diagnosticMonitor);
+                new FindRaceDataWriterBatch(competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor);
         findRaceDataWriterBatch.write(null);
         findRaceDataWriterBatch.write(new ArrayList<>());
 
@@ -50,24 +54,29 @@ public class FindRaceDataWriterBatchTest {
     @Test
     @Transactional
     public void writeTest() {
-        DataRaceDTO dataRaceDTO = new DataRaceDTO().builder().raceId(1L).date(LocalDate.now()).competitionName("name").competitionType("type")
+        DataRaceDTO dataRaceDTO = new DataRaceDTO().builder()
+                .raceId(1L).date(LocalDate.now()).competitionName("name").competitionType("type")
                 .city("city").shortCountryName("sName").build();
 
-        FindRaceDataWriter findRaceDataWriter = new FindRaceDataWriter(competitionTypeService,
-                dataRaceService, diagnosticMonitor);
+        FindRaceDataWriter findRaceDataWriter = new FindRaceDataWriter(
+                competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor);
         findRaceDataWriter.write(Arrays.asList(dataRaceDTO));
 
         List<CompetitionTypeDTO> actualCompetitionTypeDTOList = competitionTypeService.findAll();
         Assertions.assertThat(actualCompetitionTypeDTOList).isNotEmpty();
         Assertions.assertThat(actualCompetitionTypeDTOList).hasSize(1);
-        Assertions.assertThat(actualCompetitionTypeDTOList.get(0).getCompetitionName()).isEqualTo("name");
-        Assertions.assertThat(actualCompetitionTypeDTOList.get(0).getCompetitionType()).isEqualTo("type");
+        Assertions.assertThat(actualCompetitionTypeDTOList.get(0).getType()).isEqualTo("type");
+
+        List<CompetitionNameDTO> actualCompetitionNameDTOList = competitionNameService.findAll();
+        Assertions.assertThat(actualCompetitionNameDTOList).isNotEmpty();
+        Assertions.assertThat(actualCompetitionNameDTOList).hasSize(1);
+        Assertions.assertThat(actualCompetitionNameDTOList.get(0).getName()).isEqualTo("name");
 
         List<DataRaceDTO> actualDataRaceDTOList = dataRaceService.findAll();
         Assertions.assertThat(actualDataRaceDTOList).isNotEmpty();
         Assertions.assertThat(actualDataRaceDTOList).hasSize(1);
 
         dataRaceDTO.setId(actualCompetitionTypeDTOList.get(0).getId());
-        Assertions.assertThat(actualCompetitionTypeDTOList.get(0)).isEqualToComparingFieldByFieldRecursively(dataRaceDTO);
+        Assertions.assertThat(actualDataRaceDTOList.get(0)).isEqualToComparingFieldByFieldRecursively(dataRaceDTO);
     }
 }

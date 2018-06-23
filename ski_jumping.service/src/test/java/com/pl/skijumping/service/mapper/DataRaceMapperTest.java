@@ -1,9 +1,11 @@
 package com.pl.skijumping.service.mapper;
 
 import com.pl.skijumping.domain.entity.DataRace;
+import com.pl.skijumping.dto.CompetitionNameDTO;
 import com.pl.skijumping.dto.CompetitionTypeDTO;
 import com.pl.skijumping.dto.DataRaceDTO;
 import com.pl.skijumping.service.ApplicationTest;
+import com.pl.skijumping.service.CompetitionNameService;
 import com.pl.skijumping.service.CompetitionTypeService;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -25,17 +27,22 @@ public class DataRaceMapperTest {
     private DataRaceMapper dataRaceMapper;
     @Autowired
     private CompetitionTypeService competitionTypeService;
+    @Autowired
+    private CompetitionNameService competitionNameService;
 
     @Test
     @Transactional
     public void toDTO() {
         LocalDate localDate = LocalDate.now();
         CompetitionTypeDTO competitionTypeDTO = competitionTypeService.save(
-                new CompetitionTypeDTO().builder().competitionType("type").competitionName("name").build());
+                new CompetitionTypeDTO().builder().type("type").build());
+        CompetitionNameDTO competitionNameDTO = competitionNameService.save(
+                new CompetitionNameDTO().builder().name("name").build());
 
         DataRace dataRace = new DataRace().builder()
                 .city("city")
                 .competitionTypeId(competitionTypeDTO.getId())
+                .competitionNameId(competitionNameDTO.getId())
                 .date(localDate)
                 .id(1l)
                 .raceId(1l)
@@ -62,7 +69,7 @@ public class DataRaceMapperTest {
 
         DataRace dataRace = new DataRace().builder()
                 .city("city")
-                .competitionTypeId(2L)
+                .competitionTypeId(-1L)
                 .date(localDate)
                 .id(1l)
                 .raceId(1l)
@@ -88,8 +95,9 @@ public class DataRaceMapperTest {
     public void fromDTO() {
         LocalDate localDate = LocalDate.now();
         CompetitionTypeDTO competitionTypeDTO = competitionTypeService.save(
-                new CompetitionTypeDTO().builder().competitionType("type").competitionName("name").build());
-
+                new CompetitionTypeDTO().builder().type("type").build());
+        CompetitionNameDTO competitionNameDTO = competitionNameService.save(
+                new CompetitionNameDTO().builder().name("name").build());
 
         DataRaceDTO dataRaceDTO = new DataRaceDTO().builder()
                 .city("city")
@@ -104,6 +112,7 @@ public class DataRaceMapperTest {
         DataRace expectedDataRace = new DataRace().builder()
                 .city("city")
                 .competitionTypeId(competitionTypeDTO.getId())
+                .competitionNameId(competitionNameDTO.getId())
                 .date(localDate)
                 .id(1l)
                 .raceId(1l)

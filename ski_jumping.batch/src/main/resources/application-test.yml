@@ -5,10 +5,10 @@ skijumping:
     fileName: ${FILE_NAME:tmp/SkiJumping.txt}
     scheduler:
       importData:
-        cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/20 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:true}
+        cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/1 * * * *}
+        enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:false}
       synchronize:
-        cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0/20 * * * *}
+        cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0/1 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:true}
 spring:
   jpa:
@@ -23,3 +23,6 @@ spring:
     password: ${PASSWORD:}
   profiles:
     active: ${DEV_PROFILE:test}
+  batch:
+    job:
+      enabled: ${ENABLE:false}

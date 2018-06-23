@@ -27,7 +27,7 @@ public class CompetitionTypeServiceTest {
     @Test
     @Transactional
     public void saveTest() {
-        CompetitionTypeDTO competitionTypeDTO = new CompetitionTypeDTO(null, "type", "name");
+        CompetitionTypeDTO competitionTypeDTO = new CompetitionTypeDTO(null, "type");
 
         CompetitionTypeService competitionTypeService = new CompetitionTypeService(competitionTypeRepository, competitionTypeMapper);
         competitionTypeService.save(competitionTypeDTO);
@@ -58,22 +58,22 @@ public class CompetitionTypeServiceTest {
 
     @Test
     @Transactional
-    public void findByTypeAndNameTest() {
+    public void findByTypeTest() {
         CompetitionTypeService competitionTypeService = new CompetitionTypeService(competitionTypeRepository, competitionTypeMapper);
-         competitionTypeService.save(new CompetitionTypeDTO(null, "type", "name"));
-         competitionTypeService.save(new CompetitionTypeDTO(null, "type2", "name2"));
-         competitionTypeService.save(new CompetitionTypeDTO(null, "type3", "name3"));
+        competitionTypeService.save(new CompetitionTypeDTO(null, "type"));
+        competitionTypeService.save(new CompetitionTypeDTO(null, "type2"));
+        competitionTypeService.save(new CompetitionTypeDTO(null, "type3"));
 
-        Optional<CompetitionTypeDTO> competitionTypeDTO = competitionTypeService.findByTypeAndName("type", "name");
+        Optional<CompetitionTypeDTO> competitionTypeDTO = competitionTypeService.findByType("type");
         Assertions.assertThat(competitionTypeDTO.isPresent()).isTrue();
-        Assertions.assertThat(competitionTypeDTO.get().getCompetitionType()).isEqualTo("type");
-        Assertions.assertThat(competitionTypeDTO.get().getCompetitionName()).isEqualTo("name");
+        Assertions.assertThat(competitionTypeDTO.get()).isEqualTo(new CompetitionTypeDTO(competitionTypeDTO.get().getId(), "type"));
+
     }
 
     @Test
-    public void findByTypeAndNameWhenNullTest() {
+    public void findByTypeWhenNullTest() {
         CompetitionTypeService competitionTypeService = new CompetitionTypeService(competitionTypeRepository, competitionTypeMapper);
-        Optional<CompetitionTypeDTO> competitionTypeDTO = competitionTypeService.findByTypeAndName(null, "test");
+        Optional<CompetitionTypeDTO> competitionTypeDTO = competitionTypeService.findByType("test");
 
         Assertions.assertThat(competitionTypeDTO.isPresent()).isFalse();
     }

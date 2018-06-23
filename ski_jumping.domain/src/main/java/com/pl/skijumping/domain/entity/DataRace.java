@@ -33,6 +33,11 @@ public class DataRace {
 //    @JoinColumn(name = "competition_type_id")
     private Long competitionTypeId;
 
+    //    @ManyToOne
+    @Column(name = "competition_name")
+//    @JoinColumn(name = "competition_type_id")
+    private Long competitionNameId;
+
     @Column(name = "race_id", nullable = false, unique = true)
     private Long raceId;
 }

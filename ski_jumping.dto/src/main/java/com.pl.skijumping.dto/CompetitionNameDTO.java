@@ -7,7 +7,7 @@ import lombok.*;
 @Data
 @EqualsAndHashCode
 @Builder
-public class CompetitionTypeDTO {
+public class CompetitionNameDTO {
     private Long id;
-    private String type;
+    private String name;
 }

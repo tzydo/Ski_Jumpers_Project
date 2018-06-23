@@ -55,14 +55,13 @@ public class CompetitionTypeService {
         return competitionTypeMapper.toDTO(competitionTypeList);
     }
 
-    public Optional<CompetitionTypeDTO> findByTypeAndName(String type, String name) {
-        if (type == null || name == null) {
+    public Optional<CompetitionTypeDTO> findByType(String type) {
+        if (type == null) {
             return Optional.empty();
         }
 
         QCompetitionType qCompetitionType = QCompetitionType.competitionType1;
-        BooleanExpression pattern = qCompetitionType.competitionName.eq(name)
-                .and(qCompetitionType.competitionType.eq(type));
+        BooleanExpression pattern = qCompetitionType.competitionType.eq(type);
 
         CompetitionType competitionType = (CompetitionType) competitionTypeRepository.findOne(pattern);
         if (competitionType == null) {

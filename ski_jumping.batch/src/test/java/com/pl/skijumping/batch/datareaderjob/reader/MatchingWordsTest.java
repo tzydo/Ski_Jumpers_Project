@@ -58,7 +58,10 @@ public class MatchingWordsTest {
         Assertions.assertThat(seasonDataMatchWords.get()).isNotEmpty();
         Assertions.assertThat(seasonDataMatchWords.get().size()).isEqualTo(3);
         Assertions.assertThat(seasonDataMatchWords.get()).
-                containsAll(Arrays.asList("testText", "secondTestText", "thirdTestText"));
+                containsAll(Arrays.asList(
+                        "<div class=\"date\">testText<!-- date-content -->",
+                        "<div class=\"date\">secondTestText<!-- date-content -->",
+                        "<div class=\"date\">thirdTestText<!-- date-content -->"));
     }
 
     @Test

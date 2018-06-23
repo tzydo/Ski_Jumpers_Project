@@ -6,6 +6,7 @@ import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.reader.DataReader
 import com.pl.skijumping.batch.listener.StepListener;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.DataRaceDTO;
+import com.pl.skijumping.service.CompetitionNameService;
 import com.pl.skijumping.service.CompetitionTypeService;
 import com.pl.skijumping.service.DataRaceService;
 import org.springframework.batch.core.Job;
@@ -30,6 +31,7 @@ public class FindRaceData {
     private final StepBuilderFactory stepBuilderFactory;
     private final String filePath;
     private final CompetitionTypeService competitionTypeService;
+    private final CompetitionNameService competitionNameService;
     private final DataRaceService dataRaceService;
     private final DiagnosticMonitor diagnosticMonitor;
 
@@ -37,12 +39,14 @@ public class FindRaceData {
                         StepBuilderFactory stepBuilderFactory,
                         @Value("${skijumping.settings.fileName}") String filePath,
                         CompetitionTypeService competitionTypeService,
+                        CompetitionNameService competitionNameService,
                         DataRaceService dataRaceService,
                         DiagnosticMonitor diagnosticMonitor) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
         this.filePath = filePath;
         this.competitionTypeService = competitionTypeService;
+        this.competitionNameService = competitionNameService;
         this.dataRaceService = dataRaceService;
         this.diagnosticMonitor = diagnosticMonitor;
     }
@@ -80,7 +84,8 @@ public class FindRaceData {
     @Bean
     @StepScope
     public FindRaceDataWriterBatch findRaceDataWriterBatch() {
-        return new FindRaceDataWriterBatch(this.competitionTypeService, dataRaceService, diagnosticMonitor);
+        return new FindRaceDataWriterBatch(
+                competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor);
     }
 
     @Bean

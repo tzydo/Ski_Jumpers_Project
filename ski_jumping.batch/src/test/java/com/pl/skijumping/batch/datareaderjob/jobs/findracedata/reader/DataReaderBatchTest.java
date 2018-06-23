@@ -39,13 +39,13 @@ public class DataReaderBatchTest {
     }
 
     @Test
-    public void openWhenIncorrectRegexpTest() throws IOException {
+    public void openTest() throws IOException {
         diagnosticMonitor = SetupUtilTests.getDiagnosticMonitorMock();
         DataReaderBatch findRaceDataReaderBatch =
                 new DataReaderBatch("testSkiJumper.txt", diagnosticMonitor);
         findRaceDataReaderBatch.open(executionContext);
         String readValue = findRaceDataReaderBatch.read();
-        Assertions.assertThat(readValue).isNull();
+        Assertions.assertThat(readValue).isNotNull();
     }
 
     @Test

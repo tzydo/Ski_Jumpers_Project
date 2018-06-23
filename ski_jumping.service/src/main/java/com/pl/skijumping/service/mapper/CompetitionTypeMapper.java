@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CompetitionTypeMapper {
-    @Mapping(source = "id", target = "id")
+    @Mapping(source = "type", target = "competitionType")
     CompetitionType fromDTO(CompetitionTypeDTO competitionTypeDTO);
     List<CompetitionType> fromDTO(List<CompetitionTypeDTO> competitionTypeDTO);
 

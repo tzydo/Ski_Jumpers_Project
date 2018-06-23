@@ -3,6 +3,7 @@ package com.pl.skijumping.service;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.domain.entity.DataRace;
 import com.pl.skijumping.domain.repository.DataRaceRepository;
+import com.pl.skijumping.dto.CompetitionNameDTO;
 import com.pl.skijumping.dto.CompetitionTypeDTO;
 import com.pl.skijumping.service.mapper.DataRaceMapper;
 import org.assertj.core.api.Assertions;
@@ -30,15 +31,18 @@ public class DataRaceServiceTest {
     private DiagnosticMonitor diagnosticMonitor;
     @Autowired
     private CompetitionTypeService competitionTypeService;
+    @Autowired
+    private CompetitionNameService competitionNameService;
 
     @Test
     @Transactional
     public void findByDataRaceTest() {
-        CompetitionTypeDTO competitionTypeDTO = competitionTypeService.save(new CompetitionTypeDTO(null, "type", "name"));
+        CompetitionTypeDTO competitionTypeDTO = competitionTypeService.save(new CompetitionTypeDTO(null, "type"));
+        CompetitionNameDTO competitionNameDTO = competitionNameService.save(new CompetitionNameDTO(null, "name"));
 
-        DataRace dataRace = dataRaceRepository.save(new DataRace(null, LocalDate.now(), "city", "pol", competitionTypeDTO.getId(), 1l));
-        dataRaceRepository.save(new DataRace(null, LocalDate.now(), "city2", "pol2", competitionTypeDTO.getId(), 2l));
-        dataRaceRepository.save(new DataRace(null, LocalDate.now(), "city3", "pol3", competitionTypeDTO.getId(), 3l));
+        DataRace dataRace = dataRaceRepository.save(new DataRace(null, LocalDate.now(), "city", "pol", competitionTypeDTO.getId(), competitionNameDTO.getId(), 1l));
+        dataRaceRepository.save(new DataRace(null, LocalDate.now(), "city2", "pol2", competitionTypeDTO.getId(), competitionNameDTO.getId(), 2l));
+        dataRaceRepository.save(new DataRace(null, LocalDate.now(), "city3", "pol3", competitionTypeDTO.getId(), competitionNameDTO.getId(), 3l));
 
         DataRaceService dataRaceService = new DataRaceService(dataRaceRepository,
                 dataRaceMapper, diagnosticMonitor);
@@ -49,7 +53,7 @@ public class DataRaceServiceTest {
 
     @Test
     public void findByDataRaceWhenDoesNotExistTest() {
-        DataRace dataRace = new DataRace(null, LocalDate.now(), "city", "pol", 1l, 1l);
+        DataRace dataRace = new DataRace(null, LocalDate.now(), "city", "pol", 1l, 1l, 1l);
         DataRaceService dataRaceService = new DataRaceService(dataRaceRepository,
                 dataRaceMapper, diagnosticMonitor);
         Optional<DataRace> actualDataRace = dataRaceService.findByDataRace(dataRace);
