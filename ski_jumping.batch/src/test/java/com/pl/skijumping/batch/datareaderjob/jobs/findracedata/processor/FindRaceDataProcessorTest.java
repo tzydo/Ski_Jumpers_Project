@@ -38,11 +38,10 @@ public class FindRaceDataProcessorTest {
         List<DataRaceDTO> expectedDataRaceDTOList = Arrays.asList(
                 new DataRaceDTO().builder()
                         .date(LocalDate.of(2018, 3, 25)).raceId(4961l).city("Planica")
-                        .shortCountryName("SLO").competitionName("World Cup").competitionType("Men's HS240").build(),
+                        .shortCountryName("SLO").competitionName("Men's HS240").competitionType("World Cup").build(),
                 new DataRaceDTO().builder()
                         .date(LocalDate.of(2018, 3, 25)).raceId(5015l).city("Oberstdorf")
-                        .shortCountryName("GER").competitionName("World Cup").competitionType("Ladies' HS106").build()
-        );
+                        .shortCountryName("GER").competitionName("Ladies' HS106").competitionType("World Cup").build());
         FindRaceDataProcessor findRaceDataProcessor = new FindRaceDataProcessor(words, diagnosticMonitor);
         List<DataRaceDTO> actualMatchingWordsList = findRaceDataProcessor.findData();
         Assertions.assertThat(actualMatchingWordsList).isNotEmpty();

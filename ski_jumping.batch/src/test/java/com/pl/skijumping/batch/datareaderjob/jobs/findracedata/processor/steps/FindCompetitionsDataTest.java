@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class FourthStepTest {
+public class FindCompetitionsDataTest {
 
     @Mock
     DiagnosticMonitor diagnosticMonitor;
@@ -23,21 +23,21 @@ public class FourthStepTest {
     public void setValueTest() {
         DataRaceDTO dataRaceDTO = new DataRaceDTO();
 
-        FourthStep fourthStep = new FourthStep(testWords, diagnosticMonitor);
-        fourthStep.setValue(dataRaceDTO);
+        FindCompetitionsData findCompetitionsData = new FindCompetitionsData(testWords, diagnosticMonitor);
+        findCompetitionsData.setValue(dataRaceDTO);
 
         Assertions.assertThat(dataRaceDTO.getCompetitionName()).isNotNull();
-        Assertions.assertThat(dataRaceDTO.getCompetitionName()).isEqualTo("World Cup");
+        Assertions.assertThat(dataRaceDTO.getCompetitionName()).isEqualTo("Men's HS240");
         Assertions.assertThat(dataRaceDTO.getCompetitionType()).isNotNull();
-        Assertions.assertThat(dataRaceDTO.getCompetitionType()).isEqualTo("Men's HS240");
+        Assertions.assertThat(dataRaceDTO.getCompetitionType()).isEqualTo("World Cup");
     }
 
     @Test
     public void setValueWhenNotFoundTest() {
         DataRaceDTO dataRaceDTO = new DataRaceDTO();
 
-        FourthStep fourthStep = new FourthStep("<h6>Planica</h6>div><p>", diagnosticMonitor);
-        fourthStep.setValue(dataRaceDTO);
+        FindCompetitionsData findCompetitionsData = new FindCompetitionsData("<h6>Planica</h6>div><p>", diagnosticMonitor);
+        findCompetitionsData.setValue(dataRaceDTO);
 
         Assertions.assertThat(dataRaceDTO.getCompetitionName()).isNull();
         Assertions.assertThat(dataRaceDTO.getCompetitionType()).isNull();
@@ -47,11 +47,11 @@ public class FourthStepTest {
     public void setValueWhenFoundOnlyOneTest() {
         DataRaceDTO dataRaceDTO = new DataRaceDTO();
 
-        FourthStep fourthStep = new FourthStep(
+        FindCompetitionsData findCompetitionsData = new FindCompetitionsData(
                 "<h6>Planica</h6>div><p>World Cup</p>", diagnosticMonitor);
-        fourthStep.setValue(dataRaceDTO);
+        findCompetitionsData.setValue(dataRaceDTO);
 
-        Assertions.assertThat(dataRaceDTO.getCompetitionName()).isEqualTo("World Cup");
-        Assertions.assertThat(dataRaceDTO.getCompetitionType()).isNull();
+        Assertions.assertThat(dataRaceDTO.getCompetitionName()).isNull();
+        Assertions.assertThat(dataRaceDTO.getCompetitionType()).isEqualTo("World Cup");
     }
 }

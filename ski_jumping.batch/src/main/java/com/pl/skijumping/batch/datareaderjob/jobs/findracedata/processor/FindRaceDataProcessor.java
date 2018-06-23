@@ -1,6 +1,6 @@
 package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor;
 
-import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.steps.FourthStep;
+import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.steps.FindCompetitionsData;
 import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.steps.ThirdStep;
 import com.pl.skijumping.batch.datareaderjob.reader.matchingword.MatchingWords;
 import com.pl.skijumping.common.exception.InternalServiceException;
@@ -51,8 +51,8 @@ class FindRaceDataProcessor {
             ThirdStep thirdStep = new ThirdStep(foundMatchingWords, diagnosticMonitor);
             dataRaceDTO = thirdStep.setValues(dataRaceDTO);
 
-            FourthStep fourthStep = new FourthStep(foundMatchingWords, diagnosticMonitor);
-            fourthStep.setValue(dataRaceDTO);
+            FindCompetitionsData findCompetitionsData = new FindCompetitionsData(foundMatchingWords, diagnosticMonitor);
+            findCompetitionsData.setValue(dataRaceDTO);
             dataRaceDTOList.add(dataRaceDTO);
         }
 

@@ -7,11 +7,11 @@ import com.pl.skijumping.dto.DataRaceDTO;
 import java.util.List;
 import java.util.Optional;
 
-public class FourthStep {
+public class FindCompetitionsData {
     private final String words;
     private final DiagnosticMonitor diagnosticMonitor;
 
-    public FourthStep(String readWords, DiagnosticMonitor diagnosticMonitor) {
+    public FindCompetitionsData(String readWords, DiagnosticMonitor diagnosticMonitor) {
         this.words = readWords;
         this.diagnosticMonitor = diagnosticMonitor;
     }
@@ -25,8 +25,8 @@ public class FourthStep {
             return;
         }
 
-        dataRaceDTO.setCompetitionName(getValue(matchingWordsList.get(), 0));
-        dataRaceDTO.setCompetitionType(getValue(matchingWordsList.get(), 2));
+        dataRaceDTO.setCompetitionType(getValue(matchingWordsList.get(), 0));
+        dataRaceDTO.setCompetitionName(getValue(matchingWordsList.get(), 2));
     }
 
     private String getValue(List<String> words, int index) {
