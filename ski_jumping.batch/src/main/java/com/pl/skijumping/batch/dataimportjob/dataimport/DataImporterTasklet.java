@@ -2,8 +2,6 @@ package com.pl.skijumping.batch.dataimportjob.dataimport;
 
 import com.pl.skijumping.client.HtmlDownloader;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -11,7 +9,6 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 
 public class DataImporterTasklet implements Tasklet {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataImporterTasklet.class);
     private final String host;
     private final String directory;
     private final String fileName;
@@ -36,9 +33,9 @@ public class DataImporterTasklet implements Tasklet {
             return RepeatStatus.FINISHED;
         }
 
-        HtmlDownloader fileDownloader = new HtmlDownloader(this.fileName, this.host);
+        HtmlDownloader fileDownloader = new HtmlDownloader();
         diagnosticMonitor.logInfo("Start downloading html source");
-        String filePath = fileDownloader.downloadSource();
+        String filePath = fileDownloader.downloadSource(this.fileName, this.host);
 
         if (filePath == null) {
             errorMessage = "Job data import FAILED";

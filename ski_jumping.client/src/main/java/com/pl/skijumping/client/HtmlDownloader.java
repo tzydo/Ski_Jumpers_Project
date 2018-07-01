@@ -5,6 +5,7 @@ import com.pl.skijumping.common.util.FileUtil;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.URL;
@@ -12,24 +13,18 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.util.Optional;
 
-public class HtmlDownloader {
+@Component
+public class HtmlDownloader implements IHtmlDownloader {
     private static final Logger LOGGER = LoggerFactory.getLogger(HtmlDownloader.class);
-    private final String filePath;
-    private final String host;
 
-    public HtmlDownloader(String filePath, String host) {
-        this.filePath = filePath;
-        this.host = host;
-    }
-
-    public String downloadSource() throws IOException, InternalServiceException {
+    public String downloadSource(String filePath, String host) throws IOException, InternalServiceException {
         Optional<File> file = FileUtil.getFile(filePath);
         if (!file.isPresent()) {
             LOGGER.error("File doesn't exist");
             return null;
         }
 
-        InputStream inputStream = getConnection(this.host);
+        InputStream inputStream = getConnection(host);
         if (inputStream == null) {
             return null;
         }

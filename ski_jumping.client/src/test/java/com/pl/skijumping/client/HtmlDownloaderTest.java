@@ -40,8 +40,8 @@ public class HtmlDownloaderTest {
     public void getDataTest() throws IOException, InternalServiceException {
         FileUtil.createDirectory(TMP_DIRECTORY);
         FileUtil.createFile(TMP_FILE_PATH);
-        HtmlDownloader htmlDownloader = new HtmlDownloader(TMP_FILE_PATH, host);
-        String synchronize = htmlDownloader.downloadSource();
+        HtmlDownloader htmlDownloader = new HtmlDownloader();
+        String synchronize = htmlDownloader.downloadSource(TMP_FILE_PATH, host);
 
         Assertions.assertThat(synchronize).isNotEmpty();
         Path filePath = Paths.get(synchronize);
@@ -57,17 +57,17 @@ public class HtmlDownloaderTest {
 
     @Test
     public void getDataWhenFileDoesNotExistTest() throws IOException, InternalServiceException {
-        HtmlDownloader htmlDownloader = new HtmlDownloader(TMP_FILE_PATH, host);
-        Assertions.assertThat(htmlDownloader.downloadSource()).isEqualTo(null);
+        HtmlDownloader htmlDownloader = new HtmlDownloader();
+        Assertions.assertThat(htmlDownloader.downloadSource(TMP_FILE_PATH, host)).isEqualTo(null);
     }
 
     @Test
     public void getDataWhenNullHostTest() {
         FileUtil.createDirectory(TMP_DIRECTORY);
         FileUtil.createFile(TMP_FILE_PATH);
-        HtmlDownloader htmlDownloader = new HtmlDownloader(TMP_FILE_PATH, null);
+        HtmlDownloader htmlDownloader = new HtmlDownloader();
 
-        Throwable throwable = Assertions.catchThrowable(() -> htmlDownloader.downloadSource());
+        Throwable throwable = Assertions.catchThrowable(() -> htmlDownloader.downloadSource(TMP_FILE_PATH, null));
 
         Assertions.assertThat(throwable).isInstanceOf(InternalServiceException.class);
     }
@@ -76,9 +76,9 @@ public class HtmlDownloaderTest {
     public void getDataWhenIncorrectHostTest() {
         FileUtil.createDirectory(TMP_DIRECTORY);
         FileUtil.createFile(TMP_FILE_PATH);
-        HtmlDownloader htmlDownloader = new HtmlDownloader(TMP_FILE_PATH, "testValue");
+        HtmlDownloader htmlDownloader = new HtmlDownloader();
 
-        Throwable throwable = Assertions.catchThrowable(() -> htmlDownloader.downloadSource());
+        Throwable throwable = Assertions.catchThrowable(() -> htmlDownloader.downloadSource(TMP_FILE_PATH, "testValue"));
 
         Assertions.assertThat(throwable).isInstanceOf(IOException.class);
     }

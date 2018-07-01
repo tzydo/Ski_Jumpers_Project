@@ -23,7 +23,7 @@ public class FindRaceDataScheduler {
 
     public FindRaceDataScheduler(JobLauncher jobLauncher,
                                  @Qualifier(FIND_RACE_DATA_JOB_NAME) Job findTournamentYearJob,
-                                 @Value("${skijumping.settings.scheduler.findracedata.enable}") Boolean isEnable,
+                                 @Value("${skijumping.settings.scheduler.findRaceData.enable}") Boolean isEnable,
                                  DiagnosticMonitor diagnosticMonitor) {
         this.jobLauncher = jobLauncher;
         this.dataImportJob = findTournamentYearJob;
@@ -31,7 +31,7 @@ public class FindRaceDataScheduler {
         this.diagnosticMonitor = diagnosticMonitor;
     }
 
-    @Scheduled(cron = "${skijumping.settings.scheduler.findracedata.cron}")
+    @Scheduled(cron = "${skijumping.settings.scheduler.findRaceData.cron}")
     public JobExecution importData() throws InternalServiceException {
         JobRunner jobRunner = new JobRunner(isEnable, diagnosticMonitor, jobLauncher, dataImportJob, FIND_RACE_DATA_STEP_NAME);
         return jobRunner.run();

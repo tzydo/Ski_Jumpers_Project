@@ -2,6 +2,7 @@
 skijumping:
   settings:
     host: ${HOST:http://www.fis-ski.com/ski-jumping/events-and-places/results/}
+    hostWithFilterForYear: ${HOST:http://www.fis-ski.com/ski-jumping/events-and-places/results/?season=}
     directory: ${DIRECTORY:tmp}
     fileName: ${FILE_NAME:tmp/SkiJumping.txt}
     scheduler:
@@ -14,13 +15,17 @@ skijumping:
         cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/30 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:false}
       #Second step
-      findtournamentyear:
-        cron: ${SKI_JUMPING_SETTINGS_FIND_TOURNAMENT_YEAR:0 0/30 * * * *}
+      findTournamentYear:
+        cron: ${SKI_JUMPING_SETTINGS_FIND_TOURNAMENT_YEAR_CRON:0 0/30 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_FIND_TOURNAMENT_YEAR_ENABLE:false}
       #Third Step
-      findracedata:
-        cron: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA:0 0/30 * * * *}
+      findRaceData:
+        cron: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_CRON:0 0/30 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_ENABLE:false}
+      #Fourth Step
+      basicDataSynchronize:
+        cron: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_CRON:0 0/30 * * * *}
+        enable: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_ENABLE:false}
 spring:
   profiles:
     active: ${DEV_PROFILE:dev}

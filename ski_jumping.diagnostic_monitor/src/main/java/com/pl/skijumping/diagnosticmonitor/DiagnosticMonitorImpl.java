@@ -24,4 +24,9 @@ public class DiagnosticMonitorImpl implements DiagnosticMonitor {
     public void logInfo(String infoMessage) {
         LOGGER.info(infoMessage);
     }
+
+    @Override
+    public void logWarn(String warnMessage) {
+        LOGGER.warn(warnMessage);
+    }
 }

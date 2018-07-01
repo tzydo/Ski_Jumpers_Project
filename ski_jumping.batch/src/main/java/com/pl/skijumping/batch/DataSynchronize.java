@@ -3,14 +3,13 @@ package com.pl.skijumping.batch;
 import com.pl.skijumping.batch.dataimportjob.configuration.DataImporter;
 import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.FindRaceData;
 import com.pl.skijumping.batch.datareaderjob.jobs.findtournamentyear.FindTournamentYear;
+import com.pl.skijumping.batch.datasynchronize.configuration.BasicDataSynchronize;
 import com.pl.skijumping.batch.decider.DataImportDecider;
+import com.pl.skijumping.batch.decider.FindRaceDataDecider;
 import com.pl.skijumping.batch.decider.FindTournamentYearDecider;
-import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.flow.JobExecutionDecider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -21,25 +20,22 @@ public class DataSynchronize {
     public static final String DATA_SYNCHRONIZE_JOB = "Data_Synchronize_Job";
     public static final String DATA_SYNCHRONIZE_STEP_NAME = "Data_Synchronize_Step";
     private final JobBuilderFactory jobBuilder;
-    private final StepBuilderFactory stepBuilder;
-    private final DiagnosticMonitor diagnosticMonitor;
     private final Step dataImporterStep;
     private final Step findTournamentYearStep;
+    private final Step basicDataSynchronizeStep;
     private final Step findRaceDataStep;
 
     public DataSynchronize(
             JobBuilderFactory jobBuilder,
-            StepBuilderFactory stepBuilder,
             @Qualifier(value = DataImporter.DATA_IMPORTER_STEP_NAME) Step dataImporterStep,
             @Qualifier(value = FindTournamentYear.FIND_TOURNAMENT_YEAR_STEP_NAME) Step findTournamentYearStep,
             @Qualifier(value = FindRaceData.FIND_RACE_DATA_STEP_NAME) Step findRaceDataStep,
-            DiagnosticMonitor diagnosticMonitor) {
+            @Qualifier(value = BasicDataSynchronize.BASIC_DATA_SYNCHRONIZE_STEP_NAME) Step basicDataSynchronizeStep) {
         this.jobBuilder = jobBuilder;
-        this.stepBuilder = stepBuilder;
         this.dataImporterStep = dataImporterStep;
         this.findTournamentYearStep = findTournamentYearStep;
         this.findRaceDataStep = findRaceDataStep;
-        this.diagnosticMonitor = diagnosticMonitor;
+        this.basicDataSynchronizeStep = basicDataSynchronizeStep;
     }
 
     @Bean(name = DATA_SYNCHRONIZE_JOB)
@@ -52,18 +48,27 @@ public class DataSynchronize {
 
                 .from(findTournamentYearStep).next(findTournamentYearDecider())
                 .on(FindTournamentYearDecider.FAILED_TOURNAMENT_YEAR_FINDING).end()
-                .on(FindTournamentYearDecider.COMPLETE_TOURNAMENT_YEAR_FINDING).to(findRaceDataStep).end()
+                .on(FindTournamentYearDecider.COMPLETE_TOURNAMENT_YEAR_FINDING).to(findRaceDataStep)
 
+                .from(findRaceDataStep).next(findRaceDataDecider())
+                .on(FindRaceDataDecider.ERROR_FIND_RACE_DATA).end()
+                .on(FindRaceDataDecider.COMPLETE_FIND_RACE_DATA).to(basicDataSynchronizeStep)
+                .end()
                 .build();
     }
 
     @Bean
-    public JobExecutionDecider dataImportDecider(){
+    public JobExecutionDecider dataImportDecider() {
         return new DataImportDecider();
     }
 
     @Bean
     public JobExecutionDecider findTournamentYearDecider() {
         return new FindTournamentYearDecider();
+    }
+
+    @Bean
+    public JobExecutionDecider findRaceDataDecider() {
+        return new FindRaceDataDecider();
     }
 }

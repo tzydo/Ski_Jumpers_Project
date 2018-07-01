@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableBatchProcessing
-@EntityScan(basePackageClasses = {BatchApplication.class, Jsr310JpaConverters.class })
+@EntityScan(basePackageClasses = {BatchApplication.class, Jsr310JpaConverters.class})
 @SpringBootApplication(scanBasePackages = "com.pl.skijumping.*")
 @EnableScheduling
 @EnableJpaRepositories(basePackages = "com.pl.skijumping.domain.repository")
