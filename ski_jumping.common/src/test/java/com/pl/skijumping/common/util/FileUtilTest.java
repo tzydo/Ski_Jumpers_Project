@@ -5,11 +5,14 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 public class FileUtilTest {
 
     private static final String TEST_FILE = "testFile.txt";
+    private static final String SECOND_TEST_FILE = "secondTestFile.txt";
+    private static final String THIRD_TEST_FILE = "thirdTestFile.txt";
     private static final String TEST_DIRECTORY = "testDirectory";
     private static final String TEST_PATH = "testDirectory" + File.separator + "testFile.txt";
 
@@ -80,5 +83,29 @@ public class FileUtilTest {
     public void createFileWhenNullTest() {
         boolean isCreate = FileUtil.createFile(null);
         Assertions.assertThat(isCreate).isFalse();
+    }
+
+    @Test
+    public void getFilesFromPath() throws IOException {
+        String resourcePath = FileUtil.getResourcePath();
+        File directory = new File(resourcePath + File.separator + TEST_DIRECTORY);
+        directory.mkdir();
+
+        File file = new File(directory.getPath() + File.separator + TEST_FILE);
+        file.createNewFile();
+        File secondFile = new File(directory.getPath() + File.separator + SECOND_TEST_FILE);
+        secondFile.createNewFile();
+        File thirdFile = new File(directory.getPath() + File.separator + THIRD_TEST_FILE);
+        thirdFile.createNewFile();
+
+
+        Optional<List<File>> actualFile = FileUtil.getFilesFromPath(TEST_DIRECTORY);
+        Assertions.assertThat(actualFile.isPresent()).isTrue();
+        Assertions.assertThat(actualFile.get()).hasSize(3);
+
+        file.delete();
+        secondFile.delete();
+        thirdFile.delete();
+        directory.delete();
     }
 }

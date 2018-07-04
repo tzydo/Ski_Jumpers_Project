@@ -26,8 +26,6 @@ public class DataImporterTasklet implements Tasklet {
         String errorMessage;
         FilePreparation filePreparation = new FilePreparation(directory, fileName);
         if (!filePreparation.prepare()) {
-            ExitStatus e = new ExitStatus(ExitStatus.FAILED.getExitCode(), "cos");
-            stepContribution.setExitStatus(e);
             errorMessage = String.format("Cannot create file %s in path: %s", fileName, directory);
             setExitStatus(stepContribution, errorMessage, ExitStatus.FAILED);
             return RepeatStatus.FINISHED;

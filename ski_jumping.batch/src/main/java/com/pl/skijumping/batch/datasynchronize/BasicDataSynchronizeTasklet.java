@@ -34,7 +34,6 @@ public class BasicDataSynchronizeTasklet implements Tasklet {
         BasicDataDownloader basicDataDownloader = new BasicDataDownloader(
                 tournamentYearService, hostWithYear, directory, htmlDownloader, diagnosticMonitor);
         ExitStatus exitStatus = basicDataDownloader.download();
-
         stepContribution.setExitStatus(exitStatus);
         return RepeatStatus.FINISHED;
     }

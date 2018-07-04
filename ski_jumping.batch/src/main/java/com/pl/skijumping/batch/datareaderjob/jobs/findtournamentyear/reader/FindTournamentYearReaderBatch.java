@@ -10,6 +10,7 @@ import org.springframework.batch.item.support.ListItemReader;
 import java.util.Arrays;
 
 public class FindTournamentYearReaderBatch implements ItemStreamReader<String> {
+    public final static String FILE_PATH = "FILE_PATH";
     private final String filePath;
     private final DiagnosticMonitor diagnosticMonitor;
     private ListItemReader<String> listItemReader;
@@ -36,6 +37,7 @@ public class FindTournamentYearReaderBatch implements ItemStreamReader<String> {
             diagnosticMonitor.logError("Cannot read race data from file", getClass());
             return;
         }
+        executionContext.put(FILE_PATH, filePath);
         listItemReader = new ListItemReader<>(Arrays.asList(fileContent));
     }
 
