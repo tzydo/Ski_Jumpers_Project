@@ -1,4 +1,4 @@
-package com.pl.skijumping.batch.datareaderjob.reader.matchingword;
+package com.pl.skijumping.batch.matchingword;
 
 class RegexpPattern {
     private RegexpPattern() {
@@ -10,4 +10,8 @@ class RegexpPattern {
     static final String THIRD_STEP_DATA_RACE = "data-race=\"(.+?)\".*big-flag-(.+?)\">.*<h6>(.+?)</h6>.*";
     static final String FOURTH_STEP_DATA_RACE = "<p>(.+?)</p>";
     static final String SEASON_DATE = ".*<div\\sclass=\"date\">.*\"date-day\">(.+?)</span>.*\"date-month\">(.+?)</span.*\"date-year\">(.+?)</span>";
+    static final String RESULT_SYNCHRONIZE_FILTER = "</thead>(.+?)</tbody>";
+    static final String RESULT_SYNCHRONIZE_FIRST_FILTER = "<tr>(.*?)</tr>";
+    static final String RESULT_SYNCHRONIZE_SECOND_FILTER = "<td .*?>([^<]+?)</td>*";
+    static final String RESULT_SYNCHRONIZE_SKIJUMPER_NAME = "<a .*?>([^<]+?)</a>";
 }

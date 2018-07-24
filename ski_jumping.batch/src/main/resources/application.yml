@@ -3,6 +3,7 @@ skijumping:
   settings:
     host: ${HOST:http://www.fis-ski.com/ski-jumping/events-and-places/results/}
     hostWithFilterForYear: ${HOST:http://www.fis-ski.com/ski-jumping/events-and-places/results/?season=}
+    skiJumpingResultsHost: ${HOST:https://data.fis-ski.com/dynamic/results.html?sector=JP&raceid=}
     directory: ${DIRECTORY:tmp}
     fileName: ${FILE_NAME:tmp/SkiJumping.txt}
     scheduler:

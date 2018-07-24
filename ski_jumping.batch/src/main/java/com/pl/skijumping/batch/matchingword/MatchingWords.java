@@ -1,4 +1,4 @@
-package com.pl.skijumping.batch.datareaderjob.reader.matchingword;
+package com.pl.skijumping.batch.matchingword;
 
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 
@@ -46,6 +46,32 @@ public class MatchingWords {
         if (isEmpty(words)) return Optional.empty();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
         return findMatchingWords.getSeasonData(words, RegexpPattern.SEASON_DATE, true);
+    }
+
+    public Optional<List<String>> getResultDataFilter(String words) {
+        if (isEmpty(words)) return Optional.empty();
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getSeasonData(words, RegexpPattern.RESULT_SYNCHRONIZE_FILTER, false,1);
+    }
+
+    public Optional<List<String>> getResultDataFirstStep(String words) {
+        if (isEmpty(words)) return Optional.empty();
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getSeasonData(words, RegexpPattern.RESULT_SYNCHRONIZE_FIRST_FILTER, false, 1);
+    }
+
+    public Optional<List<String>> getResultDataSecondStep(String words) {
+        if (isEmpty(words)) return Optional.empty();
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getSeasonData(words, RegexpPattern.RESULT_SYNCHRONIZE_SECOND_FILTER, false, 1);
+    }
+
+    public String getSkiJumperName(String words) {
+        if (isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        Optional<List<String>> skiJumperName = findMatchingWords.getSeasonData(words, RegexpPattern.RESULT_SYNCHRONIZE_SKIJUMPER_NAME, false, 1);
+
+        return skiJumperName.map(strings -> strings.get(0)).orElse(null);
     }
 
     private boolean isEmpty(String words) {

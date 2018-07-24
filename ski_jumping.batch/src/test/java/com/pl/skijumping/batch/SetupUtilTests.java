@@ -11,6 +11,7 @@ public class SetupUtilTests {
     public static final DiagnosticMonitor getDiagnosticMonitorMock() {
         DiagnosticMonitor mock = Mockito.mock(DiagnosticMonitor.class);
         doNothing().when(mock).logInfo(anyString());
+        doNothing().when(mock).logWarn(anyString());
         doNothing().when(mock).logError(anyString(), any());
         return mock;
     }

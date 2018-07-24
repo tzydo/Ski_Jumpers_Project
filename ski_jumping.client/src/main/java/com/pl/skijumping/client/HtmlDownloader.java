@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Optional;
 
@@ -43,7 +44,7 @@ public class HtmlDownloader implements IHtmlDownloader {
     }
 
     private InputStream getConnection(String host) throws IOException, InternalServiceException {
-        if(host == null) {
+        if (host == null) {
             throw new InternalServiceException("Cannot connect to null host");
         }
         URL connection = new URL(host);
@@ -58,5 +59,19 @@ public class HtmlDownloader implements IHtmlDownloader {
         }
         LOGGER.info("Download source successfully");
         return inputStream;
+    }
+
+    public String downloadToString(String host) throws IOException, InternalServiceException {
+        LOGGER.info("Start downloading from source: {}", host);
+        if(host == null || host.isEmpty()) {
+            LOGGER.error("Cannot download source from null host");
+            return null;
+        }
+        InputStream inputStream = getConnection(host);
+        String source = InputStreamConverter.convert(inputStream, StandardCharsets.UTF_8);
+        if(source == null || source.isEmpty()) {
+            LOGGER.warn(String.format("Empty source from host: %s", host));
+        }
+        return source;
     }
 }

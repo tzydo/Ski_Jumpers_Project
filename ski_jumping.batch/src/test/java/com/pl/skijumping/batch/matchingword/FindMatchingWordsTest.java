@@ -1,17 +1,14 @@
-package com.pl.skijumping.batch.datareaderjob.reader.matchingword;
+package com.pl.skijumping.batch.matchingword;
 
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FindMatchingWordsTest {

@@ -68,7 +68,8 @@ public class DataSynchronize {
 
                 .from(findRaceDataStep).next(findRaceDataDecider())
                 .on(FindRaceDataDecider.ERROR_FIND_RACE_DATA).end()
-                .on(FindRaceDataDecider.COMPLETE_FIND_RACE_DATA).to(basicDataImporterStep).next(basicDataSynchronizeStep)
+                .on(FindRaceDataDecider.COMPLETE_FIND_RACE_DATA).to(basicDataImporterStep)
+                .next(basicDataSynchronizeStep)
                 .end()
                 .build();
     }

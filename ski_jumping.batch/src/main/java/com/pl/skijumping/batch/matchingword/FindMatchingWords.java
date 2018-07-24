@@ -1,4 +1,4 @@
-package com.pl.skijumping.batch.datareaderjob.reader.matchingword;
+package com.pl.skijumping.batch.matchingword;
 
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 
@@ -16,6 +16,9 @@ class FindMatchingWords {
     }
 
     public Optional<List<String>> getSeasonData(String words, String regexp, Boolean exactMatch) {
+        return getSeasonData(words, regexp, exactMatch, null);
+    }
+    public Optional<List<String>> getSeasonData(String words, String regexp, Boolean exactMatch, Integer additionalParam) {
         if (words == null || words.isEmpty()) {
             diagnosticMonitor.logError("Cannot find matching words from null", getClass());
             return Optional.empty();
@@ -24,7 +27,7 @@ class FindMatchingWords {
         if (exactMatch) {
             return getExactMatchWordList(words, regexp);
         }
-        return getMatchWordList(words, regexp);
+        return getMatchWordList(words, regexp, additionalParam);
     }
 
     private Optional<List<String>> getExactMatchWordList(String words, String regexp) {
@@ -50,7 +53,7 @@ class FindMatchingWords {
         return Optional.of(matchingWordList);
     }
 
-    private Optional<List<String>> getMatchWordList(String words, String regexp) {
+    private Optional<List<String>> getMatchWordList(String words, String regexp, Integer additionalOption ) {
         if (words == null || regexp == null) {
             diagnosticMonitor.logError("Wrong parameters in matching words method. Parameter cannot be null", getClass());
             return Optional.empty();
@@ -58,13 +61,22 @@ class FindMatchingWords {
         Pattern pattern = Pattern.compile(regexp);
         ArrayList<String> matchingWordList = new ArrayList<>();
         Matcher matcher = pattern.matcher(words);
+        int matchingStandard = getAdditionalOption(additionalOption);
 
         while (matcher.find()) {
-                matchingWordList.add(matcher.group(0));
+                matchingWordList.add(matcher.group(matchingStandard));
         }
         if (matchingWordList.isEmpty()) {
             return Optional.empty();
         }
         return Optional.of(matchingWordList);
+    }
+
+    private int getAdditionalOption(Integer additionalValue) {
+        if(additionalValue == null) {
+            return 0;
+        }
+
+        return additionalValue;
     }
 }

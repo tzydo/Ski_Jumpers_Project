@@ -78,9 +78,9 @@ public class SkiJumperMapperTest {
     }
 
     private SkiJumperDTO createSkiJumperDTO(int value) {
-        return SkiJumperDTO.builder()
+        return new SkiJumperDTO()
                 .id(value)
                 .rank(value + 1)
-                .bib(value + 2).build();
+                .bib(value + 2);
     }
 }

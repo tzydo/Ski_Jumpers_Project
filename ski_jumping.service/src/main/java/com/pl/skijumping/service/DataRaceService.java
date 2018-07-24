@@ -99,4 +99,13 @@ public class DataRaceService {
         }
         return false;
     }
+
+    public List<Long> getRaceDataIds() {
+        List<Long> raceDataList = dataRaceRepository.getRaceDataList();
+        if(raceDataList.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return raceDataList;
+    }
 }

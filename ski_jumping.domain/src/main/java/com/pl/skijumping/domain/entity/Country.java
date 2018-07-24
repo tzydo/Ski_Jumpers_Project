@@ -1,7 +1,6 @@
 package com.pl.skijumping.domain.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +11,6 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "Country")
 public class Country implements Serializable {
 
@@ -20,4 +18,15 @@ public class Country implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
+
+
+    public Country id(int id) {
+        this.id = id;
+        return this;
+    }
+
+    public Country name(String name) {
+        this.name = name;
+        return this;
+    }
 }

@@ -82,4 +82,26 @@ public class HtmlDownloaderTest {
 
         Assertions.assertThat(throwable).isInstanceOf(IOException.class);
     }
+    
+    @Test
+    public void downloadToStringTest() throws IOException, InternalServiceException {
+        HtmlDownloader htmlDownloader = new HtmlDownloader();
+        String source = htmlDownloader.downloadToString(host);
+        Assertions.assertThat(source).isNotNull();
+        Assertions.assertThat(source).isNotEmpty();
+    }
+
+    @Test
+    public void downloadToStringWhenNullTest() throws IOException, InternalServiceException {
+        HtmlDownloader htmlDownloader = new HtmlDownloader();
+        String source = htmlDownloader.downloadToString(null);
+        Assertions.assertThat(source).isNull();
+    }
+
+    @Test
+    public void downloadToStringWhenEmptyTest() throws IOException, InternalServiceException {
+        HtmlDownloader htmlDownloader = new HtmlDownloader();
+        String source = htmlDownloader.downloadToString("");
+        Assertions.assertThat(source).isNull();
+    }
 }

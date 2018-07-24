@@ -1,7 +1,6 @@
-package com.pl.skijumping.batch.datareaderjob.reader;
+package com.pl.skijumping.batch.matchingword;
 
 import com.pl.skijumping.batch.SetupUtilTests;
-import com.pl.skijumping.batch.datareaderjob.reader.matchingword.MatchingWords;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
@@ -132,5 +131,56 @@ public class MatchingWordsTest {
         Assertions.assertThat(raceDate.isPresent()).isTrue();
         Assertions.assertThat(raceDate.get()).hasSize(3);
         Assertions.assertThat(raceDate.get()).containsAll(Arrays.asList("25", "MAR", "2018"));
+    }
+
+    @Test
+    public void getResultDataFilterTest() {
+        String words = "<tbody><thead></thead><tr><th data-hide='phone'>Points</th></tr></tbody>values";
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        Optional<List<String>> raceDate = matchingWords.getResultDataFilter(words);
+        Assertions.assertThat(raceDate.isPresent()).isTrue();
+        Assertions.assertThat(raceDate.get()).isNotEmpty();
+        Assertions.assertThat(raceDate.get()).isEqualTo(Arrays.asList("<tr><th data-hide='phone'>Points</th></tr>"));
+    }
+
+    @Test
+    public void getResultDataFirstStepTest() {
+        String words =
+                "</thead><tr><td class='i0' align='right'></tr>" +
+                        "<tr><td class='i1' align='right'></tr>"+
+                        "<tr><td class='i0' align='right'></tr></thead>";
+
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        Optional<List<String>> raceDate = matchingWords.getResultDataFirstStep(words);
+        Assertions.assertThat(raceDate.isPresent()).isTrue();
+        Assertions.assertThat(raceDate.get()).isNotEmpty();
+        Assertions.assertThat(raceDate.get()).hasSize(3);
+        Assertions.assertThat(raceDate.get()).isEqualTo(Arrays.asList(
+                "<td class='i0' align='right'>",
+                "<td class='i1' align='right'>",
+                "<td class='i0' align='right'>"));
+    }
+
+    @Test
+    public void getResultDataSecondStepTest() {
+        String words =
+                "<td class='i0' align='right'>1</td>" +
+                 "<td class='i1' align='right'>2</td>";
+
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        Optional<List<String>> raceDate = matchingWords.getResultDataSecondStep(words);
+        Assertions.assertThat(raceDate.isPresent()).isTrue();
+        Assertions.assertThat(raceDate.get()).isNotEmpty();
+        Assertions.assertThat(raceDate.get()).hasSize(2);
+        Assertions.assertThat(raceDate.get()).isEqualTo(Arrays.asList("1","2"));
+    }
+
+    @Test
+    public void getSkiJumperNameTest() {
+        String words = "test test <a test test>value value</a>test test";
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        String raceDate = matchingWords.getSkiJumperName(words);
+        Assertions.assertThat(raceDate).isNotEmpty();
+        Assertions.assertThat(raceDate).isEqualTo("value value");
     }
 }

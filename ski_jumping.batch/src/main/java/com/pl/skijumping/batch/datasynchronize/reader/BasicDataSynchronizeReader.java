@@ -1,7 +1,7 @@
 package com.pl.skijumping.batch.datasynchronize.reader;
 
 import com.pl.skijumping.batch.datareaderjob.reader.DataReader;
-import com.pl.skijumping.batch.datareaderjob.reader.matchingword.MatchingWords;
+import com.pl.skijumping.batch.matchingword.MatchingWords;
 import com.pl.skijumping.common.util.FileUtil;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 
@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("squid:S135")
 public class BasicDataSynchronizeReader {
     private final String directoryPath;
     private final DiagnosticMonitor diagnosticMonitor;

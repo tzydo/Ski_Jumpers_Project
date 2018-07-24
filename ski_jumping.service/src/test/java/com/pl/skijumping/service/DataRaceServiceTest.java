@@ -17,6 +17,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -59,5 +61,17 @@ public class DataRaceServiceTest {
         Optional<DataRace> actualDataRace = dataRaceService.findByDataRace(dataRace);
         Assertions.assertThat(actualDataRace.isPresent()).isFalse();
         Assertions.assertThat(actualDataRace).isEqualTo(Optional.empty());
+    }
+
+    @Test
+    @Transactional
+    public void getRaceDataIdListTest() {
+        dataRaceRepository.save(new DataRace(null, LocalDate.now(), "test", "t", null, null, 1L));
+
+        dataRaceRepository.save(new DataRace(null, LocalDate.now(), "test", "t", null, null, 2L));
+
+        List<Long> actualRaceDataList = dataRaceRepository.getRaceDataList();
+        Assertions.assertThat(actualRaceDataList).hasSize(2);
+        Assertions.assertThat(actualRaceDataList).containsAll(Arrays.asList(1L, 2L));
     }
 }
