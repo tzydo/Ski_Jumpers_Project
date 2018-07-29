@@ -12,61 +12,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Optional;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {CompetitionTypeMapper.class, CompetitionNameMapper.class} )
 public abstract class DataRaceMapper {
 
     @Autowired
     private CompetitionTypeService competitionTypeService;
     @Autowired
     private CompetitionNameService competitionNameService;
+    @Autowired
+    private CompetitionTypeMapper competitionTypeMapper;
+    @Autowired
+    private CompetitionNameMapper competitionNameMapper;
 
-    @Mapping(source = "dataRace.id", target = "id")
+    @Mappings({
+            @Mapping(source = "id", target = "id"),
+            @Mapping(source = "competitionType.competitionType", target = "competitionType"),
+            @Mapping(source = "competitionName.competitionName", target = "competitionName")
+    })
     public abstract DataRaceDTO toDTO(DataRace dataRace);
-
     public abstract List<DataRaceDTO> toDTO(List<DataRace> dataRaceList);
 
     @InheritInverseConfiguration
     public abstract DataRace fromDTO(DataRaceDTO dataRaceDTO);
-
     public abstract List<DataRace> fromDTO(List<DataRaceDTO> dataRaceDTOList);
 
     @AfterMapping
-    public DataRace setCompetitionTypeID(@MappingTarget DataRace dataRace, DataRaceDTO dataRaceDTO) {
-        if (dataRaceDTO.getCompetitionName() == null || dataRaceDTO.getCompetitionType() == null) {
-            return dataRace;
-        }
-
+    public DataRace setCompetitionType(@MappingTarget DataRace dataRace, DataRaceDTO dataRaceDTO) {
         Optional<CompetitionTypeDTO> competitionTypeDTO = competitionTypeService
                 .findByType(dataRaceDTO.getCompetitionType());
 
-        if (!competitionTypeDTO.isPresent()) {
-            dataRace.setCompetitionTypeId(null);
-            return dataRace;
-        }
-        dataRace.setCompetitionTypeId(competitionTypeDTO.get().getId());
+        dataRace.setCompetitionType(competitionTypeDTO.map(
+                competitionTypeDTO1 -> competitionTypeMapper.fromDTO(competitionTypeDTO1)).orElse(null));
 
         Optional<CompetitionNameDTO> competitionNameDTO = competitionNameService
                 .findByName(dataRaceDTO.getCompetitionName());
 
-        if (!competitionNameDTO.isPresent()) {
-            dataRace.setCompetitionNameId(null);
-            return dataRace;
-        }
-        dataRace.setCompetitionNameId(competitionNameDTO.get().getId());
+        dataRace.setCompetitionName(competitionNameDTO.map(
+                competitionNameDTO1 -> competitionNameMapper.fromDTO(competitionNameDTO1)).orElse(null));
+
         return dataRace;
-    }
-
-    @AfterMapping
-    public DataRaceDTO setCompetitionTypeID(@MappingTarget DataRaceDTO dataRaceDTO, DataRace dataRace) {
-        Optional<CompetitionTypeDTO> competitionTypeDTO =
-                competitionTypeService.find(dataRace.getCompetitionTypeId());
-
-        Optional<CompetitionNameDTO> competitionNameDTO =
-                competitionNameService.find(dataRace.getCompetitionNameId());
-
-        dataRaceDTO.setCompetitionType(competitionTypeDTO.map(CompetitionTypeDTO::getType).orElse(null));
-        dataRaceDTO.setCompetitionName(competitionNameDTO.map(CompetitionNameDTO::getName).orElse(null));
-
-        return dataRaceDTO;
     }
 }

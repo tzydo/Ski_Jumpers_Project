@@ -41,7 +41,6 @@ public class DataRaceService {
             return null;
         }
         DataRace dataRace = dataRaceMapper.fromDTO(dataRaceDTO);
-        if (isCompetitionType(dataRace)) return dataRaceDTO;
         Optional<DataRace> foundDataRace;
         try {
             foundDataRace = findByDataRace(dataRace);
@@ -63,7 +62,6 @@ public class DataRaceService {
             return null;
         }
 
-        if (isCompetitionType(dataRace)) return dataRace;
         Optional<DataRace> foundDataRace = findByDataRace(dataRace);
         return foundDataRace.orElseGet(() -> dataRaceRepository.save(dataRace));
     }
@@ -79,7 +77,8 @@ public class DataRaceService {
                         .and(qDataRace.city.eq(dataRace.getCity()))
                         .and(qDataRace.shortCountryName.eq(dataRace.getShortCountryName()))
                         .and(qDataRace.raceId.eq(dataRace.getRaceId()))
-                        .and(qDataRace.competitionTypeId.eq(dataRace.getCompetitionTypeId()));
+                        .and(qDataRace.competitionName().eq(dataRace.getCompetitionName()))
+                        .and(qDataRace.competitionType().eq(dataRace.getCompetitionType()));
 
         DataRace foundDataRace = (DataRace) dataRaceRepository.findOne(booleanExpression);
 
@@ -88,16 +87,6 @@ public class DataRaceService {
         }
 
         return Optional.of(foundDataRace);
-    }
-
-    private boolean isCompetitionType(DataRace dataRace) {
-        if (dataRace.getCompetitionTypeId() == null) {
-            diagnosticMonitor.logError(String.format(
-                    "Cannot save dataRace, competition type cannot be null for object: %s",
-                    dataRace.toString()), getClass());
-            return true;
-        }
-        return false;
     }
 
     public List<Long> getRaceDataIds() {

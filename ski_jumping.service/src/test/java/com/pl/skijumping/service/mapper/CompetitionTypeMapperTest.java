@@ -39,15 +39,15 @@ public class CompetitionTypeMapperTest {
     @Test
     public void fromDTOListTest() {
         List<CompetitionType> expectedCompetitionTypeList = Arrays.asList(
-                new CompetitionType().builder().competitionType("type").id(1l).build(),
-                new CompetitionType().builder().competitionType("type2").id(2l).build(),
-                new CompetitionType().builder().competitionType("type3").id(3l).build()
+                new CompetitionType().competitionType("type").id(1l),
+                new CompetitionType().competitionType("type2").id(2l),
+                new CompetitionType().competitionType("type3").id(3l)
         );
 
         List<CompetitionTypeDTO> competitionTypeDTOList = Arrays.asList(
-                new CompetitionTypeDTO().builder().type("type").id(1l).build(),
-                new CompetitionTypeDTO().builder().type("type2").id(2l).build(),
-                new CompetitionTypeDTO().builder().type("type3").id(3l).build()
+                new CompetitionTypeDTO().type("type").id(1l),
+                new CompetitionTypeDTO().type("type2").id(2l),
+                new CompetitionTypeDTO().type("type3").id(3l)
         );
 
         Assertions.assertThat(competitionTypeMapper.fromDTO(competitionTypeDTOList)).containsAll(expectedCompetitionTypeList);
@@ -70,15 +70,15 @@ public class CompetitionTypeMapperTest {
     @Test
     public void toDTOListTest() {
         List<CompetitionType> competitionTypeList = Arrays.asList(
-                new CompetitionType().builder().competitionType("type").id(1l).build(),
-                new CompetitionType().builder().competitionType("type2").id(2l).build(),
-                new CompetitionType().builder().competitionType("type3").id(3l).build()
+                new CompetitionType().competitionType("type").id(1l),
+                new CompetitionType().competitionType("type2").id(2l),
+                new CompetitionType().competitionType("type3").id(3l)
         );
 
         List<CompetitionTypeDTO> expectedCompetitionTypeDTOList = Arrays.asList(
-                new CompetitionTypeDTO().builder().type("type").id(1l).build(),
-                new CompetitionTypeDTO().builder().type("type2").id(2l).build(),
-                new CompetitionTypeDTO().builder().type("type3").id(3l).build()
+                new CompetitionTypeDTO().type("type").id(1l),
+                new CompetitionTypeDTO().type("type2").id(2l),
+                new CompetitionTypeDTO().type("type3").id(3l)
         );
 
         Assertions.assertThat(competitionTypeMapper.toDTO(competitionTypeList)).containsAll(expectedCompetitionTypeDTOList);

@@ -2,19 +2,27 @@ package com.pl.skijumping.dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
 public class SkiJumperDTO {
-    private int id;
+    private Long id;
     private int bib;
     private int fisCode;
     private String name;
+    private LocalDate birthday;
     private String nationality;
-    private JumpResultDTO jumpResult;
+    private String skiClub;
+    private String team;
+    private String gender;
+    private String martialStatus;
+    private List<JumpResultDTO> jumpResult;
 
-    public SkiJumperDTO id(int id) {
+    public SkiJumperDTO id(Long id) {
         this.id = id;
         return this;
     }
@@ -39,9 +47,33 @@ public class SkiJumperDTO {
         return this;
     }
 
+    public SkiJumperDTO skiClub(String skiClub) {
+        this.skiClub = skiClub;
+        return this;
+    }
 
-    public SkiJumperDTO jumpResult(JumpResultDTO jumpResult) {
+    public SkiJumperDTO team(String team) {
+        this.team = team;
+        return this;
+    }
+
+    public SkiJumperDTO martialStatus(String martialStatus) {
+        this.martialStatus = martialStatus;
+        return this;
+    }
+
+    public SkiJumperDTO jumpResult(List<JumpResultDTO> jumpResult) {
         this.jumpResult = jumpResult;
+        return this;
+    }
+
+    public SkiJumperDTO birthday(LocalDate birthday) {
+        this.birthday = birthday;
+        return this;
+    }
+
+    public SkiJumperDTO gender(String gender) {
+        this.gender = gender;
         return this;
     }
 }

@@ -5,6 +5,8 @@ import com.pl.skijumping.domain.entity.DataRace;
 import com.pl.skijumping.domain.repository.DataRaceRepository;
 import com.pl.skijumping.dto.CompetitionNameDTO;
 import com.pl.skijumping.dto.CompetitionTypeDTO;
+import com.pl.skijumping.service.mapper.CompetitionNameMapper;
+import com.pl.skijumping.service.mapper.CompetitionTypeMapper;
 import com.pl.skijumping.service.mapper.DataRaceMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -35,6 +37,11 @@ public class DataRaceServiceTest {
     private CompetitionTypeService competitionTypeService;
     @Autowired
     private CompetitionNameService competitionNameService;
+    @Autowired
+    private CompetitionNameMapper competitionNameMapper;
+    @Autowired
+    private CompetitionTypeMapper competitionTypeMapper;
+
 
     @Test
     @Transactional
@@ -42,9 +49,34 @@ public class DataRaceServiceTest {
         CompetitionTypeDTO competitionTypeDTO = competitionTypeService.save(new CompetitionTypeDTO(null, "type"));
         CompetitionNameDTO competitionNameDTO = competitionNameService.save(new CompetitionNameDTO(null, "name"));
 
-        DataRace dataRace = dataRaceRepository.save(new DataRace(null, LocalDate.now(), "city", "pol", competitionTypeDTO.getId(), competitionNameDTO.getId(), 1l));
-        dataRaceRepository.save(new DataRace(null, LocalDate.now(), "city2", "pol2", competitionTypeDTO.getId(), competitionNameDTO.getId(), 2l));
-        dataRaceRepository.save(new DataRace(null, LocalDate.now(), "city3", "pol3", competitionTypeDTO.getId(), competitionNameDTO.getId(), 3l));
+        DataRace dataRace = new DataRace()
+                .date(LocalDate.now())
+                .city("city")
+                .shortCountryName("pol")
+                .competitionType(competitionTypeMapper.fromDTO(competitionTypeDTO))
+                .competitionName(competitionNameMapper.fromDTO(competitionNameDTO))
+                .raceId(1L);
+
+        dataRace = dataRaceRepository.save(dataRace);
+
+
+        dataRaceRepository.save(new DataRace()
+                .date(LocalDate.now())
+                .city("city2")
+                .shortCountryName("pol2")
+                .competitionType(competitionTypeMapper.fromDTO(competitionTypeDTO))
+                .competitionName(competitionNameMapper.fromDTO(competitionNameDTO))
+                .raceId(2L));
+
+
+        dataRaceRepository.save(new DataRace()
+                .date(LocalDate.now())
+                .city("city3")
+                .shortCountryName("pol3")
+                .competitionType(competitionTypeMapper.fromDTO(competitionTypeDTO))
+                .competitionName(competitionNameMapper.fromDTO(competitionNameDTO))
+                .raceId(3L));
+
 
         DataRaceService dataRaceService = new DataRaceService(dataRaceRepository,
                 dataRaceMapper, diagnosticMonitor);
@@ -55,12 +87,18 @@ public class DataRaceServiceTest {
 
     @Test
     public void findByDataRaceWhenDoesNotExistTest() {
-        DataRace dataRace = new DataRace(null, LocalDate.now(), "city", "pol", 1l, 1l, 1l);
+        DataRace dataRace = new DataRace()
+                .date(LocalDate.now())
+                .city("city")
+                .shortCountryName("pol")
+                .raceId(1L);
+
+
         DataRaceService dataRaceService = new DataRaceService(dataRaceRepository,
                 dataRaceMapper, diagnosticMonitor);
         Optional<DataRace> actualDataRace = dataRaceService.findByDataRace(dataRace);
         Assertions.assertThat(actualDataRace.isPresent()).isFalse();
-        Assertions.assertThat(actualDataRace).isEqualTo(Optional.empty());
+        Assertions.assertThat(actualDataRace).isNull();
     }
 
     @Test

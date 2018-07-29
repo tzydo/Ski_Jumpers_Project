@@ -1,5 +1,7 @@
 package com.pl.skijumping.domain.entity;
 
+import com.pl.skijumping.domain.model.Gender;
+import com.pl.skijumping.domain.model.MaritalStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,7 @@ import java.util.List;
 public class SkiJumper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "bib")
     private int bib;
@@ -27,14 +29,12 @@ public class SkiJumper {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "surname")
-    private String surname;
-
     @Column(name = "birthday")
     private LocalDate birthday;
 
     @Column(name = "gender")
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Column(name = "nationality")
     private String nationality;
@@ -49,9 +49,10 @@ public class SkiJumper {
     private List<JumpResult> jumpResult;
 
     @Column(name = "martial_status")
-    private String martialStatus;
+    @Enumerated(EnumType.STRING)
+    private MaritalStatus martialStatus;
 
-    public SkiJumper id(int id) {
+    public SkiJumper id(Long id) {
         this.id = id;
         return this;
     }
@@ -71,18 +72,8 @@ public class SkiJumper {
         return this;
     }
 
-    public SkiJumper surname(String surname) {
-        this.surname = surname;
-        return this;
-    }
-
     public SkiJumper birthday(LocalDate birthday) {
         this.birthday = birthday;
-        return this;
-    }
-
-    public SkiJumper gender(String gender) {
-        this.gender = gender;
         return this;
     }
 
@@ -106,7 +97,12 @@ public class SkiJumper {
         return this;
     }
 
-    public SkiJumper martialStatus(String martialStatus) {
+    public SkiJumper gender(Gender gender) {
+        this.gender = gender;
+        return this;
+    }
+
+    public SkiJumper martialStatus(MaritalStatus martialStatus) {
         this.martialStatus = martialStatus;
         return this;
     }

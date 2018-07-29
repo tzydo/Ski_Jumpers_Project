@@ -11,13 +11,11 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface SkiJumperMapper {
 
-    @Mapping(source = "skiJumper.id", target = "id")
+    @Mapping(source = "id", target = "id")
     SkiJumperDTO toDTO(SkiJumper skiJumper);
-
     List<SkiJumperDTO> toDTO(List<SkiJumper> skiJumperList);
 
     @InheritInverseConfiguration
     SkiJumper fromDTO(SkiJumperDTO skiJumperDTO);
-
     List<SkiJumper> fromDTO(List<SkiJumperDTO> skiJumperList);
 }

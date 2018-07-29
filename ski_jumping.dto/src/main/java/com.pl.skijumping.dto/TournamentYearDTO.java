@@ -12,4 +12,14 @@ import lombok.NoArgsConstructor;
 public class TournamentYearDTO {
     private Long id;
     private String year;
+
+    public TournamentYearDTO id(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public TournamentYearDTO year(String year) {
+        this.year = year;
+        return this;
+    }
 }

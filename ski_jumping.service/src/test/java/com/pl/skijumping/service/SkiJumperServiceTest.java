@@ -4,11 +4,16 @@
 //import com.pl.skijumping.domain.repository.SkiJumperRepository;
 //import com.pl.skijumping.domain.dto.SkiJumperDTO;
 //import com.pl.skijumping.domain.entity.SkiJumper;
+//import com.pl.skijumping.dto.SkiJumperDTO;
+//import com.pl.skijumping.service.ApplicationTest;
+//import com.pl.skijumping.service.SkiJumperService;
+//import com.pl.skijumping.service.mapper.SkiJumperMapper;
 //import org.assertj.core.api.Assertions;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+//import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.test.context.ActiveProfiles;
 //import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //
@@ -22,7 +27,7 @@
 //
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ActiveProfiles("test")
-//@DataJpaTest
+//@SpringBootTest(classes = ApplicationTest.class)
 //public class SkiJumperServiceTest {
 //
 //    private static final int BIB = 1;
@@ -55,21 +60,10 @@
 //        SkiJumperService skiJumperService = new SkiJumperService(skiJumperRepository, skiJumperMapper);
 //        List<SkiJumperDTO> skiJumperDTOList = setupSkiJumperDTOList(skiJumperService);
 //
-//        Optional<List<SkiJumperDTO>> skiJumperListFromDB = skiJumperService.findAll();
-//        Assertions.assertThat(skiJumperListFromDB.isPresent()).isTrue();
-//        Assertions.assertThat(skiJumperListFromDB.get()).hasSize(skiJumperDTOList.size());
-//        Assertions.assertThat(skiJumperListFromDB.get()).isEqualTo(skiJumperDTOList);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void findByRankTest() {
-//        SkiJumperService skiJumperService = new SkiJumperService(skiJumperRepository, skiJumperMapper);
-//        List<SkiJumperDTO> skiJumperDTOList = setupSkiJumperDTOList(skiJumperService);
-//
-//        Optional<SkiJumperDTO> actualSkiJumperDTO = skiJumperService.findByRank(2);
-//        Assertions.assertThat(actualSkiJumperDTO.isPresent()).isTrue();
-//        Assertions.assertThat(skiJumperDTOList.contains(actualSkiJumperDTO.get())).isTrue();
+//        List<SkiJumperDTO> skiJumperListFromDB = skiJumperService.findAll();
+//        Assertions.assertThat(skiJumperListFromDB.isEmpty()).isFalse();
+//        Assertions.assertThat(skiJumperListFromDB).hasSize(skiJumperDTOList.size());
+//        Assertions.assertThat(skiJumperListFromDB).isEqualTo(skiJumperDTOList);
 //    }
 //
 //    @Test
@@ -84,29 +78,14 @@
 //    }
 //
 //    @Test
-//    @Transactional
-//    public void deleteByRankTest() {
-//        SkiJumperService skiJumperService = new SkiJumperService(skiJumperRepository, skiJumperMapper);
-//        setupSkiJumperDTOList(skiJumperService);
-//
-//        Boolean successfullyDeleted = skiJumperService.deleteByRank(1);
-//        Assertions.assertThat(successfullyDeleted).isTrue();
-//
-//        Optional<List<SkiJumperDTO>> skiJumpersFromDB = skiJumperService.findAll();
-//        Assertions.assertThat(skiJumpersFromDB.get()).hasSize(2);
-//        Assertions.assertThat(skiJumpersFromDB.get().get(0).getRank()).isNotEqualTo(1);
-//        Assertions.assertThat(skiJumpersFromDB.get().get(1).getRank()).isNotEqualTo(1);
-//    }
-//
-//    @Test
 //    public void deleteAllTest() {
 //        SkiJumperService skiJumperService = new SkiJumperService(skiJumperRepository, skiJumperMapper);
 //        setupSkiJumperDTOList(skiJumperService);
 //
 //        Boolean successfullyDeleted = skiJumperService.deleteAll();
 //        Assertions.assertThat(successfullyDeleted).isTrue();
-//        Optional<List<SkiJumperDTO>> skiJumpersFromDB = skiJumperService.findAll();
-//        Assertions.assertThat(skiJumpersFromDB.isPresent()).isFalse();
+//        List<SkiJumperDTO> skiJumpersFromDB = skiJumperService.findAll();
+//        Assertions.assertThat(skiJumpersFromDB.isEmpty()).isTrue();
 //        Assertions.assertThat(skiJumpersFromDB).isEqualTo(Optional.empty());
 //    }
 //

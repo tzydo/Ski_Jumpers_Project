@@ -19,10 +19,10 @@ public class JumpResult {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "data_race_id")
-    private DataRace dataRaceId;
+    private DataRace dataRace;
 
     @Column(name = "rank")
-    private Long rank;
+    private Integer rank;
 
     @Column(name = "first_jump")
     private double firstJump;
@@ -49,12 +49,12 @@ public class JumpResult {
         return this;
     }
 
-    public JumpResult dataRaceId(DataRace dataRaceId) {
-        this.dataRaceId = dataRaceId;
+    public JumpResult dataRace(DataRace dataRace) {
+        this.dataRace = dataRace;
         return this;
     }
 
-    public JumpResult rank(Long rank) {
+    public JumpResult rank(Integer rank) {
         this.rank = rank;
         return this;
     }

@@ -29,35 +29,37 @@ public class DataRaceMapperTest {
     private CompetitionTypeService competitionTypeService;
     @Autowired
     private CompetitionNameService competitionNameService;
+    @Autowired
+    private CompetitionTypeMapper competitionTypeMapper;
+    @Autowired
+    private CompetitionNameMapper competitionNameMapper;
 
     @Test
     @Transactional
-    public void toDTO() {
+    public void toDTOTest() {
         LocalDate localDate = LocalDate.now();
         CompetitionTypeDTO competitionTypeDTO = competitionTypeService.save(
-                new CompetitionTypeDTO().builder().type("type").build());
+                new CompetitionTypeDTO().type("type"));
         CompetitionNameDTO competitionNameDTO = competitionNameService.save(
-                new CompetitionNameDTO().builder().name("name").build());
+                new CompetitionNameDTO().name("name"));
 
-        DataRace dataRace = new DataRace().builder()
+        DataRace dataRace = new DataRace()
                 .city("city")
-                .competitionTypeId(competitionTypeDTO.getId())
-                .competitionNameId(competitionNameDTO.getId())
+                .competitionType(competitionTypeMapper.fromDTO(competitionTypeDTO))
+                .competitionName(competitionNameMapper.fromDTO(competitionNameDTO))
                 .date(localDate)
                 .id(1l)
                 .raceId(1l)
-                .shortCountryName("cit")
-                .build();
+                .shortCountryName("cit");
 
-        DataRaceDTO expectedDataRaceDTO = new DataRaceDTO().builder()
+        DataRaceDTO expectedDataRaceDTO = new DataRaceDTO()
                 .city("city")
                 .competitionName("name")
                 .competitionType("type")
                 .date(localDate)
                 .id(1l)
                 .raceId(1l)
-                .shortCountryName("cit")
-                .build();
+                .shortCountryName("cit");
 
         Assertions.assertThat(dataRaceMapper.toDTO(dataRace))
                 .isEqualToComparingFieldByFieldRecursively(expectedDataRaceDTO);
@@ -67,24 +69,21 @@ public class DataRaceMapperTest {
     public void toDTOWhenCompetitionTypeDoesNotExistTest() {
         LocalDate localDate = LocalDate.now();
 
-        DataRace dataRace = new DataRace().builder()
+        DataRace dataRace = new DataRace()
                 .city("city")
-                .competitionTypeId(-1L)
                 .date(localDate)
                 .id(1l)
                 .raceId(1l)
-                .shortCountryName("cit")
-                .build();
+                .shortCountryName("cit");
 
-        DataRaceDTO expectedDataRaceDTO = new DataRaceDTO().builder()
+        DataRaceDTO expectedDataRaceDTO = new DataRaceDTO()
                 .city("city")
                 .competitionName(null)
                 .competitionType(null)
                 .date(localDate)
                 .id(1l)
                 .raceId(1l)
-                .shortCountryName("cit")
-                .build();
+                .shortCountryName("cit");
 
         Assertions.assertThat(dataRaceMapper.toDTO(dataRace))
                 .isEqualToComparingFieldByFieldRecursively(expectedDataRaceDTO);
@@ -92,59 +91,54 @@ public class DataRaceMapperTest {
 
     @Test
     @Transactional
-    public void fromDTO() {
+    public void fromDTOTest() {
         LocalDate localDate = LocalDate.now();
         CompetitionTypeDTO competitionTypeDTO = competitionTypeService.save(
-                new CompetitionTypeDTO().builder().type("type").build());
+                new CompetitionTypeDTO().type("type"));
         CompetitionNameDTO competitionNameDTO = competitionNameService.save(
-                new CompetitionNameDTO().builder().name("name").build());
+                new CompetitionNameDTO().name("name"));
 
-        DataRaceDTO dataRaceDTO = new DataRaceDTO().builder()
+        DataRaceDTO dataRaceDTO = new DataRaceDTO()
                 .city("city")
                 .competitionName("name")
                 .competitionType("type")
                 .date(localDate)
                 .id(1l)
                 .raceId(1l)
-                .shortCountryName("cit")
-                .build();
+                .shortCountryName("cit");
 
-        DataRace expectedDataRace = new DataRace().builder()
+        DataRace expectedDataRace = new DataRace()
                 .city("city")
-                .competitionTypeId(competitionTypeDTO.getId())
-                .competitionNameId(competitionNameDTO.getId())
+                .competitionType(competitionTypeMapper.fromDTO(competitionTypeDTO))
+                .competitionName(competitionNameMapper.fromDTO(competitionNameDTO))
                 .date(localDate)
                 .id(1l)
                 .raceId(1l)
-                .shortCountryName("cit")
-                .build();
+                .shortCountryName("cit");
 
         Assertions.assertThat(dataRaceMapper.fromDTO(dataRaceDTO))
                 .isEqualToComparingFieldByFieldRecursively(expectedDataRace);
     }
 
     @Test
-    public void fromDTOWhenNull() {
+    public void fromDTOWhenNullTest() {
         LocalDate localDate = LocalDate.now();
 
-        DataRaceDTO dataRaceDTO = new DataRaceDTO().builder()
+        DataRaceDTO dataRaceDTO = new DataRaceDTO()
                 .city("city")
-                .competitionName(null)
-                .competitionType(null)
                 .date(localDate)
                 .id(1l)
                 .raceId(1l)
-                .shortCountryName("cit")
-                .build();
+                .shortCountryName("cit");
 
-        DataRace expectedDataRace = new DataRace().builder()
+        DataRace expectedDataRace = new DataRace()
                 .city("city")
-                .competitionTypeId(null)
+                .competitionType(null)
+                .competitionName(null)
                 .date(localDate)
                 .id(1l)
                 .raceId(1l)
-                .shortCountryName("cit")
-                .build();
+                .shortCountryName("cit");
 
         Assertions.assertThat(dataRaceMapper.fromDTO(dataRaceDTO))
                 .isEqualToComparingFieldByFieldRecursively(expectedDataRace);

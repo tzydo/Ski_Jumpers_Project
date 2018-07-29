@@ -52,7 +52,7 @@ public class CompetitionTypeServiceTest {
     @Test
     public void findWhenNotExistTest() {
         CompetitionTypeService competitionTypeService = new CompetitionTypeService(competitionTypeRepository, competitionTypeMapper);
-        Optional<CompetitionTypeDTO> competitionTypeDTO = competitionTypeService.find(1l);
+        Optional<CompetitionTypeDTO> competitionTypeDTO = competitionTypeService.find(-1l);
         Assertions.assertThat(competitionTypeDTO).isEqualTo(Optional.empty());
     }
 

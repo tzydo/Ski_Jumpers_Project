@@ -13,11 +13,9 @@ public interface CountryMapper {
 
     @Mapping(target = "id", source = "id")
     CountryDTO toDTO(Country country);
-
     List<CountryDTO> toDTO(List<Country> countryList);
 
     @InheritInverseConfiguration
     Country fromDTO(CountryDTO countryDTO);
-
     List<Country> fromDTO(List<CountryDTO> countryDTOList);
 }

@@ -53,4 +53,14 @@ public class JumpResultDTO implements Serializable {
         this.totalPoints = totalPoints;
         return this;
     }
+
+    public JumpResultDTO dataRaceId(Long dataRaceId) {
+        this.dataRaceId = dataRaceId;
+        return this;
+    }
+
+    public JumpResultDTO rank(int rank) {
+        this.rank = rank;
+        return this;
+    }
 }

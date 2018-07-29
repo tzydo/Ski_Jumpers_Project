@@ -1,4 +1,4 @@
-package com.pl.skijumping.domain.entity;
+package com.pl.skijumping.domain.model;
 
 public enum MaritalStatus {
     MARIED("maried"),

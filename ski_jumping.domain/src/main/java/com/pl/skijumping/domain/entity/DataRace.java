@@ -22,7 +22,7 @@ public class DataRace {
     private LocalDate date;
 
     @Column(name = "city", nullable = false)
-    private Long city;
+    private String city;
 
     @Column(name = "short_country_name", nullable = false)
     private String shortCountryName;
@@ -48,7 +48,7 @@ public class DataRace {
         return this;
     }
 
-    public DataRace city(Long city) {
+    public DataRace city(String city) {
         this.city = city;
         return this;
     }

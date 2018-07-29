@@ -18,16 +18,16 @@ import static org.junit.Assert.assertEquals;
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SkiJumperMapperTest {
-    private static final int FIRST_SKI_JUMPER_ID = 1;
+    private static final Long FIRST_SKI_JUMPER_ID = 1L;
     private static final String VALUES_ARE_NOT_EQUALS = "values are not equals";
-    private static final int SECOND_SKI_JUMPER_ID = 2;
-    private static final int THIRD_SKI_JUMPER_ID = 3;
+    private static final Long SECOND_SKI_JUMPER_ID = 2L;
+    private static final Long THIRD_SKI_JUMPER_ID = 3L;
 
     @Autowired
     private SkiJumperMapper skiJumperMapper;
 
     @Test
-    public void toDTOTest() throws Exception {
+    public void toDTOTest() {
         SkiJumper skiJumper = createSkiJumper(FIRST_SKI_JUMPER_ID);
         SkiJumperDTO skiJumperDTO = createSkiJumperDTO(FIRST_SKI_JUMPER_ID);
 
@@ -35,7 +35,7 @@ public class SkiJumperMapperTest {
     }
 
     @Test
-    public void toDTOListTest() throws Exception {
+    public void toDTOListTest() {
         List<SkiJumper> skiJumperList = Arrays.asList(createSkiJumper(FIRST_SKI_JUMPER_ID),
                 createSkiJumper(SECOND_SKI_JUMPER_ID),
                 createSkiJumper(THIRD_SKI_JUMPER_ID));
@@ -49,7 +49,7 @@ public class SkiJumperMapperTest {
     }
 
     @Test
-    public void fromDTOTest() throws Exception {
+    public void fromDTOTest() {
         SkiJumperDTO skiJumperDTO = createSkiJumperDTO(FIRST_SKI_JUMPER_ID);
         SkiJumper skiJumper = createSkiJumper(FIRST_SKI_JUMPER_ID);
 
@@ -57,7 +57,7 @@ public class SkiJumperMapperTest {
     }
 
     @Test
-    public void fromDTOListTest() throws Exception {
+    public void fromDTOListTest() {
         List<SkiJumper> skiJumperList = Arrays.asList(createSkiJumper(FIRST_SKI_JUMPER_ID),
                 createSkiJumper(SECOND_SKI_JUMPER_ID),
                 createSkiJumper(THIRD_SKI_JUMPER_ID));
@@ -70,17 +70,17 @@ public class SkiJumperMapperTest {
         assertEquals(VALUES_ARE_NOT_EQUALS, skiJumperList, skiJumperMapper.fromDTO(skiJumperDTOList));
     }
 
-    private SkiJumper createSkiJumper(int value) {
-        return SkiJumper.builder()
+    private SkiJumper createSkiJumper(Long value) {
+        return new SkiJumper()
                 .id(value)
-                .rank(value + 1)
-                .bib(value + 2).build();
+                .fisCode(value.intValue() + 1)
+                .bib(value.intValue() + 2);
     }
 
-    private SkiJumperDTO createSkiJumperDTO(int value) {
+    private SkiJumperDTO createSkiJumperDTO(Long value) {
         return new SkiJumperDTO()
                 .id(value)
-                .rank(value + 1)
-                .bib(value + 2);
+                .fisCode(value.intValue() + 1)
+                .bib(value.intValue() + 2);
     }
 }

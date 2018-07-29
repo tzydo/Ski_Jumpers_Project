@@ -12,11 +12,9 @@ import java.util.List;
 public interface CompetitionNameMapper {
     @Mapping(source = "name", target = "competitionName")
     CompetitionName fromDTO(CompetitionNameDTO competitionNameDTO);
-
     List<CompetitionName> fromDTO(List<CompetitionNameDTO> competitionNameDTO);
 
     @InheritInverseConfiguration
     CompetitionNameDTO toDTO(CompetitionName competitionName);
-
     List<CompetitionNameDTO> toDTO(List<CompetitionName> competitionName);
 }
