@@ -8,6 +8,8 @@ import com.pl.skijumping.dto.DataRaceDTO;
 import com.pl.skijumping.service.CompetitionNameService;
 import com.pl.skijumping.service.CompetitionTypeService;
 import com.pl.skijumping.service.DataRaceService;
+import com.pl.skijumping.service.mapper.CompetitionNameMapper;
+import com.pl.skijumping.service.mapper.CompetitionTypeMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,13 +38,17 @@ public class FindRaceDataWriterBatchTest {
     private CompetitionNameService competitionNameService;
     @Autowired
     private DataRaceService dataRaceService;
+    @Autowired
+    private CompetitionNameMapper competitionNameMapper;
+    @Autowired
+    private CompetitionTypeMapper competitionTypeMapper;
 
     @Test
     @Transactional
     public void writeWhenNullTest() {
         List<DataRaceDTO> expectedDataRaceDTOList = dataRaceService.findAll();
         FindRaceDataWriterBatch findRaceDataWriterBatch =
-                new FindRaceDataWriterBatch(competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor);
+                new FindRaceDataWriterBatch(competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor, competitionNameMapper, competitionTypeMapper);
         findRaceDataWriterBatch.write(null);
         findRaceDataWriterBatch.write(new ArrayList<>());
 
@@ -54,12 +60,12 @@ public class FindRaceDataWriterBatchTest {
     @Test
     @Transactional
     public void writeTest() {
-        DataRaceDTO dataRaceDTO = new DataRaceDTO().builder()
+        DataRaceDTO dataRaceDTO = new DataRaceDTO()
                 .raceId(1L).date(LocalDate.now()).competitionName("name").competitionType("type")
-                .city("city").shortCountryName("sName").build();
+                .city("city").shortCountryName("sName");
 
         FindRaceDataWriter findRaceDataWriter = new FindRaceDataWriter(
-                competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor);
+                competitionTypeService, competitionNameService, competitionTypeMapper, competitionNameMapper, dataRaceService, diagnosticMonitor);
         findRaceDataWriter.write(Arrays.asList(dataRaceDTO));
 
         List<CompetitionTypeDTO> actualCompetitionTypeDTOList = competitionTypeService.findAll();

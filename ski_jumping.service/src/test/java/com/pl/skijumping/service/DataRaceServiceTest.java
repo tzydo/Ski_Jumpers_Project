@@ -98,7 +98,7 @@ public class DataRaceServiceTest {
                 dataRaceMapper, diagnosticMonitor);
         Optional<DataRace> actualDataRace = dataRaceService.findByDataRace(dataRace);
         Assertions.assertThat(actualDataRace.isPresent()).isFalse();
-        Assertions.assertThat(actualDataRace).isNull();
+        Assertions.assertThat(actualDataRace).isEqualTo(Optional.empty());
     }
 
     @Test

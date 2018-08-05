@@ -23,20 +23,21 @@ public class SkiJumperMatcher {
             return Optional.empty();
         }
 // todo przemyslec co i jak
-        SkiJumperDTO skiJumperDTO = new SkiJumperDTO();
-        skiJumperDTO.setJumpResult(new JumpResultDTO());
-        skiJumperDTO.getJumpResult().setRank(getValue(resultDataSecondStep, 0));
-        skiJumperDTO.setBib(getValue(resultDataSecondStep, 1));
-        skiJumperDTO.setFisCode(getValue(resultDataSecondStep, 2));
-        skiJumperDTO.setName(matchingWords.getSkiJumperName(words));
-        skiJumperDTO.setNationality(resultDataSecondStep.get().get(4));
-        skiJumperDTO.getJumpResult().setFirstJump(getDoubleValue(resultDataSecondStep, 5));
-        skiJumperDTO.getJumpResult().setPointsForFirstJump(getDoubleValue(resultDataSecondStep, 6));
-        skiJumperDTO.getJumpResult().setSecondJump(getDoubleValue(resultDataSecondStep, 7));
-        skiJumperDTO.getJumpResult().setPointsForSecondJump(getDoubleValue(resultDataSecondStep, 8));
-        skiJumperDTO.getJumpResult().setTotalPoints(getDoubleValue(resultDataSecondStep, 9));
+//        SkiJumperDTO skiJumperDTO = new SkiJumperDTO();
+//        skiJumperDTO.setJumpResult(new JumpResultDTO());
+//        skiJumperDTO.getJumpResult().setRank(getValue(resultDataSecondStep, 0));
+//        skiJumperDTO.setBib(getValue(resultDataSecondStep, 1));
+//        skiJumperDTO.setFisCode(getValue(resultDataSecondStep, 2));
+//        skiJumperDTO.setName(matchingWords.getSkiJumperName(words));
+//        skiJumperDTO.setNationality(resultDataSecondStep.get().get(4));
+//        skiJumperDTO.getJumpResult().setFirstJump(getDoubleValue(resultDataSecondStep, 5));
+//        skiJumperDTO.getJumpResult().setPointsForFirstJump(getDoubleValue(resultDataSecondStep, 6));
+//        skiJumperDTO.getJumpResult().setSecondJump(getDoubleValue(resultDataSecondStep, 7));
+//        skiJumperDTO.getJumpResult().setPointsForSecondJump(getDoubleValue(resultDataSecondStep, 8));
+//        skiJumperDTO.getJumpResult().setTotalPoints(getDoubleValue(resultDataSecondStep, 9));
 
-        return Optional.of(skiJumperDTO);
+//        return Optional.of(skiJumperDTO);
+        return null;
     }
 
     private Integer getValue(Optional<List<String>> resultDataSecondStep, int index) {

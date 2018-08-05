@@ -12,6 +12,8 @@ import com.pl.skijumping.service.CompetitionNameService;
 import com.pl.skijumping.service.CompetitionTypeService;
 import com.pl.skijumping.service.DataRaceService;
 import com.pl.skijumping.service.TournamentYearService;
+import com.pl.skijumping.service.mapper.CompetitionNameMapper;
+import com.pl.skijumping.service.mapper.CompetitionTypeMapper;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -42,6 +44,8 @@ public class BasicDataSynchronize {
     private final CompetitionTypeService competitionTypeService;
     private final CompetitionNameService competitionNameService;
     private final DataRaceService dataRaceService;
+    private final CompetitionTypeMapper competitionTypeMapper;
+    private final CompetitionNameMapper competitionNameMapper;
 
     public BasicDataSynchronize(@Value("${skijumping.settings.hostWithFilterForYear}") String host,
                                 @Value("${skijumping.settings.directory}") String directory,
@@ -52,6 +56,8 @@ public class BasicDataSynchronize {
                                 DiagnosticMonitor diagnosticMonitor,
                                 CompetitionTypeService competitionTypeService,
                                 CompetitionNameService competitionNameService,
+                                CompetitionNameMapper competitionNameMapper,
+                                CompetitionTypeMapper competitionTypeMapper,
                                 DataRaceService dataRaceService) {
         this.host = host;
         this.directory = directory;
@@ -62,6 +68,8 @@ public class BasicDataSynchronize {
         this.diagnosticMonitor = diagnosticMonitor;
         this.competitionNameService = competitionNameService;
         this.competitionTypeService = competitionTypeService;
+        this.competitionNameMapper = competitionNameMapper;
+        this.competitionTypeMapper = competitionTypeMapper;
         this.dataRaceService = dataRaceService;
     }
 
@@ -104,7 +112,7 @@ public class BasicDataSynchronize {
     @Bean
     public FindRaceDataWriterBatch findRaceDataWriterBatch() {
         return new FindRaceDataWriterBatch(
-                competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor);
+                competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor, competitionNameMapper, competitionTypeMapper);
     }
 
     @Bean

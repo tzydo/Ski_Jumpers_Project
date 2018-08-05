@@ -9,6 +9,8 @@ import com.pl.skijumping.dto.DataRaceDTO;
 import com.pl.skijumping.service.CompetitionNameService;
 import com.pl.skijumping.service.CompetitionTypeService;
 import com.pl.skijumping.service.DataRaceService;
+import com.pl.skijumping.service.mapper.CompetitionNameMapper;
+import com.pl.skijumping.service.mapper.CompetitionTypeMapper;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -27,6 +29,7 @@ import java.util.List;
 public class FindRaceData {
     public static final String FIND_RACE_DATA_JOB_NAME = "Find_Race_Data_Job";
     public static final String FIND_RACE_DATA_STEP_NAME = "Find_Race_Data_Step";
+
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final String filePath;
@@ -34,6 +37,8 @@ public class FindRaceData {
     private final CompetitionNameService competitionNameService;
     private final DataRaceService dataRaceService;
     private final DiagnosticMonitor diagnosticMonitor;
+    private final CompetitionNameMapper competitionNameMapper;
+    private final CompetitionTypeMapper competitionTypeMapper;
 
     public FindRaceData(JobBuilderFactory jobBuilderFactory,
                         StepBuilderFactory stepBuilderFactory,
@@ -41,7 +46,9 @@ public class FindRaceData {
                         CompetitionTypeService competitionTypeService,
                         CompetitionNameService competitionNameService,
                         DataRaceService dataRaceService,
-                        DiagnosticMonitor diagnosticMonitor) {
+                        DiagnosticMonitor diagnosticMonitor,
+                        CompetitionNameMapper competitionNameMapper,
+                        CompetitionTypeMapper competitionTypeMapper) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
         this.filePath = filePath;
@@ -49,6 +56,8 @@ public class FindRaceData {
         this.competitionNameService = competitionNameService;
         this.dataRaceService = dataRaceService;
         this.diagnosticMonitor = diagnosticMonitor;
+        this.competitionNameMapper = competitionNameMapper;
+        this.competitionTypeMapper = competitionTypeMapper;
     }
 
     @Bean(name = FIND_RACE_DATA_JOB_NAME)
@@ -72,20 +81,20 @@ public class FindRaceData {
     @Bean
     @StepScope
     public ItemStreamReader<String> dataReaderBatch() {
-        return new DataReaderBatch(this.filePath, this.diagnosticMonitor);
+        return new DataReaderBatch(filePath, diagnosticMonitor);
     }
 
     @Bean
     @StepScope
     public ItemProcessor<String, List<DataRaceDTO>> findRaceDataProcessorBatch() {
-        return new FindRaceDataProcessorBatch(this.diagnosticMonitor);
+        return new FindRaceDataProcessorBatch(diagnosticMonitor);
     }
 
     @Bean
     @StepScope
     public FindRaceDataWriterBatch findRaceDataWriterBatch() {
         return new FindRaceDataWriterBatch(
-                competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor);
+                competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor, competitionNameMapper, competitionTypeMapper);
     }
 
     @Bean

@@ -4,7 +4,6 @@ import com.pl.skijumping.domain.entity.DataRace;
 import com.pl.skijumping.domain.entity.JumpResult;
 import com.pl.skijumping.domain.entity.SkiJumper;
 import com.pl.skijumping.domain.repository.DataRaceRepository;
-import com.pl.skijumping.domain.repository.JumpResultRepository;
 import com.pl.skijumping.domain.repository.SkiJumperRepository;
 import com.pl.skijumping.dto.JumpResultDTO;
 import com.pl.skijumping.service.ApplicationTest;
@@ -17,10 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.transaction.Transactional;
-
 import java.time.LocalDate;
-
-import static org.junit.Assert.*;
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -32,8 +28,6 @@ public class JumpResultMapperTest {
     @Autowired
     private DataRaceRepository dataRaceRepository;
     @Autowired
-    private JumpResultRepository jumpResultRepository;
-    @Autowired
     private SkiJumperRepository skiJumperRepository;
 
     @Test
@@ -41,6 +35,7 @@ public class JumpResultMapperTest {
     public void fromDTOTest() {
         SkiJumper skiJumper = skiJumperRepository.save(new SkiJumper().name("testJumper"));
         DataRace dataRace = dataRaceRepository.save(new DataRace().city("city").date(LocalDate.now()).raceId(1l).shortCountryName("cit"));
+
         JumpResultDTO jumpResultDTO = new JumpResultDTO()
                 .jumperId(skiJumper.getId())
                 .rank(1)
@@ -66,6 +61,7 @@ public class JumpResultMapperTest {
     }
 
     @Test
+    @Transactional
     public void toDTOTest() {
         SkiJumper skiJumper = skiJumperRepository.save(new SkiJumper().name("testJumper"));
         DataRace dataRace = dataRaceRepository.save(new DataRace().city("city").date(LocalDate.now()).raceId(1l).shortCountryName("cit"));

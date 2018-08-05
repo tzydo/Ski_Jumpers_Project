@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {DataRaceMapper.class, SkiJumperMapper.class})
+@Mapper(componentModel = "spring")
 public abstract class JumpResultMapper {
     @Autowired
     private SkiJumperRepository skiJumperRepository;
@@ -21,6 +21,10 @@ public abstract class JumpResultMapper {
     public abstract List<JumpResult> fromDTO(List<JumpResultDTO> jumpResultDTOS);
 
     @InheritInverseConfiguration
+    @Mappings({
+            @Mapping(target = "dataRaceId", source = "dataRace.id"),
+            @Mapping(target = "jumperId", source = "skiJumper.id")
+    })
     public abstract JumpResultDTO toDTO(JumpResult jumpResultDTO);
     public abstract List<JumpResultDTO> toDTO(List<JumpResult> jumpResultDTOS);
 

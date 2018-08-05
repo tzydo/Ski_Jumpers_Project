@@ -2,13 +2,14 @@ package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.writer;
 
 import com.pl.skijumping.batch.BatchApplicationTest;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import com.pl.skijumping.domain.entity.CompetitionName;
 import com.pl.skijumping.dto.CompetitionNameDTO;
 import com.pl.skijumping.dto.CompetitionTypeDTO;
 import com.pl.skijumping.dto.DataRaceDTO;
 import com.pl.skijumping.service.CompetitionNameService;
 import com.pl.skijumping.service.CompetitionTypeService;
 import com.pl.skijumping.service.DataRaceService;
+import com.pl.skijumping.service.mapper.CompetitionNameMapper;
+import com.pl.skijumping.service.mapper.CompetitionTypeMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,23 +38,26 @@ public class FindRaceDataWriterTest {
     private DataRaceService dataRaceService;
     @MockBean
     private DiagnosticMonitor diagnosticMonitor;
+    @Autowired
+    private CompetitionNameMapper competitionNameMapper;
+    @Autowired
+    private CompetitionTypeMapper competitionTypeMapper;
 
     @Test
     @Transactional
     public void writeWhenDoesNotExistTest() {
         List<DataRaceDTO> dataRaceDTOList = Arrays.asList(
-                new DataRaceDTO().builder().raceId(1L).date(LocalDate.now()).competitionName("name").competitionType("type")
-                        .city("city").shortCountryName("sName").build(),
-                new DataRaceDTO().builder().raceId(2L).date(LocalDate.now().plusDays(1)).competitionName("name").competitionType("type")
-                        .city("city").shortCountryName("sName").build(),
-                new DataRaceDTO().builder().raceId(3L).date(LocalDate.now().plusDays(2)).competitionName("name2").competitionType("type2")
-                        .city("city").shortCountryName("sName").build(),
-                new DataRaceDTO().builder().raceId(4L).date(LocalDate.now().plusDays(3)).competitionName("name2").competitionType("type2")
-                        .city("city").shortCountryName("sName").build()
-        );
+                new DataRaceDTO().raceId(1L).date(LocalDate.now()).competitionName("name").competitionType("type")
+                        .city("city").shortCountryName("sName"),
+                new DataRaceDTO().raceId(2L).date(LocalDate.now().plusDays(1)).competitionName("name").competitionType("type")
+                        .city("city").shortCountryName("sName"),
+                new DataRaceDTO().raceId(3L).date(LocalDate.now().plusDays(2)).competitionName("name2").competitionType("type2")
+                        .city("city").shortCountryName("sName"),
+                new DataRaceDTO().raceId(4L).date(LocalDate.now().plusDays(3)).competitionName("name2").competitionType("type2")
+                        .city("city").shortCountryName("sName"));
 
         FindRaceDataWriter findRaceDataWriter = new FindRaceDataWriter(
-                competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor);
+                competitionTypeService, competitionNameService, competitionTypeMapper, competitionNameMapper, dataRaceService, diagnosticMonitor);
         findRaceDataWriter.write(dataRaceDTOList);
 
         List<CompetitionTypeDTO> actualCompetitionTypeDTOList = competitionTypeService.findAll();
@@ -81,18 +85,17 @@ public class FindRaceDataWriterTest {
         competitionTypeService.save(new CompetitionTypeDTO(null, "type"));
         competitionNameService.save(new CompetitionNameDTO(null, "name"));
 
-        DataRaceDTO dataRaceDTO = new DataRaceDTO().builder()
+        DataRaceDTO dataRaceDTO = new DataRaceDTO()
                 .raceId(1L)
                 .date(LocalDate.now())
                 .competitionName("name")
                 .competitionType("type")
                 .city("city")
-                .shortCountryName("sName")
-                .build();
+                .shortCountryName("sName");
 
         dataRaceDTO = dataRaceService.save(dataRaceDTO);
         FindRaceDataWriter findRaceDataWriter = new FindRaceDataWriter(
-                competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor);
+                competitionTypeService, competitionNameService, competitionTypeMapper, competitionNameMapper, dataRaceService, diagnosticMonitor);
         findRaceDataWriter.write(Arrays.asList(dataRaceDTO));
 
         List<DataRaceDTO> actualDataRaceDTOList = dataRaceService.findAll();
@@ -104,17 +107,16 @@ public class FindRaceDataWriterTest {
     @Test
     @Transactional
     public void writeWhenCompetitionNameNullTest() {
-        DataRaceDTO dataRaceDTO = new DataRaceDTO().builder()
+        DataRaceDTO dataRaceDTO = new DataRaceDTO()
                 .raceId(1L)
                 .date(LocalDate.now())
                 .competitionName(null)
                 .competitionType("type")
                 .city("city")
-                .shortCountryName("sName")
-                .build();
+                .shortCountryName("sName");
 
         FindRaceDataWriter findRaceDataWriter = new FindRaceDataWriter(
-                competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor);
+                competitionTypeService, competitionNameService, competitionTypeMapper, competitionNameMapper, dataRaceService, diagnosticMonitor);
         findRaceDataWriter.write(Arrays.asList(dataRaceDTO));
 
         List<DataRaceDTO> actualDataRaceDTOList = dataRaceService.findAll();
@@ -127,7 +129,7 @@ public class FindRaceDataWriterTest {
     @Transactional
     public void writeWhenNullTest() {
         FindRaceDataWriter findRaceDataWriter = new FindRaceDataWriter(
-                competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor);
+                competitionTypeService, competitionNameService, competitionTypeMapper, competitionNameMapper, dataRaceService, diagnosticMonitor);
         findRaceDataWriter.write(null);
 
         List<DataRaceDTO> actualDataRaceDTOList = dataRaceService.findAll();
@@ -137,18 +139,17 @@ public class FindRaceDataWriterTest {
     @Test
     @Transactional
     public void writeWhenCompetitionTypeNullTest() {
-        DataRaceDTO dataRaceDTO = new DataRaceDTO().builder()
+        DataRaceDTO dataRaceDTO = new DataRaceDTO()
                 .raceId(1L)
                 .date(LocalDate.now())
                 .competitionName("name")
                 .competitionType(null)
                 .city("city")
-                .shortCountryName("sName")
-                .build();
+                .shortCountryName("sName");
 
         dataRaceService.save(dataRaceDTO);
         FindRaceDataWriter findRaceDataWriter = new FindRaceDataWriter(
-                competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor);
+                competitionTypeService, competitionNameService, competitionTypeMapper, competitionNameMapper, dataRaceService, diagnosticMonitor);
         findRaceDataWriter.write(Arrays.asList(dataRaceDTO));
 
         List<DataRaceDTO> actualDataRaceDTOList = dataRaceService.findAll();

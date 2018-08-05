@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = JumpResultMapper.class)
 public interface SkiJumperMapper {
 
     @Mapping(source = "id", target = "id")

@@ -6,7 +6,7 @@ import com.pl.skijumping.domain.entity.QDataRace;
 import com.pl.skijumping.domain.repository.DataRaceRepository;
 import com.pl.skijumping.dto.DataRaceDTO;
 import com.pl.skijumping.service.mapper.DataRaceMapper;
-import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.BooleanBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -72,15 +72,17 @@ public class DataRaceService {
         }
 
         QDataRace qDataRace = QDataRace.dataRace;
-        BooleanExpression booleanExpression =
-                qDataRace.date.eq(dataRace.getDate())
-                        .and(qDataRace.city.eq(dataRace.getCity()))
-                        .and(qDataRace.shortCountryName.eq(dataRace.getShortCountryName()))
-                        .and(qDataRace.raceId.eq(dataRace.getRaceId()))
-                        .and(qDataRace.competitionName().eq(dataRace.getCompetitionName()))
-                        .and(qDataRace.competitionType().eq(dataRace.getCompetitionType()));
 
-        DataRace foundDataRace = (DataRace) dataRaceRepository.findOne(booleanExpression);
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        if (dataRace.getDate() != null) booleanBuilder.and(qDataRace.date.eq(dataRace.getDate()));
+        if (dataRace.getCity() != null) booleanBuilder.and(qDataRace.city.eq(dataRace.getCity()));
+        if (dataRace.getShortCountryName() != null) booleanBuilder.and(qDataRace.shortCountryName.eq(dataRace.getShortCountryName()));
+        if (dataRace.getRaceId() != null) booleanBuilder.and(qDataRace.raceId.eq(dataRace.getRaceId()));
+        if (dataRace.getCompetitionName() != null) booleanBuilder.and(qDataRace.competitionName().eq(dataRace.getCompetitionName()));
+        if (dataRace.getCompetitionType() != null) booleanBuilder.and(qDataRace.competitionType().eq(dataRace.getCompetitionType()));
+
+        DataRace foundDataRace = (DataRace) dataRaceRepository.findOne(booleanBuilder);
 
         if (foundDataRace == null) {
             return Optional.empty();
@@ -91,7 +93,7 @@ public class DataRaceService {
 
     public List<Long> getRaceDataIds() {
         List<Long> raceDataList = dataRaceRepository.getRaceDataList();
-        if(raceDataList.isEmpty()) {
+        if (raceDataList.isEmpty()) {
             return new ArrayList<>();
         }
 

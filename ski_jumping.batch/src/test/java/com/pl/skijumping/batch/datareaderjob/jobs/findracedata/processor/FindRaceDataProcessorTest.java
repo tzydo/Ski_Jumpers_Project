@@ -36,12 +36,12 @@ public class FindRaceDataProcessorTest {
     @Test
     public void findDataTest() throws InternalServiceException {
         List<DataRaceDTO> expectedDataRaceDTOList = Arrays.asList(
-                new DataRaceDTO().builder()
+                new DataRaceDTO()
                         .date(LocalDate.of(2018, 3, 25)).raceId(4961l).city("Planica")
-                        .shortCountryName("SLO").competitionName("Men's HS240").competitionType("World Cup").build(),
-                new DataRaceDTO().builder()
+                        .shortCountryName("SLO").competitionName("Men's HS240").competitionType("World Cup"),
+                new DataRaceDTO()
                         .date(LocalDate.of(2018, 3, 25)).raceId(5015l).city("Oberstdorf")
-                        .shortCountryName("GER").competitionName("Ladies' HS106").competitionType("World Cup").build());
+                        .shortCountryName("GER").competitionName("Ladies' HS106").competitionType("World Cup"));
         FindRaceDataProcessor findRaceDataProcessor = new FindRaceDataProcessor(words, diagnosticMonitor);
         List<DataRaceDTO> actualMatchingWordsList = findRaceDataProcessor.findData();
         Assertions.assertThat(actualMatchingWordsList).isNotEmpty();

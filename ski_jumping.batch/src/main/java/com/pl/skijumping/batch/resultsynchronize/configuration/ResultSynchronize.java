@@ -57,7 +57,7 @@ public class ResultSynchronize {
                 .<String, List<Object>>chunk(1)
                 .reader(resultSynchronizeReader())
                 .processor(resultSynchronizeProcessor())
-                .writer(findRaceDataWriterBatch())
+                .writer(resultSynchronizeWriter())
                 .build();
     }
 
@@ -72,7 +72,7 @@ public class ResultSynchronize {
     }
 
     @Bean
-    public ItemWriter findRaceDataWriterBatch() {
+    public ItemWriter resultSynchronizeWriter() {
         return new ResultSynchronizeWriterBatch(diagnosticMonitor);
     }
 }

@@ -34,12 +34,10 @@ public class ResultDataSynchronizeTest {
         Assertions.assertThat(skiJumperDTOList).hasSize(1);
 
         SkiJumperDTO expectedSkiJumperDTO = new SkiJumperDTO()
-                .rank(1)
                 .bib(46)
                 .fisCode(6198)
                 .name("TAKANASHI Sara")
-                .nationality("JPN")
-                .firstJump(99.0).pointsForFirstJump(126.3).secondJump(102.5).pointsForSecondJump(124.1).totalPoints(250.4);
+                .nationality("JPN");
 
         Assertions.assertThat(skiJumperDTOList).hasSize(1);
         expectedSkiJumperDTO.setId(skiJumperDTOList.get(0).getId());
