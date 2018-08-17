@@ -147,12 +147,13 @@ public class FindRaceDataWriterTest {
                 .city("city")
                 .shortCountryName("sName");
 
-        dataRaceService.save(dataRaceDTO);
         FindRaceDataWriter findRaceDataWriter = new FindRaceDataWriter(
                 competitionTypeService, competitionNameService, competitionTypeMapper, competitionNameMapper, dataRaceService, diagnosticMonitor);
         findRaceDataWriter.write(Arrays.asList(dataRaceDTO));
 
         List<DataRaceDTO> actualDataRaceDTOList = dataRaceService.findAll();
-        Assertions.assertThat(actualDataRaceDTOList).isEmpty();
+        Assertions.assertThat(actualDataRaceDTOList).isNotEmpty();
+        Assertions.assertThat(actualDataRaceDTOList).hasSize(1);
+        Assertions.assertThat(actualDataRaceDTOList.get(0)).isEqualToIgnoringGivenFields(dataRaceDTO, "id");
     }
 }

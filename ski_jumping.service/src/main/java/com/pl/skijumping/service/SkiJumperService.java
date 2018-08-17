@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,17 +34,26 @@ public class SkiJumperService {
         return skiJumperMapper.toDTO(skiJumper);
     }
 
+    @Transactional
     public List<SkiJumperDTO> findAll() {
         List<SkiJumperDTO> skiJumperDTOS = skiJumperMapper.toDTO(skiJumperRepository.findAll());
         return skiJumperDTOS.isEmpty() ? new ArrayList<>() : skiJumperDTOS;
     }
 
-    public Optional<List<SkiJumperDTO>> findByName(String name) {
+    public Optional<List<SkiJumperDTO>> findAllByName(String name) {
         List<SkiJumperDTO> skiJumperDTOList = skiJumperMapper.toDTO(skiJumperRepository.findAllByName(name));
         if (skiJumperDTOList.isEmpty()) {
             return Optional.empty();
         }
         return Optional.of(skiJumperDTOList);
+    }
+
+    public Optional<SkiJumperDTO> findOneByName(String name) {
+        SkiJumperDTO skiJumperDTO = skiJumperMapper.toDTO(skiJumperRepository.findOneByName(name));
+        if (skiJumperDTO == null) {
+            return Optional.empty();
+        }
+        return Optional.of(skiJumperDTO);
     }
 
     public Optional<SkiJumperDTO> findById(Long id) {

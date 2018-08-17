@@ -18,7 +18,7 @@ public class FileUtil {
     public static void deleteFile(String filePath) throws InternalServiceException {
         File file = new File(filePath);
         try {
-            Files.delete(file.toPath());
+            Files.deleteIfExists(file.toPath());
         } catch (IOException e) {
             throw new InternalServiceException(String.format("Cannot delete file from %s", filePath));
         }

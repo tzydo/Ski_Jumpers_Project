@@ -61,5 +61,4 @@ class BasicDataDownloader {
             diagnosticMonitor.logError(errorMessage, getClass());
         }
     }
-
 }

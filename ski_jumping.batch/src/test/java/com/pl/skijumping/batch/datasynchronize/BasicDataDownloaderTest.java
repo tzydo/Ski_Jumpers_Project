@@ -33,7 +33,7 @@ public class BasicDataDownloaderTest {
     @Test
     public void downloadTest() throws InternalServiceException {
         Mockito.when(tournamentYearService.findAll()).thenReturn(
-                Optional.of(Arrays.asList(new TournamentYearDTO(1l, "2018"))));
+                Optional.of(Arrays.asList(new TournamentYearDTO(1L, "2018"))));
         FileUtil.createDirectory(directory);
 
         BasicDataDownloader basicDataDownloader = new BasicDataDownloader(tournamentYearService, host, directory, htmlDownloader, diagnosticMonitor);
@@ -43,7 +43,6 @@ public class BasicDataDownloaderTest {
         Assertions.assertThat(actualFile.isPresent()).isTrue();
         Assertions.assertThat(exitStatus.getExitCode()).isEqualTo(ExitStatus.COMPLETED.getExitCode());
         FileUtil.deleteFile(actualFile.get().getPath());
-        FileUtil.deleteFile(FileUtil.getFile(directory).get().getPath());
     }
 
     @Test

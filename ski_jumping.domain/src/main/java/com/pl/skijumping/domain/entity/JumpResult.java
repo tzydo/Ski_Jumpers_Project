@@ -13,11 +13,11 @@ public class JumpResult {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "ski_jumper_id")
     private SkiJumper skiJumper;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne()
     @JoinColumn(name = "data_race_id")
     private DataRace dataRace;
 

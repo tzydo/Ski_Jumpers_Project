@@ -48,19 +48,19 @@ public class MatchingWords {
         return findMatchingWords.getSeasonData(words, RegexpPattern.SEASON_DATE, true);
     }
 
-    public Optional<List<String>> getResultDataFilter(String words) {
+    public Optional<List<String>> getJumpResultDataFilter(String words) {
         if (isEmpty(words)) return Optional.empty();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
         return findMatchingWords.getSeasonData(words, RegexpPattern.RESULT_SYNCHRONIZE_FILTER, false,1);
     }
 
-    public Optional<List<String>> getResultDataFirstStep(String words) {
+    public Optional<List<String>> getJumpResultDataFirstStep(String words) {
         if (isEmpty(words)) return Optional.empty();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
         return findMatchingWords.getSeasonData(words, RegexpPattern.RESULT_SYNCHRONIZE_FIRST_FILTER, false, 1);
     }
 
-    public Optional<List<String>> getResultDataSecondStep(String words) {
+    public Optional<List<String>> getJumpResultDataSecondStep(String words) {
         if (isEmpty(words)) return Optional.empty();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
         return findMatchingWords.getSeasonData(words, RegexpPattern.RESULT_SYNCHRONIZE_SECOND_FILTER, false, 1);

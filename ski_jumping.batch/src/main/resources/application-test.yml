@@ -1,15 +1,35 @@
 skijumping:
   settings:
     host: ${HOST:http://www.fis-ski.com/ski-jumping/events-and-places/results/}
+    hostWithFilterForYear: ${HOST:http://www.fis-ski.com/ski-jumping/events-and-places/results/?season=}
+    skiJumpingResultsHost: ${HOST:https://data.fis-ski.com/dynamic/results.html?sector=JP&raceid=}
     directory: ${DIRECTORY:tmp}
     fileName: ${FILE_NAME:tmp/SkiJumping.txt}
     scheduler:
-      importData:
-        cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/1 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:false}
+      #run all jobs in right order
       synchronize:
         cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0/1 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:true}
+      #first step
+      importData:
+        cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/30 * * * *}
+        enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:false}
+      #Second step
+      findTournamentYear:
+        cron: ${SKI_JUMPING_SETTINGS_FIND_TOURNAMENT_YEAR_CRON:0 0/30 * * * *}
+        enable: ${SKI_JUMPING_SETTINGS_FIND_TOURNAMENT_YEAR_ENABLE:false}
+      #Third Step
+      findRaceData:
+        cron: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_CRON:0 0/30 * * * *}
+        enable: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_ENABLE:false}
+      #Fourth Step
+      basicDataSynchronize:
+        cron: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_CRON:0 0/30 * * * *}
+        enable: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_ENABLE:false}
+      #fifth Step
+      jumpResultSynchronize:
+        cron: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_CRON:0 0/30 * * * *}
+        enable: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_ENABLE:false}
 spring:
   jpa:
     database: ${DATABASE:HSQL}

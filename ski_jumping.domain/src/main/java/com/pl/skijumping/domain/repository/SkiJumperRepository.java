@@ -11,6 +11,7 @@ public interface SkiJumperRepository extends JpaRepository<SkiJumper, Long> {
 
     List<SkiJumper> findAll();
     List<SkiJumper> findAllByName(String name);
+    SkiJumper findOneByName(String name);
     void deleteAll();
 
 //    @Query("SELECT COUNT(j) FROM SkiJumper j")

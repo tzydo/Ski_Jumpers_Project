@@ -18,6 +18,7 @@ public abstract class JumpResultMapper {
 
     @Mapping(source = "id", target = "id")
     public abstract JumpResult fromDTO(JumpResultDTO jumpResultDTO);
+
     public abstract List<JumpResult> fromDTO(List<JumpResultDTO> jumpResultDTOS);
 
     @InheritInverseConfiguration
@@ -26,19 +27,29 @@ public abstract class JumpResultMapper {
             @Mapping(target = "jumperId", source = "skiJumper.id")
     })
     public abstract JumpResultDTO toDTO(JumpResult jumpResultDTO);
+
     public abstract List<JumpResultDTO> toDTO(List<JumpResult> jumpResultDTOS);
 
     @AfterMapping
     public JumpResult setJumpResult(@MappingTarget JumpResult jumpResult, JumpResultDTO jumpResultDTO) {
-        jumpResult.setSkiJumper(skiJumperRepository.findOne(jumpResultDTO.getJumperId()));
-        jumpResult.setDataRace(dataRaceRepository.findOne(jumpResultDTO.getDataRaceId()));
+        if (jumpResultDTO.getJumperId() != null) {
+            jumpResult.setSkiJumper(skiJumperRepository.findOne(jumpResultDTO.getJumperId()));
+        }
+        if (jumpResultDTO.getDataRaceId() != null) {
+            jumpResult.setDataRace(dataRaceRepository.findOne(jumpResultDTO.getDataRaceId()));
+        }
         return jumpResult;
     }
 
     @AfterMapping
     public JumpResultDTO setJumpResultDTO(JumpResult jumpResult, @MappingTarget JumpResultDTO jumpResultDTO) {
-        jumpResultDTO.setJumperId(jumpResult.getSkiJumper().getId());
-        jumpResultDTO.setDataRaceId(jumpResult.getDataRace().getId());
+        if (jumpResult.getSkiJumper() != null) {
+            jumpResultDTO.setJumperId(jumpResult.getSkiJumper().getId());
+        }
+
+        if (jumpResult.getDataRace() != null) {
+            jumpResultDTO.setDataRaceId(jumpResult.getDataRace().getId());
+        }
         return jumpResultDTO;
     }
 }

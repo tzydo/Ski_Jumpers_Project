@@ -137,7 +137,7 @@ public class MatchingWordsTest {
     public void getResultDataFilterTest() {
         String words = "<tbody><thead></thead><tr><th data-hide='phone'>Points</th></tr></tbody>values";
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-        Optional<List<String>> raceDate = matchingWords.getResultDataFilter(words);
+        Optional<List<String>> raceDate = matchingWords.getJumpResultDataFilter(words);
         Assertions.assertThat(raceDate.isPresent()).isTrue();
         Assertions.assertThat(raceDate.get()).isNotEmpty();
         Assertions.assertThat(raceDate.get()).isEqualTo(Arrays.asList("<tr><th data-hide='phone'>Points</th></tr>"));
@@ -151,7 +151,7 @@ public class MatchingWordsTest {
                         "<tr><td class='i0' align='right'></tr></thead>";
 
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-        Optional<List<String>> raceDate = matchingWords.getResultDataFirstStep(words);
+        Optional<List<String>> raceDate = matchingWords.getJumpResultDataFirstStep(words);
         Assertions.assertThat(raceDate.isPresent()).isTrue();
         Assertions.assertThat(raceDate.get()).isNotEmpty();
         Assertions.assertThat(raceDate.get()).hasSize(3);
@@ -168,7 +168,7 @@ public class MatchingWordsTest {
                  "<td class='i1' align='right'>2</td>";
 
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-        Optional<List<String>> raceDate = matchingWords.getResultDataSecondStep(words);
+        Optional<List<String>> raceDate = matchingWords.getJumpResultDataSecondStep(words);
         Assertions.assertThat(raceDate.isPresent()).isTrue();
         Assertions.assertThat(raceDate.get()).isNotEmpty();
         Assertions.assertThat(raceDate.get()).hasSize(2);

@@ -21,7 +21,7 @@ public class BasicDataSynchronizeReaderTest {
         BasicDataSynchronizeReader basicDataSynchronize = new BasicDataSynchronizeReader(directoryPath, diagnosticMonitor);
         List<String> wordsList = basicDataSynchronize.synchronize();
         Assertions.assertThat(wordsList).isNotEmpty();
-        Assertions.assertThat(wordsList).hasSize(456);
+        Assertions.assertThat(wordsList).hasSize(368);
     }
 
     @Test

@@ -2,9 +2,7 @@ package com.pl.skijumping.domain.entity;
 
 import com.pl.skijumping.domain.model.Gender;
 import com.pl.skijumping.domain.model.MaritalStatus;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,6 +13,8 @@ import java.util.List;
 @Table(name = "Jumper")
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class SkiJumper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

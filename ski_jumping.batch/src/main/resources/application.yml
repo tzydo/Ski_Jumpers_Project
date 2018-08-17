@@ -27,6 +27,10 @@ skijumping:
       basicDataSynchronize:
         cron: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_CRON:0 0/30 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_ENABLE:false}
+      #fifth Step
+      jumpResultSynchronize:
+        cron: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_CRON:0 0/30 * * * *}
+        enable: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_ENABLE:false}
 spring:
   profiles:
     active: ${DEV_PROFILE:dev}

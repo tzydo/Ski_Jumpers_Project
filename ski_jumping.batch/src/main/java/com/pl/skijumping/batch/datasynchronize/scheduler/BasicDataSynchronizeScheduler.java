@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import static com.pl.skijumping.batch.dataimportjob.configuration.DataImporter.DATA_IMPORT_JOB_NAME;
+import static com.pl.skijumping.batch.datasynchronize.configuration.BasicDataSynchronize.BASIC_DATA_SYNCHRONIZE_JOB_NAME;
+
 
 @Component
 public class BasicDataSynchronizeScheduler {
@@ -22,7 +23,7 @@ public class BasicDataSynchronizeScheduler {
     private final DiagnosticMonitor diagnosticMonitor;
 
     public BasicDataSynchronizeScheduler(JobLauncher jobLauncher,
-                               @Qualifier(BasicDataSynchronize.BASIC_DATA_SYNCHRONIZE_JOB_NAME) Job basicDataSynchronizeJob,
+                               @Qualifier(BASIC_DATA_SYNCHRONIZE_JOB_NAME) Job basicDataSynchronizeJob,
                                @Value("${skijumping.settings.scheduler.basicDataSynchronize.enable}") Boolean isEnable,
                                DiagnosticMonitor diagnosticMonitor) {
         this.jobLauncher = jobLauncher;
@@ -34,7 +35,7 @@ public class BasicDataSynchronizeScheduler {
     @Scheduled(cron = "${skijumping.settings.scheduler.basicDataSynchronize.cron}")
     public JobExecution importData() throws InternalServiceException {
         JobRunner jobRunner = new JobRunner(
-                isEnable, diagnosticMonitor, jobLauncher, basicDataSynchronizeJob, DATA_IMPORT_JOB_NAME);
+                isEnable, diagnosticMonitor, jobLauncher, basicDataSynchronizeJob, BASIC_DATA_SYNCHRONIZE_JOB_NAME);
         return jobRunner.run();
     }
 }
