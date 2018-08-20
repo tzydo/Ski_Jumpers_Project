@@ -46,9 +46,13 @@ public class BasicDataSynchronize {
     private final DataRaceService dataRaceService;
     private final CompetitionTypeMapper competitionTypeMapper;
     private final CompetitionNameMapper competitionNameMapper;
+    private final Boolean loadAllData;
+    private final Integer numberOfPreviousYear;
 
     public BasicDataSynchronize(@Value("${skijumping.settings.hostWithFilterForYear}") String host,
                                 @Value("${skijumping.settings.directory}") String directory,
+                                @Value("${skijumping.settings.loadAllData}") Boolean loadAllData,
+                                @Value("${skijumping.settings.numberOfPreviousYear}") Integer numberOfPreviousYear,
                                 IHtmlDownloader htmlDownloader,
                                 TournamentYearService tournamentYearService,
                                 JobBuilderFactory jobBuilder,
@@ -71,6 +75,8 @@ public class BasicDataSynchronize {
         this.competitionNameMapper = competitionNameMapper;
         this.competitionTypeMapper = competitionTypeMapper;
         this.dataRaceService = dataRaceService;
+        this.numberOfPreviousYear = numberOfPreviousYear;
+        this.loadAllData = loadAllData;
     }
 
     @Bean(name = BASIC_DATA_SYNCHRONIZE_JOB_NAME)
@@ -122,7 +128,7 @@ public class BasicDataSynchronize {
 
     @Bean
     public Tasklet basicDataImporterTasklet() {
-        return new BasicDataSynchronizeTasklet(host, directory, tournamentYearService, htmlDownloader, diagnosticMonitor);
+        return new BasicDataSynchronizeTasklet(host, directory, loadAllData, numberOfPreviousYear, tournamentYearService, htmlDownloader, diagnosticMonitor);
     }
 
     @Bean

@@ -11,20 +11,26 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Value;
 
 public class BasicDataSynchronizeTasklet implements Tasklet {
-    private final TournamentYearService tournamentYearService;
     private final String hostWithYear;
     private final String directory;
+    private final Boolean loadAllData;
+    private final Integer numberOfPreviousYear;
+    private final TournamentYearService tournamentYearService;
     private final DiagnosticMonitor diagnosticMonitor;
     private final IHtmlDownloader htmlDownloader;
 
     public BasicDataSynchronizeTasklet(@Value("${skijumping.settings.hostWithFilterForYear}") String hostWithYear,
                                        @Value("${skijumping.settings.directory}") String directory,
+                                       @Value("${skijumping.settings.loadAllData") Boolean loadAllData,
+                                       @Value("${skijumping.settings.numberOfPreviousYear") Integer numberOfPreviousYear,
                                        TournamentYearService tournamentYearService,
                                        IHtmlDownloader htmlDownloader,
                                        DiagnosticMonitor diagnosticMonitor) {
         this.tournamentYearService = tournamentYearService;
         this.hostWithYear = hostWithYear;
         this.directory = directory;
+        this.loadAllData = loadAllData;
+        this.numberOfPreviousYear = numberOfPreviousYear;
         this.htmlDownloader = htmlDownloader;
         this.diagnosticMonitor = diagnosticMonitor;
     }
@@ -32,7 +38,7 @@ public class BasicDataSynchronizeTasklet implements Tasklet {
     @Override
     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) {
         BasicDataDownloader basicDataDownloader = new BasicDataDownloader(
-                tournamentYearService, hostWithYear, directory, htmlDownloader, diagnosticMonitor);
+                tournamentYearService, hostWithYear, directory, htmlDownloader, diagnosticMonitor, loadAllData, numberOfPreviousYear);
         ExitStatus exitStatus = basicDataDownloader.download();
         stepContribution.setExitStatus(exitStatus);
         return RepeatStatus.FINISHED;

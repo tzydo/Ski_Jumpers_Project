@@ -36,13 +36,13 @@ public class FindTournamentYearWriterTest {
         FindTournamentYearWriter findTournamentYearWriter = new FindTournamentYearWriter(tournamentYearService, diagnosticMonitor);
         findTournamentYearWriter.write(Collections.singletonList(matchingWords));
 
-        Optional<List<TournamentYearDTO>> tournamentYearDTOS = tournamentYearService.findAll();
-        Assertions.assertThat(tournamentYearDTOS.isPresent()).isTrue();
-        Assertions.assertThat(tournamentYearDTOS.get()).isNotEmpty();
-        Assertions.assertThat(tournamentYearDTOS.get()).hasSize(3);
+        List<TournamentYearDTO> tournamentYearDTOS = tournamentYearService.findAll();
+        Assertions.assertThat(tournamentYearDTOS.isEmpty()).isFalse();
+        Assertions.assertThat(tournamentYearDTOS).isNotEmpty();
+        Assertions.assertThat(tournamentYearDTOS).hasSize(3);
 
-        List<String> actualTournamentYearList = tournamentYearDTOS.get().stream()
-                .map(e -> e.getYear())
+        List<String> actualTournamentYearList = tournamentYearDTOS.stream()
+                .map(TournamentYearDTO::getYear)
                 .collect(Collectors.toList());
 
         Assertions.assertThat(actualTournamentYearList).containsAll(matchingWords);
@@ -52,17 +52,15 @@ public class FindTournamentYearWriterTest {
     public void writeNullTest() {
         FindTournamentYearWriter findTournamentYearWriter = new FindTournamentYearWriter(tournamentYearService, diagnosticMonitor);
         findTournamentYearWriter.write(null);
-        Optional<List<TournamentYearDTO>> tournamentYearDTOS = tournamentYearService.findAll();
-        Assertions.assertThat(tournamentYearDTOS.isPresent()).isTrue();
-        Assertions.assertThat(tournamentYearDTOS.get()).isEmpty();
+        List<TournamentYearDTO> tournamentYearDTOS = tournamentYearService.findAll();
+        Assertions.assertThat(tournamentYearDTOS).isEmpty();
     }
 
     @Test
     public void writeEmptyListTest() {
         FindTournamentYearWriter findTournamentYearWriter = new FindTournamentYearWriter(tournamentYearService, diagnosticMonitor);
         findTournamentYearWriter.write(new ArrayList<>());
-        Optional<List<TournamentYearDTO>> tournamentYearDTOS = tournamentYearService.findAll();
-        Assertions.assertThat(tournamentYearDTOS.isPresent()).isTrue();
-        Assertions.assertThat(tournamentYearDTOS.get()).isEmpty();
+        List<TournamentYearDTO> tournamentYearDTOS = tournamentYearService.findAll();
+        Assertions.assertThat(tournamentYearDTOS).isEmpty();
     }
 }

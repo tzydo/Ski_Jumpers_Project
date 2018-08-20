@@ -33,7 +33,7 @@ public class JumpResultMatcherTest {
             "<td class='i0' align='right'>102.5</td>" +
             "<td class='i0' align='right'>124.1</td>" +
             "<td class='i0' align='right'>250.4</td>";
-    
+
     @Test
     public void matchJumperData() {
         Mockito.when(skiJumperService.findOneByName(Mockito.anyString())).thenReturn(Optional.of(new SkiJumperDTO().id(1L)));

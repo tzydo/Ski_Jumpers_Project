@@ -24,8 +24,8 @@ public class BasicDataHostGeneratorTest {
                 new TournamentYearDTO(null, "2"),
                 new TournamentYearDTO(null, "3"));
 
-        when(tournamentYearService.findAll()).thenReturn(Optional.of(tournamentYearDTOS));
-        BasicDataHostGenerator basicDataHostGenerator = new BasicDataHostGenerator(tournamentYearService);
+        when(tournamentYearService.findAll()).thenReturn(tournamentYearDTOS);
+        BasicDataHostGenerator basicDataHostGenerator = new BasicDataHostGenerator(tournamentYearService, true, null);
         Map<String, String> actualGeneratedValue = basicDataHostGenerator.generate("test");
 
         Map<String, String> expectedGeneratedValue = new HashMap<>();
@@ -45,8 +45,8 @@ public class BasicDataHostGeneratorTest {
                 new TournamentYearDTO(null, "3"),
                 new TournamentYearDTO(null, "3"));
 
-        when(tournamentYearService.findAll()).thenReturn(Optional.of(tournamentYearDTOS));
-        BasicDataHostGenerator basicDataHostGenerator = new BasicDataHostGenerator(tournamentYearService);
+        when(tournamentYearService.findAll()).thenReturn(tournamentYearDTOS);
+        BasicDataHostGenerator basicDataHostGenerator = new BasicDataHostGenerator(tournamentYearService, true, null);
         Map<String, String> actualGeneratedValue = basicDataHostGenerator.generate("test");
 
         Assertions.assertThat(actualGeneratedValue).hasSize(3);
@@ -61,7 +61,7 @@ public class BasicDataHostGeneratorTest {
 
     @Test
     public void generateWhenNullTest() {
-        BasicDataHostGenerator basicDataHostGenerator = new BasicDataHostGenerator(tournamentYearService);
+        BasicDataHostGenerator basicDataHostGenerator = new BasicDataHostGenerator(tournamentYearService, true, null);
         Map<String, String> actualGeneratedValue = basicDataHostGenerator.generate(null);
         Assertions.assertThat(actualGeneratedValue).isEmpty();
     }

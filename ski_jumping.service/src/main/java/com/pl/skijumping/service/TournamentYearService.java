@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,11 +42,23 @@ public class TournamentYearService {
         return Optional.of(tournamentYearMapper.toDTO(tournamentByYear));
     }
 
-    public Optional<List<TournamentYearDTO>> findAll() {
+    public List<TournamentYearDTO> findAll() {
         List<TournamentYear> tournamentYears = tournamentYearRepository.findAll();
         if (tournamentYears == null) {
-            return Optional.empty();
+            return new ArrayList<>();
         }
-        return Optional.of(tournamentYearMapper.toDTO(tournamentYears));
+        return tournamentYearMapper.toDTO(tournamentYears);
+    }
+
+    public List<TournamentYearDTO> findAllByTop(Integer limit) {
+        if(limit == null) {
+            return new ArrayList<>();
+        }
+        List<TournamentYear> byTopAndLimit = tournamentYearRepository.findAllByTopAndLimit(limit);
+        if (byTopAndLimit != null) {
+            return tournamentYearMapper.toDTO(byTopAndLimit);
+        } else {
+            return new ArrayList<>();
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.pl.skijumping.batch.datasynchronize.scheduler;
 
-import com.pl.skijumping.batch.datasynchronize.configuration.BasicDataSynchronize;
 import com.pl.skijumping.batch.util.JobRunner;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;

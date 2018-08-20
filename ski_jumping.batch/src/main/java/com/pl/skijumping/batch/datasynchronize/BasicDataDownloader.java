@@ -18,21 +18,27 @@ class BasicDataDownloader {
     private final String directory;
     private final DiagnosticMonitor diagnosticMonitor;
     private final IHtmlDownloader htmlDownloader;
+    private final Boolean loadAllData;
+    private final Integer numberOfPreviousYear;
 
     public BasicDataDownloader(TournamentYearService tournamentYearService,
                                String hostWithYear,
                                String directory,
                                IHtmlDownloader htmlDownloader,
-                               DiagnosticMonitor diagnosticMonitor) {
+                               DiagnosticMonitor diagnosticMonitor,
+                               Boolean loadAllData,
+                               Integer numberOfPreviousYear) {
         this.tournamentYearService = tournamentYearService;
         this.hostWithYear = hostWithYear;
         this.directory = directory;
         this.htmlDownloader = htmlDownloader;
         this.diagnosticMonitor = diagnosticMonitor;
+        this.loadAllData = loadAllData;
+        this.numberOfPreviousYear = numberOfPreviousYear;
     }
 
     public ExitStatus download() {
-        BasicDataHostGenerator basicDataHostGenerator = new BasicDataHostGenerator(tournamentYearService);
+        BasicDataHostGenerator basicDataHostGenerator = new BasicDataHostGenerator(tournamentYearService, loadAllData, numberOfPreviousYear);
         diagnosticMonitor.logInfo("Starting generate url to download");
         Map<String, String> generateUrl = basicDataHostGenerator.generate(hostWithYear);
         diagnosticMonitor.logInfo(String.format("Generated: %d to download", generateUrl.size()));

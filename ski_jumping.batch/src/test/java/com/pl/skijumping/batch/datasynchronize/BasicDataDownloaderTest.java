@@ -15,6 +15,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.batch.core.ExitStatus;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -33,10 +34,10 @@ public class BasicDataDownloaderTest {
     @Test
     public void downloadTest() throws InternalServiceException {
         Mockito.when(tournamentYearService.findAll()).thenReturn(
-                Optional.of(Arrays.asList(new TournamentYearDTO(1L, "2018"))));
+                Arrays.asList(new TournamentYearDTO(1L, "2018")));
         FileUtil.createDirectory(directory);
 
-        BasicDataDownloader basicDataDownloader = new BasicDataDownloader(tournamentYearService, host, directory, htmlDownloader, diagnosticMonitor);
+        BasicDataDownloader basicDataDownloader = new BasicDataDownloader(tournamentYearService, host, directory, htmlDownloader, diagnosticMonitor, true, null);
         ExitStatus exitStatus = basicDataDownloader.download();
 
         Optional<File> actualFile = FileUtil.getFile(directory + File.separator + BasicDataDownloader.FILE_NAME + "2018.txt");
@@ -47,8 +48,8 @@ public class BasicDataDownloaderTest {
 
     @Test
     public void downloadWhenNotFoundTournamentYearTest() {
-        Mockito.when(tournamentYearService.findAll()).thenReturn(Optional.empty());
-        BasicDataDownloader basicDataDownloader = new BasicDataDownloader(tournamentYearService, host, directory, htmlDownloader, diagnosticMonitor);
+        Mockito.when(tournamentYearService.findAll()).thenReturn(new ArrayList<>());
+        BasicDataDownloader basicDataDownloader = new BasicDataDownloader(tournamentYearService, host, directory, htmlDownloader, diagnosticMonitor, true, null);
         ExitStatus exitStatus = basicDataDownloader.download();
         Assertions.assertThat(exitStatus.getExitCode()).isEqualTo(ExitStatus.FAILED.getExitCode());
     }

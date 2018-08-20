@@ -5,6 +5,8 @@ skijumping:
     skiJumpingResultsHost: ${HOST:https://data.fis-ski.com/dynamic/results.html?sector=JP&raceid=}
     directory: ${DIRECTORY:tmp}
     fileName: ${FILE_NAME:tmp/SkiJumping.txt}
+    loadAllData: ${DOWNLOAD_ALL_BASIC_DATA:false}
+    numberOfPreviousYear: ${NUMBER_OF_PREVIOUSE_YEAR_TO_DOWNLOAD:2}
     scheduler:
       #run all jobs in right order
       synchronize:
