@@ -1,6 +1,8 @@
 package com.pl.skijumping.domain.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -8,9 +10,8 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 @Entity
-@Table(name = "Tournament_Year")
+@Table(name = "tournament_year")
 public class TournamentYear implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

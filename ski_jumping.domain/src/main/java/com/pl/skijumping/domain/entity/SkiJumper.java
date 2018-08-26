@@ -2,19 +2,19 @@ package com.pl.skijumping.domain.entity;
 
 import com.pl.skijumping.domain.model.Gender;
 import com.pl.skijumping.domain.model.MaritalStatus;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
-@Data
 @Entity
-@Table(name = "Jumper")
+@Table(name = "ski_jumper")
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@ToString
+@Data
 public class SkiJumper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +46,7 @@ public class SkiJumper {
     private String team;
 
     @OneToMany(mappedBy = "skiJumper")
-    private List<JumpResult> jumpResult;
+    private Set<JumpResult> jumpResult;
 
     @Column(name = "martial_status")
     @Enumerated(EnumType.STRING)
@@ -92,7 +92,7 @@ public class SkiJumper {
         return this;
     }
 
-    public SkiJumper jumpResult(List<JumpResult> jumpResult) {
+    public SkiJumper jumpResult(Set<JumpResult> jumpResult) {
         this.jumpResult = jumpResult;
         return this;
     }

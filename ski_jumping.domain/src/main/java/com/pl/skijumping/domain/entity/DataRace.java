@@ -1,18 +1,22 @@
 package com.pl.skijumping.domain.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@EqualsAndHashCode
-@Table(name = "Data_Race")
+@Table(name = "data_race")
 public class DataRace {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -34,6 +38,9 @@ public class DataRace {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "competition_name_id")
     private CompetitionName competitionName;
+
+    @OneToMany(mappedBy = "dataRace")
+    private Set<JumpResult> jumpResultList;
 
     @Column(name = "race_id", nullable = false, unique = true)
     private Long raceId;
@@ -65,6 +72,11 @@ public class DataRace {
 
     public DataRace competitionName(CompetitionName competitionName) {
         this.competitionName = competitionName;
+        return this;
+    }
+
+    public DataRace jumpResultList(Set<JumpResult> jumpResultList) {
+        this.jumpResultList = jumpResultList;
         return this;
     }
 

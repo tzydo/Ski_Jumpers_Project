@@ -1,23 +1,27 @@
 package com.pl.skijumping.domain.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
-@EqualsAndHashCode
+@Table(name = "jump_result")
 public class JumpResult {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ski_jumper_id")
     private SkiJumper skiJumper;
 
-    @OneToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "data_race_id")
     private DataRace dataRace;
 
