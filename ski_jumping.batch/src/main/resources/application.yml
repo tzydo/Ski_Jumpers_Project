@@ -38,7 +38,7 @@ spring:
     active: ${DEV_PROFILE:dev}
   jpa:
     hibernate:
-      ddl-auto: ${hibernate.ddl-auto:create-drop}
+      ddl-auto: ${hibernate.ddl-auto:update}
   datasource:
     url: ${URL:jdbc:mysql://localhost:3306/skijumper?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC}
     username: ${USER:root}

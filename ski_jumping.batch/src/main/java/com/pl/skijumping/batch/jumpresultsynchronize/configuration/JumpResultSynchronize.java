@@ -65,7 +65,7 @@ public class JumpResultSynchronize {
     @Bean(name = JUMP_RESULT_SYNCHRONIZE_STEP_NAME)
     public Step resultSynchronizeStep() {
         return this.stepBuilder.get(JUMP_RESULT_SYNCHRONIZE_STEP_NAME)
-                .<Pair<Long, Object>, List<JumpResultDTO>>chunk(1)
+                .<Pair<Long, String>, List<JumpResultDTO>>chunk(1)
                 .reader(resultSynchronizeReader())
                 .processor(resultSynchronizeProcessor())
                 .writer(resultSynchronizeWriter())
