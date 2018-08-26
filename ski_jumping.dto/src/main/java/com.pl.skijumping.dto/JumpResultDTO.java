@@ -1,18 +1,20 @@
 package com.pl.skijumping.dto;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Data
-@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 public class JumpResultDTO implements Serializable {
     private Long id;
     private Long jumperId;
     private Long dataRaceId;
-    private int rank;
+    private Integer  rank;
     private double firstJump;
     private double pointsForFirstJump;
     private double secondJump;

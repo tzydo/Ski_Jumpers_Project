@@ -1,14 +1,16 @@
 package com.pl.skijumping.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-public class DataRaceDTO {
+public class DataRaceDTO implements Serializable {
     private Long id;
     private LocalDate date;
     private String city;

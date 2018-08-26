@@ -1,12 +1,15 @@
 package com.pl.skijumping.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@EqualsAndHashCode
-public class CompetitionTypeDTO {
+public class CompetitionTypeDTO implements Serializable {
     private Long id;
     private String type;
 

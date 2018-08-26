@@ -1,15 +1,17 @@
 package com.pl.skijumping.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-public class SkiJumperDTO {
+public class SkiJumperDTO implements Serializable {
     private Long id;
     private int bib;
     private int fisCode;
