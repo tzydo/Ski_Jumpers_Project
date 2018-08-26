@@ -24,7 +24,7 @@ public class CompetitionNameMapperTest {
     @Test
     public void fromDTOTest() {
         CompetitionNameDTO competitionNameDTO = new CompetitionNameDTO().id(1l).name("name");
-        CompetitionName expectedCompetitionName = new CompetitionName().id(1l).competitionName("name");
+        CompetitionName expectedCompetitionName = new CompetitionName().id(1l).name("name");
 
         Assertions.assertThat(competitionNameMapper.fromDTO(competitionNameDTO))
                 .isEqualToComparingFieldByFieldRecursively(expectedCompetitionName);
@@ -33,9 +33,9 @@ public class CompetitionNameMapperTest {
     @Test
     public void fromDTOListTest() {
         List<CompetitionName> expectedCompetitionNameList = Arrays.asList(
-                new CompetitionName().competitionName("name").id(1l),
-                new CompetitionName().competitionName("name2").id(2l),
-                new CompetitionName().competitionName("name3").id(3l)
+                new CompetitionName().name("name").id(1l),
+                new CompetitionName().name("name2").id(2l),
+                new CompetitionName().name("name3").id(3l)
         );
 
         List<CompetitionNameDTO> competitionNameDTOList = Arrays.asList(
@@ -50,7 +50,7 @@ public class CompetitionNameMapperTest {
     @Test
     public void toDTOTest() {
         CompetitionNameDTO expectedCompetitionNameDTO = new CompetitionNameDTO().name("name").id(1l);
-        CompetitionName competitionName = new CompetitionName().id(1l).competitionName("name");
+        CompetitionName competitionName = new CompetitionName().id(1l).name("name");
 
         Assertions.assertThat(competitionNameMapper.toDTO(competitionName))
                 .isEqualToComparingFieldByFieldRecursively(expectedCompetitionNameDTO);
@@ -59,9 +59,9 @@ public class CompetitionNameMapperTest {
     @Test
     public void toDTOListTest() {
         List<CompetitionName> competitionNameList = Arrays.asList(
-                new CompetitionName().competitionName("name").id(1l),
-                new CompetitionName().competitionName("name2").id(2l),
-                new CompetitionName().competitionName("name3").id(3l)
+                new CompetitionName().name("name").id(1l),
+                new CompetitionName().name("name2").id(2l),
+                new CompetitionName().name("name3").id(3l)
         );
 
         List<CompetitionNameDTO> expectedCompetitionNameDTOList = Arrays.asList(

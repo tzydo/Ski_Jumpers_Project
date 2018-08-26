@@ -59,8 +59,8 @@ public class CompetitionNameService {
             return Optional.empty();
         }
 
-        QCompetitionName qCompetitionName = QCompetitionName.competitionName1;
-        BooleanExpression pattern = qCompetitionName.competitionName.eq(name);
+        QCompetitionName qCompetitionName = QCompetitionName.competitionName;
+        BooleanExpression pattern = qCompetitionName.name.eq(name);
 
         CompetitionName competitionName = (CompetitionName) competitionNameRepository.findOne(pattern);
         if (competitionName == null) {

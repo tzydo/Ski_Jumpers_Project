@@ -19,6 +19,9 @@ public class JumpResultSynchronizeWriterBatch implements ItemWriter<List<JumpRes
             return;
         }
         List<JumpResultDTO>resultList = jumpResultDTOList.get(0);
+        if (resultList.isEmpty()) {
+            return;
+        }
         resultList.forEach(jumpResultService::update);
     }
 }

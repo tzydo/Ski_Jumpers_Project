@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JumpResultService {
@@ -31,26 +32,32 @@ public class JumpResultService {
         return jumpResultMapper.toDTO(savedJumpResult);
     }
 
+    public Optional<JumpResultDTO> findByParams(Long dataRaceId, Long skiJumperId, Integer rank) {
+        JumpResult jumpResult = jumpResultRepository.findByDataRace_IdAndSkiJumper_IdAndRank(dataRaceId, skiJumperId, rank);
+        return Optional.ofNullable(jumpResultMapper.toDTO(jumpResult));
+    }
 
+
+    //ToDo testy!!!!!
     public JumpResultDTO update(JumpResultDTO jumpResultDTO) {
         if (jumpResultDTO == null) {
             diagnosticMonitor.logWarn("Cannot update null jumpResult");
-            return jumpResultDTO;
+            return null;
         }
 
-        JumpResult existingJumpResult = jumpResultRepository.findByDataRace_IdAndSkiJumper_IdAndRank(jumpResultDTO.getDataRaceId(), jumpResultDTO.getJumperId(), jumpResultDTO.getRank());
+        Optional<JumpResultDTO> existingJumpResultDTO = this.findByParams(jumpResultDTO.getDataRaceId(), jumpResultDTO.getJumperId(), jumpResultDTO.getRank());
 
-        if(existingJumpResult == null) {
+        if (!existingJumpResultDTO.isPresent()) {
             return this.save(jumpResultDTO);
         }
 
-        existingJumpResult.setFirstJump(jumpResultDTO.getFirstJump());
-        existingJumpResult.setPointsForFirstJump(jumpResultDTO.getPointsForFirstJump());
-        existingJumpResult.setSecondJump(jumpResultDTO.getSecondJump());
-        existingJumpResult.setPointsForSecondJump(jumpResultDTO.getPointsForSecondJump());
-        existingJumpResult.setTotalPoints(jumpResultDTO.getTotalPoints());
+        existingJumpResultDTO.get().setFirstJump(jumpResultDTO.getFirstJump());
+        existingJumpResultDTO.get().setPointsForFirstJump(jumpResultDTO.getPointsForFirstJump());
+        existingJumpResultDTO.get().setSecondJump(jumpResultDTO.getSecondJump());
+        existingJumpResultDTO.get().setPointsForSecondJump(jumpResultDTO.getPointsForSecondJump());
+        existingJumpResultDTO.get().setTotalPoints(jumpResultDTO.getTotalPoints());
 
-        return jumpResultMapper.toDTO(jumpResultRepository.save(existingJumpResult));
+        return this.save(existingJumpResultDTO.get());
     }
 
 

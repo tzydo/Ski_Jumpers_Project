@@ -35,7 +35,7 @@ public class JumpResultMatcherTest {
             "<td class='i0' align='right'>250.4</td>";
 
     @Test
-    public void matchJumperData() {
+    public void matchJumperDataTest() {
         Mockito.when(skiJumperService.findOneByName(Mockito.anyString())).thenReturn(Optional.of(new SkiJumperDTO().id(1L)));
         Long raceDataId = 1L;
 

@@ -60,8 +60,8 @@ public class CompetitionTypeService {
             return Optional.empty();
         }
 
-        QCompetitionType qCompetitionType = QCompetitionType.competitionType1;
-        BooleanExpression pattern = qCompetitionType.competitionType.eq(type);
+        QCompetitionType qCompetitionType = QCompetitionType.competitionType;
+        BooleanExpression pattern = qCompetitionType.type.eq(type);
 
         CompetitionType competitionType = (CompetitionType) competitionTypeRepository.findOne(pattern);
         if (competitionType == null) {

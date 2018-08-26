@@ -50,10 +50,7 @@ public class SkiJumperService {
 
     public Optional<SkiJumperDTO> findOneByName(String name) {
         SkiJumperDTO skiJumperDTO = skiJumperMapper.toDTO(skiJumperRepository.findOneByName(name));
-        if (skiJumperDTO == null) {
-            return Optional.empty();
-        }
-        return Optional.of(skiJumperDTO);
+        return Optional.ofNullable(skiJumperDTO);
     }
 
     public Optional<SkiJumperDTO> findById(Long id) {

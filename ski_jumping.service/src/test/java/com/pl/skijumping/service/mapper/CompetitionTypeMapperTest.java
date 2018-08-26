@@ -29,7 +29,7 @@ public class CompetitionTypeMapperTest {
         competitionTypeDTO.setId(1l);
 
         CompetitionType expectedCompetitionType = new CompetitionType();
-        expectedCompetitionType.setCompetitionType("type");
+        expectedCompetitionType.setType("type");
         expectedCompetitionType.setId(1l);
 
         Assertions.assertThat(competitionTypeMapper.fromDTO(competitionTypeDTO))
@@ -39,9 +39,9 @@ public class CompetitionTypeMapperTest {
     @Test
     public void fromDTOListTest() {
         List<CompetitionType> expectedCompetitionTypeList = Arrays.asList(
-                new CompetitionType().competitionType("type").id(1l),
-                new CompetitionType().competitionType("type2").id(2l),
-                new CompetitionType().competitionType("type3").id(3l)
+                new CompetitionType().type("type").id(1l),
+                new CompetitionType().type("type2").id(2l),
+                new CompetitionType().type("type3").id(3l)
         );
 
         List<CompetitionTypeDTO> competitionTypeDTOList = Arrays.asList(
@@ -60,7 +60,7 @@ public class CompetitionTypeMapperTest {
         expectedCompetitionTypeDTO.setId(1l);
 
         CompetitionType competitionType = new CompetitionType();
-        competitionType.setCompetitionType("type");
+        competitionType.setType("type");
         competitionType.setId(1l);
 
         Assertions.assertThat(competitionTypeMapper.toDTO(competitionType))
@@ -70,9 +70,9 @@ public class CompetitionTypeMapperTest {
     @Test
     public void toDTOListTest() {
         List<CompetitionType> competitionTypeList = Arrays.asList(
-                new CompetitionType().competitionType("type").id(1l),
-                new CompetitionType().competitionType("type2").id(2l),
-                new CompetitionType().competitionType("type3").id(3l)
+                new CompetitionType().type("type").id(1l),
+                new CompetitionType().type("type2").id(2l),
+                new CompetitionType().type("type3").id(3l)
         );
 
         List<CompetitionTypeDTO> expectedCompetitionTypeDTOList = Arrays.asList(

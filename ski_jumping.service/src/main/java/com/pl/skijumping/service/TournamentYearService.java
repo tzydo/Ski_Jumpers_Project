@@ -6,6 +6,7 @@ import com.pl.skijumping.dto.TournamentYearDTO;
 import com.pl.skijumping.service.mapper.TournamentYearMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class TournamentYearService {
         if(limit == null) {
             return new ArrayList<>();
         }
-        List<TournamentYear> byTopAndLimit = tournamentYearRepository.findAllByTopAndLimit(limit);
+        List<TournamentYear> byTopAndLimit = tournamentYearRepository.findAllByOrderByYearDesc(new PageRequest(0, limit));
         if (byTopAndLimit != null) {
             return tournamentYearMapper.toDTO(byTopAndLimit);
         } else {

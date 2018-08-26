@@ -26,8 +26,8 @@ public abstract class DataRaceMapper {
 
     @Mappings({
             @Mapping(source = "id", target = "id"),
-            @Mapping(source = "competitionType.competitionType", target = "competitionType"),
-            @Mapping(source = "competitionName.competitionName", target = "competitionName")
+            @Mapping(source = "competitionType.type", target = "competitionType"),
+            @Mapping(source = "competitionName.name", target = "competitionName")
     })
     public abstract DataRaceDTO toDTO(DataRace dataRace);
     public abstract List<DataRaceDTO> toDTO(List<DataRace> dataRaceList);

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CompetitionNameMapper {
-    @Mapping(source = "name", target = "competitionName")
+    @Mapping(source = "name", target = "name")
     CompetitionName fromDTO(CompetitionNameDTO competitionNameDTO);
     List<CompetitionName> fromDTO(List<CompetitionNameDTO> competitionNameDTO);
 
