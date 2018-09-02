@@ -1,7 +1,9 @@
 package com.pl.skijumping.service.mapper;
 
 import com.pl.skijumping.domain.entity.JumpResult;
+import com.pl.skijumping.domain.entity.JumpResultToDataRace;
 import com.pl.skijumping.domain.repository.DataRaceRepository;
+import com.pl.skijumping.domain.repository.JumpResultToDataRaceRepository;
 import com.pl.skijumping.domain.repository.SkiJumperRepository;
 import com.pl.skijumping.dto.JumpResultDTO;
 import org.mapstruct.*;
@@ -14,29 +16,25 @@ public abstract class JumpResultMapper {
     @Autowired
     private SkiJumperRepository skiJumperRepository;
     @Autowired
-    private DataRaceRepository dataRaceRepository;
+    private JumpResultToDataRaceRepository jumpResultToDataRaceRepository;
 
-    @Mapping(source = "id", target = "id")
-    public abstract JumpResult fromDTO(JumpResultDTO jumpResultDTO);
-
-    public abstract List<JumpResult> fromDTO(List<JumpResultDTO> jumpResultDTOS);
+    @Mapping(target = "jumperId", source = "skiJumper.id")
+    public abstract JumpResultDTO toDTO(JumpResult jumpResultDTO);
+    public abstract List<JumpResultDTO> toDTO(List<JumpResult> jumpResultDTOS);
 
     @InheritInverseConfiguration
-    @Mappings({
-            @Mapping(target = "dataRaceId", source = "dataRace.id"),
-            @Mapping(target = "jumperId", source = "skiJumper.id")
-    })
-    public abstract JumpResultDTO toDTO(JumpResult jumpResultDTO);
+    public abstract JumpResult fromDTO(JumpResultDTO jumpResultDTO);
+    public abstract List<JumpResult> fromDTO(List<JumpResultDTO> jumpResultDTOS);
 
-    public abstract List<JumpResultDTO> toDTO(List<JumpResult> jumpResultDTOS);
 
     @AfterMapping
     public JumpResult setJumpResult(@MappingTarget JumpResult jumpResult, JumpResultDTO jumpResultDTO) {
         if (jumpResultDTO.getJumperId() != null) {
             jumpResult.setSkiJumper(skiJumperRepository.findOne(jumpResultDTO.getJumperId()));
         }
-        if (jumpResultDTO.getDataRaceId() != null) {
-            jumpResult.setDataRace(dataRaceRepository.findOne(jumpResultDTO.getDataRaceId()));
+        if (jumpResultDTO.getJumpResultToDataRaceId() != null) {
+            jumpResult.setJumpResultToDataRace(
+                    jumpResultToDataRaceRepository.findOne(jumpResultDTO.getJumpResultToDataRaceId()));
         }
         return jumpResult;
     }
@@ -47,8 +45,8 @@ public abstract class JumpResultMapper {
             jumpResultDTO.setJumperId(jumpResult.getSkiJumper().getId());
         }
 
-        if (jumpResult.getDataRace() != null) {
-            jumpResultDTO.setDataRaceId(jumpResult.getDataRace().getId());
+        if (jumpResult.getJumpResultToDataRace() != null) {
+            jumpResultDTO.setJumpResultToDataRaceId(jumpResult.getJumpResultToDataRace().getId());
         }
         return jumpResultDTO;
     }

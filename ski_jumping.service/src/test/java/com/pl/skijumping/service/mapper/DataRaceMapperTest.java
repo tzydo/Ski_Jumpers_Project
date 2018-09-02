@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 
 @ActiveProfiles("test")
@@ -127,8 +127,8 @@ public class DataRaceMapperTest {
         DataRaceDTO dataRaceDTO = new DataRaceDTO()
                 .city("city")
                 .date(localDate)
-                .id(1l)
-                .raceId(1l)
+                .id(1L)
+                .raceId(1L)
                 .shortCountryName("cit");
 
         DataRace expectedDataRace = new DataRace()
@@ -136,8 +136,8 @@ public class DataRaceMapperTest {
                 .competitionType(null)
                 .competitionName(null)
                 .date(localDate)
-                .id(1l)
-                .raceId(1l)
+                .id(1L)
+                .raceId(1L)
                 .shortCountryName("cit");
 
         Assertions.assertThat(dataRaceMapper.fromDTO(dataRaceDTO))

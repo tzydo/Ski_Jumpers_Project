@@ -7,8 +7,8 @@ import com.pl.skijumping.service.mapper.SkiJumperMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +34,7 @@ public class SkiJumperService {
         return skiJumperMapper.toDTO(skiJumper);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<SkiJumperDTO> findAll() {
         List<SkiJumperDTO> skiJumperDTOS = skiJumperMapper.toDTO(skiJumperRepository.findAll());
         return skiJumperDTOS.isEmpty() ? new ArrayList<>() : skiJumperDTOS;

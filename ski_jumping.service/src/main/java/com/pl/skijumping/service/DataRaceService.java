@@ -8,6 +8,7 @@ import com.pl.skijumping.dto.DataRaceDTO;
 import com.pl.skijumping.service.mapper.DataRaceMapper;
 import com.querydsl.core.BooleanBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,13 @@ public class DataRaceService {
         this.diagnosticMonitor = diagnosticMonitor;
     }
 
+    @Transactional
+    public Optional<DataRaceDTO> findById(Long id) {
+        DataRace dataRace = dataRaceRepository.findOne(id);
+        return Optional.ofNullable(dataRaceMapper.toDTO(dataRace));
+    }
+
+    @Transactional
     public List<DataRaceDTO> findAll() {
         List<DataRace> dataRaceList = dataRaceRepository.findAll();
         if (dataRaceList == null) {

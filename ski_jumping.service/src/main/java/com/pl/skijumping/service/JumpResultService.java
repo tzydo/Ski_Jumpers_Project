@@ -7,11 +7,13 @@ import com.pl.skijumping.dto.JumpResultDTO;
 import com.pl.skijumping.service.mapper.JumpResultMapper;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class JumpResultService {
     private final JumpResultRepository jumpResultRepository;
     private final JumpResultMapper jumpResultMapper;

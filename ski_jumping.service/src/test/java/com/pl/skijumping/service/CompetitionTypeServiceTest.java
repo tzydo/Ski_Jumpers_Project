@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +25,6 @@ public class CompetitionTypeServiceTest {
     private CompetitionTypeMapper competitionTypeMapper;
 
     @Test
-    @Transactional
     public void saveTest() {
         CompetitionTypeDTO competitionTypeDTO = new CompetitionTypeDTO(null, "type");
 
@@ -57,7 +56,6 @@ public class CompetitionTypeServiceTest {
     }
 
     @Test
-    @Transactional
     public void findByTypeTest() {
         CompetitionTypeService competitionTypeService = new CompetitionTypeService(competitionTypeRepository, competitionTypeMapper);
         competitionTypeService.save(new CompetitionTypeDTO(null, "type"));

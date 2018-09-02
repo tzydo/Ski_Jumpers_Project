@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -22,7 +23,7 @@ public class SkiJumperDTO implements Serializable {
     private String team;
     private String gender;
     private String martialStatus;
-    private List<JumpResultDTO> jumpResult;
+    private Set<JumpResultDTO> jumpResult = new HashSet<>();
 
     public SkiJumperDTO id(Long id) {
         this.id = id;
@@ -64,7 +65,7 @@ public class SkiJumperDTO implements Serializable {
         return this;
     }
 
-    public SkiJumperDTO jumpResult(List<JumpResultDTO> jumpResult) {
+    public SkiJumperDTO jumpResult(Set<JumpResultDTO> jumpResult) {
         this.jumpResult = jumpResult;
         return this;
     }
@@ -77,5 +78,10 @@ public class SkiJumperDTO implements Serializable {
     public SkiJumperDTO gender(String gender) {
         this.gender = gender;
         return this;
+    }
+
+    public void addJumpResult(JumpResultDTO jumpResultDTO) {
+        if(jumpResultDTO == null) return;
+        this.jumpResult.add(jumpResultDTO);
     }
 }

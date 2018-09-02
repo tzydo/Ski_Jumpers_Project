@@ -31,8 +31,7 @@ public class CompetitionTypeService {
             return null;
         }
 
-        CompetitionType competitionType = competitionTypeMapper.fromDTO(competitionTypeDTO);
-        competitionType = competitionTypeRepository.save(competitionType);
+        CompetitionType competitionType = competitionTypeRepository.save(competitionTypeMapper.fromDTO(competitionTypeDTO));
         return competitionTypeMapper.toDTO(competitionType);
     }
 
