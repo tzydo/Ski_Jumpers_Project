@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "ski_jumper")
@@ -26,7 +26,7 @@ public class SkiJumper implements Serializable {
     private String nationality;
     private String skiClub;
     private String team;
-    private Set<JumpResult> jumpResult = new HashSet<>();
+    private List<JumpResult> jumpResult = new ArrayList<>();
     private MaritalStatus martialStatus;
 
     @Id
@@ -113,11 +113,11 @@ public class SkiJumper implements Serializable {
     }
 
     @OneToMany(mappedBy = "skiJumper")
-    public Set<JumpResult> getJumpResult() {
+    public List<JumpResult> getJumpResult() {
         return jumpResult;
     }
 
-    public void setJumpResult(Set<JumpResult> jumpResult) {
+    public void setJumpResult(List<JumpResult> jumpResult) {
         this.jumpResult = jumpResult;
     }
 
@@ -168,7 +168,7 @@ public class SkiJumper implements Serializable {
         result = 31 * result + (nationality != null ? nationality.hashCode() : 0);
         result = 31 * result + (skiClub != null ? skiClub.hashCode() : 0);
         result = 31 * result + (team != null ? team.hashCode() : 0);
-//        result = 31 * result + (jumpResult != null ? jumpResult.hashCode() : 0);
+        result = 31 * result + (jumpResult != null ? jumpResult.hashCode() : 0);
         result = 31 * result + (martialStatus != null ? martialStatus.hashCode() : 0);
         return result;
     }
@@ -218,7 +218,7 @@ public class SkiJumper implements Serializable {
         return this;
     }
 
-    public SkiJumper jumpResult(Set<JumpResult> jumpResult) {
+    public SkiJumper jumpResult(List<JumpResult> jumpResult) {
         this.jumpResult = jumpResult;
         return this;
     }

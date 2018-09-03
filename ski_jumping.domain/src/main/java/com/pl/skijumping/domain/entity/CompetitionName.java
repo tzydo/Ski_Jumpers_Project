@@ -5,7 +5,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,7 +17,7 @@ public class CompetitionName implements Serializable {
 
     private Long id;
     private String name;
-    private Set<DataRace> raceList = new HashSet<>();
+    private List<DataRace> dataRaceList = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,17 +39,17 @@ public class CompetitionName implements Serializable {
     }
 
     @OneToMany(mappedBy = "competitionType")
-    public Set<DataRace> getRaceList() {
-        return raceList;
+    public List<DataRace> getDataRaceList() {
+        return dataRaceList;
     }
 
-    public void setRaceList(Set<DataRace> raceList) {
-        this.raceList = raceList;
+    public void setDataRaceList(List<DataRace> dataRaceList) {
+        this.dataRaceList = dataRaceList;
     }
 
     public void addDataRace(DataRace dataRace){
         if(dataRace == null) return;
-        this.raceList.add(dataRace);
+        this.dataRaceList.add(dataRace);
     }
 
     @Override
@@ -60,14 +61,14 @@ public class CompetitionName implements Serializable {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        return raceList != null ? raceList.equals(that.raceList) : that.raceList == null;
+        return dataRaceList != null ? dataRaceList.equals(that.dataRaceList) : that.dataRaceList == null;
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (raceList != null ? raceList.hashCode() : 0);
+        result = 31 * result + (dataRaceList != null ? dataRaceList.hashCode() : 0);
         return result;
     }
 
@@ -81,8 +82,8 @@ public class CompetitionName implements Serializable {
         return this;
     }
 
-    public CompetitionName raceList(Set<DataRace> raceList) {
-        this.raceList = raceList;
+    public CompetitionName dataRaceList(List<DataRace> dataRaceList) {
+        this.dataRaceList = dataRaceList;
         return this;
     }
 }

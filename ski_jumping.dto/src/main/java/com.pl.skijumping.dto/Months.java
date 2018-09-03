@@ -1,6 +1,7 @@
 package com.pl.skijumping.dto;
 
 public enum Months {
+
     JAN(1),
     FEB(2),
     MAR(3),

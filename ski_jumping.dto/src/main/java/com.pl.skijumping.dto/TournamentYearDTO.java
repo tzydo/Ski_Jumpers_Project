@@ -10,6 +10,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TournamentYearDTO implements Serializable {
+
     private Long id;
     private String year;
 

@@ -79,30 +79,4 @@ public class SkiJumperService {
             skiJumperRepository.save(skiJumperMapper.fromDTO(skiJumperDTO));
         }
     }
-
-
-//    public int getFisCode() {
-////        List<Integer> fisCodeList = skiJumperRepository.getFisCodeList();
-//        Random randomValue = new Random();
-//        boolean value = true;
-//        int fis_code;
-//
-//        do {
-//            fis_code = randomValue.nextInt(9900) + 999;
-//            if (!fisCodeList.contains(fis_code)) value = false;
-//        } while (value);
-//
-//        return fis_code;
-//    }
-
-
-//    public Optional<List<SkiJumperDTO>> getJumpersByPattenr(String pattern) {
-//        List<SkiJumperDTO> skiJumperDTOList = skiJumperMapper.toDTO(skiJumperRepository.getJumpersByPattenr(pattern));
-//        if(skiJumperDTOList.isEmpty()) {
-//            return Optional.empty();
-//        }
-//        return Optional.of(skiJumperDTOList);
-//    }
-
-
 }

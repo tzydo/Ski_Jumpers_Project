@@ -46,8 +46,8 @@ public class DataRaceServiceTest {
     @Test
     @Transactional
     public void findByDataRaceTest() {
-        CompetitionTypeDTO competitionTypeDTO = competitionTypeService.save(new CompetitionTypeDTO(null, "type"));
-        CompetitionNameDTO competitionNameDTO = competitionNameService.save(new CompetitionNameDTO(null, "name"));
+        CompetitionTypeDTO competitionTypeDTO = competitionTypeService.save(new CompetitionTypeDTO(null, "type", null));
+        CompetitionNameDTO competitionNameDTO = competitionNameService.save(new CompetitionNameDTO(null, "name", null));
 
         DataRace dataRace = new DataRace()
                 .date(LocalDate.now())
@@ -104,9 +104,9 @@ public class DataRaceServiceTest {
     @Test
     @Transactional
     public void getRaceDataIdListTest() {
-        dataRaceRepository.save(new DataRace(null, LocalDate.now(), "test", "t", null, null, null, 1L));
+        dataRaceRepository.save(new DataRace(null, LocalDate.now(), "test", "t", null, null, 1L));
 
-        dataRaceRepository.save(new DataRace(null, LocalDate.now(), "test", "t", null, null, null, 2L));
+        dataRaceRepository.save(new DataRace(null, LocalDate.now(), "test", "t", null, null, 2L));
 
         List<Long> actualRaceDataList = dataRaceRepository.getRaceDataList();
         Assertions.assertThat(actualRaceDataList).hasSize(2);

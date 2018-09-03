@@ -6,13 +6,14 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class SkiJumperDTO implements Serializable {
+
     private Long id;
     private int bib;
     private int fisCode;
@@ -23,7 +24,7 @@ public class SkiJumperDTO implements Serializable {
     private String team;
     private String gender;
     private String martialStatus;
-    private Set<JumpResultDTO> jumpResult = new HashSet<>();
+    private List<Long> jumpResultIds = new ArrayList<>();
 
     public SkiJumperDTO id(Long id) {
         this.id = id;
@@ -65,11 +66,6 @@ public class SkiJumperDTO implements Serializable {
         return this;
     }
 
-    public SkiJumperDTO jumpResult(Set<JumpResultDTO> jumpResult) {
-        this.jumpResult = jumpResult;
-        return this;
-    }
-
     public SkiJumperDTO birthday(LocalDate birthday) {
         this.birthday = birthday;
         return this;
@@ -80,8 +76,13 @@ public class SkiJumperDTO implements Serializable {
         return this;
     }
 
-    public void addJumpResult(JumpResultDTO jumpResultDTO) {
-        if(jumpResultDTO == null) return;
-        this.jumpResult.add(jumpResultDTO);
+    public void addJumpResult(Long jumpResultId) {
+        if(jumpResultId == null) return;
+        this.jumpResultIds.add(jumpResultId);
+    }
+
+    public SkiJumperDTO jumpResultList(List<Long> jumpResultIds) {
+        this.jumpResultIds = jumpResultIds;
+        return this;
     }
 }

@@ -34,13 +34,13 @@ skijumping:
         enable: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_ENABLE:false}
 spring:
   jpa:
-    database: ${DATABASE:HSQL}
+    database: ${DATABASE:H2}
     hibernate.ddl-auto: ${DDL-AUTO:create-drop}
     properties:
-      hibernate.dialect: ${HIBERNATE_DIALECT:org.hibernate.dialect.HSQLDialect}
+      hibernate.dialect: ${HIBERNATE_DIALECT:org.hibernate.dialect.H2Dialect}
   datasource:
-    driverClassName: ${DRIVER_CLASS_NAME:org.hsqldb.jdbcDriver}
-    url: ${URL:jdbc:hsqldb:mem:scratchdb}
+    driverClassName: ${DRIVER_CLASS_NAME:org.h2.Driver}
+    url: ${URL:jdbc:h2:mem:testdb}
     username: ${USERNAME:sa}
     password: ${PASSWORD:}
   profiles:
@@ -48,3 +48,6 @@ spring:
   batch:
     job:
       enabled: ${ENABLE:false}
+  h2:
+    console:
+      enabled: true

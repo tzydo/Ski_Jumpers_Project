@@ -97,7 +97,6 @@ public class JumpResult implements Serializable {
     }
 
     @OneToOne(mappedBy = "jumpResult")
-    @Column(name = "jumpResultToDataRace")
     public JumpResultToDataRace getJumpResultToDataRace() {
         return jumpResultToDataRace;
     }

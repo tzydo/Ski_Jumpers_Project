@@ -25,20 +25,20 @@ public class CompetitionTypeServiceTest {
     private CompetitionTypeMapper competitionTypeMapper;
 
     @Test
+    @Transactional
     public void saveTest() {
-        CompetitionTypeDTO competitionTypeDTO = new CompetitionTypeDTO(null, "type");
-
         CompetitionTypeService competitionTypeService = new CompetitionTypeService(competitionTypeRepository, competitionTypeMapper);
-        competitionTypeService.save(competitionTypeDTO);
+        CompetitionTypeDTO competitionTypeDTO = competitionTypeService.save(
+                new CompetitionTypeDTO(null, "type", null));
 
         List<CompetitionTypeDTO> competitionTypeDTOList = competitionTypeService.findAll();
         Assertions.assertThat(competitionTypeDTOList).isNotEmpty();
         Assertions.assertThat(competitionTypeDTOList).hasSize(1);
-        competitionTypeDTO.setId(1l);
         Assertions.assertThat(competitionTypeDTOList.get(0)).isEqualToComparingFieldByFieldRecursively(competitionTypeDTO);
     }
 
     @Test
+    @Transactional
     public void saveWhenNullTest() {
         CompetitionTypeService competitionTypeService = new CompetitionTypeService(competitionTypeRepository, competitionTypeMapper);
         CompetitionTypeDTO competitionTypeDTO = competitionTypeService.save(null);
@@ -58,13 +58,14 @@ public class CompetitionTypeServiceTest {
     @Test
     public void findByTypeTest() {
         CompetitionTypeService competitionTypeService = new CompetitionTypeService(competitionTypeRepository, competitionTypeMapper);
-        competitionTypeService.save(new CompetitionTypeDTO(null, "type"));
-        competitionTypeService.save(new CompetitionTypeDTO(null, "type2"));
-        competitionTypeService.save(new CompetitionTypeDTO(null, "type3"));
+        CompetitionTypeDTO competitionTypeDTO = competitionTypeService.save(
+                new CompetitionTypeDTO(null, "type", null));
+        competitionTypeService.save(new CompetitionTypeDTO(null, "type2", null));
+        competitionTypeService.save(new CompetitionTypeDTO(null, "type3", null));
 
-        Optional<CompetitionTypeDTO> competitionTypeDTO = competitionTypeService.findByType("type");
-        Assertions.assertThat(competitionTypeDTO.isPresent()).isTrue();
-        Assertions.assertThat(competitionTypeDTO.get()).isEqualTo(new CompetitionTypeDTO(competitionTypeDTO.get().getId(), "type"));
+        Optional<CompetitionTypeDTO> actualCompetitionTypeDTO = competitionTypeService.findByType("type");
+        Assertions.assertThat(actualCompetitionTypeDTO.isPresent()).isTrue();
+        Assertions.assertThat(actualCompetitionTypeDTO.get()).isEqualTo(competitionTypeDTO);
 
     }
 

@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DataRaceDTO implements Serializable {
+
     private Long id;
     private LocalDate date;
     private String city;

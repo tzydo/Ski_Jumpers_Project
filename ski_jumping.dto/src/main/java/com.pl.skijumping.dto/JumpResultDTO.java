@@ -11,6 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JumpResultDTO implements Serializable {
+
     private Long id;
     private Long jumperId;
     private Integer  rank;

@@ -20,8 +20,8 @@ public class JumpResultToDataRace {
         this.id = id;
     }
 
-    @OneToOne(mappedBy = "jumpResultToDataRace")
-    @Column(name = "jump_result", nullable = false, unique = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "jump_result", referencedColumnName = "id", nullable = false, unique = true)
     public JumpResult getJumpResult() {
         return jumpResult;
     }
@@ -31,7 +31,7 @@ public class JumpResultToDataRace {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "data_race", nullable = false)
+    @JoinColumn(name = "data_race", nullable = false)
     public DataRace getDataRace() {
         return dataRace;
     }

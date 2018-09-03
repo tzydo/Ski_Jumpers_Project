@@ -1,8 +1,6 @@
 package com.pl.skijumping.service.mapper;
 
 import com.pl.skijumping.domain.entity.JumpResult;
-import com.pl.skijumping.domain.entity.JumpResultToDataRace;
-import com.pl.skijumping.domain.repository.DataRaceRepository;
 import com.pl.skijumping.domain.repository.JumpResultToDataRaceRepository;
 import com.pl.skijumping.domain.repository.SkiJumperRepository;
 import com.pl.skijumping.dto.JumpResultDTO;
@@ -18,7 +16,6 @@ public abstract class JumpResultMapper {
     @Autowired
     private JumpResultToDataRaceRepository jumpResultToDataRaceRepository;
 
-    @Mapping(target = "jumperId", source = "skiJumper.id")
     public abstract JumpResultDTO toDTO(JumpResult jumpResultDTO);
     public abstract List<JumpResultDTO> toDTO(List<JumpResult> jumpResultDTOS);
 

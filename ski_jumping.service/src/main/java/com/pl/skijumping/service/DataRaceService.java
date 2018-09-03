@@ -48,6 +48,16 @@ public class DataRaceService {
         if (dataRaceDTO == null) {
             return null;
         }
+
+        return dataRaceMapper.toDTO(dataRaceRepository.save(dataRaceMapper.fromDTO(dataRaceDTO)));
+    }
+
+
+    public DataRaceDTO update(DataRaceDTO dataRaceDTO) {
+        if (dataRaceDTO == null) {
+            return null;
+        }
+
         DataRace dataRace = dataRaceMapper.fromDTO(dataRaceDTO);
         Optional<DataRace> foundDataRace;
         try {
@@ -85,10 +95,13 @@ public class DataRaceService {
 
         if (dataRace.getDate() != null) booleanBuilder.and(qDataRace.date.eq(dataRace.getDate()));
         if (dataRace.getCity() != null) booleanBuilder.and(qDataRace.city.eq(dataRace.getCity()));
-        if (dataRace.getShortCountryName() != null) booleanBuilder.and(qDataRace.shortCountryName.eq(dataRace.getShortCountryName()));
+        if (dataRace.getShortCountryName() != null)
+            booleanBuilder.and(qDataRace.shortCountryName.eq(dataRace.getShortCountryName()));
         if (dataRace.getRaceId() != null) booleanBuilder.and(qDataRace.raceId.eq(dataRace.getRaceId()));
-        if (dataRace.getCompetitionName() != null) booleanBuilder.and(qDataRace.competitionName().eq(dataRace.getCompetitionName()));
-        if (dataRace.getCompetitionType() != null) booleanBuilder.and(qDataRace.competitionType().eq(dataRace.getCompetitionType()));
+        if (dataRace.getCompetitionName() != null)
+            booleanBuilder.and(qDataRace.competitionName().eq(dataRace.getCompetitionName()));
+        if (dataRace.getCompetitionType() != null)
+            booleanBuilder.and(qDataRace.competitionType().eq(dataRace.getCompetitionType()));
 
         DataRace foundDataRace = (DataRace) dataRaceRepository.findOne(booleanBuilder);
 

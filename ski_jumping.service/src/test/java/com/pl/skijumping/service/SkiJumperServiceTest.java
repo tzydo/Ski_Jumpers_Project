@@ -72,7 +72,7 @@
 //        SkiJumperService skiJumperService = new SkiJumperService(skiJumperRepository, skiJumperMapper);
 //        setupSkiJumperDTOList(skiJumperService);
 //
-//        Optional<List<SkiJumperDTO>> actualSkiJumperDTO = skiJumperService.findByName("name2");
+//        Optional<List<SkiJumperDTO>> actualSkiJumperDTO = skiJumperService.findAllByName("name2");
 //        Assertions.assertThat(actualSkiJumperDTO.isPresent()).isTrue();
 //        Assertions.assertThat(actualSkiJumperDTO.get()).hasSize(1);
 //    }

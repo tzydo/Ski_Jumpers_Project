@@ -5,16 +5,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompetitionTypeDTO implements Serializable {
+
     private Long id;
     private String type;
-    private Set<Long> dataRaceId = new HashSet<>();
+    private List<Long> dataRaceId = new ArrayList<>();
 
     public CompetitionTypeDTO id(Long id) {
         this.id = id;
@@ -26,7 +27,7 @@ public class CompetitionTypeDTO implements Serializable {
         return this;
     }
 
-    public CompetitionTypeDTO dataRaceId(Set<Long> dataRaceId) {
+    public CompetitionTypeDTO dataRaceList(List<Long> dataRaceId) {
         this.dataRaceId = dataRaceId;
         return this;
     }

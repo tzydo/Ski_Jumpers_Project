@@ -6,11 +6,10 @@ import com.pl.skijumping.domain.repository.JumpResultRepository;
 import com.pl.skijumping.dto.JumpResultDTO;
 import com.pl.skijumping.service.mapper.JumpResultMapper;
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -34,33 +33,35 @@ public class JumpResultService {
         return jumpResultMapper.toDTO(savedJumpResult);
     }
 
-    public Optional<JumpResultDTO> findByParams(Long dataRaceId, Long skiJumperId, Integer rank) {
-        JumpResult jumpResult = jumpResultRepository.findByDataRace_IdAndSkiJumper_IdAndRank(dataRaceId, skiJumperId, rank);
-        return Optional.ofNullable(jumpResultMapper.toDTO(jumpResult));
-    }
+//    public Optional<JumpResultDTO> findByParams(Long dataRaceId, Long skiJumperId, Integer rank) {
+//        JumpResult jumpResult = jumpResultRepository.findByDataRace_IdAndSkiJumper_IdAndRank(dataRaceList, skiJumperId, rank);
+//        return Optional.ofNullable(jumpResultMapper.toDTO(jumpResult));
+
+//        return null;
+//    }
 
 
-    //ToDo testy!!!!!
-    public JumpResultDTO update(JumpResultDTO jumpResultDTO) {
-        if (jumpResultDTO == null) {
-            diagnosticMonitor.logWarn("Cannot update null jumpResult");
-            return null;
-        }
-
-        Optional<JumpResultDTO> existingJumpResultDTO = this.findByParams(jumpResultDTO.getDataRaceId(), jumpResultDTO.getJumperId(), jumpResultDTO.getRank());
-
-        if (!existingJumpResultDTO.isPresent()) {
-            return this.save(jumpResultDTO);
-        }
-
-        existingJumpResultDTO.get().setFirstJump(jumpResultDTO.getFirstJump());
-        existingJumpResultDTO.get().setPointsForFirstJump(jumpResultDTO.getPointsForFirstJump());
-        existingJumpResultDTO.get().setSecondJump(jumpResultDTO.getSecondJump());
-        existingJumpResultDTO.get().setPointsForSecondJump(jumpResultDTO.getPointsForSecondJump());
-        existingJumpResultDTO.get().setTotalPoints(jumpResultDTO.getTotalPoints());
-
-        return this.save(existingJumpResultDTO.get());
-    }
+//    //ToDo testy!!!!!
+//    public JumpResultDTO update(JumpResultDTO jumpResultDTO) {
+//        if (jumpResultDTO == null) {
+//            diagnosticMonitor.logWarn("Cannot update null jumpResult");
+//            return null;
+//        }
+//
+//        Optional<JumpResultDTO> existingJumpResultDTO = this.findByParams(jumpResultDTO.getDataRaceId(), jumpResultDTO.getJumperId(), jumpResultDTO.getRank());
+//
+//        if (!existingJumpResultDTO.isPresent()) {
+//            return this.save(jumpResultDTO);
+//        }
+//
+//        existingJumpResultDTO.get().setFirstJump(jumpResultDTO.getFirstJump());
+//        existingJumpResultDTO.get().setPointsForFirstJump(jumpResultDTO.getPointsForFirstJump());
+//        existingJumpResultDTO.get().setSecondJump(jumpResultDTO.getSecondJump());
+//        existingJumpResultDTO.get().setPointsForSecondJump(jumpResultDTO.getPointsForSecondJump());
+//        existingJumpResultDTO.get().setTotalPoints(jumpResultDTO.getTotalPoints());
+//
+//        return this.save(existingJumpResultDTO.get());
+//    }
 
 
     public List<JumpResultDTO> findAll() {
