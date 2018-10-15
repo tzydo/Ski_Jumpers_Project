@@ -3,6 +3,8 @@ package com.pl.skijumping.batch.jumpresultsynchronize.processor;
 import com.pl.skijumping.batch.matchingword.MatchingWords;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.JumpResultDTO;
+import com.pl.skijumping.service.JumpResultService;
+import com.pl.skijumping.service.JumpResultToDataRaceService;
 import com.pl.skijumping.service.SkiJumperService;
 
 import java.util.ArrayList;
@@ -17,22 +19,26 @@ class JumpResultDataSynchronize {
     private final DiagnosticMonitor diagnosticMonitor;
     private final Long raceDataId;
     private JumpResultMatcher jumpResultMatcher;
-    private SkiJumperService skiJumperService;
 
 
-    public JumpResultDataSynchronize(DiagnosticMonitor diagnosticMonitor, SkiJumperService skiJumperService, Long raceDataId) {
+    public JumpResultDataSynchronize(DiagnosticMonitor diagnosticMonitor,
+                                     SkiJumperService skiJumperService,
+                                     Long raceDataId,
+                                     JumpResultToDataRaceService jumpResultToDataRaceService,
+                                     JumpResultService jumpResultService) {
         this.diagnosticMonitor = diagnosticMonitor;
-        this.skiJumperService = skiJumperService;
         this.raceDataId = raceDataId;
+        this.jumpResultMatcher = new JumpResultMatcher(diagnosticMonitor, skiJumperService,
+                jumpResultToDataRaceService, jumpResultService);
     }
 
-    List<JumpResultDTO> transformData(String words) {
-        if (words == null || words.isEmpty()) {
+    List<JumpResultDTO> transformData(String data) {
+        if (data == null || data.isEmpty()) {
             diagnosticMonitor.logWarn("Cannot match words from null");
             return new ArrayList<>();
         }
 
-        words = removeUnnecessaryWords(words);
+        String words = removeUnnecessaryWords(data);
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
         Optional<List<String>> resultDataFirstFilter = matchingWords.getJumpResultDataFilter(words);
 
@@ -48,13 +54,12 @@ class JumpResultDataSynchronize {
         }
 
         return resultDataBodyList.get().stream()
-                .map(this::getSkiJumperFromData)
+                .map(this::getJumpResultFromData)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
-    private JumpResultDTO getSkiJumperFromData(String words) {
-        jumpResultMatcher = new JumpResultMatcher(diagnosticMonitor, skiJumperService);
+    private JumpResultDTO getJumpResultFromData(String words) {
         return jumpResultMatcher.matchJumperData(words, this.raceDataId);
     }
 

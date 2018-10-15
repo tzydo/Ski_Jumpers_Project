@@ -50,6 +50,7 @@ public class JumpResultSynchronizeReaderBatch implements ItemStreamReader<Pair<L
 
             dataRaceIdAndHostIterator = raceData.iterator();
         }
+        return ;
     }
 
     @Override

@@ -57,7 +57,7 @@ public class SkiJumper implements Serializable {
         this.fisCode = fisCode;
     }
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     public String getName() {
         return name;
     }

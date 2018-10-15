@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -31,6 +32,15 @@ public class JumpResultService {
         }
         JumpResult savedJumpResult = jumpResultRepository.save(jumpResultMapper.fromDTO(jumpResultDTO));
         return jumpResultMapper.toDTO(savedJumpResult);
+    }
+
+    Optional<JumpResultDTO> findByRankAndDataRace(Integer rank, Long dataRace) {
+        if(rank == null || dataRace == null) {
+            return Optional.empty();
+        }
+
+        JumpResult jumpResultByRankAndDataRace = jumpResultRepository.findJumpResultByRankAndDataRace(rank, dataRace);
+        return Optional.ofNullable(jumpResultMapper.toDTO(jumpResultByRankAndDataRace));
     }
 
 //    public Optional<JumpResultDTO> findByParams(Long dataRaceId, Long skiJumperId, Integer rank) {

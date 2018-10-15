@@ -2,8 +2,10 @@ package com.pl.skijumping.batch.jumpresultsynchronize.processor;
 
 import com.pl.skijumping.batch.SetupUtilTests;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import com.pl.skijumping.dto.SkiJumperDTO;
 import com.pl.skijumping.dto.JumpResultDTO;
+import com.pl.skijumping.dto.SkiJumperDTO;
+import com.pl.skijumping.service.JumpResultService;
+import com.pl.skijumping.service.JumpResultToDataRaceService;
 import com.pl.skijumping.service.SkiJumperService;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -19,6 +21,10 @@ import java.util.Optional;
 public class JumpResultDataSynchronizeTest {
     @Mock
     private SkiJumperService skiJumperService;
+    @Mock
+    private JumpResultToDataRaceService jumpResultToDataRaceService;
+    @Mock
+    private JumpResultService jumpResultService;
 
     private final String words =
             "test</thead><tr>" +
@@ -42,7 +48,8 @@ public class JumpResultDataSynchronizeTest {
 
         Long raceDataId = 1l;
         DiagnosticMonitor diagnosticMonitorMock = SetupUtilTests.getDiagnosticMonitorMock();
-        JumpResultDataSynchronize jumpResultDataSynchronize = new JumpResultDataSynchronize(diagnosticMonitorMock, skiJumperService, raceDataId);
+        JumpResultDataSynchronize jumpResultDataSynchronize = new JumpResultDataSynchronize(
+                diagnosticMonitorMock, skiJumperService, raceDataId, jumpResultToDataRaceService, jumpResultService);
         List<JumpResultDTO> jumpResultDTOS = jumpResultDataSynchronize.transformData(words);
         Assertions.assertThat(jumpResultDTOS).isNotEmpty();
         Assertions.assertThat(jumpResultDTOS).hasSize(1);
@@ -50,7 +57,6 @@ public class JumpResultDataSynchronizeTest {
         JumpResultDTO expectedJumpResultDTO = new JumpResultDTO()
                 .rank(1)
                 .jumperId(1L)
-                .dataRaceId(raceDataId)
                 .firstJump(99.0)
                 .pointsForFirstJump(126.3)
                 .secondJump(102.5)

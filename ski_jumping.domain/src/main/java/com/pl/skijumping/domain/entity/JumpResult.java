@@ -42,7 +42,7 @@ public class JumpResult implements Serializable {
         this.skiJumper = skiJumper;
     }
 
-    @Column(name = "rank")
+    @Column(name = "rank", nullable = false, unique = true)
     public Integer getRank() {
         return rank;
     }

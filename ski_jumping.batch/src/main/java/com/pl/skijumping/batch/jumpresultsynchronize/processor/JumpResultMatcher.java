@@ -3,21 +3,31 @@ package com.pl.skijumping.batch.jumpresultsynchronize.processor;
 import com.pl.skijumping.batch.matchingword.MatchingWords;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.JumpResultDTO;
+import com.pl.skijumping.dto.JumpResultToDataRaceDTO;
 import com.pl.skijumping.dto.SkiJumperDTO;
+import com.pl.skijumping.service.JumpResultService;
+import com.pl.skijumping.service.JumpResultToDataRaceService;
 import com.pl.skijumping.service.SkiJumperService;
 
 import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("squid:S3516")
-public class JumpResultMatcher {
+class JumpResultMatcher {
     private final DiagnosticMonitor diagnosticMonitor;
     private final SkiJumperService skiJumperService;
     private final MatchingWords matchingWords;
+    private final JumpResultToDataRaceService jumpResultToDataRaceService;
+    private final JumpResultService jumpResultService;
 
-    public JumpResultMatcher(DiagnosticMonitor diagnosticMonitor, SkiJumperService skiJumperService) {
+    public JumpResultMatcher(DiagnosticMonitor diagnosticMonitor,
+                             SkiJumperService skiJumperService,
+                             JumpResultToDataRaceService jumpResultToDataRaceService,
+                             JumpResultService jumpResultService) {
         this.diagnosticMonitor = diagnosticMonitor;
         this.skiJumperService = skiJumperService;
+        this.jumpResultToDataRaceService = jumpResultToDataRaceService;
+        this.jumpResultService = jumpResultService;
         matchingWords = new MatchingWords(this.diagnosticMonitor);
     }
 
@@ -34,18 +44,34 @@ public class JumpResultMatcher {
             return null;
         }
 
-        SkiJumperDTO skiJumper = skiJumperService.findOneByName(skiJumperName).orElse(null);
-        if (skiJumper == null) {
-            skiJumper = createSkiJumper(jumpResultDataSecondStep.get(), skiJumperName);
+        SkiJumperDTO skiJumperDTO = findSkiJumperDTOByName(skiJumperName);
+        if (skiJumperDTO == null) {
+            skiJumperDTO = createSkiJumper(jumpResultDataSecondStep.get(), skiJumperName);
         }
 
-        return createJumpResult(jumpResultDataSecondStep.get(), skiJumper.getId(), raceDataId);
+        JumpResultDTO jumpResult = createJumpResult(jumpResultDataSecondStep.get(), skiJumperDTO.getId());
+
+        JumpResultToDataRaceDTO jumpResultToDataRaceDTO = createJumpResultToDataRace(raceDataId, jumpResult);
+
+        jumpResult.setJumpResultToDataRaceId(jumpResultToDataRaceDTO.getId());
+        skiJumperDTO.addJumpResult(jumpResult.getId());
+        skiJumperService.save(skiJumperDTO);
+
+        return jumpResultService.save(jumpResult);
     }
 
-    private JumpResultDTO createJumpResult(List<String> resultDataSecondStepWords, Long skiJumperId, Long raceDataId) {
+    private JumpResultToDataRaceDTO createJumpResultToDataRace(Long raceDataId, JumpResultDTO jumpResult) {
+        return jumpResultToDataRaceService.save(
+                new JumpResultToDataRaceDTO().dataRaceId(raceDataId).jumpResultId(jumpResult.getId()));
+    }
+
+    private SkiJumperDTO findSkiJumperDTOByName(String skiJumperName) {
+        return skiJumperService.findOneByName(skiJumperName).orElse(null);
+    }
+
+    private JumpResultDTO createJumpResult(List<String> resultDataSecondStepWords, Long skiJumperId) {
         JumpResultDTO jumpResultDTO = new JumpResultDTO();
         jumpResultDTO.jumperId(skiJumperId);
-        jumpResultDTO.dataRaceId(raceDataId);
         jumpResultDTO.setRank(getValue(resultDataSecondStepWords, 0));
         jumpResultDTO.setFirstJump(getDoubleValue(resultDataSecondStepWords, 5));
         jumpResultDTO.setPointsForFirstJump(getDoubleValue(resultDataSecondStepWords, 6));
@@ -53,7 +79,7 @@ public class JumpResultMatcher {
         jumpResultDTO.setPointsForSecondJump(getDoubleValue(resultDataSecondStepWords, 8));
         jumpResultDTO.setTotalPoints(getDoubleValue(resultDataSecondStepWords, 9));
 
-        return jumpResultDTO;
+        return jumpResultService.save(jumpResultDTO);
     }
 
     private SkiJumperDTO createSkiJumper(List<String> words, String name) {
@@ -70,7 +96,11 @@ public class JumpResultMatcher {
             diagnosticMonitor.logWarn("Cannot get value from list where size is less than the index");
             return null;
         }
-        return Integer.parseInt(resultDataSecondStep.get(index));
+        try {
+            return Integer.parseInt(resultDataSecondStep.get(index));
+        }catch (NumberFormatException e) {
+            return null;
+        }
     }
 
     private Double getDoubleValue(List<String> resultDataSecondStep, int index) {
@@ -78,6 +108,10 @@ public class JumpResultMatcher {
             diagnosticMonitor.logWarn("Cannot get value from list where size is less than the index");
             return null;
         }
-        return Double.valueOf(resultDataSecondStep.get(index));
+        try{
+            return Double.valueOf(resultDataSecondStep.get(index));
+        }catch (NumberFormatException e) {
+            return null;
+        }
     }
 }

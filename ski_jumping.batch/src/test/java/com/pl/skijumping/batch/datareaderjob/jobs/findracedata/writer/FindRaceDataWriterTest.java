@@ -18,8 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -82,8 +82,8 @@ public class FindRaceDataWriterTest {
     @Test
     @Transactional
     public void writeWhenExistTest() {
-        competitionTypeService.save(new CompetitionTypeDTO(null, "type"));
-        competitionNameService.save(new CompetitionNameDTO(null, "name"));
+        competitionTypeService.save(new CompetitionTypeDTO(null, "type", null));
+        competitionNameService.save(new CompetitionNameDTO(null, "name", null));
 
         DataRaceDTO dataRaceDTO = new DataRaceDTO()
                 .raceId(1L)

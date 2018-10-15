@@ -1,10 +1,11 @@
 package com.pl.skijumping.domain.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "jump_result_to_data_race")
-public class JumpResultToDataRace {
+public class JumpResultToDataRace implements Serializable {
 
     private Long id;
     private JumpResult jumpResult;

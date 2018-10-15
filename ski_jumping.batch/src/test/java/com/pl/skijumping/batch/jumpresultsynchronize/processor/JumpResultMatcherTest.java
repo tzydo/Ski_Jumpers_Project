@@ -4,6 +4,8 @@ import com.pl.skijumping.batch.SetupUtilTests;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.JumpResultDTO;
 import com.pl.skijumping.dto.SkiJumperDTO;
+import com.pl.skijumping.service.JumpResultService;
+import com.pl.skijumping.service.JumpResultToDataRaceService;
 import com.pl.skijumping.service.SkiJumperService;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -19,6 +21,10 @@ public class JumpResultMatcherTest {
 
     @Mock
     private SkiJumperService skiJumperService;
+    @Mock
+    private JumpResultToDataRaceService jumpResultToDataRaceService;
+    @Mock
+    private JumpResultService jumpResultService;
 
     private String words = "" +
             "<td class='i0' align='right'>1</td>" +
@@ -36,16 +42,17 @@ public class JumpResultMatcherTest {
 
     @Test
     public void matchJumperDataTest() {
-        Mockito.when(skiJumperService.findOneByName(Mockito.anyString())).thenReturn(Optional.of(new SkiJumperDTO().id(1L)));
+        Mockito.when(skiJumperService.findOneByName(Mockito.anyString()))
+                .thenReturn(Optional.of(new SkiJumperDTO().id(1L)));
         Long raceDataId = 1L;
 
         DiagnosticMonitor diagnosticMonitorMock = SetupUtilTests.getDiagnosticMonitorMock();
-        JumpResultMatcher jumpResultMatcher = new JumpResultMatcher(diagnosticMonitorMock, skiJumperService);
+        JumpResultMatcher jumpResultMatcher = new JumpResultMatcher(
+                diagnosticMonitorMock, skiJumperService,jumpResultToDataRaceService, jumpResultService );
         JumpResultDTO jumpResultDTO = jumpResultMatcher.matchJumperData(words, raceDataId);
 
 
         JumpResultDTO expectedJumpResultDTO = new JumpResultDTO()
-                .rank(1).dataRaceId(raceDataId)
                 .firstJump(99.0)
                 .pointsForFirstJump(126.3)
                 .secondJump(102.5)
