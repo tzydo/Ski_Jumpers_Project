@@ -20,6 +20,10 @@
         </dependency>
         <dependency>
             <groupId>ski_jumping</groupId>
+            <artifactId>ski_jumping.liquibase</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ski_jumping</groupId>
             <artifactId>ski_jumping.dto</artifactId>
         </dependency>
         <dependency>

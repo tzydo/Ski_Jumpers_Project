@@ -18,6 +18,8 @@
         <mysql-connector.version>8.0.11</mysql-connector.version>
         <lombok.version>1.16.18</lombok.version>
         <spring-batch.version>4.0.1.RELEASE</spring-batch.version>
+        <h2.version>1.4.195</h2.version>
+        <liquibase.version>3.6.2</liquibase.version>
         <querydsl.version>4.2.1</querydsl.version>
     </properties>
 
@@ -29,6 +31,7 @@
         <module>ski_jumping.service</module>
         <module>ski_jumping.diagnostic_monitor</module>
         <module>ski_jumping.dto</module>
+        <module>ski_jumping.liquibase</module>
     </modules>
 
     <dependencyManagement>
@@ -61,6 +64,11 @@
             <dependency>
                 <groupId>ski_jumping</groupId>
                 <artifactId>ski_jumping.diagnostic_monitor</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>ski_jumping</groupId>
+                <artifactId>ski_jumping.liquibase</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
@@ -134,7 +142,11 @@
                 <version>h2.version</version>
                 <scope>runtime</scope>
             </dependency>
-
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.querydsl</groupId>
                 <artifactId>querydsl-jpa</artifactId>
