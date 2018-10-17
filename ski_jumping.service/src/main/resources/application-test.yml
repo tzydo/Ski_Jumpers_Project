@@ -1,12 +1,13 @@
 spring:
   jpa:
-    database: ${DATABASE:HSQL}
-    hibernate.ddl-auto: ${DDL-AUTO:create-drop}
+    database: ${DATABASE:H2}
+    hibernate.ddl-auto: ${DDL-AUTO:none}
     properties:
-      hibernate.dialect: ${HIBERNATE_DIALECT:org.hibernate.dialect.HSQLDialect}
+      hibernate.dialect: ${HIBERNATE_DIALECT:org.hibernate.dialect.H2Dialect}
+      hibernate.ddl-auto: none
   datasource:
-    driverClassName: ${DRIVER_CLASS_NAME:org.hsqldb.jdbcDriver}
-    url: ${URL:jdbc:hsqldb:mem:scratchdb}
+    driverClassName: ${DRIVER_CLASS_NAME:org.h2.Driver}
+    url: ${URL:jdbc:h2:mem:scratchdb}
     username: ${USERNAME:sa}
     password: ${PASSWORD:}
   profiles:
