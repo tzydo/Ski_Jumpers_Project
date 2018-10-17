@@ -18,7 +18,7 @@
         <mysql-connector.version>8.0.11</mysql-connector.version>
         <lombok.version>1.16.18</lombok.version>
         <spring-batch.version>4.0.1.RELEASE</spring-batch.version>
-        <h2.version>1.4.195</h2.version>
+        <h2.version>1.4.197</h2.version>
         <liquibase.version>3.6.2</liquibase.version>
         <querydsl.version>4.2.1</querydsl.version>
     </properties>
@@ -135,11 +135,10 @@
                 <version>${hsqldb.version}</version>
                 <scope>test</scope>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
             <dependency>
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
-                <version>h2.version</version>
+                <version>${h2.version}</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
