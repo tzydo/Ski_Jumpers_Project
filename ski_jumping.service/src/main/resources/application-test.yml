@@ -10,4 +10,4 @@ spring:
     username: ${USERNAME:sa}
     password: ${PASSWORD:}
   profiles:
-    active: ${DEV_PROFILE:test}
+    active: ${TEST_PROFILE:test}
