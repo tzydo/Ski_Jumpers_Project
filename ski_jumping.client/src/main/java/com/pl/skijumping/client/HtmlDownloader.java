@@ -5,31 +5,27 @@ import com.pl.skijumping.common.util.FileUtil;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Optional;
 
-public class HtmlDownloader {
+@Component
+public class HtmlDownloader implements IHtmlDownloader {
     private static final Logger LOGGER = LoggerFactory.getLogger(HtmlDownloader.class);
-    private final String filePath;
-    private final String host;
 
-    public HtmlDownloader(String filePath, String host) {
-        this.filePath = filePath;
-        this.host = host;
-    }
-
-    public String downloadSource() throws IOException, InternalServiceException {
+    public String downloadSource(String filePath, String host) throws IOException, InternalServiceException {
         Optional<File> file = FileUtil.getFile(filePath);
         if (!file.isPresent()) {
             LOGGER.error("File doesn't exist");
             return null;
         }
 
-        InputStream inputStream = getConnection(this.host);
+        InputStream inputStream = getConnection(host);
         if (inputStream == null) {
             return null;
         }
@@ -48,7 +44,7 @@ public class HtmlDownloader {
     }
 
     private InputStream getConnection(String host) throws IOException, InternalServiceException {
-        if(host == null) {
+        if (host == null) {
             throw new InternalServiceException("Cannot connect to null host");
         }
         URL connection = new URL(host);
@@ -63,5 +59,19 @@ public class HtmlDownloader {
         }
         LOGGER.info("Download source successfully");
         return inputStream;
+    }
+
+    public String downloadToString(String host) throws IOException, InternalServiceException {
+        LOGGER.info("Start downloading from source: {}", host);
+        if(host == null || host.isEmpty()) {
+            LOGGER.error("Cannot download source from null host");
+            return null;
+        }
+        InputStream inputStream = getConnection(host);
+        String source = InputStreamConverter.convert(inputStream, StandardCharsets.UTF_8);
+        if(source == null || source.isEmpty()) {
+            LOGGER.warn(String.format("Empty source from host: %s", host));
+        }
+        return source;
     }
 }

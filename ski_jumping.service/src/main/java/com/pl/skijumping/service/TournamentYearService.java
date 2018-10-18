@@ -1,13 +1,15 @@
 package com.pl.skijumping.service;
 
-import com.pl.skijumping.domain.dto.TournamentYearDTO;
 import com.pl.skijumping.domain.entity.TournamentYear;
-import com.pl.skijumping.domain.mapper.TournamentYearMapper;
 import com.pl.skijumping.domain.repository.TournamentYearRepository;
+import com.pl.skijumping.dto.TournamentYearDTO;
+import com.pl.skijumping.service.mapper.TournamentYearMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,11 +43,23 @@ public class TournamentYearService {
         return Optional.of(tournamentYearMapper.toDTO(tournamentByYear));
     }
 
-    public Optional<List<TournamentYearDTO>> findAll() {
+    public List<TournamentYearDTO> findAll() {
         List<TournamentYear> tournamentYears = tournamentYearRepository.findAll();
         if (tournamentYears == null) {
-            return Optional.empty();
+            return new ArrayList<>();
         }
-        return Optional.of(tournamentYearMapper.toDTO(tournamentYears));
+        return tournamentYearMapper.toDTO(tournamentYears);
+    }
+
+    public List<TournamentYearDTO> findAllByTop(Integer limit) {
+        if(limit == null) {
+            return new ArrayList<>();
+        }
+        List<TournamentYear> byTopAndLimit = tournamentYearRepository.findAllByOrderByYearDesc(new PageRequest(0, limit));
+        if (byTopAndLimit != null) {
+            return tournamentYearMapper.toDTO(byTopAndLimit);
+        } else {
+            return new ArrayList<>();
+        }
     }
 }

@@ -7,12 +7,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SkiJumperRepository extends JpaRepository<SkiJumper, Integer> {
+public interface SkiJumperRepository extends JpaRepository<SkiJumper, Long> {
 
     List<SkiJumper> findAll();
-    SkiJumper findByRank(int rank);
     List<SkiJumper> findAllByName(String name);
-    void deleteAllByRank(int rank);
+    SkiJumper findOneByName(String name);
     void deleteAll();
 
 //    @Query("SELECT COUNT(j) FROM SkiJumper j")

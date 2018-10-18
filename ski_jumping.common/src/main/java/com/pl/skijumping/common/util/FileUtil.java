@@ -6,6 +6,8 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class FileUtil {
@@ -16,7 +18,7 @@ public class FileUtil {
     public static void deleteFile(String filePath) throws InternalServiceException {
         File file = new File(filePath);
         try {
-            Files.delete(file.toPath());
+            Files.deleteIfExists(file.toPath());
         } catch (IOException e) {
             throw new InternalServiceException(String.format("Cannot delete file from %s", filePath));
         }
@@ -33,6 +35,19 @@ public class FileUtil {
             return Optional.empty();
         }
         return Optional.of(file);
+    }
+
+    public static Optional<List<File>> getFilesFromPath(String directoryPath) {
+        if (directoryPath == null) {
+            return Optional.empty();
+        }
+        File[] file;
+        try {
+            file = new ClassPathResource(directoryPath).getFile().listFiles();
+        } catch (IOException e) {
+            return Optional.empty();
+        }
+        return Optional.of(Arrays.asList(file));
     }
 
     static String getResourcePath() throws IOException {

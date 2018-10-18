@@ -18,6 +18,7 @@
         <mysql-connector.version>8.0.11</mysql-connector.version>
         <lombok.version>1.16.18</lombok.version>
         <spring-batch.version>4.0.1.RELEASE</spring-batch.version>
+        <querydsl.version>4.2.1</querydsl.version>
     </properties>
 
     <modules>
@@ -26,6 +27,8 @@
         <module>ski_jumping.common</module>
         <module>ski_jumping.batch</module>
         <module>ski_jumping.service</module>
+        <module>ski_jumping.diagnostic_monitor</module>
+        <module>ski_jumping.dto</module>
     </modules>
 
     <dependencyManagement>
@@ -42,12 +45,22 @@
             </dependency>
             <dependency>
                 <groupId>ski_jumping</groupId>
+                <artifactId>ski_jumping.dto</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>ski_jumping</groupId>
                 <artifactId>ski_jumping.service</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>ski_jumping</groupId>
                 <artifactId>ski_jumping.client</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>ski_jumping</groupId>
+                <artifactId>ski_jumping.diagnostic_monitor</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
@@ -113,6 +126,25 @@
                 <artifactId>hsqldb</artifactId>
                 <version>${hsqldb.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>1.4.195</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-jpa</artifactId>
+                <version>${querydsl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-apt</artifactId>
+                <version>${querydsl.version}</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
