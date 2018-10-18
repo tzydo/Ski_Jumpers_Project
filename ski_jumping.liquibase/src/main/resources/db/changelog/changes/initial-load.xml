@@ -50,17 +50,17 @@
             <column autoIncrement="true" type="int" name="id">
                 <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="date" type="date"/>
-            <column name="city" type="varchar(50)"/>
-            <column name="short_country_name" type="varchar(50)"/>
+            <column name="date" type="date"><constraints nullable="false"/></column>
+            <column name="city" type="varchar(50)"><constraints nullable="false"/></column>
+            <column name="short_country_name" type="varchar(50)"><constraints nullable="false"/></column>
             <column name="race_id" type="int">
                 <constraints unique="true" nullable="false"/>
             </column>
-            <column name="id_competition_type" type="int">
-                <constraints nullable="false" foreignKeyName="competition_type_id_competition_type_fk" references="competition_type(id)"/>
+            <column name="competition_type_id" type="int" defaultValue="null">
+                <constraints nullable="true" foreignKeyName="competition_type_id_competition_type_fk" references="competition_type(id)"/>
             </column>
-            <column name="id_competition_name" type="int">
-                <constraints nullable="false" foreignKeyName="competition_name_id_competition_name_fk" references="competition_name(id)"/>
+            <column name="competition_name_id" type="int" defaultValue="null">
+                <constraints nullable="true" foreignKeyName="competition_name_id_competition_name_fk" references="competition_name(id)"/>
             </column>
         </createTable>
 
