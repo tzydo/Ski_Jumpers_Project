@@ -68,10 +68,10 @@
             <column autoIncrement="true" type="int" name="id">
                 <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="id_jump_result" type="int">
+            <column name="jump_result_id" type="int">
                 <constraints nullable="false" unique="true" foreignKeyName="jump_result_id_jump_result_fk" references="jump_result(id)"/>
             </column>
-            <column name="id_data_race" type="int">
+            <column name="data_race_id" type="int">
                 <constraints nullable="false" foreignKeyName="data_race_id_data_race_fk" references="data_race(id)"/>
             </column>
         </createTable>
@@ -80,11 +80,20 @@
             <column autoIncrement="true" type="int" name="id">
                 <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="id_jump_result" type="int">
+            <column name="jump_result_id" type="int">
                 <constraints nullable="false" unique="true" foreignKeyName="id_jump_result_jump_result_fk" references="jump_result(id)"/>
             </column>
-            <column name="id_ski_jumper" type="int">
+            <column name="ski_jumper_id" type="int">
                 <constraints nullable="false" foreignKeyName="ski_jumper_id_ski_jumper_fk" references="ski_jumper(id)"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="tournament_year">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="year" type="varchar(4)">
+                <constraints unique="true"/>
             </column>
         </createTable>
     </changeSet>
