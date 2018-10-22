@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +29,7 @@ public class TournamentYearServiceTest {
     private TournamentYearRepository tournamentYearRepository;
 
     @Test
+    @Transactional
     public void findAllByTopTest() {
         int limit = 2;
         TournamentYear firstTournamentYear = tournamentYearRepository.save(new TournamentYear().year("2019"));

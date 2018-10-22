@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,7 +25,7 @@ public class SkiJumper implements Serializable {
     private String nationality;
     private String skiClub;
     private String team;
-    private List<JumpResult> jumpResult = new ArrayList<>();
+    private List<JumpResultToSkiJumper> jumpResultToSkiJumpers;
     private MaritalStatus martialStatus;
 
     @Id
@@ -113,12 +112,12 @@ public class SkiJumper implements Serializable {
     }
 
     @OneToMany(mappedBy = "skiJumper")
-    public List<JumpResult> getJumpResult() {
-        return jumpResult;
+    public List<JumpResultToSkiJumper> getJumpResultToSkiJumpers() {
+        return jumpResultToSkiJumpers;
     }
 
-    public void setJumpResult(List<JumpResult> jumpResult) {
-        this.jumpResult = jumpResult;
+    public void setJumpResultToSkiJumpers(List<JumpResultToSkiJumper> jumpResultToSkiJumpers) {
+        this.jumpResultToSkiJumpers = jumpResultToSkiJumpers;
     }
 
     @Column(name = "martial_status")
@@ -129,11 +128,6 @@ public class SkiJumper implements Serializable {
 
     public void setMartialStatus(MaritalStatus martialStatus) {
         this.martialStatus = martialStatus;
-    }
-
-    public void addJumpResult(JumpResult jumpResult) {
-        if (jumpResult == null) return;
-        this.jumpResult.add(jumpResult);
     }
 
     @Override
@@ -153,7 +147,8 @@ public class SkiJumper implements Serializable {
             return false;
         if (skiClub != null ? !skiClub.equals(skiJumper.skiClub) : skiJumper.skiClub != null) return false;
         if (team != null ? !team.equals(skiJumper.team) : skiJumper.team != null) return false;
-        if (jumpResult != null ? !jumpResult.equals(skiJumper.jumpResult) : skiJumper.jumpResult != null) return false;
+        if (jumpResultToSkiJumpers != null ? !jumpResultToSkiJumpers.equals(skiJumper.jumpResultToSkiJumpers) : skiJumper.jumpResultToSkiJumpers != null)
+            return false;
         return martialStatus == skiJumper.martialStatus;
     }
 
@@ -168,7 +163,7 @@ public class SkiJumper implements Serializable {
         result = 31 * result + (nationality != null ? nationality.hashCode() : 0);
         result = 31 * result + (skiClub != null ? skiClub.hashCode() : 0);
         result = 31 * result + (team != null ? team.hashCode() : 0);
-        result = 31 * result + (jumpResult != null ? jumpResult.hashCode() : 0);
+        result = 31 * result + (jumpResultToSkiJumpers != null ? jumpResultToSkiJumpers.hashCode() : 0);
         result = 31 * result + (martialStatus != null ? martialStatus.hashCode() : 0);
         return result;
     }
@@ -218,13 +213,13 @@ public class SkiJumper implements Serializable {
         return this;
     }
 
-    public SkiJumper jumpResult(List<JumpResult> jumpResult) {
-        this.jumpResult = jumpResult;
+    public SkiJumper martialStatus(MaritalStatus martialStatus) {
+        this.martialStatus = martialStatus;
         return this;
     }
 
-    public SkiJumper martialStatus(MaritalStatus martialStatus) {
-        this.martialStatus = martialStatus;
+    public SkiJumper jumpResultToSkiJumpers(List<JumpResultToSkiJumper> jumpResultToSkiJumpers) {
+        this.jumpResultToSkiJumpers = jumpResultToSkiJumpers;
         return this;
     }
 }

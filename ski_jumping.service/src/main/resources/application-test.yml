@@ -4,7 +4,7 @@ spring:
     hibernate.ddl-auto: ${DDL-AUTO:none}
     properties:
       hibernate.dialect: ${HIBERNATE_DIALECT:org.hibernate.dialect.H2Dialect}
-      hibernate.ddl-auto: none
+      hibernate.ddl-auto: ${DDL-AUTO:none}
   datasource:
     driverClassName: ${DRIVER_CLASS_NAME:org.h2.Driver}
     url: ${URL:jdbc:h2:mem:scratchdb}

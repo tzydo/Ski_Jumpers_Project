@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -21,6 +22,7 @@ public class DataRace implements Serializable {
     private CompetitionType competitionType;
     private CompetitionName competitionName;
     private Long raceId;
+    private List<JumpResultToDataRace> jumpResultToDataRaces;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -89,6 +91,15 @@ public class DataRace implements Serializable {
         this.raceId = raceId;
     }
 
+    @OneToMany(mappedBy = "dataRace")
+    public List<JumpResultToDataRace> getJumpResultToDataRaces() {
+        return jumpResultToDataRaces;
+    }
+
+    public void setJumpResultToDataRaces(List<JumpResultToDataRace> jumpResultToDataRaces) {
+        this.jumpResultToDataRaces = jumpResultToDataRaces;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -105,7 +116,8 @@ public class DataRace implements Serializable {
             return false;
         if (competitionName != null ? !competitionName.equals(dataRace.competitionName) : dataRace.competitionName != null)
             return false;
-        return raceId != null ? raceId.equals(dataRace.raceId) : dataRace.raceId == null;
+        if (raceId != null ? !raceId.equals(dataRace.raceId) : dataRace.raceId != null) return false;
+        return jumpResultToDataRaces != null ? jumpResultToDataRaces.equals(dataRace.jumpResultToDataRaces) : dataRace.jumpResultToDataRaces == null;
     }
 
     @Override
@@ -117,6 +129,7 @@ public class DataRace implements Serializable {
         result = 31 * result + (competitionType != null ? competitionType.hashCode() : 0);
         result = 31 * result + (competitionName != null ? competitionName.hashCode() : 0);
         result = 31 * result + (raceId != null ? raceId.hashCode() : 0);
+        result = 31 * result + (jumpResultToDataRaces != null ? jumpResultToDataRaces.hashCode() : 0);
         return result;
     }
 
@@ -152,6 +165,11 @@ public class DataRace implements Serializable {
 
     public DataRace raceId(Long raceId) {
         this.raceId = raceId;
+        return this;
+    }
+
+    public DataRace jumpResultToDataRaces(List<JumpResultToDataRace> jumpResultToDataRaces) {
+        this.jumpResultToDataRaces = jumpResultToDataRaces;
         return this;
     }
 }

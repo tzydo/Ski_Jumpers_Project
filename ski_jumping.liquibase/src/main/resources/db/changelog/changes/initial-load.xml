@@ -14,7 +14,7 @@
 
         <createTable tableName="competition_type">
             <column autoIncrement="true" type="int" name="id">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="id"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="type" type="varchar(100)"/>
         </createTable>
@@ -36,7 +36,7 @@
 
         <createTable tableName="jump_result">
             <column autoIncrement="true" type="int" name="id">
-                <constraints nullable="false" primaryKey="true" />
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="rank" type="int"/>
             <column name="first_jump" type="decimal(5,2)"/>

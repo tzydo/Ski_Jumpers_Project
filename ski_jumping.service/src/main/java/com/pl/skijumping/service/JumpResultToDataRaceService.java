@@ -18,7 +18,7 @@ public class JumpResultToDataRaceService {
     }
 
     public JumpResultToDataRaceDTO save(JumpResultToDataRaceDTO jumpResultToDataRaceDTO) {
-        if(jumpResultToDataRaceDTO == null) {
+        if (jumpResultToDataRaceDTO == null) {
             return null;
         }
 

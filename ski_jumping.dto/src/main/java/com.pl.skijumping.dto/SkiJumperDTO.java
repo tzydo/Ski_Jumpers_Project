@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -24,7 +22,6 @@ public class SkiJumperDTO implements Serializable {
     private String team;
     private String gender;
     private String martialStatus;
-    private List<Long> jumpResultIds = new ArrayList<>();
 
     public SkiJumperDTO id(Long id) {
         this.id = id;
@@ -73,16 +70,6 @@ public class SkiJumperDTO implements Serializable {
 
     public SkiJumperDTO gender(String gender) {
         this.gender = gender;
-        return this;
-    }
-
-    public void addJumpResult(Long jumpResultId) {
-        if(jumpResultId == null) return;
-        this.jumpResultIds.add(jumpResultId);
-    }
-
-    public SkiJumperDTO jumpResultList(List<Long> jumpResultIds) {
-        this.jumpResultIds = jumpResultIds;
         return this;
     }
 }

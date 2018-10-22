@@ -13,7 +13,6 @@ import java.io.Serializable;
 public class JumpResult implements Serializable {
 
     private Long id;
-    private SkiJumper skiJumper;
     private Integer rank;
     private double firstJump;
     private double pointsForFirstJump;
@@ -21,6 +20,7 @@ public class JumpResult implements Serializable {
     private double pointsForSecondJump;
     private double totalPoints;
     private JumpResultToDataRace jumpResultToDataRace;
+    private JumpResultToSkiJumper jumpResultToSkiJumper;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,14 +32,22 @@ public class JumpResult implements Serializable {
         this.id = id;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ski_jumper_id")
-    public SkiJumper getSkiJumper() {
-        return skiJumper;
+    @OneToOne(mappedBy = "jumpResult",fetch = FetchType.LAZY)
+    public JumpResultToDataRace getJumpResultToDataRace() {
+        return jumpResultToDataRace;
     }
 
-    public void setSkiJumper(SkiJumper skiJumper) {
-        this.skiJumper = skiJumper;
+    public void setJumpResultToDataRace(JumpResultToDataRace jumpResultToDataRace) {
+        this.jumpResultToDataRace = jumpResultToDataRace;
+    }
+
+    @OneToOne(mappedBy = "jumpResult",fetch = FetchType.LAZY)
+    public JumpResultToSkiJumper getJumpResultToSkiJumper() {
+        return jumpResultToSkiJumper;
+    }
+
+    public void setJumpResultToSkiJumper(JumpResultToSkiJumper jumpResultToSkiJumper) {
+        this.jumpResultToSkiJumper = jumpResultToSkiJumper;
     }
 
     @Column(name = "rank", nullable = false, unique = true)
@@ -96,15 +104,6 @@ public class JumpResult implements Serializable {
         this.totalPoints = totalPoints;
     }
 
-    @OneToOne(mappedBy = "jumpResult")
-    public JumpResultToDataRace getJumpResultToDataRace() {
-        return jumpResultToDataRace;
-    }
-
-    public void setJumpResultToDataRace(JumpResultToDataRace jumpResultToDataRace) {
-        this.jumpResultToDataRace = jumpResultToDataRace;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -118,9 +117,10 @@ public class JumpResult implements Serializable {
         if (Double.compare(that.pointsForSecondJump, pointsForSecondJump) != 0) return false;
         if (Double.compare(that.totalPoints, totalPoints) != 0) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (skiJumper != null ? !skiJumper.equals(that.skiJumper) : that.skiJumper != null) return false;
         if (rank != null ? !rank.equals(that.rank) : that.rank != null) return false;
-        return jumpResultToDataRace != null ? jumpResultToDataRace.equals(that.jumpResultToDataRace) : that.jumpResultToDataRace == null;
+        if (jumpResultToDataRace != null ? !jumpResultToDataRace.equals(that.jumpResultToDataRace) : that.jumpResultToDataRace != null)
+            return false;
+        return jumpResultToSkiJumper != null ? jumpResultToSkiJumper.equals(that.jumpResultToSkiJumper) : that.jumpResultToSkiJumper == null;
     }
 
     @Override
@@ -128,7 +128,6 @@ public class JumpResult implements Serializable {
         int result;
         long temp;
         result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (skiJumper != null ? skiJumper.hashCode() : 0);
         result = 31 * result + (rank != null ? rank.hashCode() : 0);
         temp = Double.doubleToLongBits(firstJump);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
@@ -141,16 +140,12 @@ public class JumpResult implements Serializable {
         temp = Double.doubleToLongBits(totalPoints);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (jumpResultToDataRace != null ? jumpResultToDataRace.hashCode() : 0);
+        result = 31 * result + (jumpResultToSkiJumper != null ? jumpResultToSkiJumper.hashCode() : 0);
         return result;
     }
 
     public JumpResult id(Long id) {
         this.id = id;
-        return this;
-    }
-
-    public JumpResult skiJumper(SkiJumper skiJumper) {
-        this.skiJumper = skiJumper;
         return this;
     }
 
@@ -186,6 +181,11 @@ public class JumpResult implements Serializable {
 
     public JumpResult jumpResultToDataRace(JumpResultToDataRace jumpResultToDataRace) {
         this.jumpResultToDataRace = jumpResultToDataRace;
+        return this;
+    }
+
+    public JumpResult jumpResultToSkiJumper(JumpResultToSkiJumper jumpResultToSkiJumper) {
+        this.jumpResultToSkiJumper = jumpResultToSkiJumper;
         return this;
     }
 }

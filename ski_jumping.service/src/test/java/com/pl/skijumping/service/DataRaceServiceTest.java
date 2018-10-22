@@ -18,6 +18,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -104,9 +105,9 @@ public class DataRaceServiceTest {
     @Test
     @Transactional
     public void getRaceDataIdListTest() {
-        dataRaceRepository.save(new DataRace(null, LocalDate.now(), "test", "t", null, null, 1L));
+        dataRaceRepository.save(new DataRace(null, LocalDate.now(), "test", "t", null, null, 1L, null));
 
-        dataRaceRepository.save(new DataRace(null, LocalDate.now(), "test", "t", null, null, 2L));
+        dataRaceRepository.save(new DataRace(null, LocalDate.now(), "test", "t", null, null, 2L, null));
 
         List<Long> actualRaceDataList = dataRaceRepository.getRaceDataList();
         Assertions.assertThat(actualRaceDataList).hasSize(2);
