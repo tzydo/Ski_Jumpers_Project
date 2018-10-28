@@ -2,9 +2,11 @@ package com.pl.skijumping.service;
 
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.domain.entity.JumpResult;
+import com.pl.skijumping.domain.entity.QJumpResult;
 import com.pl.skijumping.domain.repository.JumpResultRepository;
 import com.pl.skijumping.dto.JumpResultDTO;
 import com.pl.skijumping.service.mapper.JumpResultMapper;
+import com.querydsl.core.BooleanBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,45 +36,22 @@ public class JumpResultService {
         return jumpResultMapper.toDTO(savedJumpResult);
     }
 
-    Optional<JumpResultDTO> findByRankAndDataRace(Integer rank, Long dataRace) {
-        if(rank == null || dataRace == null) {
+    public Optional<JumpResultDTO> findBy(JumpResultDTO jumpResultDTO) {
+        if (jumpResultDTO == null) {
             return Optional.empty();
         }
+        QJumpResult qJumpResult = QJumpResult.jumpResult;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-        JumpResult jumpResultByRankAndDataRace = jumpResultRepository.findJumpResultByRankAndDataRace(rank, dataRace);
-        return Optional.ofNullable(jumpResultMapper.toDTO(jumpResultByRankAndDataRace));
+        if(jumpResultDTO.getRank()!= null) {booleanBuilder.and(qJumpResult.rank.eq(jumpResultDTO.getRank()));}
+        if(jumpResultDTO.getFirstJump()!= null) {booleanBuilder.and(qJumpResult.firstJump.eq(jumpResultDTO.getFirstJump()));}
+        if(jumpResultDTO.getPointsForFirstJump()!= null) {booleanBuilder.and(qJumpResult.pointsForFirstJump.eq(jumpResultDTO.getPointsForFirstJump()));}
+        if(jumpResultDTO.getSecondJump()!= null) {booleanBuilder.and(qJumpResult.secondJump.eq(jumpResultDTO.getSecondJump()));}
+        if(jumpResultDTO.getPointsForSecondJump()!= null) {booleanBuilder.and(qJumpResult.pointsForSecondJump.eq(jumpResultDTO.getPointsForSecondJump()));}
+        if(jumpResultDTO.getTotalPoints()!= null) {booleanBuilder.and(qJumpResult.totalPoints.eq(jumpResultDTO.getTotalPoints()));}
+
+        return Optional.ofNullable(jumpResultMapper.toDTO((JumpResult) jumpResultRepository.findOne(booleanBuilder)));
     }
-
-//    public Optional<JumpResultDTO> findByParams(Long dataRaceId, Long skiJumperId, Integer rank) {
-//        JumpResult jumpResult = jumpResultRepository.findByDataRace_IdAndSkiJumper_IdAndRank(dataRaceList, skiJumperId, rank);
-//        return Optional.ofNullable(jumpResultMapper.toDTO(jumpResult));
-
-//        return null;
-//    }
-
-
-//    //ToDo testy!!!!!
-//    public JumpResultDTO update(JumpResultDTO jumpResultDTO) {
-//        if (jumpResultDTO == null) {
-//            diagnosticMonitor.logWarn("Cannot update null jumpResult");
-//            return null;
-//        }
-//
-//        Optional<JumpResultDTO> existingJumpResultDTO = this.findByParams(jumpResultDTO.getDataRaceId(), jumpResultDTO.getJumperId(), jumpResultDTO.getRank());
-//
-//        if (!existingJumpResultDTO.isPresent()) {
-//            return this.save(jumpResultDTO);
-//        }
-//
-//        existingJumpResultDTO.get().setFirstJump(jumpResultDTO.getFirstJump());
-//        existingJumpResultDTO.get().setPointsForFirstJump(jumpResultDTO.getPointsForFirstJump());
-//        existingJumpResultDTO.get().setSecondJump(jumpResultDTO.getSecondJump());
-//        existingJumpResultDTO.get().setPointsForSecondJump(jumpResultDTO.getPointsForSecondJump());
-//        existingJumpResultDTO.get().setTotalPoints(jumpResultDTO.getTotalPoints());
-//
-//        return this.save(existingJumpResultDTO.get());
-//    }
-
 
     public List<JumpResultDTO> findAll() {
         List<JumpResult> jumpResults = jumpResultRepository.findAll();

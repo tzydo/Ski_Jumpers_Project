@@ -1,13 +1,15 @@
-package com.pl.skijumping.batch.jumpresultsynchronize.processor;
+package com.pl.skijumping.batch.jumpresultsynchronize.writer;
 
 import com.pl.skijumping.batch.SetupUtilTests;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.JumpResultDTO;
+import com.pl.skijumping.dto.JumpResultToDataRaceDTO;
+import com.pl.skijumping.dto.JumpResultToSkiJumperDTO;
 import com.pl.skijumping.dto.SkiJumperDTO;
 import com.pl.skijumping.service.JumpResultService;
 import com.pl.skijumping.service.JumpResultToDataRaceService;
+import com.pl.skijumping.service.JumpResultToSkiJumperService;
 import com.pl.skijumping.service.SkiJumperService;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -23,6 +25,8 @@ public class JumpResultMatcherTest {
     private SkiJumperService skiJumperService;
     @Mock
     private JumpResultToDataRaceService jumpResultToDataRaceService;
+    @Mock
+    private JumpResultToSkiJumperService jumpResultToSkiJumperService;
     @Mock
     private JumpResultService jumpResultService;
 
@@ -42,24 +46,30 @@ public class JumpResultMatcherTest {
 
     @Test
     public void matchJumperDataTest() {
-        Mockito.when(skiJumperService.findOneByName(Mockito.anyString()))
-                .thenReturn(Optional.of(new SkiJumperDTO().id(1L)));
-        Long raceDataId = 1L;
-
-        DiagnosticMonitor diagnosticMonitorMock = SetupUtilTests.getDiagnosticMonitorMock();
-        JumpResultMatcher jumpResultMatcher = new JumpResultMatcher(
-                diagnosticMonitorMock, skiJumperService,jumpResultToDataRaceService, jumpResultService );
-        JumpResultDTO jumpResultDTO = jumpResultMatcher.matchJumperData(words, raceDataId);
-
-
         JumpResultDTO expectedJumpResultDTO = new JumpResultDTO()
+                .rank(1)
                 .firstJump(99.0)
                 .pointsForFirstJump(126.3)
                 .secondJump(102.5)
                 .pointsForSecondJump(124.1)
-                .totalPoints(250.4)
-                .jumperId(1L);
+                .totalPoints(250.4);
 
-        Assertions.assertThat(jumpResultDTO).isEqualToIgnoringGivenFields(expectedJumpResultDTO, "id");
+        Mockito.when(jumpResultService.save(Mockito.anyObject())).thenReturn(expectedJumpResultDTO.id(1L));
+        Mockito.when(jumpResultService.findBy(Mockito.anyObject())).thenReturn(Optional.empty());
+        Mockito.when(skiJumperService.findOneByName(Mockito.anyString())).thenReturn(Optional.of(new SkiJumperDTO().id(1L)));
+        Long raceDataId = 1L;
+
+        DiagnosticMonitor diagnosticMonitorMock = SetupUtilTests.getDiagnosticMonitorMock();
+        JumpResultMatcher jumpResultMatcher = new JumpResultMatcher(
+                diagnosticMonitorMock, skiJumperService, jumpResultToDataRaceService,
+                jumpResultToSkiJumperService, jumpResultService);
+
+        jumpResultMatcher.matchJumperData(words, raceDataId);
+
+        Mockito.verify(jumpResultToSkiJumperService, Mockito.times(1))
+                .save(new JumpResultToSkiJumperDTO().skiJumperId(expectedJumpResultDTO.getId()).jumpResultId(1L));
+        Mockito.verify(jumpResultService, Mockito.times(1)).save(expectedJumpResultDTO.id(null));
+        Mockito.verify(jumpResultToDataRaceService, Mockito.times(1))
+                .save(new JumpResultToDataRaceDTO().dataRaceId(raceDataId).jumpResultId(1L));
     }
 }

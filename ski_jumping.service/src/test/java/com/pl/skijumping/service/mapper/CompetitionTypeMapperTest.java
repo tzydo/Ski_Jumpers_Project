@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +31,7 @@ public class CompetitionTypeMapperTest {
     private DataRaceMapper dataRaceMapper;
 
     @Test
+    @Transactional
     public void fromDTOTest() {
         DataRaceDTO dataRaceDTO = dataRaceService.save(new DataRaceDTO().date(LocalDate.now()).city("city").raceId(1L).shortCountryName("short"));
 

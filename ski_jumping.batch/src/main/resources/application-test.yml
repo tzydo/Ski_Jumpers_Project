@@ -35,7 +35,7 @@ skijumping:
 spring:
   jpa:
     database: ${DATABASE:H2}
-    hibernate.ddl-auto: ${DDL-AUTO:create-drop}
+    hibernate.ddl-auto: ${DDL-AUTO:none}
     properties:
       hibernate.dialect: ${HIBERNATE_DIALECT:org.hibernate.dialect.H2Dialect}
   datasource:

@@ -1,18 +1,19 @@
-package com.pl.skijumping.batch.jumpresultsynchronize.processor;
+package com.pl.skijumping.batch.jumpresultsynchronize.writer;
 
-import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-class NameConverter {
-    private final DiagnosticMonitor diagnosticMonitor;
+public class NameConverter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NameConverter.class);
 
-    NameConverter(DiagnosticMonitor diagnosticMonitor) {
-        this.diagnosticMonitor = diagnosticMonitor;
+    private NameConverter() {
+//
     }
 
-    public String convert(String name) {
+    public static String convert(String name) {
         if (name == null) {
-            diagnosticMonitor.logWarn("Cannot convert null name");
+            LOGGER.warn("Cannot convert null name");
             return null;
         }
 
@@ -22,7 +23,7 @@ class NameConverter {
         for (String part : partOfNameList) {
             part = StringUtils.capitalize(part);
             if (!partOfNameList[0].equalsIgnoreCase(part)) {
-                newName.append(part + " ");
+                newName.append(part).append(" ");
             } else {
                 surname = part;
             }

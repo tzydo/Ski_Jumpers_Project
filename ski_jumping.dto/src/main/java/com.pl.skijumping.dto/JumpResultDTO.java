@@ -14,11 +14,11 @@ public class JumpResultDTO implements Serializable {
 
     private Long id;
     private Integer  rank;
-    private double firstJump;
-    private double pointsForFirstJump;
-    private double secondJump;
-    private double pointsForSecondJump;
-    private double totalPoints;
+    private Double firstJump;
+    private Double pointsForFirstJump;
+    private Double secondJump;
+    private Double pointsForSecondJump;
+    private Double totalPoints;
 
     public JumpResultDTO id(Long id) {
         this.id = id;

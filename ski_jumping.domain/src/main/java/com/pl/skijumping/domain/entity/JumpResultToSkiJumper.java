@@ -22,7 +22,7 @@ public class JumpResultToSkiJumper implements Serializable {
     }
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "jump_resultu_id", nullable = false, unique = true)
+    @JoinColumn(name = "jump_result_id", nullable = false, unique = true)
     public JumpResult getJumpResult() {
         return jumpResult;
     }
