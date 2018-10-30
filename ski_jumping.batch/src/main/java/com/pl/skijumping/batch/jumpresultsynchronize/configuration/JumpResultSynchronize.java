@@ -2,15 +2,19 @@ package com.pl.skijumping.batch.jumpresultsynchronize.configuration;
 
 import com.pl.skijumping.batch.jumpresultsynchronize.writer.JumpResultSynchronizeWriterBatch;
 import com.pl.skijumping.batch.jumpresultsynchronize.reader.JumpResultSynchronizeReaderBatch;
+import com.pl.skijumping.batch.listener.StepListener;
 import com.pl.skijumping.client.HtmlDownloader;
 import com.pl.skijumping.common.util.Pair;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.JumpResultDTO;
 import com.pl.skijumping.service.*;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Value;
@@ -81,5 +85,11 @@ public class JumpResultSynchronize {
     @Bean
     public ItemWriter resultSynchronizeWriter() {
         return new JumpResultSynchronizeWriterBatch(diagnosticMonitor, skiJumperService, jumpResultToDataRaceService, jumpResultToSkiJumperService, jumpResultService);
+    }
+
+    @Bean
+//    @StepScope
+    public StepExecutionListener stepExecutionListener() {
+        return new StepListener();
     }
 }
