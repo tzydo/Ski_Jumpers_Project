@@ -1,21 +1,22 @@
 package com.pl.skijumping.batch.jumpresultsynchronize.configuration;
 
-import com.pl.skijumping.batch.jumpresultsynchronize.processor.JumpResultSynchronizeProcessorBatch;
+import com.pl.skijumping.batch.jumpresultsynchronize.writer.JumpResultSynchronizeWriterBatch;
 import com.pl.skijumping.batch.jumpresultsynchronize.reader.JumpResultSynchronizeReaderBatch;
+import com.pl.skijumping.batch.listener.StepListener;
 import com.pl.skijumping.client.HtmlDownloader;
 import com.pl.skijumping.common.util.Pair;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.JumpResultDTO;
-import com.pl.skijumping.service.DataRaceService;
-import com.pl.skijumping.service.JumpResultService;
-import com.pl.skijumping.service.JumpResultToDataRaceService;
-import com.pl.skijumping.service.SkiJumperService;
+import com.pl.skijumping.service.*;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemStreamReader;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +37,7 @@ public class JumpResultSynchronize {
     private final SkiJumperService skiJumperService;
     private final JumpResultService jumpResultService;
     private final JumpResultToDataRaceService jumpResultToDataRaceService;
+    private final JumpResultToSkiJumperService jumpResultToSkiJumperService;
 
     public JumpResultSynchronize(@Value("${skijumping.settings.skiJumpingResultsHost}") String host,
                                  JobBuilderFactory jobBuilder,
@@ -45,6 +47,7 @@ public class JumpResultSynchronize {
                                  SkiJumperService skiJumperService,
                                  JumpResultService jumpResultService,
                                  JumpResultToDataRaceService jumpResultToDataRaceService,
+                                 JumpResultToSkiJumperService jumpResultToSkiJumperService,
                                  HtmlDownloader htmlDownloader) {
         this.host = host;
         this.jobBuilder = jobBuilder;
@@ -54,6 +57,7 @@ public class JumpResultSynchronize {
         this.skiJumperService = skiJumperService;
         this.jumpResultService = jumpResultService;
         this.jumpResultToDataRaceService = jumpResultToDataRaceService;
+        this.jumpResultToSkiJumperService = jumpResultToSkiJumperService;
         this.htmlDownloader = htmlDownloader;
     }
 
@@ -69,7 +73,7 @@ public class JumpResultSynchronize {
         return this.stepBuilder.get(JUMP_RESULT_SYNCHRONIZE_STEP_NAME)
                 .<Pair<Long, String>, List<JumpResultDTO>>chunk(1)
                 .reader(resultSynchronizeReader())
-                .processor(resultSynchronizeProcessor())
+                .writer(resultSynchronizeWriter())
                 .build();
     }
 
@@ -79,8 +83,13 @@ public class JumpResultSynchronize {
     }
 
     @Bean
-    public ItemProcessor resultSynchronizeProcessor() {
-        return new JumpResultSynchronizeProcessorBatch(
-                diagnosticMonitor, skiJumperService, jumpResultToDataRaceService, jumpResultService);
+    public ItemWriter resultSynchronizeWriter() {
+        return new JumpResultSynchronizeWriterBatch(diagnosticMonitor, skiJumperService, jumpResultToDataRaceService, jumpResultToSkiJumperService, jumpResultService);
+    }
+
+    @Bean
+//    @StepScope
+    public StepExecutionListener stepExecutionListener() {
+        return new StepListener();
     }
 }

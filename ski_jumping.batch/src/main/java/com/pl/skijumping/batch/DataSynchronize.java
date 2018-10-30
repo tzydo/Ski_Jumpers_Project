@@ -8,6 +8,7 @@ import com.pl.skijumping.batch.decider.DataImportDecider;
 import com.pl.skijumping.batch.decider.FindRaceDataDecider;
 import com.pl.skijumping.batch.decider.FindTournamentYearDecider;
 import com.pl.skijumping.batch.datasynchronize.FileDeleteTasklet;
+import com.pl.skijumping.batch.jumpresultsynchronize.configuration.JumpResultSynchronize;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -32,6 +33,7 @@ public class DataSynchronize {
     private final Step basicDataImporterStep;
     private final Step basicDataSynchronizeStep;
     private final Step findRaceDataStep;
+    private final Step jumpResultSynchronizeStep;
 
     public DataSynchronize(
             JobBuilderFactory jobBuilder,
@@ -41,7 +43,8 @@ public class DataSynchronize {
             @Qualifier(value = FindTournamentYear.FIND_TOURNAMENT_YEAR_STEP_NAME) Step findTournamentYearStep,
             @Qualifier(value = FindRaceData.FIND_RACE_DATA_STEP_NAME) Step findRaceDataStep,
             @Qualifier(value = BasicDataSynchronize.BASIC_DATA_IMPORTER_STEP_NAME) Step basicDataImporterStep,
-            @Qualifier(value = BasicDataSynchronize.BASIC_DATA_SYNCHRONIZE_STEP_NAME) Step basicDataSynchronizeStep){
+            @Qualifier(value = BasicDataSynchronize.BASIC_DATA_SYNCHRONIZE_STEP_NAME) Step basicDataSynchronizeStep,
+            @Qualifier(value = JumpResultSynchronize.JUMP_RESULT_SYNCHRONIZE_STEP_NAME) Step jumpResultSynchronizeStep) {
         this.jobBuilder = jobBuilder;
         this.stepBuilderFactory = stepBuilderFactory;
         this.dataImporterStep = dataImporterStep;
@@ -50,6 +53,7 @@ public class DataSynchronize {
         this.findRaceDataStep = findRaceDataStep;
         this.basicDataImporterStep = basicDataImporterStep;
         this.basicDataSynchronizeStep = basicDataSynchronizeStep;
+        this.jumpResultSynchronizeStep = jumpResultSynchronizeStep;
     }
 
     @Bean(name = DATA_SYNCHRONIZE_JOB)
@@ -71,6 +75,7 @@ public class DataSynchronize {
                 .on(FindRaceDataDecider.COMPLETE_FIND_RACE_DATA).to(basicDataImporterStep)
 
                 .from(basicDataImporterStep).next(basicDataSynchronizeStep)
+                .from(basicDataSynchronizeStep).next(jumpResultSynchronizeStep)
                 .end()
                 .build();
     }

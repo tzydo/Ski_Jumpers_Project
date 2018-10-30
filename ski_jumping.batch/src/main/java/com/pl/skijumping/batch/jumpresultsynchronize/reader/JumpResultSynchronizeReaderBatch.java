@@ -13,21 +13,17 @@ import java.util.stream.Collectors;
 
 public class JumpResultSynchronizeReaderBatch implements ItemStreamReader<Pair<Long, String>> {
     private final DataRaceService dataRaceService;
-    private final DiagnosticMonitor diagnosticMonitor;
     private final String host;
     private Iterator dataRaceIdAndHostIterator;
     private JumpResultSynchronizeReader jumpResultSynchronizeReader;
-    private HtmlDownloader htmlDownloader;
 
     public JumpResultSynchronizeReaderBatch(DataRaceService dataRaceService,
                                             DiagnosticMonitor diagnosticMonitor,
                                             HtmlDownloader htmlDownloader,
                                             @Value("${skijumping.settings.skiJumpingResultsHost}") String host) {
         this.dataRaceService = dataRaceService;
-        this.diagnosticMonitor = diagnosticMonitor;
         this.host = host;
-        this.htmlDownloader = htmlDownloader;
-        this.jumpResultSynchronizeReader = new JumpResultSynchronizeReader(this.diagnosticMonitor, this.htmlDownloader);
+        this.jumpResultSynchronizeReader = new JumpResultSynchronizeReader(diagnosticMonitor, htmlDownloader);
     }
 
     @Override

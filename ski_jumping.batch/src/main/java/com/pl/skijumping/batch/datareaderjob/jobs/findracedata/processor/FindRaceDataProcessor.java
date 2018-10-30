@@ -16,17 +16,17 @@ class FindRaceDataProcessor {
     private final String readWords;
     private final DiagnosticMonitor diagnosticMonitor;
 
-    public FindRaceDataProcessor(String readWords, DiagnosticMonitor diagnosticMonitor) {
+    FindRaceDataProcessor(String readWords, DiagnosticMonitor diagnosticMonitor) {
         this.readWords = readWords;
         this.diagnosticMonitor = diagnosticMonitor;
     }
 
-    public List<DataRaceDTO> findData() throws InternalServiceException {
+    List<DataRaceDTO> findData() throws InternalServiceException {
 
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
         Optional<List<String>> dateList = matchingWords.getRaceDate(readWords);
         if (!dateList.isPresent()) {
-            diagnosticMonitor.logError("Cannot find matching dates in find race data processor", getClass());
+            diagnosticMonitor.logError("Cannot find matching dates in find race data writer", getClass());
             return new ArrayList<>();
         }
 
@@ -38,7 +38,7 @@ class FindRaceDataProcessor {
 
         Optional<List<String>> dataList = matchingWords.getRaceDataSecondStep(readWords);
         if (!dataList.isPresent()) {
-            diagnosticMonitor.logError("Not found any matching words in find race data processor", getClass());
+            diagnosticMonitor.logError("Not found any matching words in find race data writer", getClass());
             return new ArrayList<>();
         }
 

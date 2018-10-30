@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    
+    <changeSet id="1" author="tzydo">
+        <createTable tableName="competition_name">
+            <column autoIncrement="true" type="int" name="id">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)"/>
+        </createTable>
+
+        <createTable tableName="competition_type">
+            <column autoIncrement="true" type="int" name="id">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="type" type="varchar(100)"/>
+        </createTable>
+
+        <createTable tableName="ski_jumper">
+            <column autoIncrement="true" type="int" name="id">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="bib" type="int"/>
+            <column name="fis_code" type="int"/>
+            <column name="name" type="varchar(50)"/>
+            <column name="birthday" type="date"/>
+            <column name="gender" type="ENUM('male', 'female')"/>
+            <column name="nationality" type="varchar(50)"/>
+            <column name="ski_club" type="varchar(50)"/>
+            <column name="team" type="varchar(50)"/>
+            <column name="martial_status" type="ENUM('maried','single')"/>
+        </createTable>
+
+        <createTable tableName="jump_result">
+            <column autoIncrement="true" type="int" name="id">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="rank" type="int"/>
+            <column name="first_jump" type="decimal(5,2)"/>
+            <column name="points_for_first_jump" type="decimal(5,2)"/>
+            <column name="second_jump" type="decimal(5,2)"/>
+            <column name="points_for_second_jump" type="decimal(5,2)"/>
+            <column name="total_points" type="decimal(6,2)"/>
+        </createTable>
+
+        <createTable tableName="data_race">
+            <column autoIncrement="true" type="int" name="id">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="date" type="date"><constraints nullable="false"/></column>
+            <column name="city" type="varchar(50)"><constraints nullable="false"/></column>
+            <column name="short_country_name" type="varchar(50)"><constraints nullable="false"/></column>
+            <column name="race_id" type="int">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="competition_type_id" type="int" defaultValue="null">
+                <constraints nullable="true" foreignKeyName="competition_type_id_competition_type_fk" references="competition_type(id)"/>
+            </column>
+            <column name="competition_name_id" type="int" defaultValue="null">
+                <constraints nullable="true" foreignKeyName="competition_name_id_competition_name_fk" references="competition_name(id)"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="jump_result_to_data_race">
+            <column autoIncrement="true" type="int" name="id">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="jump_result_id" type="int">
+                <constraints nullable="false" unique="true" foreignKeyName="jump_result_id_jump_result_fk" references="jump_result(id)"/>
+            </column>
+            <column name="data_race_id" type="int">
+                <constraints nullable="false" foreignKeyName="data_race_id_data_race_fk" references="data_race(id)"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="jump_result_to_ski_jumper">
+            <column autoIncrement="true" type="int" name="id">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="jump_result_id" type="int">
+                <constraints nullable="false" unique="true" foreignKeyName="id_jump_result_jump_result_fk" references="jump_result(id)"/>
+            </column>
+            <column name="ski_jumper_id" type="int">
+                <constraints nullable="false" foreignKeyName="ski_jumper_id_ski_jumper_fk" references="ski_jumper(id)"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="tournament_year">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="year" type="varchar(4)">
+                <constraints unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

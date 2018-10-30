@@ -6,7 +6,6 @@ import com.pl.skijumping.batch.jumpresultsynchronize.configuration.JumpResultSyn
 import com.pl.skijumping.client.HtmlDownloader;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import com.pl.skijumping.domain.repository.DataRaceRepository;
 import com.pl.skijumping.dto.DataRaceDTO;
 import com.pl.skijumping.dto.JumpResultDTO;
 import com.pl.skijumping.dto.SkiJumperDTO;
@@ -154,7 +153,6 @@ public class JumpResultSynchronizeSchedulerTest {
         JumpResultDTO firstExpectedJumpResultDTO = new JumpResultDTO()
                 .id(1L)
                 .rank(1)
-                .jumperId(firstSkiJumperDTO.getId())
                 .firstJump(230.5)
                 .pointsForFirstJump(208.9)
                 .secondJump(244.0)
@@ -164,7 +162,6 @@ public class JumpResultSynchronizeSchedulerTest {
         JumpResultDTO secondExpectedJumpResultDTO = new JumpResultDTO()
                 .id(2L)
                 .rank(2)
-                .jumperId(secondSkiJumperDTO.getId())
                 .firstJump(236.5)
                 .pointsForFirstJump(216.1)
                 .secondJump(233.5)
@@ -174,7 +171,6 @@ public class JumpResultSynchronizeSchedulerTest {
         JumpResultDTO thirdExpectedJumpResultDTO = new JumpResultDTO()
                 .id(3L)
                 .rank(3)
-                .jumperId(thirdSkiJumperDTO.getId())
                 .firstJump(230.5)
                 .pointsForFirstJump(210.3)
                 .secondJump(226.5)
@@ -183,12 +179,6 @@ public class JumpResultSynchronizeSchedulerTest {
         firstExpectedJumpResultDTO = jumpResultService.save(firstExpectedJumpResultDTO);
         secondExpectedJumpResultDTO = jumpResultService.save(secondExpectedJumpResultDTO);
         thirdExpectedJumpResultDTO = jumpResultService.save(thirdExpectedJumpResultDTO);
-
-//        dataRaceService.save(new DataRaceDTO()
-//                .date(LocalDate.now())
-//                .city("krk")
-//                .shortCountryName("name")
-//                .raceId(raceDataId));
 
         diagnosticMonitor = SetupUtilTests.getDiagnosticMonitorMock();
         Mockito.when(htmlDownloader.downloadToString(host + raceDataId)).thenReturn(words);

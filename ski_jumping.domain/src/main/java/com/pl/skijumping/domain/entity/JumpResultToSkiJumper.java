@@ -4,12 +4,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "jump_result_to_data_race")
-public class JumpResultToDataRace implements Serializable {
+@Table(name = "jump_result_to_ski_jumper")
+public class JumpResultToSkiJumper implements Serializable {
 
     private Long id;
     private JumpResult jumpResult;
-    private DataRace dataRace;
+    private SkiJumper skiJumper;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,13 +32,13 @@ public class JumpResultToDataRace implements Serializable {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "data_race_id", nullable = false)
-    public DataRace getDataRace() {
-        return dataRace;
+    @JoinColumn(name = "ski_jumper_id", nullable = false)
+    public SkiJumper getSkiJumper() {
+        return skiJumper;
     }
 
-    public void setDataRace(DataRace dataRace) {
-        this.dataRace = dataRace;
+    public void setSkiJumper(SkiJumper skiJumper) {
+        this.skiJumper = skiJumper;
     }
 
     @Override
@@ -46,33 +46,33 @@ public class JumpResultToDataRace implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        JumpResultToDataRace that = (JumpResultToDataRace) o;
+        JumpResultToSkiJumper that = (JumpResultToSkiJumper) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (jumpResult != null ? !jumpResult.equals(that.jumpResult) : that.jumpResult != null) return false;
-        return dataRace != null ? dataRace.equals(that.dataRace) : that.dataRace == null;
+        return skiJumper != null ? skiJumper.equals(that.skiJumper) : that.skiJumper == null;
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (jumpResult != null ? jumpResult.hashCode() : 0);
-        result = 31 * result + (dataRace != null ? dataRace.hashCode() : 0);
+        result = 31 * result + (skiJumper != null ? skiJumper.hashCode() : 0);
         return result;
     }
 
-    public JumpResultToDataRace id(Long id) {
+    public JumpResultToSkiJumper id(Long id) {
         this.id = id;
         return this;
     }
 
-    public JumpResultToDataRace jumpResult(JumpResult jumpResult) {
+    public JumpResultToSkiJumper jumpResult(JumpResult jumpResult) {
         this.jumpResult = jumpResult;
         return this;
     }
 
-    public JumpResultToDataRace dataRace(DataRace dataRace) {
-        this.dataRace = dataRace;
+    public JumpResultToSkiJumper skiJumper(SkiJumper skiJumper) {
+        this.skiJumper = skiJumper;
         return this;
     }
 }

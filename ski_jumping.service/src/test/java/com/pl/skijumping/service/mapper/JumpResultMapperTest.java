@@ -1,8 +1,6 @@
 package com.pl.skijumping.service.mapper;
 
 import com.pl.skijumping.domain.entity.JumpResult;
-import com.pl.skijumping.domain.entity.SkiJumper;
-import com.pl.skijumping.domain.repository.SkiJumperRepository;
 import com.pl.skijumping.dto.JumpResultDTO;
 import com.pl.skijumping.service.ApplicationTest;
 import org.assertj.core.api.Assertions;
@@ -21,16 +19,11 @@ public class JumpResultMapperTest {
 
     @Autowired
     private JumpResultMapper jumpResultMapper;
-    @Autowired
-    private SkiJumperRepository skiJumperRepository;
 
     @Test
     @Transactional
     public void fromDTOTest() {
-        SkiJumper skiJumper = skiJumperRepository.save(new SkiJumper().name("testJumper"));
-
         JumpResultDTO jumpResultDTO = new JumpResultDTO()
-                .jumperId(skiJumper.getId())
                 .rank(1)
                 .firstJump(100)
                 .pointsForFirstJump(100)
@@ -39,7 +32,6 @@ public class JumpResultMapperTest {
                 .totalPoints(300);
 
         JumpResult expectedJumpResult = new JumpResult()
-                .skiJumper(skiJumper)
                 .rank(1)
                 .firstJump(100)
                 .pointsForFirstJump(100)
@@ -54,10 +46,7 @@ public class JumpResultMapperTest {
     @Test
     @Transactional
     public void toDTOTest() {
-        SkiJumper skiJumper = skiJumperRepository.save(new SkiJumper().name("testJumper"));
-
         JumpResult jumpResult = new JumpResult()
-                .skiJumper(skiJumper)
                 .rank(1)
                 .firstJump(100)
                 .pointsForFirstJump(100)
@@ -66,7 +55,6 @@ public class JumpResultMapperTest {
                 .totalPoints(300);
 
         JumpResultDTO expectedJumpResultDTO = new JumpResultDTO()
-                .jumperId(skiJumper.getId())
                 .rank(1)
                 .firstJump(100)
                 .pointsForFirstJump(100)

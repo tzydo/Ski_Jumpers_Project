@@ -13,22 +13,15 @@ import java.io.Serializable;
 public class JumpResultDTO implements Serializable {
 
     private Long id;
-    private Long jumperId;
     private Integer  rank;
-    private double firstJump;
-    private double pointsForFirstJump;
-    private double secondJump;
-    private double pointsForSecondJump;
-    private double totalPoints;
-    private Long jumpResultToDataRaceId;
+    private Double firstJump;
+    private Double pointsForFirstJump;
+    private Double secondJump;
+    private Double pointsForSecondJump;
+    private Double totalPoints;
 
     public JumpResultDTO id(Long id) {
         this.id = id;
-        return this;
-    }
-
-    public JumpResultDTO jumperId(Long jumperId) {
-        this.jumperId = jumperId;
         return this;
     }
 
@@ -59,11 +52,6 @@ public class JumpResultDTO implements Serializable {
 
     public JumpResultDTO rank(int rank) {
         this.rank = rank;
-        return this;
-    }
-
-    public JumpResultDTO jumpResultToDataRaceId(Long jumpResultToDataRaceId) {
-        this.jumpResultToDataRaceId = jumpResultToDataRaceId;
         return this;
     }
 }

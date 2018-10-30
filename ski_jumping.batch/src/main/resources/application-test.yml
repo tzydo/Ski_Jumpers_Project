@@ -35,7 +35,7 @@ skijumping:
 spring:
   jpa:
     database: ${DATABASE:H2}
-    hibernate.ddl-auto: ${DDL-AUTO:create-drop}
+    hibernate.ddl-auto: ${DDL-AUTO:none}
     properties:
       hibernate.dialect: ${HIBERNATE_DIALECT:org.hibernate.dialect.H2Dialect}
   datasource:
@@ -44,7 +44,7 @@ spring:
     username: ${USERNAME:sa}
     password: ${PASSWORD:}
   profiles:
-    active: ${DEV_PROFILE:test}
+    active: ${TEST_PROFILE:test}
   batch:
     job:
       enabled: ${ENABLE:false}
