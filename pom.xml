@@ -32,6 +32,7 @@
         <module>ski_jumping.diagnostic_monitor</module>
         <module>ski_jumping.dto</module>
         <module>ski_jumping.liquibase</module>
+        <module>ski_jumping.rest</module>
     </modules>
 
     <dependencyManagement>
@@ -69,6 +70,11 @@
             <dependency>
                 <groupId>ski_jumping</groupId>
                 <artifactId>ski_jumping.liquibase</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>ski_jumping</groupId>
+                <artifactId>ski_jumping.rest</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
