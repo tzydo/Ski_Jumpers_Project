@@ -21,6 +21,7 @@
         <h2.version>1.4.197</h2.version>
         <liquibase.version>3.6.2</liquibase.version>
         <querydsl.version>4.2.1</querydsl.version>
+        <jackson.version>2.9.7</jackson.version>
     </properties>
 
     <modules>
@@ -40,42 +41,47 @@
             <dependency>
                 <groupId>ski_jumping</groupId>
                 <artifactId>ski_jumping.common</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>ski_jumping</groupId>
                 <artifactId>ski_jumping.domain</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>ski_jumping</groupId>
                 <artifactId>ski_jumping.dto</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>ski_jumping</groupId>
                 <artifactId>ski_jumping.service</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>ski_jumping</groupId>
                 <artifactId>ski_jumping.client</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>ski_jumping</groupId>
                 <artifactId>ski_jumping.diagnostic_monitor</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>ski_jumping</groupId>
                 <artifactId>ski_jumping.liquibase</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>ski_jumping</groupId>
                 <artifactId>ski_jumping.rest</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ski_jumping</groupId>
+                <artifactId>ski_jumping.batch</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -162,6 +168,11 @@
                 <artifactId>querydsl-apt</artifactId>
                 <version>${querydsl.version}</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -23,7 +23,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DataSynchronize {
     public static final String DATA_SYNCHRONIZE_JOB = "Data_Synchronize_Job";
-    public static final String DATA_SYNCHRONIZE_STEP_NAME = "Data_Synchronize_Step";
     public static final String DELETE_FILE_STEP = "delete_file_step";
     private final JobBuilderFactory jobBuilder;
     private final StepBuilderFactory stepBuilderFactory;
