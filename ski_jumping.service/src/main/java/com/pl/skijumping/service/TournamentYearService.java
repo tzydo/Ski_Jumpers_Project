@@ -25,7 +25,7 @@ public class TournamentYearService {
         this.tournamentYearMapper = tournamentYearMapper;
     }
 
-    public Optional<TournamentYearDTO> save(TournamentYearDTO tournamentYearDTO) {
+    public Optional<TournamentYearDTO> update(TournamentYearDTO tournamentYearDTO) {
         if (tournamentYearDTO == null || tournamentYearDTO.getYear() == null) {
             LOGGER.error("Cannot save null year!");
             return Optional.empty();
@@ -33,11 +33,9 @@ public class TournamentYearService {
         TournamentYear tournamentByYear = tournamentYearRepository.findByYear(tournamentYearDTO.getYear());
         if (tournamentByYear == null) {
             LOGGER.info(String.format("Saving new competition year: %s", tournamentYearDTO.getYear()));
-            tournamentByYear = this.tournamentYearRepository.save(
-                    tournamentYearMapper.fromDTO(tournamentYearDTO));
+            tournamentByYear = this.tournamentYearRepository.save(tournamentYearMapper.fromDTO(tournamentYearDTO));
         } else {
-            LOGGER.info(String.format
-                    ("The year: %s of the competition already exists in the database", tournamentYearDTO.getYear()));
+            LOGGER.info(String.format("The year: %s of the competition already exists in the database", tournamentYearDTO.getYear()));
         }
 
         return Optional.of(tournamentYearMapper.toDTO(tournamentByYear));

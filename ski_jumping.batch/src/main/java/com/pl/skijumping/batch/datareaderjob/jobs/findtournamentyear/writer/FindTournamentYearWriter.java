@@ -22,18 +22,18 @@ public class FindTournamentYearWriter implements ItemWriter<List<String>> {
     @Override
     public void write(List<? extends List<String>> yearList) {
         if (yearList == null || yearList.isEmpty() || yearList.get(0).isEmpty()) {
-            diagnosticMonitor.logError("Cannot save empty tournament year list", getClass());
+            diagnosticMonitor.logWarn("Cannot save empty tournament year list");
             return;
         }
         List<String> tournamentYearDTOList = yearList.get(0);
         tournamentYearDTOList.stream()
                 .filter(Objects::nonNull)
-                .forEach(this::saveYear);
+                .forEach(this::saveOrUpdateYear);
 
         diagnosticMonitor.logInfo("Finish saving tournament years to database");
     }
 
-    private Optional<TournamentYearDTO> saveYear(String year) {
-        return tournamentYearService.save(new TournamentYearDTO(null, year));
+    private Optional<TournamentYearDTO> saveOrUpdateYear(String year) {
+        return tournamentYearService.update(new TournamentYearDTO(null, year));
     }
 }

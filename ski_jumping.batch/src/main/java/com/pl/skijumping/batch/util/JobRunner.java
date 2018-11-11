@@ -2,10 +2,7 @@ package com.pl.skijumping.batch.util;
 
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersInvalidException;
+import org.springframework.batch.core.*;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
@@ -37,7 +34,8 @@ public class JobRunner {
         JobExecution jobExecution;
         try {
             diagnosticMonitor.logInfo(String.format("Starting job: %s", jobName));
-            jobExecution = jobLauncher.run(job, new JobParameters());
+            JobParameters jobParameters = new JobParametersBuilder().addLong("time",System.currentTimeMillis()).toJobParameters();
+            jobExecution = jobLauncher.run(job, jobParameters);
         } catch (JobExecutionAlreadyRunningException | JobRestartException
                 | JobInstanceAlreadyCompleteException | JobParametersInvalidException e) {
             diagnosticMonitor.logError(String.format("Error during job %s", jobName), this.getClass());

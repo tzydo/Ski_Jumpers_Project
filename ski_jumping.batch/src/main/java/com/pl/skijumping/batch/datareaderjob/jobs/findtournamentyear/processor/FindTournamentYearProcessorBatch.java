@@ -1,13 +1,13 @@
 package com.pl.skijumping.batch.datareaderjob.jobs.findtournamentyear.processor;
 
 import com.pl.skijumping.batch.matchingword.MatchingWords;
-import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.springframework.batch.item.ItemProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class FindTournamentYearProcessorBatch implements ItemProcessor<String, List<String>> {
     private final DiagnosticMonitor diagnosticMonitor;
@@ -17,21 +17,28 @@ public class FindTournamentYearProcessorBatch implements ItemProcessor<String, L
     }
 
     @Override
-    public List<String> process(String fileContent) throws InternalServiceException {
+    public List<String> process(String fileContent) {
         diagnosticMonitor.logInfo("Searching for matches tournament years");
         if (fileContent == null || fileContent.isEmpty()) {
             diagnosticMonitor.logError("Cannot find matching words, file is empty", getClass());
             return new ArrayList<>();
         }
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-        Optional<List<String>> tournamentYears = matchingWords.getTournamentYears(fileContent);
-        if (!tournamentYears.isPresent() || tournamentYears.get().isEmpty()) {
+        String years = matchingWords.getTournamentYears(fileContent)
+                .orElse(new ArrayList<>())
+                .stream()
+                .filter(Objects::nonNull)
+                .map(Object::toString)
+                .collect(Collectors.joining(" "));
+
+        List<String> tournamentYears = matchingWords.getTournamentYearsFilterData(years).orElse(new ArrayList<>());
+
+        if (tournamentYears.isEmpty()) {
             String errorMessage = "Not found any matching words in FindTournamentYearJob.";
             diagnosticMonitor.logError(errorMessage, getClass());
-            throw new InternalServiceException(errorMessage);
         }
 
-        diagnosticMonitor.logInfo(String.format("Found %d matching tournament years", tournamentYears.get().size()));
-        return tournamentYears.get();
+        diagnosticMonitor.logInfo(String.format("Found %d matching tournament years", tournamentYears.size()));
+        return tournamentYears;
     }
 }

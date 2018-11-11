@@ -15,7 +15,13 @@ public class MatchingWords {
     public Optional<List<String>> getTournamentYears(String words) {
         if (isEmpty(words)) return Optional.empty();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getSeasonData(words, RegexpPattern.TOURNAMENT_YEAR, true);
+        return findMatchingWords.getSeasonData(words, RegexpPattern.TOURNAMENT_YEAR, false);
+    }
+
+    public Optional<List<String>> getTournamentYearsFilterData(String words) {
+        if (isEmpty(words)) return Optional.empty();
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getSeasonData(words, RegexpPattern.SECOND_FILTER_TOURNAMENT_YEAR);
     }
 
     public Optional<List<String>> getRaceDataFirstStep(String words) {

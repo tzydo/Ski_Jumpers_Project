@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,23 +26,29 @@ public class MatchingWordsTest {
     public void getSeasonDataMatchWordsTest() {
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
 
-        String text = "<div id=\"filters\">" +
-                "<fieldset>" +
-                "<h4>Filter by season</h4>" +
-                "<div class=\"row\">" +
-                "<div class=\"large-2 small-12 columns\">" +
-                "<select name=\"season\" id=\"season\" class=\"queryChange\">" +
-                "<option value=\"2019\" >2019</option>" +
-                "<option value=\"2018\" selected=\"selected\">2018</option>" +
-                "<option value=\"2017\" >2017</option>" +
-                "<option value=\"2016\" >2016</option>" +
-                "<option value=\"2015\" >2015</option>";
+        String text = "<select id=\"seasoncode\" tabindex=\"3\" data-module=\"select\" title=\"select a season\" onchange=\"fct_change_calendar_season(this);\" name=\"seasoncode\">\n" +
+                "\t<option value=\"2019\" selected=\"selected\">2019</option>\n" +
+                "\t<option value=\"2018\">2018</option>\n" +
+                "\t<option value=\"2017\">2017</option>\n" +
+                "\t<option value=\"2016\">2016</option>\n" +
+                "\t<option value=\"2015\">2015</option></select>";
+
 
         Optional<List<String>> seasonDataMatchWords = matchingWords.getTournamentYears(text);
         Assertions.assertThat(seasonDataMatchWords.isPresent()).isTrue();
         Assertions.assertThat(seasonDataMatchWords.get()).isNotEmpty();
         Assertions.assertThat(seasonDataMatchWords.get().size()).isEqualTo(5);
-        Assertions.assertThat(seasonDataMatchWords.get()).containsAll(Arrays.asList("2015", "2016", "2017", "2018", "2019"));
+        Assertions.assertThat(seasonDataMatchWords.get()).containsAll(Arrays.asList("<option value=\"2019\"", "<option value=\"2018\"", "<option value=\"2017\"", "<option value=\"2016\"", "<option value=\"2015\""));
+    }
+
+    @Test
+    public void getSeasonDataMatchWordsSecondFilterTest() {
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        String text = "<option value=\"2016\"";
+
+        Optional<List<String>> seasonDataMatchWords = matchingWords.getTournamentYearsFilterData(text);
+        Assertions.assertThat(seasonDataMatchWords.isPresent()).isTrue();
+        Assertions.assertThat(seasonDataMatchWords.get()).isEqualTo(Collections.singletonList("2016"));
     }
 
     @Test

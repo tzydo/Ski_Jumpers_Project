@@ -19,7 +19,7 @@ public class StepListener implements StepExecutionListener {
             stepExecution.upgradeStatus(BatchStatus.FAILED);
             String errorMessage = stepExecution.getFailureExceptions().stream()
                     .map(Throwable::getMessage)
-                    .collect(Collectors.joining(","));
+                    .collect(Collectors.joining("\n\n"));
             return new ExitStatus(ExitStatus.FAILED.getExitCode(), errorMessage);
         }
 

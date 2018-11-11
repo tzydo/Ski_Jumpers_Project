@@ -1,6 +1,7 @@
 package com.pl.skijumping.batch.datareaderjob.jobs.findtournamentyear.reader;
 
 import com.pl.skijumping.batch.datareaderjob.reader.DataReader;
+import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemStreamException;
@@ -21,9 +22,9 @@ public class FindTournamentYearReaderBatch implements ItemStreamReader<String> {
     }
 
     @Override
-    public String read() {
+    public String read() throws InternalServiceException {
         if (listItemReader == null) {
-            return null;
+            throw new InternalServiceException("Cannot read from null file");
         }
 
         return listItemReader.read();
