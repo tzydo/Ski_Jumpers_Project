@@ -1,27 +1,27 @@
 package com.pl.skijumping.common.util;
 
-public class Pair <t,k> {
-    private t left;
-    private k right;
+public class Pair <T, K> {
+    private T left;
+    private K right;
 
-    public Pair(t left, k right) {
+    public Pair(T left, K right) {
         this.left = left;
         this.right = right;
     }
 
-    public t getLeft() {
+    public T getLeft() {
         return left;
     }
 
-    public void setLeft(t left) {
+    public void setLeft(T left) {
         this.left = left;
     }
 
-    public k getRight() {
+    public K getRight() {
         return right;
     }
 
-    public void setRight(k right) {
+    public void setRight(K right) {
         this.right = right;
     }
 

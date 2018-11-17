@@ -2,46 +2,37 @@ package com.pl.skijumping.common.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 class FileCreator {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileCreator.class);
-    private final String fileName;
 
-    FileCreator(String fileName) {
-        this.fileName = fileName;
+    private FileCreator() {
+//
     }
 
-    public Boolean create() {
-        LOGGER.info("Start creating file: {}", fileName);
-        String resourcePath;
+    static Path create(Path fileDirectory, String fileName) {
+        LOGGER.info("Start creating file: {} into {} directory", fileName, fileDirectory);
+
+        if (fileDirectory == null || fileName == null) {
+            LOGGER.error("Cannot create file from null!");
+            return null;
+        }
+
+        Path pathToFile = Paths.get(fileDirectory.toString(), fileName);
+        if (pathToFile.toFile().exists()) {
+            LOGGER.info("Cannot create file, file exist");
+            return pathToFile;
+        }
         try {
-            resourcePath = new ClassPathResource(File.separator).getURL().getPath();
+            return Files.createFile(Paths.get(fileDirectory.toString(), fileName));
         } catch (IOException e) {
             LOGGER.error(String.format("Cannot create %s file ", fileName));
-            return false;
+            return null;
         }
-        File file = new File(resourcePath + File.separator + fileName);
-        return createFile(file);
-    }
-
-    private boolean createFile(File file) {
-        boolean isCreate;
-        try {
-            isCreate = file.createNewFile();
-        } catch (IOException e) {
-            LOGGER.error(String.format("Cannot create file: %s", fileName));
-            return false;
-        }
-        if (isCreate) {
-            LOGGER.info("Successfully created {} file", fileName);
-            return true;
-        }
-
-        LOGGER.error("Cannot create file, file exist");
-        return false;
     }
 }
