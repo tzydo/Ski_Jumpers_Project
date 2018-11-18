@@ -3,7 +3,8 @@ package com.pl.skijumping.client;
 import com.pl.skijumping.common.exception.InternalServiceException;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 public interface IHtmlDownloader {
-    String downloadSource(String filePath, String host) throws IOException, InternalServiceException;
+    Path downloadSource(Path filePath, String host) throws IOException, InternalServiceException;
 }

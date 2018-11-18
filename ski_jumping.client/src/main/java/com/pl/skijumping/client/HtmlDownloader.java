@@ -12,13 +12,14 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Optional;
 
 @Component
 public class HtmlDownloader implements IHtmlDownloader {
     private static final Logger LOGGER = LoggerFactory.getLogger(HtmlDownloader.class);
 
-    public String downloadSource(String filePath, String host) throws IOException, InternalServiceException {
+    public Path downloadSource(Path filePath, String host) throws IOException, InternalServiceException {
         Optional<File> file = FileUtil.getFile(filePath);
         if (!file.isPresent()) {
             LOGGER.error("File doesn't exist");
@@ -32,7 +33,7 @@ public class HtmlDownloader implements IHtmlDownloader {
 
         OutputStream outputStream = new FileOutputStream(file.get());
         IOUtils.copy(inputStream, outputStream);
-        LOGGER.debug("Finish copying file");
+        LOGGER.info("Finish copying file");
         outputStream.close();
         if (Files.readAllBytes(file.get().toPath()).length == 0) {
             LOGGER.error("Copying file failed");
@@ -40,7 +41,7 @@ public class HtmlDownloader implements IHtmlDownloader {
         }
 
         LOGGER.info("Copying file successfully");
-        return file.get().getPath();
+        return file.get().toPath();
     }
 
     private InputStream getConnection(String host) throws IOException, InternalServiceException {
@@ -48,9 +49,9 @@ public class HtmlDownloader implements IHtmlDownloader {
             throw new InternalServiceException("Cannot connect to null host");
         }
         URL connection = new URL(host);
-        LOGGER.debug("Open connection with host: {}", host);
+        LOGGER.info("Open connection with host: {}", host);
         URLConnection urlConnection = connection.openConnection();
-        LOGGER.debug("Start downloading source");
+        LOGGER.info("Start downloading source");
         InputStream inputStream = null;
         try {
             inputStream = urlConnection.getInputStream();
@@ -63,14 +64,14 @@ public class HtmlDownloader implements IHtmlDownloader {
 
     public String downloadToString(String host) throws IOException, InternalServiceException {
         LOGGER.info("Start downloading from source: {}", host);
-        if(host == null || host.isEmpty()) {
+        if (host == null || host.isEmpty()) {
             LOGGER.error("Cannot download source from null host");
             return null;
         }
         InputStream inputStream = getConnection(host);
         String source = InputStreamConverter.convert(inputStream, StandardCharsets.UTF_8);
-        if(source == null || source.isEmpty()) {
-            LOGGER.warn(String.format("Empty source from host: %s", host));
+        if (source == null || source.isEmpty()) {
+            LOGGER.warn("Empty source from host: {}", host);
         }
         return source;
     }

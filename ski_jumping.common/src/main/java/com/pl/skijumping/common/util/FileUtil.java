@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,6 +38,25 @@ public class FileUtil {
             throw new InternalServiceException(String.format("Cannot delete file from %s", filePath));
         }
     }
+
+    public static Path getPath(String filePath) {
+        if (filePath == null) {
+            LOGGER.error("Cannot ger file from null!");
+            return null;
+        }
+        return Paths.get(filePath);
+    }
+
+    public static Path getPath(String ...values) {
+        if(values.length == 0) {
+            return null;
+        }
+
+        List<String> valueList = Arrays.asList(values);
+        String value = valueList.stream().collect(Collectors.joining(File.separator));
+        return Paths.get(value);
+    }
+
 
     public static Optional<File> getFile(Path filePath) {
         if (filePath == null) {
@@ -122,11 +142,11 @@ public class FileUtil {
         }
     }
 
-    static String getResource() throws IOException {
+    public static String getResource() throws IOException {
         return Paths.get(new ClassPathResource(File.separator).getURI()).toString();
     }
 
-    static Path getResourcePath() {
+    public static Path getResourcePath() {
         try {
             return Paths.get(new ClassPathResource(File.separator).getURI());
         } catch (IOException e) {
