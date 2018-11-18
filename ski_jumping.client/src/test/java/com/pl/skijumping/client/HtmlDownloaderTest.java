@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class HtmlDownloaderTest {
     private static final String TMP_DIRECTORY = "tmp";
     private static final String FILE_NAME = "SkiJumping.txt";
-    private static final String HOST = "https://www.fis-ski.com/en/ski-jumping";
+    private static final String HOST = "https://www.fis-ski.com/DB/ski-jumping/calendar-results.html";
     private static final String TMP_FILE_PATH = "tmp" + File.separator + "test.txt";
 
     @After

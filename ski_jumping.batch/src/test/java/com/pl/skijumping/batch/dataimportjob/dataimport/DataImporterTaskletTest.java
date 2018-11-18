@@ -4,6 +4,7 @@ import com.pl.skijumping.common.util.FileUtil;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -13,14 +14,22 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.repeat.RepeatStatus;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DataImporterTaskletTest {
+
+    private static final String DIRECTORY = "directory";
+    private static final String TEST_FILE_TXT = "testFile.txt";
+    private static final String LOCALHOST = "http://localhost:8080";
+
+    @After
+    public void tearDown() throws IOException {
+        FileUtil.getPath(FileUtil.getResource(), "directory", "testFile.txt").toFile().delete();
+        FileUtil.getPath(FileUtil.getResource(), "directory").toFile().delete();
+    }
+
     @Mock
     private DiagnosticMonitor diagnosticMonitor;
     @Mock
@@ -34,7 +43,7 @@ public class DataImporterTaskletTest {
     public void executeWhenCannotCreateDirectoryTest() throws Exception {
         StepContribution stepContribution = stepExecution.createStepContribution();
         DataImporterTasklet dataImporterTasklet = new DataImporterTasklet(
-                "http://localhost:8080", null, "testFile.txt", diagnosticMonitor);
+                LOCALHOST, null, TEST_FILE_TXT, diagnosticMonitor);
         RepeatStatus execute = dataImporterTasklet.execute(stepContribution, chunkContext);
         Assertions.assertThat(execute).isEqualTo(RepeatStatus.FINISHED);
         Assertions.assertThat(stepContribution.getExitStatus().getExitCode()).isEqualTo(ExitStatus.FAILED.getExitCode());
@@ -44,27 +53,21 @@ public class DataImporterTaskletTest {
     public void executeWhenCannotConnectToHostTest() throws Exception {
         StepContribution stepContribution = stepExecution.createStepContribution();
         DataImporterTasklet dataImporterTasklet = new DataImporterTasklet(
-                "http://localhost:8080", "directory", "directory/testFile.txt", diagnosticMonitor);
+                LOCALHOST, DIRECTORY, TEST_FILE_TXT, diagnosticMonitor);
         RepeatStatus execute = dataImporterTasklet.execute(stepContribution, chunkContext);
         Assertions.assertThat(execute).isEqualTo(RepeatStatus.FINISHED);
         Assertions.assertThat(stepContribution.getExitStatus().getExitCode()).isEqualTo(ExitStatus.FAILED.getExitCode());
-
-        Optional<File> file = FileUtil.getFile("directory");
-        FileUtils.deleteDirectory(file.get());
     }
 
     @Test
     public void executeTest() throws Exception {
-        String host = "http://www.fis-ski.com/ski-jumping/events-and-places/results/";
+        String host = "https://www.fis-ski.com/DB/ski-jumping/calendar-results.html";
         StepContribution stepContribution = stepExecution.createStepContribution();
         DataImporterTasklet dataImporterTasklet = new DataImporterTasklet(
-                host, "directory", "directory/testFile.txt", diagnosticMonitor);
+                host, DIRECTORY, TEST_FILE_TXT, diagnosticMonitor);
         RepeatStatus execute = dataImporterTasklet.execute(stepContribution, chunkContext);
         Assertions.assertThat(execute).isEqualTo(RepeatStatus.FINISHED);
         Assertions.assertThat(stepContribution.getExitStatus().getExitCode())
                 .isEqualTo(ExitStatus.COMPLETED.getExitCode());
-
-        Optional<File> file = FileUtil.getFile("directory");
-        FileUtils.deleteDirectory(file.get());
     }
 }

@@ -38,7 +38,7 @@ public class FileDelete {
             return RepeatStatus.FINISHED;
         }
 
-        FileUtil.deleteFile(file.get().getPath());
+        FileUtil.deleteFile(file.get().toPath());
         stepContribution.setExitStatus(ExitStatus.COMPLETED);
         diagnosticMonitor.logInfo("Successfully delete file");
         return RepeatStatus.FINISHED;

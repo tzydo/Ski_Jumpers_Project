@@ -8,6 +8,8 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 
+import java.nio.file.Path;
+
 public class DataImporterTasklet implements Tasklet {
     private final String host;
     private final String directory;
@@ -25,7 +27,8 @@ public class DataImporterTasklet implements Tasklet {
     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
         String errorMessage;
         FilePreparation filePreparation = new FilePreparation(directory, fileName);
-        if (!filePreparation.prepare()) {
+        Path createdFile = filePreparation.prepare();
+        if (createdFile == null) {
             errorMessage = String.format("Cannot create file %s in path: %s", fileName, directory);
             setExitStatus(stepContribution, errorMessage, ExitStatus.FAILED);
             return RepeatStatus.FINISHED;
@@ -33,7 +36,7 @@ public class DataImporterTasklet implements Tasklet {
 
         HtmlDownloader fileDownloader = new HtmlDownloader();
         diagnosticMonitor.logInfo("Start downloading html source");
-        String filePath = fileDownloader.downloadSource(this.fileName, this.host);
+        Path filePath = fileDownloader.downloadSource(createdFile, this.host);
 
         if (filePath == null) {
             errorMessage = "Job data import FAILED";
