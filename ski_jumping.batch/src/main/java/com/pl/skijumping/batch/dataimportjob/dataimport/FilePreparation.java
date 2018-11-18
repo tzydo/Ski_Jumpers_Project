@@ -4,6 +4,7 @@ import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.common.util.FileUtil;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Optional;
 
 class FilePreparation {
@@ -12,21 +13,23 @@ class FilePreparation {
     private final String fileName;
 
     FilePreparation(String directory,
-                           String fileName) {
+                    String fileName) {
         this.directory = directory;
         this.fileName = fileName;
     }
 
-    Boolean prepare() throws InternalServiceException {
-        if (!FileUtil.createDirectory(this.directory)) {
-            return false;
+    Path prepare() throws InternalServiceException {
+        Path directory = FileUtil.createDirectory(this.directory);
+        if (directory == null) {
+            return null;
         }
 
-        Optional<File> file = FileUtil.getFile(this.fileName);
+        Path pathToFile = FileUtil.getPath(directory.toString(), this.fileName);
+        Optional<File> file = FileUtil.getFile(pathToFile);
         if (file.isPresent()) {
-            FileUtil.deleteFile(file.get().getPath());
+            FileUtil.deleteFile(file.get().toPath());
         }
 
-        return FileUtil.createFile(this.fileName);
+        return FileUtil.createFile(directory, fileName);
     }
 }
