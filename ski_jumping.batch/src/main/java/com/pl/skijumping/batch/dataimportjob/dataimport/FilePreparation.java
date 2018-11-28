@@ -9,6 +9,10 @@ import java.nio.file.Path;
 class FilePreparation {
     private static final Logger LOGGER = LoggerFactory.getLogger(FilePreparation.class);
 
+    private  FilePreparation() {
+//    
+    }
+
     public static Path prepareDirectory(String directoryName) {
         Path directoryPath = FileUtil.createDirectory(directoryName);
         if (directoryPath == null) {

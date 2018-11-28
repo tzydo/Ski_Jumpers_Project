@@ -65,6 +65,6 @@ public class DataImporterConfiguration {
 
     @Bean
     public StepExecutionListener stepExecutionListener() {
-        return new DataImporterListener(this.directory);
+        return new DataImporterListener(this.directory, diagnosticMonitor);
     }
 }
