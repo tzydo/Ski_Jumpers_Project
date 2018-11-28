@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import static com.pl.skijumping.batch.dataimportjob.configuration.DataImporter.DATA_IMPORT_JOB_NAME;
+import static com.pl.skijumping.batch.dataimportjob.configuration.DataImporterConfiguration.DATA_IMPORT_JOB_NAME;
 
 @Component
 public class DataImportScheduler {

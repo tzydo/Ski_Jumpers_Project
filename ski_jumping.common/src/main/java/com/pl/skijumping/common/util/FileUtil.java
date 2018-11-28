@@ -53,7 +53,7 @@ public class FileUtil {
         }
 
         List<String> valueList = Arrays.asList(values);
-        String value = valueList.stream().collect(Collectors.joining(File.separator));
+        String value = String.join(File.separator, valueList);
         return Paths.get(value);
     }
 

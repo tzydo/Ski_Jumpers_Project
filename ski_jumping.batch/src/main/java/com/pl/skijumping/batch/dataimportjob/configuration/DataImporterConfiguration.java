@@ -1,7 +1,8 @@
 package com.pl.skijumping.batch.dataimportjob.configuration;
 
+import com.pl.skijumping.batch.dataimportjob.DataImporterListener;
 import com.pl.skijumping.batch.dataimportjob.dataimport.DataImporterTasklet;
-import com.pl.skijumping.batch.listener.StepListener;
+import com.pl.skijumping.client.HtmlDownloader;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -14,29 +15,32 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class DataImporter {
+public class DataImporterConfiguration {
     public static final String DATA_IMPORT_JOB_NAME = "Data_Import_Job";
     public static final String DATA_IMPORTER_STEP_NAME = "Data_Importer_Step";
 
     private final String host;
     private final String directory;
-    private final String fileName;
     private final JobBuilderFactory jobBuilder;
     private final StepBuilderFactory stepBuilder;
     private final DiagnosticMonitor diagnosticMonitor;
+    private final Integer yearToDownload;
+    private final HtmlDownloader htmlDownloader;
 
-    public DataImporter(@Value("${skijumping.settings.host}") String host,
-                        @Value("${skijumping.settings.directory}") String directory,
-                        @Value("${skijumping.settings.fileName}") String fileName,
-                        JobBuilderFactory jobBuilder,
-                        StepBuilderFactory stepBuilder,
-                        DiagnosticMonitor diagnosticMonitor) {
+    public DataImporterConfiguration(@Value("${skijumping.settings.host}") String host,
+                                     @Value("${skijumping.settings.directory}") String directory,
+                                     @Value("${skijumping.settings.numberOfPreviousYear}") Integer yearToDownload,
+                                     JobBuilderFactory jobBuilder,
+                                     StepBuilderFactory stepBuilder,
+                                     DiagnosticMonitor diagnosticMonitor,
+                                     HtmlDownloader htmlDownloader) {
         this.host = host;
         this.directory = directory;
-        this.fileName = fileName;
         this.jobBuilder = jobBuilder;
         this.stepBuilder = stepBuilder;
         this.diagnosticMonitor = diagnosticMonitor;
+        this.yearToDownload = yearToDownload;
+        this.htmlDownloader = htmlDownloader;
     }
 
     @Bean(name = DATA_IMPORT_JOB_NAME)
@@ -56,11 +60,11 @@ public class DataImporter {
 
     @Bean
     public Tasklet dataImporterTasklet() {
-        return new DataImporterTasklet(host, directory, fileName, diagnosticMonitor);
+        return new DataImporterTasklet(host, directory, diagnosticMonitor, yearToDownload, htmlDownloader);
     }
 
     @Bean
     public StepExecutionListener stepExecutionListener() {
-        return new StepListener();
+        return new DataImporterListener(this.directory);
     }
 }

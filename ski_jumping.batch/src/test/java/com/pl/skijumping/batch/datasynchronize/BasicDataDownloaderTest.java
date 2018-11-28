@@ -43,7 +43,7 @@ public class BasicDataDownloaderTest {
         Optional<File> actualFile = FileUtil.getFile(directory + File.separator + BasicDataDownloader.FILE_NAME + "2018.txt");
         Assertions.assertThat(actualFile.isPresent()).isTrue();
         Assertions.assertThat(exitStatus.getExitCode()).isEqualTo(ExitStatus.COMPLETED.getExitCode());
-        FileUtil.deleteFile(actualFile.get().getPath());
+        FileUtil.deleteFile(actualFile.get().toPath());
     }
 
     @Test

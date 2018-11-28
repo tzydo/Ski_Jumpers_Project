@@ -19,6 +19,8 @@ public class DataRaceDTO implements Serializable {
     private String competitionName;
     private String competitionType;
     private Long raceId;
+    private Long eventId;
+    private int seasoncode;
 
     public DataRaceDTO id(Long id) {
         this.id = id;

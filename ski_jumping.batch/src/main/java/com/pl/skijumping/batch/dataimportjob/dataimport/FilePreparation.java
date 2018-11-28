@@ -1,35 +1,40 @@
 package com.pl.skijumping.batch.dataimportjob.dataimport;
 
-import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.common.util.FileUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.nio.file.Path;
-import java.util.Optional;
 
 class FilePreparation {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FilePreparation.class);
 
-    private final String directory;
-    private final String fileName;
-
-    FilePreparation(String directory,
-                    String fileName) {
-        this.directory = directory;
-        this.fileName = fileName;
-    }
-
-    Path prepare() throws InternalServiceException {
-        Path directory = FileUtil.createDirectory(this.directory);
-        if (directory == null) {
+    public static Path prepareDirectory(String directoryName) {
+        Path directoryPath = FileUtil.createDirectory(directoryName);
+        if (directoryPath == null) {
+            LOGGER.error("Cannot create directory from null!");
             return null;
         }
 
-        Path pathToFile = FileUtil.getPath(directory.toString(), this.fileName);
-        Optional<File> file = FileUtil.getFile(pathToFile);
-        if (file.isPresent()) {
-            FileUtil.deleteFile(file.get().toPath());
+        return directoryPath;
+    }
+
+    public static Path prepareFile(String fileName, Path directoryPath) {
+        if (directoryPath == null) {
+            LOGGER.error("Cannot create file in null directory");
+            return null;
+        }
+        if (fileName == null || fileName.isEmpty()) {
+            LOGGER.error("Cannot create file from null");
+            return null;
         }
 
-        return FileUtil.createFile(directory, fileName);
+        Path pathToFile = FileUtil.getPath(directoryPath.toString(), fileName);
+        if (pathToFile != null && pathToFile.toFile().exists()) {
+            LOGGER.warn("File in path: {} and name: {}  exist", directoryPath, fileName);
+            return pathToFile;
+        }
+
+        return FileUtil.createFile(directoryPath, fileName);
     }
 }

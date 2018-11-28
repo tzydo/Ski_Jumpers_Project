@@ -1,6 +1,6 @@
 package com.pl.skijumping.batch;
 
-import com.pl.skijumping.batch.dataimportjob.configuration.DataImporter;
+import com.pl.skijumping.batch.dataimportjob.configuration.DataImporterConfiguration;
 import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.FindRaceData;
 import com.pl.skijumping.batch.datareaderjob.jobs.findtournamentyear.FindTournamentYear;
 import com.pl.skijumping.batch.datasynchronize.configuration.BasicDataSynchronize;
@@ -38,7 +38,7 @@ public class DataSynchronize {
             JobBuilderFactory jobBuilder,
             StepBuilderFactory stepBuilderFactory,
             DiagnosticMonitor diagnosticMonitor,
-            @Qualifier(value = DataImporter.DATA_IMPORTER_STEP_NAME) Step dataImporterStep,
+            @Qualifier(value = DataImporterConfiguration.DATA_IMPORTER_STEP_NAME) Step dataImporterStep,
             @Qualifier(value = FindTournamentYear.FIND_TOURNAMENT_YEAR_STEP_NAME) Step findTournamentYearStep,
             @Qualifier(value = FindRaceData.FIND_RACE_DATA_STEP_NAME) Step findRaceDataStep,
             @Qualifier(value = BasicDataSynchronize.BASIC_DATA_IMPORTER_STEP_NAME) Step basicDataImporterStep,

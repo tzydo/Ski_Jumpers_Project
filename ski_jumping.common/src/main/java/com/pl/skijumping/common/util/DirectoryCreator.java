@@ -3,7 +3,6 @@ package com.pl.skijumping.common.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,13 +23,14 @@ class DirectoryCreator {
             return null;
         }
 
-        Path pathToDirectory = Paths.get(directoryPath + File.separator + directoryName);
+        Path pathToDirectory = Paths.get(directoryPath.toString(), directoryName);
         if (pathToDirectory.toFile().isDirectory()) {
             LOGGER.info("Cannot create directory, directory exist");
             return pathToDirectory;
         }
+
         try {
-            return Files.createDirectories(Paths.get(directoryPath + File.separator + directoryName));
+            return Files.createDirectories(Paths.get(directoryPath.toString(), directoryName));
         } catch (IOException e) {
             LOGGER.error(String.format("Cannot create %s directory ", directoryName));
             return null;

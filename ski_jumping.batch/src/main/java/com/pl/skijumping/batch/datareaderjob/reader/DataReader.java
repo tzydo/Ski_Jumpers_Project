@@ -3,12 +3,10 @@ package com.pl.skijumping.batch.datareaderjob.reader;
 import com.pl.skijumping.common.util.FileUtil;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Optional;
 
 public class DataReader {
     private final String filePath;

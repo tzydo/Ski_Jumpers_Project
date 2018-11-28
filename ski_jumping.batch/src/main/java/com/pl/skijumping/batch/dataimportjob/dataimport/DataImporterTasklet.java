@@ -1,5 +1,7 @@
 package com.pl.skijumping.batch.dataimportjob.dataimport;
 
+import com.pl.skijumping.batch.dataimportjob.DataImporterConst;
+import com.pl.skijumping.batch.dataimportjob.DataImporterUtil;
 import com.pl.skijumping.client.HtmlDownloader;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.springframework.batch.core.ExitStatus;
@@ -8,49 +10,44 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 
-import java.nio.file.Path;
+import java.util.List;
 
 public class DataImporterTasklet implements Tasklet {
     private final String host;
     private final String directory;
-    private final String fileName;
     private final DiagnosticMonitor diagnosticMonitor;
+    private Integer yearToDownload;
+    private final HtmlDownloader htmlDownloader;
 
-    public DataImporterTasklet(String host, String directory, String fileName, DiagnosticMonitor diagnosticMonitor) {
+    public DataImporterTasklet(String host,
+                               String directory,
+                               DiagnosticMonitor diagnosticMonitor,
+                               Integer yearToDownload,
+                               HtmlDownloader htmlDownloader) {
         this.host = host;
         this.directory = directory;
-        this.fileName = fileName;
         this.diagnosticMonitor = diagnosticMonitor;
+        this.yearToDownload = yearToDownload;
+        this.htmlDownloader = htmlDownloader;
     }
 
     @Override
-    public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
-        String errorMessage;
-        FilePreparation filePreparation = new FilePreparation(directory, fileName);
-        Path createdFile = filePreparation.prepare();
-        if (createdFile == null) {
-            errorMessage = String.format("Cannot create file %s in path: %s", fileName, directory);
-            setExitStatus(stepContribution, errorMessage, ExitStatus.FAILED);
-            return RepeatStatus.FINISHED;
+    public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) {
+        if (yearToDownload == null) {
+            diagnosticMonitor.logWarn("Not set count of previous years to download");
+            yearToDownload = DataImporterConst.DEFAULT_YEAR_TO_DOWNLOAD;
         }
 
-        HtmlDownloader fileDownloader = new HtmlDownloader();
-        diagnosticMonitor.logInfo("Start downloading html source");
-        Path filePath = fileDownloader.downloadSource(createdFile, this.host);
-
-        if (filePath == null) {
-            errorMessage = "Job data import FAILED";
-            diagnosticMonitor.logError(errorMessage, getClass());
-            setExitStatus(stepContribution, errorMessage, ExitStatus.FAILED);
-            return RepeatStatus.FINISHED;
+        SourceDownloader sourceDownloader = new SourceDownloader(directory, diagnosticMonitor, htmlDownloader);
+        List<String> generatedURL = DataImporterUtil.generateSeasonMonthAndCodeByPreviousYear(yearToDownload, host);
+        for (String url : generatedURL) {
+            ExitStatus exitStatus = sourceDownloader.download(url, DataImporterUtil.getFileNameFromHost(url));
+            stepContribution.setExitStatus(exitStatus);
+            if (ExitStatus.FAILED.getExitCode().equals(exitStatus.getExitCode())) {
+                diagnosticMonitor.logError(String.format("Error during download source from:  %s", url), getClass());
+                break;
+            }
         }
-
-        diagnosticMonitor.logInfo("Job data import successfully finished");
-        stepContribution.setExitStatus(ExitStatus.COMPLETED);
         return RepeatStatus.FINISHED;
-    }
-
-    private void setExitStatus(StepContribution stepContribution, String errorMessage, ExitStatus status) {
-        stepContribution.setExitStatus(new ExitStatus(status.getExitCode(), errorMessage));
     }
 }

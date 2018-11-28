@@ -8,9 +8,13 @@ import org.springframework.batch.core.JobExecution;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class StatisticGenerator {
+class StatisticGenerator {
 
-    public static BatchJobStatisticDTO generate(JobExecution jobExecution) {
+    private StatisticGenerator() {
+//
+    }
+
+    static BatchJobStatisticDTO generate(JobExecution jobExecution) {
         BatchJobStatisticDTO batchJobStatisticDTO = new BatchJobStatisticDTO();
         if (!jobExecution.getExitStatus().getExitCode().contains(ExitStatus.COMPLETED.getExitCode())) {
             batchJobStatisticDTO.setJobStatus(JobStatus.FAILED);
