@@ -40,6 +40,7 @@ public class DataImporterTasklet implements Tasklet {
 
         SourceDownloader sourceDownloader = new SourceDownloader(directory, diagnosticMonitor, htmlDownloader);
         List<String> generatedURL = DataImporterUtil.generateSeasonMonthAndCodeByPreviousYear(yearToDownload, host);
+
         for (String url : generatedURL) {
             ExitStatus exitStatus = sourceDownloader.download(url, DataImporterUtil.getFileNameFromHost(url));
             stepContribution.setExitStatus(exitStatus);

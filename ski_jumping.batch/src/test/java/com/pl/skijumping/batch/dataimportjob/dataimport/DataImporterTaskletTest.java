@@ -1,11 +1,9 @@
 package com.pl.skijumping.batch.dataimportjob.dataimport;
 
-import com.pl.skijumping.batch.dataimportjob.DataImporterUtil;
 import com.pl.skijumping.client.HtmlDownloader;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.common.util.FileUtil;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import com.pl.skijumping.dto.Months;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Test;

@@ -34,7 +34,7 @@ public class DataImporterUtil {
     }
 
 
-    public static List<String> seasonMonthAndCodeGenerator(Integer currentYear, String host) {
+    static List<String> seasonMonthAndCodeGenerator(Integer currentYear, String host) {
         if (currentYear == null) {
             LOGGER.warn("Cannot generate season month and code from null");
             return new ArrayList<>();
@@ -47,7 +47,7 @@ public class DataImporterUtil {
         return seasonCodeAndMonthList;
     }
 
-    public static List<Integer> yearGenerator(Integer countOfPreviousYears) {
+    static List<Integer> yearGenerator(Integer countOfPreviousYears) {
         if (countOfPreviousYears == null || countOfPreviousYears > DataImporterConst.MAX_PREVIOUS_YEAR || countOfPreviousYears <= 0) {
             LOGGER.warn("Invalid value for count of previous year: {}", countOfPreviousYears);
             countOfPreviousYears = DataImporterConst.DEFAULT_YEAR_TO_DOWNLOAD;

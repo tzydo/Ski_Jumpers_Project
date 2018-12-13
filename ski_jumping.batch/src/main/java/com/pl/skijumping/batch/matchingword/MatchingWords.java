@@ -2,8 +2,8 @@ package com.pl.skijumping.batch.matchingword;
 
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MatchingWords {
     private final DiagnosticMonitor diagnosticMonitor;
@@ -12,72 +12,66 @@ public class MatchingWords {
         this.diagnosticMonitor = diagnosticMonitor;
     }
 
-    public Optional<List<String>> getTournamentYears(String words) {
-        if (isEmpty(words)) return Optional.empty();
+    public Set<String> getEventIds(String words) {
+        if (isEmpty(words)) return new HashSet<>();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getSeasonData(words, RegexpPattern.TOURNAMENT_YEAR, false);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.EVENT_ID, false, 1);
     }
 
-    public Optional<List<String>> getTournamentYearsFilterData(String words) {
-        if (isEmpty(words)) return Optional.empty();
+    public Set<String> getRaceDataFirstStep(String words) {
+        if (isEmpty(words)) return new HashSet<>();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getSeasonData(words, RegexpPattern.SECOND_FILTER_TOURNAMENT_YEAR);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIRST_STEP_DATA_RACE, false);
     }
 
-    public Optional<List<String>> getRaceDataFirstStep(String words) {
-        if (isEmpty(words)) return Optional.empty();
+    public Set<String> getRaceDataSecondStep(String words) {
+        if (isEmpty(words)) return new HashSet<>();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getSeasonData(words, RegexpPattern.FIRST_STEP_DATA_RACE, false);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.SECOND_STEP_DATA_RACE, false);
     }
 
-    public Optional<List<String>> getRaceDataSecondStep(String words) {
-        if (isEmpty(words)) return Optional.empty();
+    public Set<String> getRaceDataThirdStep(String words) {
+        if (isEmpty(words)) return new HashSet<>();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getSeasonData(words, RegexpPattern.SECOND_STEP_DATA_RACE, false);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.THIRD_STEP_DATA_RACE, true);
     }
 
-    public Optional<List<String>> getRaceDataThirdStep(String words) {
-        if (isEmpty(words)) return Optional.empty();
+    public Set<String> getRaceDataFourthStep(String words) {
+        if (isEmpty(words)) return new HashSet<>();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getSeasonData(words, RegexpPattern.THIRD_STEP_DATA_RACE, true);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FOURTH_STEP_DATA_RACE, true);
     }
 
-    public Optional<List<String>> getRaceDataFourthStep(String words) {
-        if (isEmpty(words)) return Optional.empty();
+    public Set<String> getRaceDate(String words) {
+        if (isEmpty(words)) return new HashSet<>();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getSeasonData(words, RegexpPattern.FOURTH_STEP_DATA_RACE, true);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.SEASON_DATE, true);
     }
 
-    public Optional<List<String>> getRaceDate(String words) {
-        if (isEmpty(words)) return Optional.empty();
+    public Set<String> getJumpResultDataFilter(String words) {
+        if (isEmpty(words)) return new HashSet<>();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getSeasonData(words, RegexpPattern.SEASON_DATE, true);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.RESULT_SYNCHRONIZE_FILTER, false, 1);
     }
 
-    public Optional<List<String>> getJumpResultDataFilter(String words) {
-        if (isEmpty(words)) return Optional.empty();
+    public Set<String> getJumpResultDataFirstStep(String words) {
+        if (isEmpty(words)) return new HashSet<>();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getSeasonData(words, RegexpPattern.RESULT_SYNCHRONIZE_FILTER, false,1);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.RESULT_SYNCHRONIZE_FIRST_FILTER, false, 1);
     }
 
-    public Optional<List<String>> getJumpResultDataFirstStep(String words) {
-        if (isEmpty(words)) return Optional.empty();
+    public Set<String> getJumpResultDataSecondStep(String words) {
+        if (isEmpty(words)) return new HashSet<>();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getSeasonData(words, RegexpPattern.RESULT_SYNCHRONIZE_FIRST_FILTER, false, 1);
-    }
-
-    public Optional<List<String>> getJumpResultDataSecondStep(String words) {
-        if (isEmpty(words)) return Optional.empty();
-        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getSeasonData(words, RegexpPattern.RESULT_SYNCHRONIZE_SECOND_FILTER, false, 1);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.RESULT_SYNCHRONIZE_SECOND_FILTER, false, 1);
     }
 
     public String getSkiJumperName(String words) {
         if (isEmpty(words)) return null;
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        Optional<List<String>> skiJumperName = findMatchingWords.getSeasonData(words, RegexpPattern.RESULT_SYNCHRONIZE_SKIJUMPER_NAME, false, 1);
+        Set<String> skiJumperName = findMatchingWords.getMatchingWords(words, RegexpPattern.RESULT_SYNCHRONIZE_SKIJUMPER_NAME, false, 1);
 
-        return skiJumperName.map(strings -> strings.get(0)).orElse(null);
+        return skiJumperName.stream().findFirst().orElse(null);
     }
 
     private boolean isEmpty(String words) {

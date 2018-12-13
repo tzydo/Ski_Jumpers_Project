@@ -5,7 +5,7 @@ skijumping:
     skiJumpingResultsHost: ${HOST:https://www.fis-ski.com/DB/general/results.html?sectorcode=JP&raceid=}
     directory: ${DIRECTORY:tmp}
     loadAllData: ${DOWNLOAD_ALL_BASIC_DATA:false}
-    numberOfPreviousYear: ${NUMBER_OF_PREVIOUSE_YEAR_TO_DOWNLOAD:1}
+    numberOfPreviousMonth: ${NUMBER_OF_PREVIOUSE_MONTH_TO_DOWNLOAD:1}
     scheduler:
       #run all jobs in right order
       synchronize:

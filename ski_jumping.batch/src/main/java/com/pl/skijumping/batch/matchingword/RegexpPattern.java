@@ -2,8 +2,10 @@ package com.pl.skijumping.batch.matchingword;
 
 class RegexpPattern {
     private RegexpPattern() {
+//
     }
-    static final String TOURNAMENT_YEAR = "<option value=\"[0-9]{4}\"";
+
+    static final String EVENT_ID = "eventid=(.{5}?)";
     static final String SECOND_FILTER_TOURNAMENT_YEAR = "<option\\svalue=\\\"(.*?)\"";
     static final String FIRST_STEP_DATA_RACE = "<div\\sclass=\"date\">(.*?)<!--\\sdate-content\\s-->";
     static final String SECOND_STEP_DATA_RACE = "data-race=\"(.+?)<div id=\"mobile_race";

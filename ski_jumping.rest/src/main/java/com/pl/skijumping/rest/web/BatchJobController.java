@@ -1,7 +1,7 @@
 package com.pl.skijumping.rest.web;
 
 import com.pl.skijumping.batch.dataimportjob.scheduler.DataImportScheduler;
-import com.pl.skijumping.batch.datareaderjob.jobs.findtournamentyear.scheduler.FindTournamentYearScheduler;
+import com.pl.skijumping.batch.eventimporterjob.EventIdImporterScheduler;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.dto.BatchJobStatisticDTO;
 import org.springframework.batch.core.JobExecution;
@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class BatchJobController {
 
     private final DataImportScheduler dataImporterStep;
-    private final FindTournamentYearScheduler findTournamentYearScheduler;
+    private final EventIdImporterScheduler eventIdImporterScheduler;
 
     public BatchJobController(DataImportScheduler dataImporterStep,
-                              FindTournamentYearScheduler findTournamentYearScheduler) {
+                              EventIdImporterScheduler eventIdImporterScheduler) {
         this.dataImporterStep = dataImporterStep;
-        this.findTournamentYearScheduler = findTournamentYearScheduler;
+        this.eventIdImporterScheduler = eventIdImporterScheduler;
     }
 
     @PostMapping
@@ -34,9 +34,9 @@ public class BatchJobController {
     }
 
     @PostMapping
-    @RequestMapping(path = "findTournamentYearJob")
-    public ResponseEntity<BatchJobStatisticDTO> runFindTournamentYearJob() throws InternalServiceException {
-        JobExecution jobExecution = findTournamentYearScheduler.importData();
+    @RequestMapping(path = "importEventJob")
+    public ResponseEntity<BatchJobStatisticDTO> runImportEventJob() throws InternalServiceException {
+        JobExecution jobExecution = eventIdImporterScheduler.importEvent();
         BatchJobStatisticDTO batchJobStatisticDTO = StatisticGenerator.generate(jobExecution);
         return new ResponseEntity<>(batchJobStatisticDTO, HttpStatus.OK);
     }

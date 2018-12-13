@@ -1,26 +1,27 @@
 #second, minute, hour, day of month, month, day(s) of week
 skijumping:
   settings:
-    host: ${HOST:http://www.fis-ski.com/ski-jumping/events-and-places/results/}
+    host: ${HOST:https://www.fis-ski.com/DB/ski-jumping/calendar-results.html}
+    eventHost: ${EVENT_HOST:https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=}
     hostWithFilterForYear: ${HOST:http://www.fis-ski.com/ski-jumping/events-and-places/results/?season=}
     skiJumpingResultsHost: ${HOST:https://data.fis-ski.com/dynamic/results.html?sector=JP&raceid=}
     directory: ${DIRECTORY:tmp}
-    fileName: ${FILE_NAME:tmp/SkiJumping.txt}
     loadAllData: ${DOWNLOAD_ALL_BASIC_DATA:false}
-    numberOfPreviousYear: ${NUMBER_OF_PREVIOUSE_YEAR_TO_DOWNLOAD:2}
+    numberOfPreviousMonth: ${NUMBER_OF_PREVIOUSE_MONTH_TO_DOWNLOAD:1}
     scheduler:
       #run all jobs in right order
       synchronize:
         cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0/1 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:true}
+        enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:false}
       #first step
+#      importCategories:
       importData:
         cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/30 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:false}
       #Second step
-      findTournamentYear:
-        cron: ${SKI_JUMPING_SETTINGS_FIND_TOURNAMENT_YEAR_CRON:0 0/30 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_FIND_TOURNAMENT_YEAR_ENABLE:false}
+      importEvent:
+        cron: ${SKI_JUMPING_SETTINGS_EVENT_IMPORT_CRON:0 0/30 * * * *}
+        enable: ${SKI_JUMPING_SETTINGS_EVENT_IMPORT_ENABLE:false}
       #Third Step
       findRaceData:
         cron: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_CRON:0 0/30 * * * *}

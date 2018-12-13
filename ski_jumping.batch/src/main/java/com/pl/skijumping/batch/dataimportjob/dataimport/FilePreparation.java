@@ -1,5 +1,6 @@
 package com.pl.skijumping.batch.dataimportjob.dataimport;
 
+import com.pl.skijumping.batch.util.FileScannerConst;
 import com.pl.skijumping.common.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,7 @@ class FilePreparation {
             return null;
         }
 
+        fileName = FileScannerConst.FILE_DATA_IMPORT + fileName;
         Path pathToFile = FileUtil.getPath(directoryPath.toString(), fileName);
         if (pathToFile != null && pathToFile.toFile().exists()) {
             LOGGER.warn("File in path: {} and name: {}  exist", directoryPath, fileName);

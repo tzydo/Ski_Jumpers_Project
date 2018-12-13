@@ -2,6 +2,7 @@ package com.pl.skijumping.batch.dataimportjob.scheduler;
 
 import com.pl.skijumping.batch.BatchApplicationTest;
 import com.pl.skijumping.batch.dataimportjob.DataImporterUtil;
+import com.pl.skijumping.batch.util.FileScannerConst;
 import com.pl.skijumping.client.HtmlDownloader;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.common.util.FileUtil;
@@ -11,7 +12,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
@@ -45,7 +45,8 @@ public class DataImportSchedulerTest {
     private JobLauncher jobLauncherTestUtils;
     @Autowired
     private DiagnosticMonitor diagnosticMonitor;
-    @Value("skijumping.settings.host") String host;
+    @Value("skijumping.settings.host")
+    String host;
     @MockBean
     private HtmlDownloader htmlDownloader;
 
@@ -76,7 +77,7 @@ public class DataImportSchedulerTest {
     public void importDataWhenExistTest() throws Exception {
         Path directoryPath = FileUtil.createDirectory(FileUtil.getResourcePath(), DIRECTORY);
         List<String> hosts = DataImporterUtil.generateSeasonMonthAndCodeByPreviousYear(2, host);
-        hosts.stream().forEach(host-> FileUtil.createFile(directoryPath, DataImporterUtil.getFileNameFromHost(host)));
+        hosts.stream().forEach(host -> FileUtil.createFile(directoryPath, FileScannerConst.FILE_DATA_IMPORT + DataImporterUtil.getFileNameFromHost(host)));
 
         DataImportScheduler dataImportScheduler = new DataImportScheduler(jobLauncherTestUtils, job, true, diagnosticMonitor);
         ExitStatus exitStatus = dataImportScheduler.importData().getExitStatus();

@@ -123,6 +123,26 @@ public class FileUtil {
         }
     }
 
+    public static List<Path> getPaths(String directoryPath) {
+        if (directoryPath == null) {
+            LOGGER.error("Cannot get file from null directory");
+            return new ArrayList<>();
+        }
+
+        Path path = FileUtil.getPath(directoryPath);
+        if (!path.toFile().isDirectory()) {
+            LOGGER.error("Cannot get file from not existing directory");
+            return new ArrayList<>();
+        }
+
+        try {
+            return Files.walk(path).filter(v -> v.toFile().isFile()).collect(Collectors.toList());
+        } catch (IOException e) {
+            LOGGER.error("Error occurred getting file from directory {}", directoryPath);
+            return new ArrayList<>();
+        }
+    }
+
     public static List<Path> getPathList(Path directoryPath) {
         if (directoryPath == null) {
             LOGGER.error("Cannot get file from null directory");
@@ -187,5 +207,14 @@ public class FileUtil {
             return null;
         }
         return FileCreator.create(directoryPath, fileName);
+    }
+
+    public static String getFileNameWithoutExtensions(Path file) {
+        if(file == null || file.getFileName() == null) {
+            return "random_empty";
+        }
+
+        String[] split = file.getFileName().toString().split("\\.");
+        return split[0];
     }
 }

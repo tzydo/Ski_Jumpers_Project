@@ -1,5 +1,6 @@
 package com.pl.skijumping.batch.dataimportjob.dataimport;
 
+import com.pl.skijumping.batch.util.FileScannerConst;
 import com.pl.skijumping.common.util.FileUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -47,7 +48,7 @@ public class FilePreparationTest {
     @Test
     public void testPrepareFileWhenExist() throws IOException {
         Path directoryPath = FileUtil.createDirectory(directoryName);
-        Path path = FileUtil.getPath(FileUtil.getResource(), directoryName, fileName);
+        Path path = FileUtil.getPath(FileUtil.getResource(), directoryName, FileScannerConst.FILE_DATA_IMPORT + fileName);
         path.toFile().createNewFile();
         Assertions.assertThat(path.toFile().exists()).isTrue();
 

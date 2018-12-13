@@ -17,19 +17,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DataImporterConfiguration {
     public static final String DATA_IMPORT_JOB_NAME = "Data_Import_Job";
-    public static final String DATA_IMPORTER_STEP_NAME = "Data_Importer_Step";
+    private static final String DATA_IMPORTER_STEP_NAME = "Data_Importer_Step";
 
     private final String host;
     private final String directory;
     private final JobBuilderFactory jobBuilder;
     private final StepBuilderFactory stepBuilder;
     private final DiagnosticMonitor diagnosticMonitor;
-    private final Integer yearToDownload;
+    private final Integer monthToDownload;
     private final HtmlDownloader htmlDownloader;
 
     public DataImporterConfiguration(@Value("${skijumping.settings.host}") String host,
                                      @Value("${skijumping.settings.directory}") String directory,
-                                     @Value("${skijumping.settings.numberOfPreviousYear}") Integer yearToDownload,
+                                     @Value("${skijumping.settings.numberOfPreviousMonth}") Integer monthToDownload,
                                      JobBuilderFactory jobBuilder,
                                      StepBuilderFactory stepBuilder,
                                      DiagnosticMonitor diagnosticMonitor,
@@ -39,7 +39,7 @@ public class DataImporterConfiguration {
         this.jobBuilder = jobBuilder;
         this.stepBuilder = stepBuilder;
         this.diagnosticMonitor = diagnosticMonitor;
-        this.yearToDownload = yearToDownload;
+        this.monthToDownload = monthToDownload;
         this.htmlDownloader = htmlDownloader;
     }
 
@@ -60,7 +60,7 @@ public class DataImporterConfiguration {
 
     @Bean
     public Tasklet dataImporterTasklet() {
-        return new DataImporterTasklet(host, directory, diagnosticMonitor, yearToDownload, htmlDownloader);
+        return new DataImporterTasklet(host, directory, diagnosticMonitor, monthToDownload, htmlDownloader);
     }
 
     @Bean
