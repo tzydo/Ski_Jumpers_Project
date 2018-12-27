@@ -1,4 +1,4 @@
-package com.pl.skijumping.batch.datareaderjob.reader;
+package com.pl.skijumping.batch.reader;
 
 import com.pl.skijumping.common.util.FileUtil;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;

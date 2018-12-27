@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.pl.skijumping.batch.dataimportjob.configuration.DataImporterConfiguration.DATA_IMPORT_JOB_NAME;
@@ -70,21 +71,21 @@ public class DataImportSchedulerTest {
         Assertions.assertThat(exitStatus).isEqualTo(ExitStatus.COMPLETED);
 
         Path pathToDirectory = FileUtil.getPath(FileUtil.getResource(), DIRECTORY);
-        Assertions.assertThat(FileUtil.getFiles(pathToDirectory)).isNotEmpty().hasSize(24);
+        Assertions.assertThat(FileUtil.getFiles(pathToDirectory)).isNotEmpty().hasSize(1);
     }
 
     @Test
     public void importDataWhenExistTest() throws Exception {
         Path directoryPath = FileUtil.createDirectory(FileUtil.getResourcePath(), DIRECTORY);
-        List<String> hosts = DataImporterUtil.generateSeasonMonthAndCodeByPreviousYear(2, host);
-        hosts.stream().forEach(host -> FileUtil.createFile(directoryPath, FileScannerConst.FILE_DATA_IMPORT + DataImporterUtil.getFileNameFromHost(host)));
+        List<String> hosts = DataImporterUtil.generateSeasonCodeByPreviousMonths(LocalDate.now().getYear(), LocalDate.now().getMonthValue(),2, host);
+        hosts.forEach(host -> FileUtil.createFile(directoryPath, FileScannerConst.FILE_DATA_IMPORT + DataImporterUtil.getFileNameFromHost(host)));
 
         DataImportScheduler dataImportScheduler = new DataImportScheduler(jobLauncherTestUtils, job, true, diagnosticMonitor);
         ExitStatus exitStatus = dataImportScheduler.importData().getExitStatus();
         Assertions.assertThat(exitStatus).isEqualTo(ExitStatus.COMPLETED);
 
         Path pathToDirectory = FileUtil.getPath(FileUtil.getResource(), DIRECTORY);
-        Assertions.assertThat(FileUtil.getFiles(pathToDirectory)).isNotEmpty().hasSize(36);
+        Assertions.assertThat(FileUtil.getFiles(pathToDirectory)).isNotEmpty().hasSize(2);
     }
 
     @Test

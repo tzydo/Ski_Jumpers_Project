@@ -1,7 +1,7 @@
 package com.pl.skijumping.batch.dataimportjob.configuration;
 
 import com.pl.skijumping.batch.dataimportjob.DataImporterListener;
-import com.pl.skijumping.batch.dataimportjob.dataimport.DataImporterTasklet;
+import com.pl.skijumping.batch.dataimportjob.DataImporterTasklet;
 import com.pl.skijumping.client.HtmlDownloader;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.springframework.batch.core.Job;
@@ -65,6 +65,6 @@ public class DataImporterConfiguration {
 
     @Bean
     public StepExecutionListener stepExecutionListener() {
-        return new DataImporterListener(this.directory, diagnosticMonitor);
+        return new DataImporterListener(diagnosticMonitor);
     }
 }

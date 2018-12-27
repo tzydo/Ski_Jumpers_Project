@@ -1,4 +1,4 @@
-package com.pl.skijumping.batch.dataimportjob.dataimport;
+package com.pl.skijumping.batch.util;
 
 import com.pl.skijumping.client.HtmlDownloader;
 import com.pl.skijumping.common.exception.InternalServiceException;
@@ -21,7 +21,7 @@ public class SourceDownloader {
         this.htmlDownloader = htmlDownloader;
     }
 
-    public ExitStatus download(String host, String fileName) {
+    public ExitStatus download(String filePrefix, String host, String fileName) {
         String errorMessage;
 
         Path directoryPath = FilePreparation.prepareDirectory(directory);
@@ -40,7 +40,7 @@ public class SourceDownloader {
         diagnosticMonitor.logInfo("Start downloading html source");
 
         try {
-            Path filePath = FilePreparation.prepareFile(fileName, directoryPath);
+            Path filePath = FilePreparation.prepareFile(filePrefix, fileName, directoryPath);
             htmlDownloader.downloadSource(filePath, host);
         } catch (IOException | InternalServiceException e) {
             errorMessage = "Cannot download source! \n " + e.getMessage();

@@ -1,6 +1,6 @@
 package com.pl.skijumping.batch.eventimporterjob.tasklet;
 
-import com.pl.skijumping.batch.datareaderjob.reader.DataReader;
+import com.pl.skijumping.batch.reader.DataReader;
 import com.pl.skijumping.batch.matchingword.MatchingWords;
 import com.pl.skijumping.common.util.FileUtil;
 import com.pl.skijumping.common.util.Pair;

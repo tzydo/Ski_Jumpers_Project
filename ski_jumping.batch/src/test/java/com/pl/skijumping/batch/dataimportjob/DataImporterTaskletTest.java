@@ -1,5 +1,6 @@
-package com.pl.skijumping.batch.dataimportjob.dataimport;
+package com.pl.skijumping.batch.dataimportjob;
 
+import com.pl.skijumping.batch.dataimportjob.DataImporterTasklet;
 import com.pl.skijumping.client.HtmlDownloader;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.common.util.FileUtil;
@@ -68,7 +69,7 @@ public class DataImporterTaskletTest {
     }
 
     @Test
-    public void executeTest() {
+    public void executeTest() throws IOException {
         HtmlDownloader htmlDownloaderMock = Mockito.mock(HtmlDownloader.class);
         StepContribution stepContribution = stepExecution.createStepContribution();
         DataImporterTasklet dataImporterTasklet = new DataImporterTasklet(LOCALHOST, DIRECTORY, diagnosticMonitor, YEAR_TO_DOWNLOAD, htmlDownloaderMock);

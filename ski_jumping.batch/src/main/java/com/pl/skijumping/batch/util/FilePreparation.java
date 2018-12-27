@@ -1,13 +1,12 @@
-package com.pl.skijumping.batch.dataimportjob.dataimport;
+package com.pl.skijumping.batch.util;
 
-import com.pl.skijumping.batch.util.FileScannerConst;
 import com.pl.skijumping.common.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 
-class FilePreparation {
+public class FilePreparation {
     private static final Logger LOGGER = LoggerFactory.getLogger(FilePreparation.class);
 
     private  FilePreparation() {
@@ -24,7 +23,7 @@ class FilePreparation {
         return directoryPath;
     }
 
-    public static Path prepareFile(String fileName, Path directoryPath) {
+    public static Path prepareFile(String prefix, String fileName, Path directoryPath) {
         if (directoryPath == null) {
             LOGGER.error("Cannot create file in null directory");
             return null;
@@ -34,7 +33,7 @@ class FilePreparation {
             return null;
         }
 
-        fileName = FileScannerConst.FILE_DATA_IMPORT + fileName;
+        fileName = prefix + fileName;
         Path pathToFile = FileUtil.getPath(directoryPath.toString(), fileName);
         if (pathToFile != null && pathToFile.toFile().exists()) {
             LOGGER.warn("File in path: {} and name: {}  exist", directoryPath, fileName);

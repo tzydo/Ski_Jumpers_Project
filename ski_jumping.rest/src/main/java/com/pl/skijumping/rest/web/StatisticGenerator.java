@@ -16,7 +16,7 @@ class StatisticGenerator {
 
     static BatchJobStatisticDTO generate(JobExecution jobExecution) {
         BatchJobStatisticDTO batchJobStatisticDTO = new BatchJobStatisticDTO();
-        if (!jobExecution.getExitStatus().getExitCode().contains(ExitStatus.COMPLETED.getExitCode())) {
+        if (!jobExecution.getExitStatus().getExitCode().contains(ExitStatus.COMPLETED.getExitCode()) || jobExecution.getExitStatus() == null) {
             batchJobStatisticDTO.setJobStatus(JobStatus.FAILED);
         } else {
             batchJobStatisticDTO.setJobStatus(JobStatus.COMPLETED);

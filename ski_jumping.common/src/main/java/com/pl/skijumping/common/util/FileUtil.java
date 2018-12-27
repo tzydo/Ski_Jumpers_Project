@@ -10,10 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class FileUtil {
@@ -216,5 +213,15 @@ public class FileUtil {
 
         String[] split = file.getFileName().toString().split("\\.");
         return split[0];
+    }
+
+    public static Set<String> getFilesName(List<Path> pathList) {
+        if(pathList == null || pathList.isEmpty()) {
+            return new HashSet<>();
+        }
+
+        return pathList.stream()
+                .map(path -> path.getFileName().toString())
+                .collect(Collectors.toSet());
     }
 }

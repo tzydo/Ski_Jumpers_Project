@@ -1,6 +1,5 @@
-package com.pl.skijumping.batch.dataimportjob.dataimport;
+package com.pl.skijumping.batch.util;
 
-import com.pl.skijumping.batch.util.FileScannerConst;
 import com.pl.skijumping.common.util.FileUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -38,7 +37,7 @@ public class FilePreparationTest {
         Assertions.assertThat(path.toFile().exists()).isFalse();
 
         Path directoryPath = FileUtil.createDirectory(directoryName);
-        Path filePath = FilePreparation.prepareFile(fileName, directoryPath);
+        Path filePath = FilePreparation.prepareFile(fileName, FileScannerConst.FILE_DATA_IMPORT, directoryPath);
         Assertions.assertThat(filePath.toFile().exists()).isTrue();
 
         filePath.toFile().delete();
@@ -52,7 +51,7 @@ public class FilePreparationTest {
         path.toFile().createNewFile();
         Assertions.assertThat(path.toFile().exists()).isTrue();
 
-        Path filePath = FilePreparation.prepareFile(fileName, directoryPath);
+        Path filePath = FilePreparation.prepareFile(FileScannerConst.FILE_DATA_IMPORT, fileName, directoryPath);
         Assertions.assertThat(filePath.toFile().exists()).isTrue();
 
         filePath.toFile().delete();

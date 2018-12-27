@@ -6,33 +6,33 @@ skijumping:
     hostWithFilterForYear: ${HOST:http://www.fis-ski.com/ski-jumping/events-and-places/results/?season=}
     skiJumpingResultsHost: ${HOST:https://data.fis-ski.com/dynamic/results.html?sector=JP&raceid=}
     directory: ${DIRECTORY:tmp}
-    fileName: ${FILE_NAME:SkiJumping.txt}
     loadAllData: ${DOWNLOAD_ALL_BASIC_DATA:false}
-    numberOfPreviousYear: ${NUMBER_OF_PREVIOUSE_YEAR_TO_DOWNLOAD:2}
+    numberOfPreviousMonth: ${NUMBER_OF_PREVIOUSE_MONTH_TO_DOWNLOAD:1}
     scheduler:
       #run all jobs in right order
       synchronize:
-        cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0 0 25 12 ?}
-        enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:true}
+        cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0/1 * * * *}
+        enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:false}
       #first step
+      #      importCategories:
       importData:
-        cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0 0 25 12 ?}
+        cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/30 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:true}
-    #Second step
+      #Second step
       importEvent:
-        cron: ${SKI_JUMPING_SETTINGS_EVENT_IMPORT_CRON:0 0 0 25 12 ?}
-        enable: ${SKI_JUMPING_SETTINGS_EVENT_IMPORT_ENABLE:true}
+        cron: ${SKI_JUMPING_SETTINGS_EVENT_IMPORT_CRON:0 0/30 * * * *}
+        enable: ${SKI_JUMPING_SETTINGS_EVENT_IMPORT_ENABLE:false}
       #Third Step
       findRaceData:
-        cron: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_CRON:0 0 0 25 12 ?}
+        cron: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_CRON:0 0/30 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_ENABLE:false}
       #Fourth Step
       basicDataSynchronize:
-        cron: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_CRON:0 0 0 25 12 ?}
+        cron: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_CRON:0 0/30 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_ENABLE:false}
       #fifth Step
       jumpResultSynchronize:
-        cron: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_CRON:0 0 0 25 12 ?}
+        cron: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_CRON:0 0/30 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_ENABLE:false}
 spring:
   profiles:

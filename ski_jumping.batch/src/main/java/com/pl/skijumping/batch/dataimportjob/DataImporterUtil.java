@@ -1,15 +1,10 @@
 package com.pl.skijumping.batch.dataimportjob;
 
-import com.pl.skijumping.dto.Months;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class DataImporterUtil {
 
@@ -19,8 +14,13 @@ public class DataImporterUtil {
 //
     }
 
-    public static List<String> generateSeasonMonthAndCodeByPreviousYear(Integer countOfPreviousYears, String host) {
-        if (countOfPreviousYears == null) {
+    public static List<String> generateSeasonCodeByPreviousMonths(Integer currentYear, Integer currentMonth, Integer countOfPreviousMonths, String host) {
+        if (currentYear == null || currentYear.toString().length() < 4 || currentYear.toString().length() > 4) {
+            LOGGER.warn("Cannot generate season month and code from incorrect year ");
+            return new ArrayList<>();
+        }
+
+        if (countOfPreviousMonths == null) {
             LOGGER.warn("Cannot generate season month and code from null ");
             return new ArrayList<>();
         }
@@ -30,31 +30,25 @@ public class DataImporterUtil {
             return new ArrayList<>();
         }
 
-        return yearGenerator(countOfPreviousYears).stream().map(year-> seasonMonthAndCodeGenerator(year, host)).flatMap(Collection::stream).collect(Collectors.toList());
-    }
-
-
-    static List<String> seasonMonthAndCodeGenerator(Integer currentYear, String host) {
-        if (currentYear == null) {
-            LOGGER.warn("Cannot generate season month and code from null");
-            return new ArrayList<>();
-        }
-
         List<String> seasonCodeAndMonthList = new ArrayList<>();
-        Months.getValueList().forEach(month ->
-                seasonCodeAndMonthList.add(String.format("%s%s%s%s%s-%d", host, DataImporterConst.SEASON_CODE, currentYear + 1, DataImporterConst.SEASON_MONTH, month, currentYear))
-        );
+        for (int i = countOfPreviousMonths; i > 0; i--) {
+            seasonCodeAndMonthList.add(String.format("%s%s%s%s%s-%d", host, DataImporterConst.SEASON_CODE, currentYear + 1, DataImporterConst.SEASON_MONTH, addPrefixMonth(Integer.toString(currentMonth)), currentYear));
+            if (currentMonth == 1) {
+                currentMonth = 12;
+                currentYear -= 1;
+            } else {
+                currentMonth -= 1;
+            }
+        }
         return seasonCodeAndMonthList;
     }
 
-    static List<Integer> yearGenerator(Integer countOfPreviousYears) {
-        if (countOfPreviousYears == null || countOfPreviousYears > DataImporterConst.MAX_PREVIOUS_YEAR || countOfPreviousYears <= 0) {
-            LOGGER.warn("Invalid value for count of previous year: {}", countOfPreviousYears);
-            countOfPreviousYears = DataImporterConst.DEFAULT_YEAR_TO_DOWNLOAD;
+    private static String addPrefixMonth(String month) {
+        if (month.length() > 1) {
+            return month;
         }
 
-        int currentYear = LocalDate.now().getYear();
-        return IntStream.rangeClosed(currentYear - countOfPreviousYears, currentYear).boxed().collect(Collectors.toList());
+        return DataImporterConst.MONTH_ZERO_PREFIX + month;
     }
 
     public static String getFileNameFromHost(String host) {

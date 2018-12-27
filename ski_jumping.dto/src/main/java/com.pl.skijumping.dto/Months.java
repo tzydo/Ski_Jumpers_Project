@@ -26,8 +26,8 @@ public enum Months {
 
     public static String getValue(String name) {
         String value = null;
-        for(Months months: values()) {
-            if(months.name().equals(name)){
+        for (Months months : values()) {
+            if (months.name().contains(name)) {
                 value = months.getMonthNumber();
                 break;
             }
@@ -38,7 +38,7 @@ public enum Months {
 
     public static List<String> getValueList() {
         List<String> monthList = new ArrayList<>();
-        for(Months month: values()) {
+        for (Months month : values()) {
             monthList.add(month.getMonthNumber());
         }
 
