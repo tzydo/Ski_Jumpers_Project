@@ -46,11 +46,11 @@ public class DataImporterTasklet implements Tasklet {
         LocalDate localDate = LocalDate.now();
         List<String> generatedURL = DataImporterUtil.generateSeasonCodeByPreviousMonths(localDate.getYear(), localDate.getMonthValue(), monthToDownload, host);
 
-        Set fileNamesSet = FileUtil.getFilesName(FileUtil.getPathList(FileUtil.getPath(FileUtil.getResource(), directory)));
+        Set existingFileNamesSet = FileUtil.getFilesName(FileUtil.getPathList(FileUtil.getPath(FileUtil.getResource(), directory)));
 
         for (String url : generatedURL) {
             String fileNameFromHost = DataImporterUtil.getFileNameFromHost(url);
-            if (fileNamesSet.contains(FileScannerConst.FILE_DATA_IMPORT + fileNameFromHost)) {
+            if (existingFileNamesSet.contains(FileScannerConst.FILE_DATA_IMPORT + fileNameFromHost)) {
                 continue;
             }
             ExitStatus exitStatus = sourceDownloader.download(FileScannerConst.FILE_DATA_IMPORT, url, fileNameFromHost);

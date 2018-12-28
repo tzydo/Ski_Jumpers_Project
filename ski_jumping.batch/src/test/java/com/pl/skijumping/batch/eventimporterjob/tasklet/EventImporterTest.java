@@ -30,7 +30,7 @@ public class EventImporterTest {
         List<Pair<String, String>> importEvents = eventImporter.importEvents(copyFile);
         Assertions.assertThat(importEvents).isNotEmpty();
         Assertions.assertThat(importEvents).hasSize(4);
-        Assertions.assertThat(importEvents).isEqualTo(Arrays.asList(new Pair<>("copyEventIdImport", "39207"), new Pair<>("copyEventIdImport", "39224"), new Pair<>("copyEventIdImport", "39038"), new Pair<>("copyEventIdImport", "39225")));
+        Assertions.assertThat(importEvents).containsAll(Arrays.asList(new Pair<>("copyEventIdImport", "39207"), new Pair<>("copyEventIdImport", "39224"), new Pair<>("copyEventIdImport", "39038"), new Pair<>("copyEventIdImport", "39225")));
         copyFile.toFile().delete();
     }
 

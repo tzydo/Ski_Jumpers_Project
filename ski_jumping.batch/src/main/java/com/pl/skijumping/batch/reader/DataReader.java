@@ -16,6 +16,11 @@ public class DataReader {
     }
 
     public String read(String filePath) {
+        if(filePath == null) {
+            diagnosticMonitor.logError("Filepath cannot be null!", getClass());
+            return null;
+        }
+
         diagnosticMonitor.logInfo(String.format("Start reading from file %s", filePath));
         List<String> fileLines;
         try {
