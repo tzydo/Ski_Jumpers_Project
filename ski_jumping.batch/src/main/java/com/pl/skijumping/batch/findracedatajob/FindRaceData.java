@@ -19,6 +19,7 @@
 //import org.springframework.batch.core.configuration.annotation.StepScope;
 //import org.springframework.batch.item.ItemProcessor;
 //import org.springframework.batch.item.ItemStreamReader;
+//import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //
@@ -41,7 +42,7 @@
 //
 //    public FindRaceData(JobBuilderFactory jobBuilderFactory,
 //                        StepBuilderFactory stepBuilderFactory,
-////                        @Value("${skijumping.settings.fileName}") String filePath,
+//                        @Value("${skijumping.settings.directory}") String directoryPath,
 //                        CompetitionTypeService competitionTypeService,
 //                        CompetitionNameService competitionNameService,
 //                        DataRaceService dataRaceService,

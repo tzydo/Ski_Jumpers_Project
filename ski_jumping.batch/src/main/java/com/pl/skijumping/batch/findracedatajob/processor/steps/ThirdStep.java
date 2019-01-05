@@ -1,4 +1,4 @@
-//package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.steps;
+//package com.pl.skijumping.batch.findracedatajob.processor.steps;
 //
 //import com.pl.skijumping.batch.matchingword.MatchingWords;
 //import com.pl.skijumping.common.exception.InternalServiceException;

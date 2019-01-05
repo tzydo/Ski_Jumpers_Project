@@ -1,4 +1,4 @@
-//package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor;
+//package com.pl.skijumping.batch.findracedatajob.processor;
 //
 //import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.steps.FindCompetitionsData;
 //import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.steps.ThirdStep;
@@ -6,6 +6,7 @@
 //import com.pl.skijumping.common.exception.InternalServiceException;
 //import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 //import com.pl.skijumping.dto.DataRaceDTO;
+//import org.springframework.batch.item.support.ListItemReader;
 //
 //import java.time.LocalDate;
 //import java.util.ArrayList;
@@ -23,6 +24,22 @@
 //
 //    List<DataRaceDTO> findData() throws InternalServiceException {
 //
+////        DataReader dataReader = new DataReader(diagnosticMonitor);
+////        String fileContent = dataReader.read(filePath);
+////        if (fileContent == null || fileContent.isEmpty()) {
+////            diagnosticMonitor.logError("Cannot read race data from file", getClass());
+////            return;
+////        }
+////        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+////        Optional<List<String>> raceDataFirstStep = matchingWords.getRaceDataFirstStep(fileContent);
+////        if (!raceDataFirstStep.isPresent()) {
+////            diagnosticMonitor.logError("Not found matching words for first step data race job", getClass());
+////            return;
+////        }
+////        filePathsItemReader = new ListItemReader<>(raceDataFirstStep.get());
+//
+//
+//
 //        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
 //        Optional<List<String>> dateList = matchingWords.getRaceDate(readWords);
 //        if (!dateList.isPresent()) {
@@ -30,7 +47,7 @@
 //            return new ArrayList<>();
 //        }
 //
-//        LocalDateSetter localDateSetter = new LocalDateSetter(dateList.get(), diagnosticMonitor);
+//        com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.LocalDateSetter localDateSetter = new LocalDateSetter(dateList.get(), diagnosticMonitor);
 //        LocalDate raceDate = localDateSetter.setDate();
 //        if (raceDate == null) {
 //            return new ArrayList<>();
