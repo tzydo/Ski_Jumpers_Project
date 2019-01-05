@@ -44,7 +44,7 @@ public class EventImporterTest {
     }
 
     @Test
-    public void importEventsWhenEmptyTest() throws IOException {
+    public void importEventsWhenEmptyFileTest() throws IOException {
         DiagnosticMonitor diagnosticMonitorMock = SetupUtilTests.getDiagnosticMonitorMock();
         EventImporter eventImporter = new EventImporter(diagnosticMonitorMock);
         List<Pair<String, String>> importEvents = eventImporter.importEvents(FileUtil.getPath(FileUtil.getResource(), "emptyTest.txt"));
