@@ -1,6 +1,5 @@
 package com.pl.skijumping.batch.dataimportjob;
 
-import com.pl.skijumping.batch.dataimportjob.DataImporterTasklet;
 import com.pl.skijumping.client.HtmlDownloader;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.common.util.FileUtil;

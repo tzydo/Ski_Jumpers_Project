@@ -98,8 +98,6 @@ public class DataRaceService {
         if (dataRace.getShortCountryName() != null)
             booleanBuilder.and(qDataRace.shortCountryName.eq(dataRace.getShortCountryName()));
         if (dataRace.getRaceId() != null) booleanBuilder.and(qDataRace.raceId.eq(dataRace.getRaceId()));
-        if (dataRace.getCompetitionName() != null)
-            booleanBuilder.and(qDataRace.competitionName().eq(dataRace.getCompetitionName()));
         if (dataRace.getCompetitionType() != null)
             booleanBuilder.and(qDataRace.competitionType().eq(dataRace.getCompetitionType()));
 

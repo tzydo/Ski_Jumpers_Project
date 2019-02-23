@@ -42,8 +42,8 @@
 //                new DataRaceDTO()
 //                        .date(LocalDate.of(2018, 3, 25)).raceId(5015l).city("Oberstdorf")
 //                        .shortCountryName("GER").competitionName("Ladies' HS106").competitionType("World Cup"));
-//        FindRaceDataProcessor findRaceDataProcessor = new FindRaceDataProcessor(words, diagnosticMonitor);
-//        List<DataRaceDTO> actualMatchingWordsList = findRaceDataProcessor.findData();
+//        FindRaceData findRaceDataProcessor = new FindRaceData(words, diagnosticMonitor);
+//        List<DataRaceDTO> actualMatchingWordsList = findRaceDataProcessor.generateRaceData();
 //        Assertions.assertThat(actualMatchingWordsList).isNotEmpty();
 //        Assertions.assertThat(actualMatchingWordsList).hasSize(2);
 //        Assertions.assertThat(actualMatchingWordsList).isEqualTo(expectedDataRaceDTOList);

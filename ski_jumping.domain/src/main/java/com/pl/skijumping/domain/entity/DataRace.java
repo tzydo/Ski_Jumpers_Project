@@ -20,7 +20,6 @@ public class DataRace implements Serializable {
     private String city;
     private String shortCountryName;
     private CompetitionType competitionType;
-    private CompetitionName competitionName;
     private Long raceId;
     private List<JumpResultToDataRace> jumpResultToDataRaces;
 
@@ -72,16 +71,6 @@ public class DataRace implements Serializable {
         this.competitionType = competitionType;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "competition_name_id")
-    public CompetitionName getCompetitionName() {
-        return competitionName;
-    }
-
-    public void setCompetitionName(CompetitionName competitionName) {
-        this.competitionName = competitionName;
-    }
-
     @Column(name = "race_id", nullable = false, unique = true)
     public Long getRaceId() {
         return raceId;
@@ -114,8 +103,6 @@ public class DataRace implements Serializable {
             return false;
         if (competitionType != null ? !competitionType.equals(dataRace.competitionType) : dataRace.competitionType != null)
             return false;
-        if (competitionName != null ? !competitionName.equals(dataRace.competitionName) : dataRace.competitionName != null)
-            return false;
         if (raceId != null ? !raceId.equals(dataRace.raceId) : dataRace.raceId != null) return false;
         return jumpResultToDataRaces != null ? jumpResultToDataRaces.equals(dataRace.jumpResultToDataRaces) : dataRace.jumpResultToDataRaces == null;
     }
@@ -127,7 +114,6 @@ public class DataRace implements Serializable {
         result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (shortCountryName != null ? shortCountryName.hashCode() : 0);
         result = 31 * result + (competitionType != null ? competitionType.hashCode() : 0);
-        result = 31 * result + (competitionName != null ? competitionName.hashCode() : 0);
         result = 31 * result + (raceId != null ? raceId.hashCode() : 0);
         result = 31 * result + (jumpResultToDataRaces != null ? jumpResultToDataRaces.hashCode() : 0);
         return result;
@@ -155,11 +141,6 @@ public class DataRace implements Serializable {
 
     public DataRace competitionType(CompetitionType competitionType) {
         this.competitionType = competitionType;
-        return this;
-    }
-
-    public DataRace competitionName(CompetitionName competitionName) {
-        this.competitionName = competitionName;
         return this;
     }
 

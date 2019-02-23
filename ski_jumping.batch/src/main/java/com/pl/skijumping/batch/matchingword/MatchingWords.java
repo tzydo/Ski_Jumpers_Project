@@ -18,6 +18,63 @@ public class MatchingWords {
         return findMatchingWords.getMatchingWords(words, RegexpPattern.EVENT_ID, false, 1);
     }
 
+    public Set<String> getRaceDataTemplate(String words) {
+        if(isEmpty(words)) return new HashSet<>();
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_RACE_DATA_TEMPLATE, false, 1);
+    }
+
+    public String getRaceDataIdRace(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_RACE_DATA_GET_RACE_ID, false, 1).stream().findFirst().orElse(null);
+    }
+
+    public Boolean checkRaceDataIsCancelled(String words) {
+        if(isEmpty(words)) return false;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        String cancelled = findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_RACE_DATA_CHECK_CANCELLED, false, 1).stream().findFirst().orElse(null);
+        return cancelled == null || cancelled.isEmpty();
+    }
+
+    public String getRaceDataDate(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_RACE_DATA_GET_DATE, false, 1).stream().findFirst().orElse(null);
+    }
+
+    public String getRaceDataJumpCategoryShortName(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_RACE_DATA_GET_CATEGORY, false, 1).stream().findFirst().orElse(null);
+    }
+
+    public String getRaceDataCodex(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_RACE_DATA_GET_CODEX, false, 1).stream().findFirst().orElse(null);
+    }
+
+    public String getRaceDataGender(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_RACE_DATA_GET_GENDER, false, 1).stream().findFirst().orElse(null);
+    }
+
+    public String getRaceDataCompetitionType(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_RACE_DATA_GET_HILL_SIZE, false, 1).stream().findFirst().orElse(null);
+    }
+
+
+
+
+
+
+
+
+
     public Set<String> getRaceDataFirstStep(String words) {
         if (isEmpty(words)) return new HashSet<>();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);

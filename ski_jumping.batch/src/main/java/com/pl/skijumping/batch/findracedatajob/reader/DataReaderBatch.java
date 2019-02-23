@@ -35,14 +35,13 @@ public class DataReaderBatch implements ItemStreamReader<Path> {
 
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
-        Set<Path> filePath;
+        Set<Path> filePath = new HashSet<>();
         try {
             filePath = getPathsFromDirectory(directoryName);
         } catch (IOException e) {
             diagnosticMonitor.logWarn("Error reading file list from directory " + directoryName);
-            filePath = new HashSet<>();
         }
-        filePathsItemReader = new ListItemReader<>(new ArrayList(filePath));
+        filePathsItemReader = new ListItemReader<>(new ArrayList<>(filePath));
     }
 
     private Set<Path> getPathsFromDirectory(String directoryName) throws IOException {

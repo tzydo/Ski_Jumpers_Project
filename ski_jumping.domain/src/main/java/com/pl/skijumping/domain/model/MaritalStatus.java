@@ -1,8 +1,8 @@
 package com.pl.skijumping.domain.model;
 
 public enum MaritalStatus {
-    MARIED("maried"),
-    SINGLE("single");
+    MARRIED("MARRIED"),
+    SINGLE("SINGLE");
 
     private String text;
 

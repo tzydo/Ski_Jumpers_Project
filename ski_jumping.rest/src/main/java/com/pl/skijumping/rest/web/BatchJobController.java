@@ -1,7 +1,7 @@
 package com.pl.skijumping.rest.web;
 
 import com.pl.skijumping.batch.dataimportjob.scheduler.DataImportScheduler;
-import com.pl.skijumping.batch.eventimporterjob.EventIdImporterScheduler;
+import com.pl.skijumping.batch.eventimportjob.EventIdImporterScheduler;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.dto.BatchJobStatisticDTO;
 import org.springframework.batch.core.JobExecution;

@@ -13,14 +13,15 @@ import java.time.LocalDate;
 public class DataRaceDTO implements Serializable {
 
     private Long id;
+    private Boolean isCancelled;
+    private Integer jumpCategoryId;
+    private String codex;
+    private String gender;
     private LocalDate date;
-    private String city;
-    private String shortCountryName;
-    private String competitionName;
     private String competitionType;
     private Long raceId;
     private Long eventId;
-    private int seasoncode;
+    private int seasonCode;
 
     public DataRaceDTO id(Long id) {
         this.id = id;
@@ -32,21 +33,6 @@ public class DataRaceDTO implements Serializable {
         return this;
     }
 
-    public DataRaceDTO city(String city) {
-        this.city = city;
-        return this;
-    }
-
-    public DataRaceDTO shortCountryName(String shortCountryName) {
-        this.shortCountryName = shortCountryName;
-        return this;
-    }
-
-    public DataRaceDTO competitionName(String competitionName) {
-        this.competitionName = competitionName;
-        return this;
-    }
-
     public DataRaceDTO competitionType(String competitionType) {
         this.competitionType = competitionType;
         return this;
@@ -54,6 +40,39 @@ public class DataRaceDTO implements Serializable {
 
     public DataRaceDTO raceId(Long raceId) {
         this.raceId = raceId;
+        return this;
+    }
+
+    public DataRaceDTO isCancelled(Boolean isCancelled) {
+        this.isCancelled = isCancelled;
+        return this;
+    }
+
+    public DataRaceDTO eventId(Long eventId) {
+        this.eventId = eventId;
+        return this;
+    }
+
+
+    public DataRaceDTO jumpCategoryId(Integer jumpCategoryId) {
+        this.jumpCategoryId = jumpCategoryId;
+        return this;
+    }
+
+    public DataRaceDTO seasonCode(int seasonCode) {
+        this.seasonCode = seasonCode;
+        return this;
+    }
+
+
+    public DataRaceDTO codex(String codex) {
+        this.codex = codex;
+        return this;
+    }
+
+
+    public DataRaceDTO gender(String gender) {
+        this.gender = gender;
         return this;
     }
 }

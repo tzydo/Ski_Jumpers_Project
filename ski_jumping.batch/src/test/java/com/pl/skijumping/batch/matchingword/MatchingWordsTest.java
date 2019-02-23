@@ -1,38 +1,146 @@
-//package com.pl.skijumping.batch.matchingword;
-//
-//import com.pl.skijumping.batch.SetupUtilTests;
-//import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-//import org.assertj.core.api.Assertions;
-//import org.junit.Before;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.mockito.runners.MockitoJUnitRunner;
-//
-//import java.util.*;
-//
-//@RunWith(MockitoJUnitRunner.class)
-//public class MatchingWordsTest {
-//    private DiagnosticMonitor diagnosticMonitor;
-//
-//    @Before
-//    public void setup() {
-//        diagnosticMonitor = SetupUtilTests.getDiagnosticMonitorMock();
-//    }
-//
-//    @Test
-//    public void getEventIdTest() {
-//        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-//        String text = "https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=39207&seasoncode=2017\n"+
-//                "https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=39224&seasoncode=2017"+
-//                "https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=39038&seasoncode=2017"+
-//                "https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=39225&seasoncode=2017";
-//
-//        Set<String> seasonDataMatchWords = matchingWords.getEventIds(text);
-//        Assertions.assertThat(seasonDataMatchWords.isEmpty()).isFalse();
-//        Assertions.assertThat(seasonDataMatchWords.size()).isEqualTo(4);
-//        Assertions.assertThat(seasonDataMatchWords).containsAll(Arrays.asList("39207", "39224", "39038", "39225"));
-//
-//    }
+package com.pl.skijumping.batch.matchingword;
+
+import com.pl.skijumping.batch.SetupUtilTests;
+import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
+import org.assertj.core.api.Assertions;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import java.util.*;
+
+@RunWith(MockitoJUnitRunner.class)
+public class MatchingWordsTest {
+    private DiagnosticMonitor diagnosticMonitor;
+
+    @Before
+    public void setup() {
+        diagnosticMonitor = SetupUtilTests.getDiagnosticMonitorMock();
+    }
+
+    @Test
+    public void getEventIdTest() {
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        String text = "https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=39207&seasonCode=2017\n"+
+                "https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=39224&seasonCode=2017"+
+                "https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=39038&seasonCode=2017"+
+                "https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=39225&seasonCode=2017";
+
+        Set<String> eventIdMatchWords = matchingWords.getEventIds(text);
+        Assertions.assertThat(eventIdMatchWords.isEmpty()).isFalse();
+        Assertions.assertThat(eventIdMatchWords.size()).isEqualTo(4);
+        Assertions.assertThat(eventIdMatchWords).containsAll(Arrays.asList("39207", "39224", "39038", "39225"));
+    }
+
+    @Test
+    public void getRaceDataTemplateTest() {
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        String text ="<div class=\"table-row reset-padding\">test<span class=\"btn__label\">download" +
+                "<div class=\"table-row reset-padding\">test2<span class=\"btn__label\">download" +
+                "<div class=\"table-row reset-padding\">test3<span class=\"btn__label\">download";
+
+        Set<String> templateMatchingWords = matchingWords.getRaceDataTemplate(text);
+        Assertions.assertThat(templateMatchingWords.isEmpty()).isFalse();
+        Assertions.assertThat(templateMatchingWords.size()).isEqualTo(3);
+        Assertions.assertThat(templateMatchingWords).containsAll(Arrays.asList("test<span class=", "test2<span class=", "test3<span class="));
+    }
+
+    @Test
+    public void getRaceDataIdRaceTest() {
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        String text ="px-md-1 px-lg-1 pl-xs-1 g-lg-2 g-md-3 g-sm-2 g-xs-4 justify-left\" href=\"https://www.fis-ski.com/DB/general/results.html?sectorcode=JP&raceid=5179\" target= ";
+
+        String templateMatchingWords = matchingWords.getRaceDataIdRace(text);
+        Assertions.assertThat(templateMatchingWords.isEmpty()).isFalse();
+        Assertions.assertThat(templateMatchingWords).isEqualTo("5179");
+    }
+
+    @Test
+    public void getRaceDataIdWhenNotContainTest() {
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        String text ="px-md-1 px-lg-1 pl-xs-1 g-lg-2 g-md-3 g-sm-2 g-xs-4 justify-left\" href=\"https://www.fis-ski.com/DB/general/results.html?sectorcode=JP&raceid=5179\"";
+
+        String templateMatchingWords = matchingWords.getRaceDataIdRace(text);
+        Assertions.assertThat(templateMatchingWords).isNull();
+    }
+
+    @Test
+    public void getRaceDataIsCancelledWhenNotTest() {
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        String text ="<span class=\"status__item status__item_selected\" title=\"PDF available\">P</span></div><div class=\"status__item-wrapper\"><span class=\"status__item\" title=\"No changes\">C</span>\n" +
+                "<span class=\"status__item\" title=\"Not cancelled\">C</span></div></div></div></a>";
+
+        Boolean isCancelled = matchingWords.checkRaceDataIsCancelled(text);
+        Assertions.assertThat(isCancelled).isFalse();
+    }
+
+    @Test
+    public void getRaceDataIsCancelledWhenTrueTest() {
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        String text ="<span class=\"status__item status__item_selected\" title=\"PDF available\">P</span></div><div class=\"status__item-wrapper\"><span class=\"status__item\" title=\"No changes\">C</span>\n" +
+                "<span class=\"status__item\" title=\"Cancelled\">C</span></div></div></div></a>";
+
+        Boolean isCancelled = matchingWords.checkRaceDataIsCancelled(text);
+        Assertions.assertThat(isCancelled).isTrue();
+    }
+
+    @Test
+    public void getRaceDataDateTest() {
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        String text =" <a class=\"px-md-1 px-lg-1 pl-xs-1 g-lg-2 g-md-3 g-sm-2 g-xs-4 justify-left\" href=\"https://www.fis-ski.com/DB/general/results.html?sectorcode=JP&raceid=5179\" target=\"_self\">27 Dec</a>";
+        String date = matchingWords.getRaceDataDate(text);
+        Assertions.assertThat(date).isNotNull();
+        Assertions.assertThat(date).isEqualTo("27 Dec");
+    }
+
+    @Test
+    public void getRaceDataJumpCategoryTest() {
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        String text = "testtest<div class=\"g-xs-12 justify-left\">COC</div><div class=\"g-xs-12 justify-right bold\">test test";
+        String jumpCategory = matchingWords.getRaceDataJumpCategoryShortName(text);
+        Assertions.assertThat(jumpCategory).isNotNull();
+        Assertions.assertThat(jumpCategory).isNotEmpty();
+        Assertions.assertThat(jumpCategory).isEqualTo("COC");
+    }
+
+    @Test
+    public void getRaceDataCodexTest() {
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        String text = "t-padding\"><div class=\"link__text\" style=\"text-align:center\">3177</div>";
+        String jumpCategory = matchingWords.getRaceDataCodex(text);
+        Assertions.assertThat(jumpCategory).isNotNull();
+        Assertions.assertThat(jumpCategory).isNotEmpty();
+        Assertions.assertThat(jumpCategory).isEqualTo("3177");
+    }
+
+    @Test
+    public void getRaceDataGenderTest() {
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        String text = " <div class=\"gender\"><div class=\"gender__inner\"><div class=\"gender__item gender__item_m\">M</div></div></div></a>";
+        String jumpCategory = matchingWords.getRaceDataGender(text);
+        Assertions.assertThat(jumpCategory).isNotNull();
+        Assertions.assertThat(jumpCategory).isNotEmpty();
+        Assertions.assertThat(jumpCategory).isEqualTo("M");
+    }
+
+    @Test
+    public void getRaceDataCompetitionType() {
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        String text = "class=\"split-row__item split-row__item_text_medium\"><div class=\"g-xs-24 justify-left\"><div class=\"clip\">HS140</div></div></div></div>";
+        String jumpCategory = matchingWords.getRaceDataCompetitionType(text);
+        Assertions.assertThat(jumpCategory).isNotNull();
+        Assertions.assertThat(jumpCategory).isNotEmpty();
+        Assertions.assertThat(jumpCategory).isEqualTo("HS140");
+    }
+
+
+
+
+
+
+
+
 //
 //    @Test
 //    public void getRaceDataFirstStepTest() {
@@ -168,4 +276,4 @@
 //        Assertions.assertThat(raceDate).isNotEmpty();
 //        Assertions.assertThat(raceDate).isEqualTo("value value");
 //    }
-//}
+}

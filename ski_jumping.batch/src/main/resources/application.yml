@@ -14,7 +14,6 @@ skijumping:
         cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0/1 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:false}
       #first step
-#      importCategories:
       importData:
         cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/30 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:false}

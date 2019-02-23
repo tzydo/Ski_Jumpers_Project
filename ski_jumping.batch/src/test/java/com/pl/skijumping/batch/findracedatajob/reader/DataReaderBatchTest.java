@@ -1,4 +1,4 @@
-package com.pl.skijumping.batch.datareaderjob.jobs.findracedata.reader;
+package com.pl.skijumping.batch.findracedatajob.reader;
 
 import com.pl.skijumping.batch.SetupUtilTests;
 import com.pl.skijumping.batch.findracedatajob.reader.DataReaderBatch;
@@ -40,7 +40,7 @@ public class DataReaderBatchTest {
     }
 
     @Test
-    public void getCorrectlyFilesPathFromDirectoryFilesFenTest() throws IOException {
+    public void getCorrectlyFilesPathFromDirectoryTest() throws IOException {
         diagnosticMonitor = SetupUtilTests.getDiagnosticMonitorMock();
         DataReaderBatch findRaceDataReaderBatch = new DataReaderBatch("eventDirectory", diagnosticMonitor);
         findRaceDataReaderBatch.open(executionContext);

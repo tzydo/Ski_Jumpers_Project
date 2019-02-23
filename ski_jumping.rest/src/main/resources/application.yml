@@ -11,28 +11,27 @@ skijumping:
     scheduler:
       #run all jobs in right order
       synchronize:
-        cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0/1 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:false}
+        cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0 0 25 12 ?}
+        enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:true}
       #first step
-      #      importCategories:
       importData:
-        cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/30 * * * *}
+        cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0 0 25 12 ?}
         enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:true}
       #Second step
       importEvent:
-        cron: ${SKI_JUMPING_SETTINGS_EVENT_IMPORT_CRON:0 0/30 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_EVENT_IMPORT_ENABLE:false}
+        cron: ${SKI_JUMPING_SETTINGS_EVENT_IMPORT_CRON:0 0 0 25 12 ?}
+        enable: ${SKI_JUMPING_SETTINGS_EVENT_IMPORT_ENABLE:true}
       #Third Step
       findRaceData:
-        cron: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_CRON:0 0/30 * * * *}
+        cron: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_CRON:0 0 0 25 12 ?}
         enable: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_ENABLE:false}
       #Fourth Step
       basicDataSynchronize:
-        cron: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_CRON:0 0/30 * * * *}
+        cron: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_CRON:0 0 0 25 12 ?}
         enable: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_ENABLE:false}
       #fifth Step
       jumpResultSynchronize:
-        cron: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_CRON:0 0/30 * * * *}
+        cron: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_CRON:0 0 0 25 12 ?}
         enable: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_ENABLE:false}
 spring:
   profiles:
@@ -41,7 +40,7 @@ spring:
     hibernate:
       ddl-auto: ${hibernate.ddl-auto:none}
   datasource:
-    url: ${URL:jdbc:mysql://localhost:3306/skijumper?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC}
+    url: ${URL:jdbc:mysql://mariadb:3306/skijumper?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC}
     username: ${USER:root}
     password: ${PASSWORD:mortall1994}
   batch:

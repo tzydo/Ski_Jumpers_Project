@@ -1,8 +1,7 @@
 //package com.pl.skijumping.batch.datareaderjob.jobs.findracedata;
 //
-//import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.FindRaceDataProcessorBatch;
-//import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.reader.DataReaderBatch;
-//import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.writer.FindRaceDataWriterBatch;
+//import com.pl.skijumping.batch.findracedatajob.processor.FindRaceDataToPlaceProcessorBatch;
+//import com.pl.skijumping.batch.findracedatajob.reader.DataReaderBatch;
 //import com.pl.skijumping.batch.listener.StepListener;
 //import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 //import com.pl.skijumping.dto.DataRaceDTO;
@@ -23,6 +22,7 @@
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //
+//import java.nio.file.Path;
 //import java.util.List;
 //
 //@Configuration
@@ -73,29 +73,29 @@
 //                .<String, List<DataRaceDTO>>chunk(1)
 //                .reader(dataReaderBatch())
 //                .processor(findRaceDataProcessorBatch())
-//                .writer(findRaceDataWriterBatch())
+////                .writer(findRaceDataWriterBatch())
 //                .listener(stepListener())
 //                .build();
 //    }
 //
 //    @Bean
 //    @StepScope
-//    public ItemStreamReader<String> dataReaderBatch() {
+//    public ItemStreamReader<Path> dataReaderBatch() {
 //        return new DataReaderBatch(filePath, diagnosticMonitor);
 //    }
 //
 //    @Bean
 //    @StepScope
-//    public ItemProcessor<String, List<DataRaceDTO>> findRaceDataProcessorBatch() {
-//        return new FindRaceDataProcessorBatch(diagnosticMonitor);
+//    public ItemProcessor<Path, List<DataRaceDTO>> findRaceDataProcessorBatch() {
+//        return new FindRaceDataToPlaceProcessorBatch(diagnosticMonitor);
 //    }
 //
-//    @Bean
-//    @StepScope
-//    public FindRaceDataWriterBatch findRaceDataWriterBatch() {
-//        return new FindRaceDataWriterBatch(
-//                competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor, competitionNameMapper, competitionTypeMapper);
-//    }
+////    @Bean
+////    @StepScope
+////    public FindRaceDataWriterBatch findRaceDataWriterBatch() {
+////        return new FindRaceDataWriterBatch(
+////                competitionTypeService, competitionNameService, dataRaceService, diagnosticMonitor, competitionNameMapper, competitionTypeMapper);
+////    }
 //
 //    @Bean
 //    public StepExecutionListener stepListener() {

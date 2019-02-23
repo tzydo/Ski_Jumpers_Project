@@ -33,7 +33,7 @@ public class CompetitionTypeMapperTest {
     @Test
     @Transactional
     public void fromDTOTest() {
-        DataRaceDTO dataRaceDTO = dataRaceService.save(new DataRaceDTO().date(LocalDate.now()).city("city").raceId(1L).shortCountryName("short"));
+        DataRaceDTO dataRaceDTO = dataRaceService.save(new DataRaceDTO().date(LocalDate.now()).raceId(1L));
 
         CompetitionTypeDTO competitionTypeDTO = new CompetitionTypeDTO();
         competitionTypeDTO.setType("type");

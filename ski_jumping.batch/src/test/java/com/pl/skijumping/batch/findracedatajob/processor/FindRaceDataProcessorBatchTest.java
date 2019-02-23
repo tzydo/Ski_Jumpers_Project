@@ -18,14 +18,14 @@
 //
 //    @Test
 //    public void processWhenNullTest() throws Exception {
-//        FindRaceDataProcessorBatch findRaceDataProcessorBatch = new FindRaceDataProcessorBatch(diagnosticMonitor);
+//        FindRaceDataToPlaceProcessorBatch findRaceDataProcessorBatch = new FindRaceDataToPlaceProcessorBatch(diagnosticMonitor);
 //        List<DataRaceDTO> dataRaceDTO = findRaceDataProcessorBatch.process(null);
 //        Assertions.assertThat(dataRaceDTO).isEqualTo(null);
 //    }
 //
 //    @Test
 //    public void processTest() throws Exception {
-//        FindRaceDataProcessorBatch findRaceDataProcessorBatch = new FindRaceDataProcessorBatch(diagnosticMonitor);
+//        FindRaceDataToPlaceProcessorBatch findRaceDataProcessorBatch = new FindRaceDataToPlaceProcessorBatch(diagnosticMonitor);
 //        List<DataRaceDTO> dataRaceDTO = findRaceDataProcessorBatch.process("testWord");
 //        Assertions.assertThat(dataRaceDTO).isEqualTo(new ArrayList<>());
 //    }

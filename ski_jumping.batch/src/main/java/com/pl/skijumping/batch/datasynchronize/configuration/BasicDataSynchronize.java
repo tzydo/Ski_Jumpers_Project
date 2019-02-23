@@ -1,6 +1,6 @@
 //package com.pl.skijumping.batch.datasynchronize.configuration;
 //
-//import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.FindRaceDataProcessorBatch;
+//import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.processor.FindRaceDataToPlaceProcessorBatch;
 //import com.pl.skijumping.batch.datareaderjob.jobs.findracedata.writer.FindRaceDataWriterBatch;
 //import com.pl.skijumping.batch.datasynchronize.BasicDataSynchronizeTasklet;
 //import com.pl.skijumping.batch.datasynchronize.reader.BasicDataSynchronizeReaderBatch;
@@ -112,7 +112,7 @@
 //
 //    @Bean
 //    public ItemProcessor<String, List<DataRaceDTO>> basicDataSynchronizeProcessor() {
-//        return new FindRaceDataProcessorBatch(diagnosticMonitor);
+//        return new FindRaceDataToPlaceProcessorBatch(diagnosticMonitor);
 //    }
 //
 //    @Bean
