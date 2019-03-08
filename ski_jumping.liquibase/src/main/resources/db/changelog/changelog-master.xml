@@ -7,4 +7,6 @@
     <include file="/db/changelog/changes/initial-load.xml"/>
     <include file="/db/changelog/changes/addCategoryEntity.xml"/>
     <include file="/db/changelog/changes/importCategory.xml"/>
+    <include file="/db/changelog/changes/addCountryEntity.xml"/>
+    <include file="/db/changelog/changes/importCountryList.xml"/>
 </databaseChangeLog>
