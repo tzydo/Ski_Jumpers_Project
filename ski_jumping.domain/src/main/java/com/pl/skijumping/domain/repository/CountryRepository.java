@@ -6,5 +6,5 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CountryRepository extends JpaRepository<Country, Long>, QueryDslPredicateExecutor {
+public interface CountryRepository extends JpaRepository<Country, Integer>, QueryDslPredicateExecutor {
 }

@@ -12,3 +12,6 @@ spring:
     password: ${PASSWORD:}
   profiles:
     active: ${TEST_PROFILE:test}
+#liquibase:
+#  contexts: test
+#  enabled: false

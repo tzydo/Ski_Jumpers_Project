@@ -31,6 +31,7 @@ public class LiquibaseConfiguration {
         } else {
             liquibase.setDropFirst(false);
         }
+        liquibase.setContexts(activeProfile);
         return liquibase;
     }
 }
