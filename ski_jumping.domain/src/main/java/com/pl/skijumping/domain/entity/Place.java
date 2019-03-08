@@ -28,7 +28,8 @@ public class Place {
         this.id = id;
     }
 
-    @Column(name = "country")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country")
     public Country getCountry() {
         return country;
     }
