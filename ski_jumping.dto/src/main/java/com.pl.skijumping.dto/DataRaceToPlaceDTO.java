@@ -6,23 +6,22 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DataRaceToPlaceDTO {
-    private Integer id;
-    private PlaceDTO placeDTO;
-    private DataRaceDTO dataRaceDTO;
+    private Long id;
+    private Integer placeId;
+    private Long dataRaceId;
 
-
-    public DataRaceToPlaceDTO id(Integer id) {
+    public DataRaceToPlaceDTO id(Long id) {
         this.id = id;
         return this;
     }
 
-    public DataRaceToPlaceDTO placeDTO(PlaceDTO placeDTO) {
-        this.placeDTO = placeDTO;
+    public DataRaceToPlaceDTO placeId(Integer placeId) {
+        this.placeId = placeId;
         return this;
     }
 
-    public DataRaceToPlaceDTO dataRaceDTO(DataRaceDTO dataRaceDTO) {
-        this.dataRaceDTO = dataRaceDTO;
+    public DataRaceToPlaceDTO dataRaceId(Long dataRaceId) {
+        this.dataRaceId = dataRaceId;
         return this;
     }
 }

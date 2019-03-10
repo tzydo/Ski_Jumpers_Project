@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "category")
 @NoArgsConstructor
 @AllArgsConstructor
-public class JumpCategory {
+public class JumpCategory implements Serializable {
     private Integer id;
     private String name;
     private String shortName;

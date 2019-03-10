@@ -4,14 +4,7 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     
-    <changeSet id="1" author="tzydo">
-        <createTable tableName="competition_name">
-            <column autoIncrement="true" type="int" name="id">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="name" type="varchar(100)"/>
-        </createTable>
-
+    <changeSet id="1" author="tzydo" context="prod,dev,test">
         <createTable tableName="competition_type">
             <column autoIncrement="true" type="int" name="id">
                 <constraints nullable="false" primaryKey="true"/>
@@ -46,22 +39,37 @@
             <column name="total_points" type="decimal(6,2)"/>
         </createTable>
 
+        <createTable tableName="category">
+            <column autoIncrement="true" type="int" name="id">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="short_name" type="varchar(6)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
         <createTable tableName="data_race">
             <column autoIncrement="true" type="int" name="id">
                 <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="date" type="date"><constraints nullable="false"/></column>
-            <column name="city" type="varchar(50)"><constraints nullable="false"/></column>
-            <column name="short_country_name" type="varchar(50)"><constraints nullable="false"/></column>
+            <column name="cancelled" type="bit"/>
+            <column name="jump_category" type="int" defaultValue="null">
+                <constraints nullable="true" foreignKeyName="category_id_category_fk" references="category(id)"/>
+            </column>
+            <column name="codex" type="varchar(250)"/>
+            <column name="gender" type="ENUM('male', 'female')"/>
             <column name="race_id" type="int">
                 <constraints unique="true" nullable="false"/>
             </column>
             <column name="competition_type_id" type="int" defaultValue="null">
                 <constraints nullable="true" foreignKeyName="competition_type_id_competition_type_fk" references="competition_type(id)"/>
             </column>
-            <column name="competition_name_id" type="int" defaultValue="null">
-                <constraints nullable="true" foreignKeyName="competition_name_id_competition_name_fk" references="competition_name(id)"/>
-            </column>
+            <column name="event_id" type="varchar(250)"/>
+            <column name="season_code" type="varchar(250)"/>
         </createTable>
 
         <createTable tableName="jump_result_to_data_race">
@@ -85,15 +93,6 @@
             </column>
             <column name="ski_jumper_id" type="int">
                 <constraints nullable="false" foreignKeyName="ski_jumper_id_ski_jumper_fk" references="ski_jumper(id)"/>
-            </column>
-        </createTable>
-        
-        <createTable tableName="tournament_year">
-            <column autoIncrement="true" name="id" type="int">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="year" type="varchar(4)">
-                <constraints unique="true"/>
             </column>
         </createTable>
     </changeSet>

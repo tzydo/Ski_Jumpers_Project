@@ -5,8 +5,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <include file="/db/changelog/changes/initial-load.xml"/>
-    <include file="/db/changelog/changes/addCategoryEntity.xml"/>
     <include file="/db/changelog/changes/importCategory.xml"/>
     <include file="/db/changelog/changes/addCountryEntity.xml"/>
     <include file="/db/changelog/changes/importCountryList.xml"/>
+    <include file="/db/changelog/changes/addPlaceEntity.xml"/>
+    <include file="/db/changelog/changes/addDataRaceToPlaceEntity.xml"/>
 </databaseChangeLog>
