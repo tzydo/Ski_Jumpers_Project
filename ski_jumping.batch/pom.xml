@@ -14,6 +14,7 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!-- SELF -->
         <dependency>
             <groupId>ski_jumping</groupId>
             <artifactId>ski_jumping.common</artifactId>
@@ -31,6 +32,16 @@
             <artifactId>ski_jumping.diagnostic_monitor</artifactId>
         </dependency>
         <dependency>
+            <groupId>ski_jumping</groupId>
+            <artifactId>ski_jumping.rabbitmq.producer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ski_jumping</groupId>
+            <artifactId>ski_jumping.rabbitmq.message_converter</artifactId>
+        </dependency>
+
+        <!-- SPRING -->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
@@ -43,24 +54,20 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-batch</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.batch</groupId>
             <artifactId>spring-batch-test</artifactId>
-            <version>4.0.1.RELEASE</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- OTHER -->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.7</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.hsqldb</groupId>
@@ -71,12 +78,6 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava -->
-        <dependency>
-            <groupId>io.reactivex.rxjava2</groupId>
-            <artifactId>rxjava</artifactId>
-            <version>2.2.6</version>
         </dependency>
     </dependencies>
     <build>

@@ -8,6 +8,7 @@ skijumping:
     directory: ${DIRECTORY:tmp}
     loadAllData: ${DOWNLOAD_ALL_BASIC_DATA:false}
     numberOfPreviousMonth: ${NUMBER_OF_PREVIOUSE_MONTH_TO_DOWNLOAD:1}
+    skiJumperDataHost: ${SKI_JUMPER_DATA_HOST:https://www.fis-ski.com/DB/general/athlete-biography.html?sectorcode=jp&competitorid=%s&type=result}
     scheduler:
       #run all jobs in right order
       synchronize:
@@ -33,6 +34,14 @@ skijumping:
       jumpResultSynchronize:
         cron: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_CRON:0 0/30 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_ENABLE:false}
+  rabbitmq:
+    exchange: ${RABBITMQ_EXCHANGE:SkiJumping}
+    queues:
+      sourceImportEventListener: ${SKI_JUMPING_SOURCE_IMPORT_EVENT_LISTENER:sourceImportEventListener}
+      importDataRaceEventListener: ${SKI_JUMPING_IMPORT_DATA_RACE_EVENT_LISTENER:importDataRaceEventListener}
+      importPlaceEventListener: ${SKI_JUMPING_IMPORT_PLACE_EVENT_LISTENER:importPlaceEventListener}
+      importJumpResultDataListener: ${SKI_JUMPING_IMPORT_JUMP_RESULT_DATA_LISTENER:ImportJumpResultDataListener}
+
 spring:
   profiles:
     active: ${DEV_PROFILE:dev}
@@ -40,9 +49,14 @@ spring:
     hibernate:
       ddl-auto: ${hibernate.ddl-auto:none}
   datasource:
-    url: ${URL:jdbc:mysql://localhost:3306/skijumper?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC}
+    url: ${URL:jdbc:mysql://mariadb:3306/skijumper?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC}
     username: ${USER:root}
     password: ${PASSWORD:mortall1994}
   batch:
     job:
       enabled: ${ENABLE:false}
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest

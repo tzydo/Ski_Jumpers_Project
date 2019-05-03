@@ -21,7 +21,7 @@
         <h2.version>1.4.197</h2.version>
         <liquibase.version>3.6.2</liquibase.version>
         <querydsl.version>4.2.1</querydsl.version>
-        <jackson.version>2.9.7</jackson.version>
+        <jackson.version>2.9.8</jackson.version>
     </properties>
 
     <modules>
@@ -34,10 +34,12 @@
         <module>ski_jumping.dto</module>
         <module>ski_jumping.liquibase</module>
         <module>ski_jumping.rest</module>
+        <module>ski_jumping.rabbitmq</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+            <!-- SELF -->
             <dependency>
                 <groupId>ski_jumping</groupId>
                 <artifactId>ski_jumping.common</artifactId>
@@ -84,6 +86,23 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>ski_jumping</groupId>
+                <artifactId>ski_jumping.rabbitmq</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ski_jumping</groupId>
+                <artifactId>ski_jumping.rabbitmq.message_converter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ski_jumping</groupId>
+                <artifactId>ski_jumping.rabbitmq.producer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- SPRING FRAMEWORK -->
+            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-test</artifactId>
                 <version>${spring-boot.version}</version>
@@ -110,6 +129,34 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-batch</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.batch</groupId>
+                <artifactId>spring-batch-core</artifactId>
+                <version>${spring-batch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.batch</groupId>
+                <artifactId>spring-batch-test</artifactId>
+                <scope>test</scope>
+                <version>${spring-batch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-amqp</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.amqp</groupId>
+                <artifactId>spring-rabbit</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!-- OTHER -->
+            <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql-connector.version}</version>
@@ -130,16 +177,6 @@
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct-processor</artifactId>
                 <version>${org.mapstruct.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-batch</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.batch</groupId>
-                <artifactId>spring-batch-core</artifactId>
-                <version>${spring-batch.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hsqldb</groupId>
@@ -172,6 +209,12 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <!-- parsing object to localdate-->
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
         </dependencies>
