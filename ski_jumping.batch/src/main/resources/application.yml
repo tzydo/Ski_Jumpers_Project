@@ -10,30 +10,9 @@ skijumping:
     numberOfPreviousMonth: ${NUMBER_OF_PREVIOUSE_MONTH_TO_DOWNLOAD:1}
     skiJumperDataHost: ${SKI_JUMPER_DATA_HOST:https://www.fis-ski.com/DB/general/athlete-biography.html?sectorcode=jp&competitorid=%s&type=result}
     scheduler:
-      #run all jobs in right order
-      synchronize:
-        cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0/1 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:false}
-      #first step
       importData:
         cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/30 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:false}
-      #Second step
-      importEvent:
-        cron: ${SKI_JUMPING_SETTINGS_EVENT_IMPORT_CRON:0 0/30 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_EVENT_IMPORT_ENABLE:false}
-      #Third Step
-      findRaceData:
-        cron: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_CRON:0 0/30 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_ENABLE:false}
-      #Fourth Step
-      basicDataSynchronize:
-        cron: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_CRON:0 0/30 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_ENABLE:false}
-      #fifth Step
-      jumpResultSynchronize:
-        cron: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_CRON:0 0/30 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_ENABLE:false}
   rabbitmq:
     exchange: ${RABBITMQ_EXCHANGE:SkiJumping}
     queues:

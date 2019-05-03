@@ -2,7 +2,6 @@ package com.pl.skijumping.batch.dataimportjob.configuration;
 
 import com.pl.skijumping.batch.dataimportjob.DataImporterListener;
 import com.pl.skijumping.batch.dataimportjob.DataImporterTasklet;
-import com.pl.skijumping.client.HtmlDownloader;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -25,22 +24,19 @@ public class DataImporterConfiguration {
     private final StepBuilderFactory stepBuilder;
     private final DiagnosticMonitor diagnosticMonitor;
     private final Integer monthToDownload;
-    private final HtmlDownloader htmlDownloader;
 
     public DataImporterConfiguration(@Value("${skijumping.settings.host}") String host,
                                      @Value("${skijumping.settings.directory}") String directory,
                                      @Value("${skijumping.settings.numberOfPreviousMonth}") Integer monthToDownload,
                                      JobBuilderFactory jobBuilder,
                                      StepBuilderFactory stepBuilder,
-                                     DiagnosticMonitor diagnosticMonitor,
-                                     HtmlDownloader htmlDownloader) {
+                                     DiagnosticMonitor diagnosticMonitor) {
         this.host = host;
         this.directory = directory;
         this.jobBuilder = jobBuilder;
         this.stepBuilder = stepBuilder;
         this.diagnosticMonitor = diagnosticMonitor;
         this.monthToDownload = monthToDownload;
-        this.htmlDownloader = htmlDownloader;
     }
 
     @Bean(name = DATA_IMPORT_JOB_NAME)
@@ -60,7 +56,7 @@ public class DataImporterConfiguration {
 
     @Bean
     public Tasklet dataImporterTasklet() {
-        return new DataImporterTasklet(host, directory, diagnosticMonitor, monthToDownload, htmlDownloader);
+        return new DataImporterTasklet(host, directory, diagnosticMonitor, monthToDownload);
     }
 
     @Bean

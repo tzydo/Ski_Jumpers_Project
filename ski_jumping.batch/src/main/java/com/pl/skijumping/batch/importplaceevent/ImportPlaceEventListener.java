@@ -9,7 +9,6 @@ import com.pl.skijumping.dto.PlaceDTO;
 import com.pl.skijumping.service.CountryService;
 import com.pl.skijumping.service.DataRaceToPlaceService;
 import com.pl.skijumping.service.PlaceService;
-import liquibase.util.StreamUtil;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;

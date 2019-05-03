@@ -19,18 +19,15 @@ public class DataImporterTasklet implements Tasklet {
     private final String directory;
     private final DiagnosticMonitor diagnosticMonitor;
     private Integer monthToDownload;
-    private final HtmlDownloader htmlDownloader;
 
     public DataImporterTasklet(String host,
                                String directory,
                                DiagnosticMonitor diagnosticMonitor,
-                               Integer monthToDownload,
-                               HtmlDownloader htmlDownloader) {
+                               Integer monthToDownload) {
         this.host = host;
         this.directory = directory;
         this.diagnosticMonitor = diagnosticMonitor;
         this.monthToDownload = monthToDownload;
-        this.htmlDownloader = htmlDownloader;
     }
 
     @Override
@@ -40,10 +37,8 @@ public class DataImporterTasklet implements Tasklet {
             monthToDownload = DataImporterConst.DEFAULT_MONTH_TO_DOWNLOAD;
         }
 
-//        SourceDownloader sourceDownloader = new SourceDownloader(directory, diagnosticMonitor, htmlDownloader);
         LocalDate localDate = LocalDate.now();
         List<String> generatedURL = DataImporterUtil.generateSeasonCodeByPreviousMonths(localDate.getYear(), localDate.getMonthValue(), monthToDownload, host);
-
         Set existingFileNamesSet = FileUtil.getFilesName(FileUtil.getPathList(FileUtil.getPath(FileUtil.getResource(), directory)));
 
         for (String url : generatedURL) {

@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataImporterUtil {
+class DataImporterUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DataImporterUtil.class);
 
@@ -14,7 +14,7 @@ public class DataImporterUtil {
 //
     }
 
-    public static List<String> generateSeasonCodeByPreviousMonths(Integer currentYear, Integer currentMonth, Integer countOfPreviousMonths, String host) {
+    static List<String> generateSeasonCodeByPreviousMonths(Integer currentYear, Integer currentMonth, Integer countOfPreviousMonths, String host) {
         if (currentYear == null || currentYear.toString().length() < 4 || currentYear.toString().length() > 4) {
             LOGGER.warn("Cannot generate season month and code from incorrect year ");
             return new ArrayList<>();
@@ -51,7 +51,7 @@ public class DataImporterUtil {
         return DataImporterConst.MONTH_ZERO_PREFIX + month;
     }
 
-    public static String getFileNameFromHost(String host) {
+    static String getFileNameFromHost(String host) {
         if (host == null || host.isEmpty()) {
             LOGGER.warn("Cannot read file name from null host");
             return DataImporterConst.DEFAULT_FILE_NAME;

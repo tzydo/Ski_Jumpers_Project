@@ -4,7 +4,6 @@ import com.pl.skijumping.batch.util.JobRunner;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +22,7 @@ public class DataImportScheduler {
 
     public DataImportScheduler(JobLauncher jobLauncher,
                                @Qualifier(DATA_IMPORT_JOB_NAME) Job dataImportJob,
-                               @Value("${skijumping.settings.scheduler.parse.enable}") Boolean isEnable,
+                               @Value("${skijumping.settings.scheduler.importData.enable}") Boolean isEnable,
                                DiagnosticMonitor diagnosticMonitor) {
         this.jobLauncher = jobLauncher;
         this.dataImportJob = dataImportJob;
@@ -31,10 +30,9 @@ public class DataImportScheduler {
         this.diagnosticMonitor = diagnosticMonitor;
     }
 
-    @Scheduled(cron = "${skijumping.settings.scheduler.parse.cron}")
+    @Scheduled(cron = "${skijumping.settings.scheduler.importData.cron}")
     public void importData() throws InternalServiceException {
         JobRunner jobRunner = new JobRunner(isEnable, diagnosticMonitor, jobLauncher, dataImportJob, DATA_IMPORT_JOB_NAME);
-//        return jobRunner.run();
         jobRunner.run();
     }
 }
