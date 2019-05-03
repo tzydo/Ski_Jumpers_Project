@@ -1,4 +1,4 @@
-package com.pl.skijumping.batch.importjumpresultdatalistener;
+package com.pl.skijumping.batch.importjumpresultdataevent;
 
 import com.pl.skijumping.batch.matchingword.MatchingWords;
 import com.pl.skijumping.batch.reader.DataReader;

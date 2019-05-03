@@ -1,4 +1,4 @@
-package com.pl.skijumping.batch.importjumpresultdatalistener;
+package com.pl.skijumping.batch.importjumpresultdataevent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.pl.skijumping.batch.importjumpresultdatalistener;
+package com.pl.skijumping.batch.importjumpresultdataevent;
 
 import com.pl.skijumping.dto.JumpResultDTO;
 import org.assertj.core.api.Assertions;

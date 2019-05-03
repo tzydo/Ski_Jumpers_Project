@@ -1,4 +1,4 @@
-package com.pl.skijumping.batch.importjumpresultdatalistener;
+package com.pl.skijumping.batch.importjumpresultdataevent;
 
 import com.pl.skijumping.batch.SetupUtilTests;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
@@ -9,8 +9,6 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-
-import static org.junit.Assert.*;
 
 public class ImportJumpResultDataTest {
 
