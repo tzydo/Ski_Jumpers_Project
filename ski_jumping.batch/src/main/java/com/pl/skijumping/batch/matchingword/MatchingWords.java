@@ -18,6 +18,8 @@ public class MatchingWords {
         return findMatchingWords.getMatchingWords(words, RegexpPattern.EVENT_ID, false, 1);
     }
 
+//    ---------------   RACE DATA ---------------
+
     public Set<String> getRaceDataTemplate(String words) {
         if(isEmpty(words)) return new HashSet<>();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
@@ -65,6 +67,91 @@ public class MatchingWords {
         if(isEmpty(words)) return null;
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
         return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_RACE_DATA_GET_HILL_SIZE, false, 1).stream().findFirst().orElse(null);
+    }
+
+    //return ex. Oberstdorf(GER)
+    public String getRaceDataCity(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_RACE_DATA_GET_CITY, false, 1).stream().findFirst().orElse(null);
+    }
+
+
+//    ---------------   JUMP RESULT ---------------
+
+    public Set<String> getJumpResultTemplate(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_JUMP_RESULT_TEMPLATE, false, 1);
+    }
+
+    public Set<String> getJumpResultPoints(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_JUMP_RESULT_POINTS, false, 1);
+    }
+
+    public String getJumpResultFisCode(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_JUMP_RESULT_FIS_CODE, false, 1).stream().findFirst().orElse(null);
+    }
+
+    public String getJumpResultJumperName(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_JUMP_RESULT_JUMPER_NAME, false, 1).stream().findFirst().orElse(null);
+    }
+
+    public String getJumpResultJumperRank(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_JUMP_RESULT_RANK, false, 1).stream().findFirst().orElse(null);
+    }
+
+    public String getJumpResultJumperTotal(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_JUMP_RESULT_TOTAl, false, 1).stream().findFirst().orElse(null);
+    }
+
+    public String getJumpResultCompetitorId(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_JUMP_RESULT_COMPETITOR_ID, false, 1).stream().findFirst().orElse(null);
+    }
+
+
+//    ---------------   SKI JUMPER  ---------------
+
+    public String getSkiJumperBirthDay(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_SKI_JUMPER_BIRTHDAY, false, 3).stream().findFirst().orElse(null);
+    }
+
+    public String getSkiJumperGender(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_SKI_JUMPER_GENDER, false, 3).stream().findFirst().orElse(null);
+    }
+
+    public String getSkiJumperMartialStatus(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_SKI_JUMPER_MARTIAL_STATUS, false, 3).stream().findFirst().orElse(null);
+    }
+
+    public String getSkiJumperTeam(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_SKI_JUMPER_TEAM, false, 1).stream().findFirst().orElse(null);
+    }
+
+    public String getSkiJumperCountry(String words) {
+        if(isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_SKI_JUMPER_COUNTRY, false, 1).stream().findFirst().orElse(null);
     }
 
 

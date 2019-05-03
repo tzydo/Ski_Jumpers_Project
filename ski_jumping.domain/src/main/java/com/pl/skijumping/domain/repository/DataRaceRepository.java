@@ -16,4 +16,6 @@ public interface DataRaceRepository extends JpaRepository<DataRace, Long>, Query
 
     @Transactional
     List<DataRace> findAllByIdIn(List<Long> dataRaceIds);
+
+    DataRace findByRaceId(Long raceId);
 }

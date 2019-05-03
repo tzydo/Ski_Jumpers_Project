@@ -1,17 +1,14 @@
-package com.pl.skijumping.batch.findracedatajob.processor;
+package com.pl.skijumping.batch.importdataraceevent.reader;
 
 import com.pl.skijumping.batch.SetupUtilTests;
 import com.pl.skijumping.common.util.FileUtil;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.mockito.internal.matchers.Find;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
-
-import static org.junit.Assert.*;
 
 public class FindRaceDataContentTest {
 

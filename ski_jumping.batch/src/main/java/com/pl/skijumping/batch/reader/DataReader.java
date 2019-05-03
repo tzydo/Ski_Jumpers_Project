@@ -4,6 +4,7 @@ import com.pl.skijumping.common.util.FileUtil;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -31,7 +32,7 @@ public class DataReader {
                 return null;
             }
 
-            fileLines = Files.readAllLines(pathToFile);
+            fileLines = Files.readAllLines(pathToFile, StandardCharsets.UTF_8);
             diagnosticMonitor.logInfo(String.format("Found %d lines to convert", fileLines.size()));
         } catch (IOException e) {
             diagnosticMonitor.logError(String.format("Cannot read content from file %s", filePath), getClass());
@@ -43,6 +44,7 @@ public class DataReader {
             return null;
         }
 
+        //todo refactor stream ?
         String fileContent = String.join("", fileLines);
 
         diagnosticMonitor.logInfo(String.format("Finish reading file from: %s", filePath));

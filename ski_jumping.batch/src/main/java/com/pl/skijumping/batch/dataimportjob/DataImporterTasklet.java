@@ -1,11 +1,9 @@
 package com.pl.skijumping.batch.dataimportjob;
 
 import com.pl.skijumping.batch.util.FileScannerConst;
-import com.pl.skijumping.batch.util.SourceDownloader;
 import com.pl.skijumping.client.HtmlDownloader;
 import com.pl.skijumping.common.util.FileUtil;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -42,7 +40,7 @@ public class DataImporterTasklet implements Tasklet {
             monthToDownload = DataImporterConst.DEFAULT_MONTH_TO_DOWNLOAD;
         }
 
-        SourceDownloader sourceDownloader = new SourceDownloader(directory, diagnosticMonitor, htmlDownloader);
+//        SourceDownloader sourceDownloader = new SourceDownloader(directory, diagnosticMonitor, htmlDownloader);
         LocalDate localDate = LocalDate.now();
         List<String> generatedURL = DataImporterUtil.generateSeasonCodeByPreviousMonths(localDate.getYear(), localDate.getMonthValue(), monthToDownload, host);
 
@@ -53,13 +51,13 @@ public class DataImporterTasklet implements Tasklet {
             if (existingFileNamesSet.contains(FileScannerConst.FILE_DATA_IMPORT + fileNameFromHost)) {
                 continue;
             }
-            ExitStatus exitStatus = sourceDownloader.download(FileScannerConst.FILE_DATA_IMPORT, url, fileNameFromHost);
-            stepContribution.setExitStatus(exitStatus);
-            if (ExitStatus.FAILED.getExitCode().equals(exitStatus.getExitCode())) {
+//            ExitStatus exitStatus = sourceDownloader.download(FileScannerConst.FILE_DATA_IMPORT, url, fileNameFromHost);
+//            stepContribution.setExitStatus(exitStatus);
+//            if (ExitStatus.FAILED.getExitCode().equals(exitStatus.getExitCode())) {
                 diagnosticMonitor.logError(String.format("Error during download source from:  %s", url), getClass());
                 break;
             }
-        }
+//        }
         return RepeatStatus.FINISHED;
     }
 }

@@ -3,13 +3,14 @@ package com.pl.skijumping.domain.entity;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "country")
-public class Country {
+public class Country implements Serializable {
     private Integer id;
     private String name;
     private String shortName;

@@ -32,7 +32,7 @@
 //    }
 //
 //    @Scheduled(cron = "${skijumping.settings.scheduler.basicDataSynchronize.cron}")
-//    public JobExecution importData() throws InternalServiceException {
+//    public JobExecution parse() throws InternalServiceException {
 //        JobRunner jobRunner = new JobRunner(
 //                isEnable, diagnosticMonitor, jobLauncher, basicDataSynchronizeJob, BASIC_DATA_SYNCHRONIZE_JOB_NAME);
 //        return jobRunner.run();

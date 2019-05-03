@@ -80,7 +80,6 @@ public class SkiJumperMapperTest {
     private SkiJumperDTO createSkiJumperDTO(Long value) {
         return new SkiJumperDTO()
                 .id(value)
-                .fisCode(value.intValue() + 1)
-                .bib(value.intValue() + 2);
+                .fisCode(value.intValue() + 1);
     }
 }

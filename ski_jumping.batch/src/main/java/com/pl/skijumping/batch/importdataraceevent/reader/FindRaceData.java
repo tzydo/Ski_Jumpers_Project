@@ -1,5 +1,6 @@
-package com.pl.skijumping.batch.findracedatajob.processor;
+package com.pl.skijumping.batch.importdataraceevent.reader;
 
+import com.pl.skijumping.batch.importdataraceevent.FindRaceDataUtil;
 import com.pl.skijumping.batch.matchingword.MatchingWords;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.DataRaceDTO;
@@ -8,14 +9,14 @@ import com.pl.skijumping.service.JumpCategoryService;
 
 import java.util.Optional;
 
-class FindRaceData {
+public class FindRaceData {
     private final DiagnosticMonitor diagnosticMonitor;
-    private final String tournamentYear;
+    private final Integer tournamentYear;
     private final String tournamentEventId;
     private final JumpCategoryService jumpCategoryService;
 
     public FindRaceData(DiagnosticMonitor diagnosticMonitor,
-                        String tournamentYear,
+                        Integer tournamentYear,
                         String tournamentEventId,
                         JumpCategoryService jumpCategoryService) {
         this.diagnosticMonitor = diagnosticMonitor;
@@ -33,21 +34,17 @@ class FindRaceData {
         DataRaceDTO dataRaceDTO = new DataRaceDTO();
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
 
-        dataRaceDTO.setRaceId(parseLong(matchingWords.getRaceDataIdRace(words)));
-        dataRaceDTO.setIsCancelled(matchingWords.checkRaceDataIsCancelled(words));
-        dataRaceDTO.setJumpCategoryId(findJumpCategory(words, matchingWords));
-        dataRaceDTO.setCodex(matchingWords.getRaceDataCodex(words));
-        dataRaceDTO.setEventId(parseLong(this.tournamentEventId));
-        dataRaceDTO.setGender(matchingWords.getRaceDataGender(words));
-        dataRaceDTO.setCompetitionType(matchingWords.getRaceDataCompetitionType(words));
-
-        int year = Integer.parseInt(tournamentYear);
-        dataRaceDTO.setSeasonCode(year);
-        dataRaceDTO.setDate(FindRaceDataUtil.generateDate(matchingWords.getRaceDataDate(words), Integer.toString(year -1)));
-
-        return dataRaceDTO;
+        return dataRaceDTO
+                .raceId(parseLong(matchingWords.getRaceDataIdRace(words)))
+                .isCancelled(matchingWords.checkRaceDataIsCancelled(words))
+                .jumpCategoryId(findJumpCategory(words, matchingWords))
+                .codex(matchingWords.getRaceDataCodex(words))
+                .eventId(parseLong(this.tournamentEventId))
+                .gender(matchingWords.getRaceDataGender(words))
+                .competitionType(matchingWords.getRaceDataCompetitionType(words))
+                .seasonCode(tournamentYear)
+                .date(FindRaceDataUtil.generateDate(matchingWords.getRaceDataDate(words), Integer.toString(tournamentYear - 1)));
     }
-
 
     private Integer findJumpCategory(String words, MatchingWords matchingWords) {
         if (words == null || words.isEmpty()) {

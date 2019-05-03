@@ -16,6 +16,21 @@ class RegexpPattern {
     static final String FIND_RACE_DATA_GET_GENDER = "gender__item_.\">(.+?)</div>"; //return gender
     static final String FIND_RACE_DATA_GET_HILL_SIZE = "<div class=\"clip\">(.*?)</div>"; //return eq. HS140
 
+    static final String FIND_RACE_DATA_GET_CITY = "event-header__name\">(.*?)</h1>";
+
+    static final String FIND_JUMP_RESULT_TEMPLATE = "(<a class=\"table-row\"(.*?)</a>)";
+    static final String FIND_JUMP_RESULT_FIS_CODE = "g-lg-2 g-md-2 g-sm-2 hidden-xs justify-right gray pr-1\">(.*?)<";
+    static final String FIND_JUMP_RESULT_JUMPER_NAME = "justify-left bold\">(.*?)<";
+    static final String FIND_JUMP_RESULT_POINTS = "g-lg-2 g-md-2 g-sm-2 justify-right bold hidden-xs\">(.*?)<";
+    static final String FIND_JUMP_RESULT_RANK = "gray\\sbold\">(.*?)<";
+    static final String FIND_JUMP_RESULT_TOTAl = "blue bold\\s\">(.*?)<";
+    static final String FIND_JUMP_RESULT_COMPETITOR_ID = "competitorid=(.*?)&";
+
+    static final String FIND_SKI_JUMPER_BIRTHDAY = "(Birthdate(.*?)profile-info__value\">(.*?)</span>)";
+    static final String FIND_SKI_JUMPER_GENDER = "(Gender(.*?)profile-info__value\">(.*?)</span>)";
+    static final String FIND_SKI_JUMPER_MARTIAL_STATUS = "(Marital Status(.*?)profile-info__value\">(.*?)</span>)";
+    static final String FIND_SKI_JUMPER_TEAM = "team spacer__section\">(.*?)</div>";
+    static final String FIND_SKI_JUMPER_COUNTRY = "country__name\">(.*?)</span>";
 
 
     static final String SECOND_FILTER_TOURNAMENT_YEAR = "<option\\svalue=\\\"(.*?)\"";

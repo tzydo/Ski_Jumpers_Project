@@ -45,8 +45,8 @@ public class DataRaceServiceTest {
 
         DataRace dataRace = new DataRace()
                 .date(LocalDate.now())
-                .city("city")
-                .shortCountryName("pol")
+//                .city("city")
+//                .shortCountryName("pol")
                 .competitionType(competitionTypeMapper.fromDTO(competitionTypeDTO))
                 .raceId(1L);
 
@@ -55,16 +55,16 @@ public class DataRaceServiceTest {
 
         dataRaceRepository.save(new DataRace()
                 .date(LocalDate.now())
-                .city("city2")
-                .shortCountryName("pol2")
+//                .city("city2")
+//                .shortCountryName("pol2")
                 .competitionType(competitionTypeMapper.fromDTO(competitionTypeDTO))
                 .raceId(2L));
 
 
         dataRaceRepository.save(new DataRace()
                 .date(LocalDate.now())
-                .city("city3")
-                .shortCountryName("pol3")
+//                .city("city3")
+//                .shortCountryName("pol3")
                 .competitionType(competitionTypeMapper.fromDTO(competitionTypeDTO))
                 .raceId(3L));
 
@@ -80,8 +80,8 @@ public class DataRaceServiceTest {
     public void findByDataRaceWhenDoesNotExistTest() {
         DataRace dataRace = new DataRace()
                 .date(LocalDate.now())
-                .city("city")
-                .shortCountryName("pol")
+//                .city("city")
+//                .shortCountryName("pol")
                 .raceId(1L);
 
 

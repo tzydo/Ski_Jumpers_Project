@@ -32,7 +32,7 @@
 //    }
 //
 //    @Scheduled(cron = "${skijumping.settings.scheduler.findRaceData.cron}")
-//    public JobExecution importData() throws InternalServiceException {
+//    public JobExecution parse() throws InternalServiceException {
 //        JobRunner jobRunner = new JobRunner(isEnable, diagnosticMonitor, jobLauncher, dataImportJob, FIND_RACE_DATA_STEP_NAME);
 //        return jobRunner.run();
 //    }

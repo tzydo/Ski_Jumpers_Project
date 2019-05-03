@@ -1,4 +1,4 @@
-package com.pl.skijumping.batch.findracedatajob.processor;
+package com.pl.skijumping.batch.importdataraceevent.reader;
 
 import com.pl.skijumping.batch.matchingword.MatchingWords;
 import com.pl.skijumping.batch.reader.DataReader;
@@ -8,15 +8,15 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 
-class FindRaceDataContent {
+public class FindRaceDataContent {
 
     private final DiagnosticMonitor diagnosticMonitor;
 
-    FindRaceDataContent(DiagnosticMonitor diagnosticMonitor) {
+    public FindRaceDataContent(DiagnosticMonitor diagnosticMonitor) {
         this.diagnosticMonitor = diagnosticMonitor;
     }
 
-    Set<String> findTemplateData(Path filePath) {
+    public Set<String> findTemplateData(Path filePath) {
         if(filePath == null) {
             diagnosticMonitor.logWarn("Cannot read from null path!");
             return new HashSet<>();

@@ -25,11 +25,11 @@ public class JumpResultMapperTest {
     public void fromDTOTest() {
         JumpResultDTO jumpResultDTO = new JumpResultDTO()
                 .rank(1)
-                .firstJump(100)
-                .pointsForFirstJump(100)
-                .secondJump(200)
-                .pointsForSecondJump(200)
-                .totalPoints(300);
+                .firstJump(100.0)
+                .pointsForFirstJump(100.0)
+                .secondJump(200.0)
+                .pointsForSecondJump(200.0)
+                .totalPoints(300.0);
 
         JumpResult expectedJumpResult = new JumpResult()
                 .rank(1)
@@ -56,11 +56,11 @@ public class JumpResultMapperTest {
 
         JumpResultDTO expectedJumpResultDTO = new JumpResultDTO()
                 .rank(1)
-                .firstJump(100)
-                .pointsForFirstJump(100)
-                .secondJump(200)
-                .pointsForSecondJump(200)
-                .totalPoints(300);
+                .firstJump(100.0)
+                .pointsForFirstJump(100.0)
+                .secondJump(200.0)
+                .pointsForSecondJump(200.0)
+                .totalPoints(300.0);
 
         Assertions.assertThat(jumpResultMapper.toDTO(jumpResult))
                 .isEqualToComparingFieldByFieldRecursively(expectedJumpResultDTO);

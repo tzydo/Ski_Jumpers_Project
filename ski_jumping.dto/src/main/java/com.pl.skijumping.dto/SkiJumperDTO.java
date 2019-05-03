@@ -13,12 +13,10 @@ import java.time.LocalDate;
 public class SkiJumperDTO implements Serializable {
 
     private Long id;
-    private int bib;
-    private int fisCode;
+    private Integer fisCode;
     private String name;
     private LocalDate birthday;
     private String nationality;
-    private String skiClub;
     private String team;
     private String gender;
     private String martialStatus;
@@ -28,12 +26,7 @@ public class SkiJumperDTO implements Serializable {
         return this;
     }
 
-    public SkiJumperDTO bib(int bib) {
-        this.bib = bib;
-        return this;
-    }
-
-    public SkiJumperDTO fisCode(int fisCode) {
+    public SkiJumperDTO fisCode(Integer fisCode) {
         this.fisCode = fisCode;
         return this;
     }
@@ -45,11 +38,6 @@ public class SkiJumperDTO implements Serializable {
 
     public SkiJumperDTO nationality(String nationality) {
         this.nationality = nationality;
-        return this;
-    }
-
-    public SkiJumperDTO skiClub(String skiClub) {
-        this.skiClub = skiClub;
         return this;
     }
 

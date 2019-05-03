@@ -30,10 +30,11 @@ public class EventIdImporterScheduler {
         this.diagnosticMonitor = diagnosticMonitor;
     }
 
-    @Scheduled(cron = "${skijumping.settings.scheduler.importData.cron}")
-    public JobExecution importEvent() throws InternalServiceException {
+    @Scheduled(cron = "${skijumping.settings.scheduler.parse.cron}")
+    public void importEvent() throws InternalServiceException {
         JobRunner jobRunner = new JobRunner(
                 isEnable, diagnosticMonitor, jobLauncher, dataImportJob, EventImporterConfiguration.EVENT_IMPORT_JOB_NAME);
-        return jobRunner.run();
+//        return jobRunner.run();
+        jobRunner.run();
     }
 }

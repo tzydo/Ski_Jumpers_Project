@@ -79,4 +79,13 @@ public class SkiJumperService {
             skiJumperRepository.save(skiJumperMapper.fromDTO(skiJumperDTO));
         }
     }
+
+    @Transactional
+    public Optional<SkiJumperDTO> findByFisCode(Integer fisCode) {
+        SkiJumper skiJumper = skiJumperRepository.findByFisCode(fisCode);
+        if(skiJumper == null) {
+            return Optional.empty();
+        }
+        return Optional.of(skiJumperMapper.toDTO(skiJumper));
+    }
 }

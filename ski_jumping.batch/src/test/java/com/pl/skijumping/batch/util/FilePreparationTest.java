@@ -37,7 +37,7 @@ public class FilePreparationTest {
         Assertions.assertThat(path.toFile().exists()).isFalse();
 
         Path directoryPath = FileUtil.createDirectory(directoryName);
-        Path filePath = FilePreparation.prepareFile(fileName, FileScannerConst.FILE_DATA_IMPORT, directoryPath);
+        Path filePath = FilePreparation.prepareFile(fileName, directoryPath);
         Assertions.assertThat(filePath.toFile().exists()).isTrue();
 
         filePath.toFile().delete();
@@ -51,7 +51,7 @@ public class FilePreparationTest {
         path.toFile().createNewFile();
         Assertions.assertThat(path.toFile().exists()).isTrue();
 
-        Path filePath = FilePreparation.prepareFile(FileScannerConst.FILE_DATA_IMPORT, fileName, directoryPath);
+        Path filePath = FilePreparation.prepareFile(fileName, directoryPath);
         Assertions.assertThat(filePath.toFile().exists()).isTrue();
 
         filePath.toFile().delete();

@@ -1,4 +1,4 @@
-package com.pl.skijumping.batch.findracedatajob.processor;
+package com.pl.skijumping.batch.importdataraceevent.reader;
 
 import com.pl.skijumping.batch.SetupUtilTests;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
@@ -60,7 +60,7 @@ public class FindRaceDataTest {
         JumpCategoryService mockJumpCategoryService = Mockito.mock(JumpCategoryService.class);
         Mockito.when(mockJumpCategoryService.findByShortName(Mockito.anyString())).thenReturn(Optional.of(new JumpCategoryDTO().id(1)));
 
-        FindRaceData findRaceData = new FindRaceData(diagnosticMonitorMock, "2019", "123", mockJumpCategoryService);
+        FindRaceData findRaceData = new FindRaceData(diagnosticMonitorMock, 2019, "123", mockJumpCategoryService);
         DataRaceDTO dataRaceDTO = findRaceData.generateRaceData(text);
 
         DataRaceDTO expectedDataRaceDTO = new DataRaceDTO()

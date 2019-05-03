@@ -1,55 +1,49 @@
-package com.pl.skijumping.batch.util;
+package com.pl.skijumping.batch.sourceimporterevent;
 
+import com.pl.skijumping.batch.util.FilePreparation;
 import com.pl.skijumping.client.HtmlDownloader;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
-import org.springframework.batch.core.ExitStatus;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class SourceDownloader {
-    private final String directory;
+class SourceDownloader {
     private final DiagnosticMonitor diagnosticMonitor;
     private final HtmlDownloader htmlDownloader;
 
-    public SourceDownloader(String directory,
-                            DiagnosticMonitor diagnosticMonitor,
+    SourceDownloader(DiagnosticMonitor diagnosticMonitor,
                             HtmlDownloader htmlDownloader) {
-        this.directory = directory;
         this.diagnosticMonitor = diagnosticMonitor;
         this.htmlDownloader = htmlDownloader;
     }
 
-    public ExitStatus download(String filePrefix, String host, String fileName) {
+    Path download(String directory, String host, String fileName) {
         String errorMessage;
 
         Path directoryPath = FilePreparation.prepareDirectory(directory);
         if (directoryPath == null) {
             errorMessage = "Cannot download source to null directory";
             diagnosticMonitor.logError(errorMessage, this.getClass());
-            return new ExitStatus(ExitStatus.FAILED.getExitCode(), errorMessage);
+            return null;
         }
 
         if (host == null) {
             errorMessage = "Host cannot be null!";
             diagnosticMonitor.logError(errorMessage, this.getClass());
-            return new ExitStatus(ExitStatus.FAILED.getExitCode(), errorMessage);
+            return null;
         }
 
         diagnosticMonitor.logInfo("Start downloading html source");
-
+        Path filePath = null;
         try {
-            Path filePath = FilePreparation.prepareFile(filePrefix, fileName, directoryPath);
-            htmlDownloader.downloadSource(filePath, host);
+            filePath = htmlDownloader.downloadSource(FilePreparation.prepareFile(fileName, directoryPath), host);
+            diagnosticMonitor.logInfo("Finish download");
         } catch (IOException | InternalServiceException e) {
             errorMessage = "Cannot download source! \n " + e.getMessage();
             diagnosticMonitor.logError(errorMessage, this.getClass());
-            return new ExitStatus(ExitStatus.FAILED.getExitCode(), errorMessage);
         }
 
-        diagnosticMonitor.logInfo("Finish download");
-        diagnosticMonitor.logInfo("Job data import successfully finished");
-        return new ExitStatus(ExitStatus.COMPLETED.getExitCode());
+        return filePath;
     }
 }

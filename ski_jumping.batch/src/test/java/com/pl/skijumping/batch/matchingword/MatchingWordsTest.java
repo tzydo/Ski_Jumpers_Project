@@ -125,13 +125,23 @@ public class MatchingWordsTest {
     }
 
     @Test
-    public void getRaceDataCompetitionType() {
+    public void getRaceDataCompetitionTypeTest() {
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
         String text = "class=\"split-row__item split-row__item_text_medium\"><div class=\"g-xs-24 justify-left\"><div class=\"clip\">HS140</div></div></div></div>";
-        String jumpCategory = matchingWords.getRaceDataCompetitionType(text);
+        String jumpCategory = matchingWords.getRaceDataCity(text);
         Assertions.assertThat(jumpCategory).isNotNull();
         Assertions.assertThat(jumpCategory).isNotEmpty();
         Assertions.assertThat(jumpCategory).isEqualTo("HS140");
+    }
+
+    @Test
+    public void getRaceDataCityTest() {
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        String text = "<h1class=\"headingheading_l2heading_off-sm-styleheading_plainevent-header__name\">Oberstdorf(GER)</h1></div></div></div></div><sectionclass=\"section\"><divclass=\"section__inner\"><divclass=\"section__content\"><headerclass=\"section__header\"><h3class=\"headingheading_l3\">SkiJumpingCompetitions</h3></header>";
+        String jumpCategory = matchingWords.getRaceDataCity(text);
+        Assertions.assertThat(jumpCategory).isNotNull();
+        Assertions.assertThat(jumpCategory).isNotEmpty();
+        Assertions.assertThat(jumpCategory).isEqualTo("Oberstdorf(GER)");
     }
 
 

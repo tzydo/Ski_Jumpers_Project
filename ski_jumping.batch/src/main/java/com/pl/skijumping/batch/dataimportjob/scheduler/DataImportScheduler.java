@@ -23,7 +23,7 @@ public class DataImportScheduler {
 
     public DataImportScheduler(JobLauncher jobLauncher,
                                @Qualifier(DATA_IMPORT_JOB_NAME) Job dataImportJob,
-                               @Value("${skijumping.settings.scheduler.importData.enable}") Boolean isEnable,
+                               @Value("${skijumping.settings.scheduler.parse.enable}") Boolean isEnable,
                                DiagnosticMonitor diagnosticMonitor) {
         this.jobLauncher = jobLauncher;
         this.dataImportJob = dataImportJob;
@@ -31,9 +31,10 @@ public class DataImportScheduler {
         this.diagnosticMonitor = diagnosticMonitor;
     }
 
-    @Scheduled(cron = "${skijumping.settings.scheduler.importData.cron}")
-    public JobExecution importData() throws InternalServiceException {
+    @Scheduled(cron = "${skijumping.settings.scheduler.parse.cron}")
+    public void importData() throws InternalServiceException {
         JobRunner jobRunner = new JobRunner(isEnable, diagnosticMonitor, jobLauncher, dataImportJob, DATA_IMPORT_JOB_NAME);
-        return jobRunner.run();
+//        return jobRunner.run();
+        jobRunner.run();
     }
 }

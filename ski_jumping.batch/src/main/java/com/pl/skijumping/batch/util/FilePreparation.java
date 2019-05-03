@@ -23,7 +23,7 @@ public class FilePreparation {
         return directoryPath;
     }
 
-    public static Path prepareFile(String prefix, String fileName, Path directoryPath) {
+    public static Path prepareFile(String fileName, Path directoryPath) {
         if (directoryPath == null) {
             LOGGER.error("Cannot create file in null directory");
             return null;
@@ -33,7 +33,6 @@ public class FilePreparation {
             return null;
         }
 
-        fileName = prefix + fileName;
         Path pathToFile = FileUtil.getPath(directoryPath.toString(), fileName);
         if (pathToFile != null && pathToFile.toFile().exists()) {
             LOGGER.warn("File in path: {} and name: {}  exist", directoryPath, fileName);

@@ -52,6 +52,13 @@ public class DataRaceService {
         return dataRaceMapper.toDTO(dataRaceRepository.save(dataRaceMapper.fromDTO(dataRaceDTO)));
     }
 
+    public Optional<DataRaceDTO> findByRaceId(Long raceId) {
+        if(raceId == null) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(dataRaceMapper.toDTO(dataRaceRepository.findByRaceId(raceId)));
+    }
 
     public DataRaceDTO update(DataRaceDTO dataRaceDTO) {
         if (dataRaceDTO == null) {
@@ -75,15 +82,6 @@ public class DataRaceService {
         return dataRaceMapper.toDTO(foundDataRace.get());
     }
 
-    public DataRace save(DataRace dataRace) {
-        if (dataRace == null) {
-            return null;
-        }
-
-        Optional<DataRace> foundDataRace = findByDataRace(dataRace);
-        return foundDataRace.orElseGet(() -> dataRaceRepository.save(dataRace));
-    }
-
     public Optional<DataRace> findByDataRace(DataRace dataRace) {
         if (dataRace == null) {
             return Optional.empty();
@@ -93,13 +91,13 @@ public class DataRaceService {
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-        if (dataRace.getDate() != null) booleanBuilder.and(qDataRace.date.eq(dataRace.getDate()));
-        if (dataRace.getCity() != null) booleanBuilder.and(qDataRace.city.eq(dataRace.getCity()));
-        if (dataRace.getShortCountryName() != null)
-            booleanBuilder.and(qDataRace.shortCountryName.eq(dataRace.getShortCountryName()));
-        if (dataRace.getRaceId() != null) booleanBuilder.and(qDataRace.raceId.eq(dataRace.getRaceId()));
-        if (dataRace.getCompetitionType() != null)
-            booleanBuilder.and(qDataRace.competitionType().eq(dataRace.getCompetitionType()));
+//        if (dataRace.getDate() != null) booleanBuilder.and(qDataRace.date.eq(dataRace.getDate()));
+////        if (dataRace.getCity() != null) booleanBuilder.and(qDataRace.city.eq(dataRace.getCity()));
+//        if (dataRace.getShortCountryName() != null)
+//            booleanBuilder.and(qDataRace.shortCountryName.eq(dataRace.getShortCountryName()));
+//        if (dataRace.getRaceId() != null) booleanBuilder.and(qDataRace.raceId.eq(dataRace.getRaceId()));
+//        if (dataRace.getCompetitionType() != null)
+//            booleanBuilder.and(qDataRace.competitionType().eq(dataRace.getCompetitionType()));
 
         DataRace foundDataRace = (DataRace) dataRaceRepository.findOne(booleanBuilder);
 

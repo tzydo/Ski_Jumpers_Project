@@ -28,16 +28,18 @@ public class BatchJobController {
     @PostMapping
     @RequestMapping(path = "dataRaceJobImporter")
     public ResponseEntity<BatchJobStatisticDTO> runDataRaceJob() throws InternalServiceException {
-        JobExecution jobExecution = dataImporterStep.importData();
-        BatchJobStatisticDTO batchJobStatisticDTO = StatisticGenerator.generate(jobExecution);
-        return new ResponseEntity<>(batchJobStatisticDTO, HttpStatus.OK);
+//        JobExecution jobExecution = dataImporterStep.parse();
+//        BatchJobStatisticDTO batchJobStatisticDTO = StatisticGenerator.generate(jobExecution);
+//        return new ResponseEntity<>(batchJobStatisticDTO, HttpStatus.OK);
+        return null;
     }
 
     @PostMapping
     @RequestMapping(path = "importEventJob")
     public ResponseEntity<BatchJobStatisticDTO> runImportEventJob() throws InternalServiceException {
-        JobExecution jobExecution = eventIdImporterScheduler.importEvent();
-        BatchJobStatisticDTO batchJobStatisticDTO = StatisticGenerator.generate(jobExecution);
-        return new ResponseEntity<>(batchJobStatisticDTO, HttpStatus.OK);
+//        JobExecution jobExecution = eventIdImporterScheduler.importEvent();
+//        BatchJobStatisticDTO batchJobStatisticDTO = StatisticGenerator.generate(jobExecution);
+//        return new ResponseEntity<>(batchJobStatisticDTO, HttpStatus.OK);
+        return null;
     }
 }

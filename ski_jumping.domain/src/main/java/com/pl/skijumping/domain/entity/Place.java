@@ -5,13 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "place")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Place {
+public class Place implements Serializable {
     private Integer id;
     private Country country;
     private String city;

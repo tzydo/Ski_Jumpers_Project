@@ -25,7 +25,8 @@ public class FindRaceDataToPlaceProcessorBatch implements ItemProcessor<Path, Se
             diagnosticMonitor.logWarn("Cannot read file from null path");
             return new HashSet<>();
         }
-        FindRaceDataToPlaceProcessor findRaceDataToPlaceProcessor = new FindRaceDataToPlaceProcessor(diagnosticMonitor, jumpCategoryService);
-        return findRaceDataToPlaceProcessor.findDataRace(filePath);
+//        FindRaceDataToPlaceProcessor findRaceDataToPlaceProcessor = new FindRaceDataToPlaceProcessor(diagnosticMonitor, jumpCategoryService);
+//        return findRaceDataToPlaceProcessor.findDataRace(filePath);
+        return null;
     }
 }
