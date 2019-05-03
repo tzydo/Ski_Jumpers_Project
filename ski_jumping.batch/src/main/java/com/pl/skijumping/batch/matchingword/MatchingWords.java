@@ -112,7 +112,7 @@ public class MatchingWords {
     public String getJumpResultJumperTotal(String words) {
         if(isEmpty(words)) return null;
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_JUMP_RESULT_TOTAl, false, 1).stream().findFirst().orElse(null);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_JUMP_RESULT_TOTAL, false, 1).stream().findFirst().orElse(null);
     }
 
     public String getJumpResultCompetitorId(String words) {
@@ -152,70 +152,6 @@ public class MatchingWords {
         if(isEmpty(words)) return null;
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
         return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_SKI_JUMPER_COUNTRY, false, 1).stream().findFirst().orElse(null);
-    }
-
-
-
-
-
-
-
-
-
-    public Set<String> getRaceDataFirstStep(String words) {
-        if (isEmpty(words)) return new HashSet<>();
-        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIRST_STEP_DATA_RACE, false);
-    }
-
-    public Set<String> getRaceDataSecondStep(String words) {
-        if (isEmpty(words)) return new HashSet<>();
-        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getMatchingWords(words, RegexpPattern.SECOND_STEP_DATA_RACE, false);
-    }
-
-    public Set<String> getRaceDataThirdStep(String words) {
-        if (isEmpty(words)) return new HashSet<>();
-        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getMatchingWords(words, RegexpPattern.THIRD_STEP_DATA_RACE, true);
-    }
-
-    public Set<String> getRaceDataFourthStep(String words) {
-        if (isEmpty(words)) return new HashSet<>();
-        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getMatchingWords(words, RegexpPattern.FOURTH_STEP_DATA_RACE, true);
-    }
-
-    public Set<String> getRaceDate(String words) {
-        if (isEmpty(words)) return new HashSet<>();
-        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getMatchingWords(words, RegexpPattern.SEASON_DATE, true);
-    }
-
-    public Set<String> getJumpResultDataFilter(String words) {
-        if (isEmpty(words)) return new HashSet<>();
-        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getMatchingWords(words, RegexpPattern.RESULT_SYNCHRONIZE_FILTER, false, 1);
-    }
-
-    public Set<String> getJumpResultDataFirstStep(String words) {
-        if (isEmpty(words)) return new HashSet<>();
-        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getMatchingWords(words, RegexpPattern.RESULT_SYNCHRONIZE_FIRST_FILTER, false, 1);
-    }
-
-    public Set<String> getJumpResultDataSecondStep(String words) {
-        if (isEmpty(words)) return new HashSet<>();
-        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        return findMatchingWords.getMatchingWords(words, RegexpPattern.RESULT_SYNCHRONIZE_SECOND_FILTER, false, 1);
-    }
-
-    public String getSkiJumperName(String words) {
-        if (isEmpty(words)) return null;
-        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
-        Set<String> skiJumperName = findMatchingWords.getMatchingWords(words, RegexpPattern.RESULT_SYNCHRONIZE_SKIJUMPER_NAME, false, 1);
-
-        return skiJumperName.stream().findFirst().orElse(null);
     }
 
     private boolean isEmpty(String words) {

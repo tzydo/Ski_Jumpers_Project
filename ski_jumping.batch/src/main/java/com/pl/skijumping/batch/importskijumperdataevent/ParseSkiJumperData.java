@@ -9,11 +9,11 @@ import com.pl.skijumping.dto.SkiJumperDTO;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-class ParseSkiJumperData {
+public class ParseSkiJumperData {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final DiagnosticMonitor diagnosticMonitor;
 
-    ParseSkiJumperData(DiagnosticMonitor diagnosticMonitor) {
+    public ParseSkiJumperData(DiagnosticMonitor diagnosticMonitor) {
         this.diagnosticMonitor = diagnosticMonitor;
     }
 

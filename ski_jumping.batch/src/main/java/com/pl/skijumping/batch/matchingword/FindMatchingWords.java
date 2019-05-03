@@ -14,10 +14,6 @@ class FindMatchingWords {
         this.diagnosticMonitor = diagnosticMonitor;
     }
 
-    public Set<String> getMatchingWords(String words, String regexp, Boolean exactMatch) {
-        return getMatchingWords(words, regexp, exactMatch, null);
-    }
-
     public Set<String> getMatchingWords(String words, String regexp, Boolean exactMatch, Integer additionalParam) {
         if (words == null || words.isEmpty()) {
             diagnosticMonitor.logError("Cannot find matching words from null", getClass());
