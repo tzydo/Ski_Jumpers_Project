@@ -5,11 +5,12 @@ import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.DataRaceDTO;
 import com.pl.skijumping.dto.MessageDTO;
-import com.pl.skijumping.dto.MessageProperties;
+import com.pl.skijumping.dto.MessagePropertiesConst;
 import com.pl.skijumping.rabbitmq.producer.RabbitmqProducer;
 import com.pl.skijumping.service.CompetitionTypeService;
 import com.pl.skijumping.service.DataRaceService;
 import com.pl.skijumping.service.JumpCategoryService;
+import com.sun.javafx.binding.StringFormatter;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Component;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class ImportDataRaceEventListener {
@@ -30,12 +32,14 @@ public class ImportDataRaceEventListener {
     private final JumpCategoryService jumpCategoryService;
     private final CompetitionTypeService competitionTypeService;
     private final DataRaceService dataRaceService;
+    private final String jumpResultHost;
     private final String exchange;
     private final String importPlaceEventQueue;
     private final String importJumpResultEventQueue;
     private final String sourceImportEventListener;
 
     public ImportDataRaceEventListener(RabbitmqProducer rabbitmqProducer,
+                                       @Value("${skijumping.settings.jumpResultHost}") String jumpResultHost,
                                        @Value("${skijumping.rabbitmq.queues.importPlaceEventListener}") String importPlaceEventQueue,
                                        @Value("${skijumping.rabbitmq.queues.importJumpResultEventListener}") String importJumpResultEventQueue,
                                        @Value("${skijumping.rabbitmq.queues.sourceImportEventListener}") String sourceImportEventListener,
@@ -45,6 +49,7 @@ public class ImportDataRaceEventListener {
                                        CompetitionTypeService competitionTypeService,
                                        DataRaceService dataRaceService) {
         this.rabbitmqProducer = rabbitmqProducer;
+        this.jumpResultHost = jumpResultHost;
         this.importPlaceEventQueue = importPlaceEventQueue;
         this.importJumpResultEventQueue = importJumpResultEventQueue;
         this.sourceImportEventListener = sourceImportEventListener;
@@ -70,9 +75,18 @@ public class ImportDataRaceEventListener {
             throw new InternalServiceException("Cannot get not existing file from path: " + filePath);
         }
 
-        ImportDataRace importDataRace = new ImportDataRace(diagnosticMonitor, messageDTO.getProperties(), jumpCategoryService, competitionTypeService, dataRaceService);
+        ImportDataRace importDataRace = new ImportDataRace(diagnosticMonitor, messageDTO, jumpCategoryService, competitionTypeService, dataRaceService);
         List<DataRaceDTO> dataRaceDTOS = importDataRace.importData(filePath);
-        dataRaceDTOS.forEach(raceDTO -> {
+        if (dataRaceDTOS.isEmpty()) {
+            diagnosticMonitor.logInfo("Not found data race template, removing file : " + filePath.getFileName().toString());
+            filePath.toFile().deleteOnExit();
+            return;
+        }
+
+        dataRaceDTOS.stream()
+                .filter(Objects::nonNull)
+                .filter(race-> !race.getIsCancelled())
+                .forEach(raceDTO -> {
             importPlaceEvent(raceDTO, messageDTO.getFilePath());
             importJumpResultData(raceDTO, messageDTO.getFilePath());
         });
@@ -81,18 +95,18 @@ public class ImportDataRaceEventListener {
     private void importPlaceEvent(DataRaceDTO dataRaceDTO, String filePath) {
         MessageDTO messageDTO = new MessageDTO()
                 .filePath(filePath)
-                .addProperties(MessageProperties.DARA_RACE_ID.getValue(), dataRaceDTO.getRaceId())
-                .addProperties(MessageProperties.COMPETITION_TYPE.getValue(), dataRaceDTO.getCompetitionType());
+                .addProperties(MessagePropertiesConst.DARA_RACE_ID.getValue(), dataRaceDTO.getId())
+                .addProperties(MessagePropertiesConst.COMPETITION_TYPE.getValue(), dataRaceDTO.getCompetitionType());
         rabbitmqProducer.sendMessage(exchange, importPlaceEventQueue, messageDTO);
     }
 
     private void importJumpResultData(DataRaceDTO dataRaceDTO, String filePath) {
         MessageDTO messageDTO = new MessageDTO()
                 .filePath(filePath)
-                .addProperties(MessageProperties.DARA_RACE_ID.getValue(), dataRaceDTO.getRaceId())
-                .addProperties(MessageProperties.DESTINATION_TARGET.getValue(), importJumpResultEventQueue)
-                .addProperties(MessageProperties.FILE_NAME.getValue(), FileScannerConst.prepapeFileName(FileScannerConst.FILE_JUMP_RESULT, "_" + MessageProperties.DARA_RACE_ID.getValue()));
-        //todo add property url
+                .addProperties(MessagePropertiesConst.DARA_RACE_ID.getValue(), dataRaceDTO.getRaceId())
+                .addProperties(MessagePropertiesConst.DOWNLOAD_SOURCE_URL.getValue(), StringFormatter.format(jumpResultHost, dataRaceDTO.getRaceId()).getValue())
+                .addProperties(MessagePropertiesConst.DESTINATION_TARGET.getValue(), importJumpResultEventQueue)
+                .addProperties(MessagePropertiesConst.FILE_NAME.getValue(), FileScannerConst.prepareFileName(FileScannerConst.FILE_JUMP_RESULT, "_" + MessagePropertiesConst.DARA_RACE_ID.getValue()));
         rabbitmqProducer.sendMessage(exchange, sourceImportEventListener, messageDTO);
     }
 }

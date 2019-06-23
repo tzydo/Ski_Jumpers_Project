@@ -56,10 +56,10 @@ public class ImportSkiJumperDataListener {
             return;
         }
 
-        JumpResultDTO jumpResultDTO = (JumpResultDTO) messageDTO.getProperties().get(MessageProperties.JUMP_RESULT.getValue());
+        JumpResultDTO jumpResultDTO = (JumpResultDTO) messageDTO.getProperties().getObject(MessagePropertiesConst.JUMP_RESULT.getValue());
         Optional<SkiJumperDTO> skiJumperDTO = skiJumperService.findByFisCode(jumpResultDTO.getFisCodeId());
 
-        if (skiJumperDTO .isPresent()) {
+        if (skiJumperDTO.isPresent()) {
             saveJumpResultToSkiJumper(skiJumperDTO.get(), jumpResultDTO);
             return;
         }
@@ -70,21 +70,21 @@ public class ImportSkiJumperDataListener {
         if (filePath != null && !filePath.isEmpty()) {
             SkiJumperDTO parsedSkiJumperDTO = skiJumperService.save(parseSkiJumperData.importData(jumpResultDTO, filePath));
             saveJumpResultToSkiJumper(parsedSkiJumperDTO, jumpResultDTO);
-        } else {
-            importFile(messageDTO, jumpResultDTO);
+            return;
         }
+        importFile(messageDTO, jumpResultDTO);
     }
 
     private void importFile(MessageDTO messageDTO, JumpResultDTO jumpResult) {
-        messageDTO.addProperties(MessageProperties.DESTINATION_TARGET.getValue(), importSkiJumperDataListenerEvent)
-                .addProperties(MessageProperties.DOWNLOAD_SOURCE_URL.getValue(), String.format(host, jumpResult.getCompetitorId()))
-                .addProperties(MessageProperties.FILE_NAME.getValue(), FileScannerConst.prepapeFileName(FileScannerConst.FILE_SKI_JUMPER, "_" + jumpResult.getFisCodeId()));
+        messageDTO.addProperties(MessagePropertiesConst.DESTINATION_TARGET.getValue(), importSkiJumperDataListenerEvent)
+                .addProperties(MessagePropertiesConst.DOWNLOAD_SOURCE_URL.getValue(), String.format(host, jumpResult.getCompetitorId()))
+                .addProperties(MessagePropertiesConst.FILE_NAME.getValue(), FileScannerConst.prepareFileName(FileScannerConst.FILE_SKI_JUMPER, "_" + jumpResult.getFisCodeId()));
 
         rabbitmqProducer.sendMessage(exchange, sourceImportEventListener, messageDTO);
     }
 
     private void saveJumpResultToSkiJumper(SkiJumperDTO skiJumperDTO, JumpResultDTO jumpResultDTO) {
-        if(skiJumperDTO == null || jumpResultDTO == null) {
+        if (skiJumperDTO == null || jumpResultDTO == null) {
             return;
         }
         jumpResultToSkiJumperService.save(new JumpResultToSkiJumperDTO().skiJumperId(skiJumperDTO.getId()).jumpResultId(jumpResultDTO.getId()));

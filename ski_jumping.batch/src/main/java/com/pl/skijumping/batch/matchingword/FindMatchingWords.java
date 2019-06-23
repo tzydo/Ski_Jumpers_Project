@@ -33,7 +33,7 @@ class FindMatchingWords {
         }
 
         Pattern pattern = Pattern.compile(regexp);
-        Set<String> matchingWordList = new HashSet<>();
+        Set<String> matchingWordList = new LinkedHashSet<>();
         Matcher matcher = pattern.matcher(words);
 
         while (matcher.find()) {
@@ -54,7 +54,7 @@ class FindMatchingWords {
             return new HashSet<>();
         }
         Pattern pattern = Pattern.compile(regexp);
-        Set<String> matchingWords = new HashSet<>();
+        Set<String> matchingWords = new LinkedHashSet<>();
         Matcher matcher = pattern.matcher(words);
         int matchingStandard = getAdditionalOption(additionalOption);
 

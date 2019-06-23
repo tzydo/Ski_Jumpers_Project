@@ -1,17 +1,19 @@
 package com.pl.skijumping.batch.matchingword;
 
-class RegexpPattern {
+public class RegexpPattern {
     private RegexpPattern() {
 //
     }
 
     static final String EVENT_ID = "eventid=(.{5}?)";
-
-    static final String FIND_RACE_DATA_TEMPLATE = "<div class=\"table-row reset-padding.*?\">(.*?)\"btn__label\">download";
-    static final String FIND_RACE_DATA_GET_RACE_ID = "px-md-1\\s.*raceid=(.*?)'";
+//<span class="btn__label">download</span>
+    static final String FIND_RACE_DATA_TEMPLATE = "<div class=\"table-row reset-padding\">(.*?)g-xs-12 split-row stop-bubbling";
+    static final String FIND_RACE_DATA_GET_RACE_ID = "raceid=(.*?)\"";
     static final String FIND_RACE_DATA_CHECK_CANCELLED = "<span class=\"status__item\" title=\"(.*?)cancelled\">";
-    static final String FIND_RACE_DATA_GET_DATE = "target=\"_self\">([0-9]{2}.*?)</a>";
-    static final String FIND_RACE_DATA_GET_CODEX = "style=\"text-align:center\">(.*?)</div>";
+    static final String FIND_RACE_DATA_GET_DATE = "medium reset-padding\"><div class=\"g-xs-24 justify-left\">(.*?)</div>";
+    static final String FIND_RACE_DATA_GET_DATE_SECOND_OPT = "target=\"_self\">([0-9]{2}.*?)</a>";
+    static final String FIND_RACE_DATA_GET_CODEX = "target=\"_self\">([0-9]{4})<"; //"target=\"_self\">([0-9]*)<"
+    static final String FIND_RACE_DATA_GET_CODEX_SECOND = "\\sstyle=\"text-align:center\">(.*?)</div>";
     static final String FIND_RACE_DATA_GET_CATEGORY = "<div\\sclass=\"g-xs-12\\sjustify-left\">(.*?)</div>"; //return category
     static final String FIND_RACE_DATA_GET_GENDER = "gender__item_.\">(.+?)</div>"; //return gender
     static final String FIND_RACE_DATA_GET_HILL_SIZE = "<div class=\"clip\">(.*?)</div>"; //return eq. HS140
@@ -25,6 +27,14 @@ class RegexpPattern {
     static final String FIND_JUMP_RESULT_RANK = "gray\\sbold\">(.*?)<";
     static final String FIND_JUMP_RESULT_TOTAL = "blue bold\\s\">(.*?)<";
     static final String FIND_JUMP_RESULT_COMPETITOR_ID = "competitorid=(.*?)&";
+
+    static final String FIND_TEAM_JUMP_RESULT_GROUPS = "#events-info-results(.*?)</main></div>";
+    static final String FIND_TEAM_JUMP_RESULT_RANK= "justify-right gray pr-1\">(.*?)</div>";
+    static final String FIND_TEAM_FIS_CODE= "justify-right gray pr-1\">(.*?)</div>";
+    static final String FIND_TEAM_JUMP_RESULT = "table-row_theme_additional(.*?)JUMP_RESULT_[0-9]{2}";
+
+    public static final String JUMP_RESULT_DATA = "</div></div></a>";
+    public static final String JUMP_RESULT_DATA_BEGINING_PART = "table-row table-row_theme_main";
 
     static final String FIND_SKI_JUMPER_BIRTHDAY = "(Birthdate(.*?)profile-info__value\">(.*?)</span>)";
     static final String FIND_SKI_JUMPER_GENDER = "(Gender(.*?)profile-info__value\">(.*?)</span>)";

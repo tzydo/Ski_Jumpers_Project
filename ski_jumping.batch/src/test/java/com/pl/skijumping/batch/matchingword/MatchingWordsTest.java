@@ -1,13 +1,17 @@
 package com.pl.skijumping.batch.matchingword;
 
 import com.pl.skijumping.batch.SetupUtilTests;
+import com.pl.skijumping.batch.reader.DataReader;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -44,6 +48,19 @@ public class MatchingWordsTest {
         Assertions.assertThat(templateMatchingWords.isEmpty()).isFalse();
         Assertions.assertThat(templateMatchingWords.size()).isEqualTo(3);
         Assertions.assertThat(templateMatchingWords).containsAll(Arrays.asList("test<span class=", "test2<span class=", "test3<span class="));
+    }
+
+    @Test
+    public void getRaceDataTemplateFullTest() throws IOException {
+//        String filePath = Paths.get(new ClassPathResource("import_2_2019.txt").getURI()).toString();
+        String filePath = Paths.get(new ClassPathResource("event2.txt").getURI()).toString();
+
+        DataReader dataReader = new DataReader(diagnosticMonitor);
+        String fileContent = dataReader.read(filePath);
+        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
+        Set<String>templateSet = matchingWords.getRaceDataTemplate(fileContent);
+        Assertions.assertThat(templateSet).hasSize(16);
+
     }
 
     @Test
@@ -88,10 +105,10 @@ public class MatchingWordsTest {
     @Test
     public void getRaceDataDateTest() {
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-        String text =" <a class=\"px-md-1 px-lg-1 pl-xs-1 g-lg-2 g-md-3 g-sm-2 g-xs-4 justify-left\" href=\"https://www.fis-ski.com/DB/general/results.html?sectorcode=JP&raceid=5179\" target=\"_self\">27 Dec</a>";
+        String text ="<div class=\"split-row__item split-row__item_text_medium reset-padding\"><div class=\"g-xs-24 justify-left\">15 Feb</div></div></div></a><div class=\"g-lg-2";
         String date = matchingWords.getRaceDataDate(text);
         Assertions.assertThat(date).isNotNull();
-        Assertions.assertThat(date).isEqualTo("27 Dec");
+        Assertions.assertThat(date).isEqualTo("15 Feb");
     }
 
     @Test

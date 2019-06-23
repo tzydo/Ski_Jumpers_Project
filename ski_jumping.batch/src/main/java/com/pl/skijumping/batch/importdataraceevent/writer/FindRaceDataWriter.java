@@ -33,7 +33,7 @@ public class FindRaceDataWriter {
             return existingRace.get();
         }
         checkExistCompetitionType(dataRaceDTO.getCompetitionType());
-        return dataRaceService.save(dataRaceDTO);
+         return dataRaceService.save(dataRaceDTO);
     }
 
     private void checkExistCompetitionType(String type) {

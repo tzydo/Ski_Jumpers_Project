@@ -2,12 +2,12 @@ package com.pl.skijumping.batch.importdataraceevent.reader;
 
 import com.pl.skijumping.batch.importdataraceevent.FindRaceDataUtil;
 import com.pl.skijumping.batch.matchingword.MatchingWords;
+import com.pl.skijumping.batch.util.BasicDataParser;
+import com.pl.skijumping.batch.util.ValueChecker;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.DataRaceDTO;
 import com.pl.skijumping.dto.JumpCategoryDTO;
 import com.pl.skijumping.service.JumpCategoryService;
-
-import java.util.Optional;
 
 public class FindRaceData {
     private final DiagnosticMonitor diagnosticMonitor;
@@ -35,15 +35,32 @@ public class FindRaceData {
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
 
         return dataRaceDTO
-                .raceId(parseLong(matchingWords.getRaceDataIdRace(words)))
-                .isCancelled(matchingWords.checkRaceDataIsCancelled(words))
-                .jumpCategoryId(findJumpCategory(words, matchingWords))
-                .codex(matchingWords.getRaceDataCodex(words))
-                .eventId(parseLong(this.tournamentEventId))
-                .gender(matchingWords.getRaceDataGender(words))
-                .competitionType(matchingWords.getRaceDataCompetitionType(words))
-                .seasonCode(tournamentYear)
-                .date(FindRaceDataUtil.generateDate(matchingWords.getRaceDataDate(words), Integer.toString(tournamentYear - 1)));
+                .raceId(ValueChecker.isNull(BasicDataParser.parseLong(matchingWords.getRaceDataIdRace(words)), "Race id cannot be null!"))
+                .isCancelled(ValueChecker.isNull(matchingWords.checkRaceDataIsCancelled(words), "Cannot match information about cancelled race"))
+                .jumpCategoryId(ValueChecker.isNull(findJumpCategory(words, matchingWords), "Cannot match jump category"))
+                .codex(ValueChecker.isNull(findCodex(words, matchingWords), "Cannot match codex"))
+                .eventId(ValueChecker.isNull(BasicDataParser.parseLong(tournamentEventId), "Event id cannot be null!"))
+                .gender(ValueChecker.isNull(matchingWords.getRaceDataGender(words), "Cannot match gender status"))
+                .competitionType(ValueChecker.isNull(matchingWords.getRaceDataCompetitionType(words), "Not found competition type"))
+                .seasonCode(ValueChecker.isNull(tournamentYear, "Season code cannot be null!"))
+                .date(ValueChecker.isNull(FindRaceDataUtil.generateDate(findDate(words, matchingWords), Integer.toString(tournamentYear - 1)), "Date cannot be null"));
+    }
+
+    private String findCodex(String words, MatchingWords matchingWords) {
+        String codex = matchingWords.getRaceDataCodex(words);
+        if (codex == null) {
+            return matchingWords.getRaceDataCodexSecondOpt(words);
+        }
+        return codex;
+    }
+
+    private String findDate(String words, MatchingWords matchingWords) {
+        String raceDataDate = matchingWords.getRaceDataDate(words);
+        if (raceDataDate == null) {
+            return matchingWords.getRaceDataDateSecond(words);
+        }
+
+        return raceDataDate;
     }
 
     private Integer findJumpCategory(String words, MatchingWords matchingWords) {
@@ -52,18 +69,9 @@ public class FindRaceData {
         }
 
         String shortName = matchingWords.getRaceDataJumpCategoryShortName(words);
-        Optional<JumpCategoryDTO> jumpCategoryDTO = this.jumpCategoryService.findByShortName(shortName);
-        return jumpCategoryDTO.map(JumpCategoryDTO::getId).orElse(null);
-    }
+        JumpCategoryDTO jumpCategoryDTO = this.jumpCategoryService.findByShortName(shortName)
+                .orElseThrow(() -> new IllegalStateException(String.format("Not found jump category with short name: %s", shortName)));
 
-    private Long parseLong(String word) {
-        if (word == null || word.isEmpty()) {
-            return null;
-        }
-        try {
-            return Long.parseLong(word);
-        } catch (NumberFormatException e) {
-            return null;
-        }
+        return jumpCategoryDTO.getId();
     }
 }

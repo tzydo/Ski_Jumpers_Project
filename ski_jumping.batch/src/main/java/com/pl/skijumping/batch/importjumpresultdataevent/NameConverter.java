@@ -4,14 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
-class NameConverter {
+public class NameConverter {
     private static final Logger LOGGER = LoggerFactory.getLogger(NameConverter.class);
 
     private NameConverter() {
 //
     }
 
-    static String convert(String name) {
+    public static String convert(String name) {
         if (name == null) {
             LOGGER.warn("Cannot convert null name");
             return null;

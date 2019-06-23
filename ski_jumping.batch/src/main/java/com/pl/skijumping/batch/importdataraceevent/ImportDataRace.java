@@ -6,14 +6,14 @@ import com.pl.skijumping.batch.importdataraceevent.writer.FindRaceDataWriter;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.DataRaceDTO;
-import com.pl.skijumping.dto.MessageProperties;
+import com.pl.skijumping.dto.MessageDTO;
+import com.pl.skijumping.dto.MessagePropertiesConst;
 import com.pl.skijumping.service.CompetitionTypeService;
 import com.pl.skijumping.service.DataRaceService;
 import com.pl.skijumping.service.JumpCategoryService;
 
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,13 +27,13 @@ class ImportDataRace {
     private String eventId;
 
     ImportDataRace(DiagnosticMonitor diagnosticMonitor,
-                   Map<String, Object> params,
+                   MessageDTO messageDTO,
                    JumpCategoryService jumpCategoryService,
                    CompetitionTypeService competitionTypeService,
                    DataRaceService dataRaceService) {
         this.diagnosticMonitor = diagnosticMonitor;
-        tournamentYear = (Integer) params.get(MessageProperties.TOURNAMENT_YEAR.getValue());
-        eventId = (String) params.get(MessageProperties.EVENT_ID.getValue());
+        tournamentYear = messageDTO.getProperties().getIntValue(MessagePropertiesConst.SEASON_CODE.getValue());
+        eventId = messageDTO.getProperties().getStringValue(MessagePropertiesConst.EVENT_ID.getValue());
         this.jumpCategoryService = jumpCategoryService;
         this.competitionTypeService = competitionTypeService;
         this.dataRaceService = dataRaceService;

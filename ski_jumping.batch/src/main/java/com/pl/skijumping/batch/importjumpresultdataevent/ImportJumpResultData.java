@@ -11,16 +11,16 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ImportJumpResultData {
+class ImportJumpResultData {
     private final DiagnosticMonitor diagnosticMonitor;
     private final JumpResultService jumpResultService;
 
-    public ImportJumpResultData(DiagnosticMonitor diagnosticMonitor, JumpResultService jumpResultService) {
+    ImportJumpResultData(DiagnosticMonitor diagnosticMonitor, JumpResultService jumpResultService) {
         this.diagnosticMonitor = diagnosticMonitor;
         this.jumpResultService = jumpResultService;
     }
 
-    public Set<JumpResultDTO> importData(String filePath) {
+    Set<JumpResultDTO> importData(String filePath) {
         if (filePath == null || filePath.equals(" ") || filePath.isEmpty()) {
             return new HashSet<>();
         }
@@ -32,10 +32,9 @@ public class ImportJumpResultData {
         }
 
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-        Set<String> jumpResultTemplate = matchingWords.getJumpResultTemplate(readSource);
         JumpResultParser jumpResultParser = new JumpResultParser(diagnosticMonitor);
 
-        return jumpResultTemplate.stream()
+        return matchingWords.getJumpResultTemplate(readSource).stream()
                 .filter(Objects::nonNull)
                 .map(jumpResultParser::parseData)
                 .collect(Collectors.toSet())

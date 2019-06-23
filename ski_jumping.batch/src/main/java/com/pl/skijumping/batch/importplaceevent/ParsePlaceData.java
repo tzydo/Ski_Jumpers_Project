@@ -7,14 +7,13 @@ import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.CountryDTO;
 import com.pl.skijumping.dto.MessageDTO;
-import com.pl.skijumping.dto.MessageProperties;
+import com.pl.skijumping.dto.MessagePropertiesConst;
 import com.pl.skijumping.dto.PlaceDTO;
 import com.pl.skijumping.service.CountryService;
 
-import java.util.Optional;
-
 class ParsePlaceData {
 
+    private static final String HILL_SIZE_CONST = "HS";
     private final DiagnosticMonitor diagnosticMonitor;
     private final CountryService countryService;
 
@@ -25,7 +24,7 @@ class ParsePlaceData {
     }
 
     PlaceDTO parse(MessageDTO messageDTO) throws InternalServiceException {
-        String competitionType = (String) messageDTO.getProperties().get(MessageProperties.COMPETITION_TYPE.getValue());
+        String competitionType = messageDTO.getProperties().getStringValue(MessagePropertiesConst.COMPETITION_TYPE.getValue());
 
         DataReader dataReader = new DataReader(diagnosticMonitor);
         String readSource = dataReader.read(messageDTO.getFilePath());
@@ -39,14 +38,16 @@ class ParsePlaceData {
             throw new InternalServiceException(errorMessage);
         }
 
-        Optional<CountryDTO> countryDTO = countryService.findByShortName(getShortCountryName(city));
+        CountryDTO countryDTO = countryService.findByShortName(getShortCountryName(city))
+                .orElseThrow(() -> new InternalServiceException(String.format("Not found country for pattern: %s", city)));
 
-        String hillSize = competitionType.toUpperCase().split("HS")[1];
+        String hillSize = competitionType.toUpperCase().split(HILL_SIZE_CONST)[1];
         Integer size = BasicDataParser.toInt(hillSize);
         return new PlaceDTO()
                 .hillType(size != null ? HillSizeUtil.checkHillType(size).getHillType() : null)
+                .hillSize(size)
                 .city(getCity(city))
-                .country(countryDTO.map(CountryDTO::getId).orElse(null));
+                .country(countryDTO.getId());
     }
 
     private String getCity(String word) {

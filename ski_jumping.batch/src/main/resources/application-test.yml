@@ -1,36 +1,26 @@
 skijumping:
   settings:
-    host: ${HOST:https://www.fis-ski.com/DB/ski-jumping/calendar-results.html}
+    host: ${HOST:https://www.fis-ski.com/DB/ski-jumping/calendar-results.html?seasoncode=%s&seasonmonth=%s}
     hostWithFilterForYear: ${HOST:http://www.fis-ski.com/ski-jumping/events-and-places/results/?season=}
+    jumpResultHost: ${JUMP_RESULT_HOST:https://www.fis-ski.com/DB/general/results.html?sectorcode=JP&raceid=%s}
+
     skiJumpingResultsHost: ${HOST:https://www.fis-ski.com/DB/general/results.html?sectorcode=JP&raceid=}
     directory: ${DIRECTORY:tmp}
     loadAllData: ${DOWNLOAD_ALL_BASIC_DATA:false}
     numberOfPreviousMonth: ${NUMBER_OF_PREVIOUSE_MONTH_TO_DOWNLOAD:1}
     scheduler:
-      #run all jobs in right order
-      synchronize:
-        cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0/1 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:false}
-      #first step
       importData:
         cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/30 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:false}
-      #Second step
-      findTournamentYear:
-        cron: ${SKI_JUMPING_SETTINGS_FIND_TOURNAMENT_YEAR_CRON:0 0/30 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_FIND_TOURNAMENT_YEAR_ENABLE:false}
-      #Third Step
-      findRaceData:
-        cron: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_CRON:0 0/30 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_ENABLE:false}
-      #Fourth Step
-      basicDataSynchronize:
-        cron: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_CRON:0 0/30 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_ENABLE:false}
-      #fifth Step
-      jumpResultSynchronize:
-        cron: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_CRON:0 0/30 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_ENABLE:false}
+  rabbitmq:
+    exchange: ${RABBITMQ_EXCHANGE:SkiJumping}
+    queues:
+      sourceImportEventListener: ${SKI_JUMPING_SOURCE_IMPORT_EVENT_LISTENER:sourceImportEventListener}
+      importEventIdListener: ${SKI_JUMPING_IMPORT_EVENT_ID_LISTENER:importEventIdListener}
+      importDataRaceEventListener: ${SKI_JUMPING_IMPORT_DATA_RACE_EVENT_LISTENER:importDataRaceEventListener}
+      importPlaceEventListener: ${SKI_JUMPING_IMPORT_PLACE_EVENT_LISTENER:importPlaceEventListener}
+      importJumpResultEventListener: ${SKI_JUMPING_IMPORT_JUMP_RESULT_EVENT_LISTENER:importJumpResultEventListener}
+      importSkiJumperDataListener: ${IMPORT_SKI_JUMPER_DATA_LISTENER:importSkiJumperDataListener}
 spring:
   jpa:
     database: ${DATABASE:H2}
@@ -39,7 +29,7 @@ spring:
       hibernate.dialect: ${HIBERNATE_DIALECT:org.hibernate.dialect.H2Dialect}
   datasource:
     driverClassName: ${DRIVER_CLASS_NAME:org.h2.Driver}
-    url: ${URL:jdbc:h2:mem:testdb}
+    url: ${URL:jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE}
     username: ${USERNAME:sa}
     password: ${PASSWORD:}
   profiles:
@@ -50,8 +40,3 @@ spring:
   h2:
     console:
       enabled: true
-  rabbitmq:
-    host: rabbitmq
-    port: 5672
-    username: guest
-    password: guest
