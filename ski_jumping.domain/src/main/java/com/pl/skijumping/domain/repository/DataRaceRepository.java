@@ -11,11 +11,9 @@ import java.util.List;
 
 @Repository
 public interface DataRaceRepository extends JpaRepository<DataRace, Long>, QueryDslPredicateExecutor {
-    @Query("select data.raceId from DataRace data")
-    List<Long> getRaceDataList();
-
     @Transactional
     List<DataRace> findAllByIdIn(List<Long> dataRaceIds);
 
+    @Transactional
     DataRace findByRaceId(Long raceId);
 }

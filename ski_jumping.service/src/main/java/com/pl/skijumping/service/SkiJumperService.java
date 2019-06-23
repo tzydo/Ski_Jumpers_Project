@@ -40,46 +40,6 @@ public class SkiJumperService {
         return skiJumperDTOS.isEmpty() ? new ArrayList<>() : skiJumperDTOS;
     }
 
-    public Optional<List<SkiJumperDTO>> findAllByName(String name) {
-        List<SkiJumperDTO> skiJumperDTOList = skiJumperMapper.toDTO(skiJumperRepository.findAllByName(name));
-        if (skiJumperDTOList.isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(skiJumperDTOList);
-    }
-
-    public Optional<SkiJumperDTO> findOneByName(String name) {
-        SkiJumperDTO skiJumperDTO = skiJumperMapper.toDTO(skiJumperRepository.findOneByName(name));
-        return Optional.ofNullable(skiJumperDTO);
-    }
-
-    public Optional<SkiJumperDTO> findById(Long id) {
-        SkiJumperDTO skiJumperDTO = skiJumperMapper.toDTO(skiJumperRepository.findOne(id));
-        if (skiJumperDTO == null) {
-            return Optional.empty();
-        }
-        return Optional.of(skiJumperDTO);
-    }
-
-    public Boolean deleteAll() {
-        try {
-            skiJumperRepository.deleteAll();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public long getJumpersCount() {
-        return skiJumperRepository.count();
-    }
-
-    public void update(SkiJumperDTO skiJumperDTO) {
-        if(skiJumperDTO != null) {
-            skiJumperRepository.save(skiJumperMapper.fromDTO(skiJumperDTO));
-        }
-    }
-
     @Transactional
     public Optional<SkiJumperDTO> findByFisCode(Integer fisCode) {
         SkiJumper skiJumper = skiJumperRepository.findByFisCode(fisCode);

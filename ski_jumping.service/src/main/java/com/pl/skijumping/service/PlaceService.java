@@ -1,6 +1,7 @@
 package com.pl.skijumping.service;
 
 import com.pl.skijumping.domain.entity.Place;
+import com.pl.skijumping.domain.model.HillType;
 import com.pl.skijumping.domain.repository.PlaceRepository;
 import com.pl.skijumping.dto.PlaceDTO;
 import com.pl.skijumping.service.mapper.PlaceMapper;
@@ -28,7 +29,7 @@ public class PlaceService {
 
     @Transactional
     public Optional<PlaceDTO> findByCityAndHillType(PlaceDTO placeDTO) {
-        Place place = placeRepository.findByCityAndAndHillType(placeDTO.getCity(), placeDTO.getHillType());
+        Place place = placeRepository.findByCityAndAndHillType(placeDTO.getCity(), HillType.valueOf(placeDTO.getHillType()));
         if(place == null) {
             return Optional.empty();
         }

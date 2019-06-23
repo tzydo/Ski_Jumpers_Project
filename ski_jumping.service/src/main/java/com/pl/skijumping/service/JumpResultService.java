@@ -30,35 +30,9 @@ public class JumpResultService {
     public JumpResultDTO save(JumpResultDTO jumpResultDTO) {
         if (jumpResultDTO == null) {
             diagnosticMonitor.logWarn("Cannot save null jumpResult");
-            return jumpResultDTO;
+            return null;
         }
         JumpResult savedJumpResult = jumpResultRepository.save(jumpResultMapper.fromDTO(jumpResultDTO));
         return jumpResultMapper.toDTO(savedJumpResult);
-    }
-
-    public Optional<JumpResultDTO> findBy(JumpResultDTO jumpResultDTO) {
-        if (jumpResultDTO == null) {
-            return Optional.empty();
-        }
-        QJumpResult qJumpResult = QJumpResult.jumpResult;
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
-
-        if(jumpResultDTO.getRank()!= null) {booleanBuilder.and(qJumpResult.rank.eq(jumpResultDTO.getRank()));}
-        if(jumpResultDTO.getFirstJump()!= null) {booleanBuilder.and(qJumpResult.firstJump.eq(jumpResultDTO.getFirstJump()));}
-        if(jumpResultDTO.getPointsForFirstJump()!= null) {booleanBuilder.and(qJumpResult.pointsForFirstJump.eq(jumpResultDTO.getPointsForFirstJump()));}
-        if(jumpResultDTO.getSecondJump()!= null) {booleanBuilder.and(qJumpResult.secondJump.eq(jumpResultDTO.getSecondJump()));}
-        if(jumpResultDTO.getPointsForSecondJump()!= null) {booleanBuilder.and(qJumpResult.pointsForSecondJump.eq(jumpResultDTO.getPointsForSecondJump()));}
-        if(jumpResultDTO.getTotalPoints()!= null) {booleanBuilder.and(qJumpResult.totalPoints.eq(jumpResultDTO.getTotalPoints()));}
-
-        return Optional.ofNullable(jumpResultMapper.toDTO((JumpResult) jumpResultRepository.findOne(booleanBuilder)));
-    }
-
-    public List<JumpResultDTO> findAll() {
-        List<JumpResult> jumpResults = jumpResultRepository.findAll();
-        if (jumpResults.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        return jumpResultMapper.toDTO(jumpResults);
     }
 }

@@ -12,6 +12,8 @@ public class MatchingWords {
         this.diagnosticMonitor = diagnosticMonitor;
     }
 
+    //    ---------------   IMPORT EVENT ---------------
+
     public Set<String> getEventIds(String words) {
         if (isEmpty(words)) return new HashSet<>();
         FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);

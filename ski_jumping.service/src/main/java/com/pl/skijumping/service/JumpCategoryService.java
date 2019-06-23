@@ -1,5 +1,6 @@
 package com.pl.skijumping.service;
 
+import com.pl.skijumping.domain.entity.JumpCategory;
 import com.pl.skijumping.domain.repository.JumpCategoryRepository;
 import com.pl.skijumping.dto.JumpCategoryDTO;
 import com.pl.skijumping.service.mapper.JumpCategoryMapper;
@@ -18,11 +19,24 @@ public class JumpCategoryService {
         this.jumpCategoryMapper = jumpCategoryMapper;
     }
 
+    public JumpCategoryDTO save(JumpCategoryDTO jumpCategoryDTO) {
+        if(jumpCategoryDTO == null) {
+            return null;
+        }
+
+        return jumpCategoryMapper.toDTO(jumpCategoryRepository.save(jumpCategoryMapper.fromDTO(jumpCategoryDTO)));
+    }
+
     public Optional<JumpCategoryDTO> findByShortName(String shortName) {
         if(shortName == null || shortName.isEmpty()) {
             return Optional.empty();
         }
 
         return Optional.ofNullable(jumpCategoryMapper.toDTO(jumpCategoryRepository.findByShortName(shortName)));
+    }
+
+    public Optional<JumpCategoryDTO> findById(Integer id) {
+        JumpCategory jumpCategory = jumpCategoryRepository.findById(id);
+        return Optional.ofNullable(jumpCategoryMapper.toDTO(jumpCategory));
     }
 }

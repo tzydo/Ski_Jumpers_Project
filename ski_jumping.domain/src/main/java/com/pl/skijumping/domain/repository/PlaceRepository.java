@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlaceRepository extends JpaRepository<Place, Integer>, QueryDslPredicateExecutor {
-    Place findByCityAndAndHillType(String city, String hillType);
+    Place findByCityAndAndHillType(String city, HillType hillType);
 }

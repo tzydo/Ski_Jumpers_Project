@@ -17,13 +17,11 @@ import java.util.List;
 public class SkiJumper implements Serializable {
 
     private Long id;
-    private int bib;
     private int fisCode;
     private String name;
     private LocalDate birthday;
     private Gender gender;
     private String nationality;
-    private String skiClub;
     private String team;
     private List<JumpResultToSkiJumper> jumpResultToSkiJumpers;
     private MaritalStatus martialStatus;
@@ -36,15 +34,6 @@ public class SkiJumper implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Column(name = "bib")
-    public int getBib() {
-        return bib;
-    }
-
-    public void setBib(int bib) {
-        this.bib = bib;
     }
 
     @Column(name = "fis_code")
@@ -93,15 +82,6 @@ public class SkiJumper implements Serializable {
         this.nationality = nationality;
     }
 
-    @Column(name = "ski_club")
-    public String getSkiClub() {
-        return skiClub;
-    }
-
-    public void setSkiClub(String skiClub) {
-        this.skiClub = skiClub;
-    }
-
     @Column(name = "team")
     public String getTeam() {
         return team;
@@ -137,7 +117,6 @@ public class SkiJumper implements Serializable {
 
         SkiJumper skiJumper = (SkiJumper) o;
 
-        if (bib != skiJumper.bib) return false;
         if (fisCode != skiJumper.fisCode) return false;
         if (id != null ? !id.equals(skiJumper.id) : skiJumper.id != null) return false;
         if (name != null ? !name.equals(skiJumper.name) : skiJumper.name != null) return false;
@@ -145,7 +124,6 @@ public class SkiJumper implements Serializable {
         if (gender != skiJumper.gender) return false;
         if (nationality != null ? !nationality.equals(skiJumper.nationality) : skiJumper.nationality != null)
             return false;
-        if (skiClub != null ? !skiClub.equals(skiJumper.skiClub) : skiJumper.skiClub != null) return false;
         if (team != null ? !team.equals(skiJumper.team) : skiJumper.team != null) return false;
         if (jumpResultToSkiJumpers != null ? !jumpResultToSkiJumpers.equals(skiJumper.jumpResultToSkiJumpers) : skiJumper.jumpResultToSkiJumpers != null)
             return false;
@@ -155,13 +133,11 @@ public class SkiJumper implements Serializable {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + bib;
         result = 31 * result + fisCode;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
         result = 31 * result + (gender != null ? gender.hashCode() : 0);
         result = 31 * result + (nationality != null ? nationality.hashCode() : 0);
-        result = 31 * result + (skiClub != null ? skiClub.hashCode() : 0);
         result = 31 * result + (team != null ? team.hashCode() : 0);
         result = 31 * result + (jumpResultToSkiJumpers != null ? jumpResultToSkiJumpers.hashCode() : 0);
         result = 31 * result + (martialStatus != null ? martialStatus.hashCode() : 0);
@@ -170,11 +146,6 @@ public class SkiJumper implements Serializable {
 
     public SkiJumper id(Long id) {
         this.id = id;
-        return this;
-    }
-
-    public SkiJumper bib(int bib) {
-        this.bib = bib;
         return this;
     }
 
@@ -200,11 +171,6 @@ public class SkiJumper implements Serializable {
 
     public SkiJumper nationality(String nationality) {
         this.nationality = nationality;
-        return this;
-    }
-
-    public SkiJumper skiClub(String skiClub) {
-        this.skiClub = skiClub;
         return this;
     }
 

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DataRaceToPlaceRepository extends JpaRepository<DataRaceToPlace, Long> {
+    DataRaceToPlace findByDataRace_IdAndPlace_Id(Long dataRaceId, Integer placeId);
 }

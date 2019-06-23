@@ -29,7 +29,13 @@ public abstract class PlaceMapper {
 
     @AfterMapping
     public Place setCountry(@MappingTarget Place place, PlaceDTO placeDTO) {
-        place.setCountry(countryRepository.findOne(placeDTO.getCountry()));
+        if (place == null || placeDTO == null) {
+            return place;
+        }
+
+        if (placeDTO.getCountry() != null) {
+            place.setCountry(countryRepository.findOne(placeDTO.getCountry()));
+        }
         return place;
     }
 }

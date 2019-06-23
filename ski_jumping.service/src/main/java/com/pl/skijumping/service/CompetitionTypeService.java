@@ -9,6 +9,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class CompetitionTypeService {
         this.competitionTypeMapper = competitionTypeMapper;
     }
 
+    @Transactional
     public CompetitionTypeDTO save(CompetitionTypeDTO competitionTypeDTO) {
         if (competitionTypeDTO == null) {
             LOGGER.error("Cannot save null competition type");
@@ -35,6 +37,7 @@ public class CompetitionTypeService {
         return competitionTypeMapper.toDTO(competitionType);
     }
 
+    @Transactional
     public Optional<CompetitionTypeDTO> find(Long id) {
         if (id == null) {
             LOGGER.error("Cannot find competition type for null id");
@@ -49,11 +52,13 @@ public class CompetitionTypeService {
         return Optional.of(competitionTypeMapper.toDTO(competitionType));
     }
 
+    @Transactional
     public List<CompetitionTypeDTO> findAll() {
         List<CompetitionType> competitionTypeList = competitionTypeRepository.findAll();
         return competitionTypeMapper.toDTO(competitionTypeList);
     }
 
+    @Transactional
     public Optional<CompetitionTypeDTO> findByType(String type) {
         if (type == null) {
             return Optional.empty();

@@ -6,6 +6,8 @@ import com.pl.skijumping.dto.DataRaceToPlaceDTO;
 import com.pl.skijumping.service.mapper.DataRaceToPlaceMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class DataRaceToPlaceService {
     private final DataRaceToPlaceMapper dataRaceToPlaceMapper;
@@ -20,5 +22,10 @@ public class DataRaceToPlaceService {
     public DataRaceToPlaceDTO save(DataRaceToPlaceDTO dataRaceToPlaceDTO) {
         DataRaceToPlace dataRaceToPlace = dataRaceToPlaceRepository.save(dataRaceToPlaceMapper.fromDTO(dataRaceToPlaceDTO));
         return dataRaceToPlaceMapper.toDTO(dataRaceToPlace);
+    }
+
+    public Optional<DataRaceToPlaceDTO> findByDataRaceToPlace(DataRaceToPlaceDTO dataRaceToPlaceDTO) {
+        DataRaceToPlace dataRaceToPlace = dataRaceToPlaceRepository.findByDataRace_IdAndPlace_Id(dataRaceToPlaceDTO.getDataRaceId(), dataRaceToPlaceDTO.getPlaceId());
+        return Optional.ofNullable(dataRaceToPlaceMapper.toDTO(dataRaceToPlace));
     }
 }

@@ -1,24 +1,59 @@
 package com.pl.skijumping.dto;
 
-public enum MessageProperties {
-    TOURNAMENT_YEAR("TOURNAMENT_YEAR"),
-    EVENT_ID("EVENT_ID"),
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-    DARA_RACE_ID("DARA_RACE_ID"),
-    COMPETITION_TYPE("COMPETITION_TYPE"),
-    JUMP_RESULT("JUMP_RESULT"),
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
-    DOWNLOAD_SOURCE_URL("DOWNLOAD_SOURCE_URL"),
-    FILE_NAME("FILE_NAEM"),
-    DESTINATION_TARGET("DESTINATION_TARGET");
+@Data
+@AllArgsConstructor
+public class MessageProperties {
+    private Map<String, Object> properties;
 
-    private String value;
-
-    MessageProperties(String value) {
-        this.value = value;
+    public MessageProperties() {
+        this.properties = new HashMap<>();
     }
 
-    public String getValue() {
-        return value;
+    public void setProperties(Map<String, Object> value) {
+        this.properties = value;
+    }
+
+    public void addProperties(String key, Object value) {
+        this.properties.put(key, value);
+    }
+
+    public String getStringValue(String key) {
+        return ObjectParser.toString(this.properties.get(key));
+    }
+
+    public Long getLongValue(String key) {
+        return ObjectParser.toLong(this.properties.get(key));
+    }
+
+    public Double getDoubleValue(String key) {
+        return ObjectParser.toDouble(this.properties.get(key));
+    }
+
+    public Integer getIntValue(String key) {
+        return ObjectParser.toInt(this.properties.get(key));
+    }
+
+    public Object getObject(String key) {
+        return this.properties.get(key);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MessageProperties that = (MessageProperties) o;
+        return Objects.equals(properties, that.properties);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(properties);
     }
 }

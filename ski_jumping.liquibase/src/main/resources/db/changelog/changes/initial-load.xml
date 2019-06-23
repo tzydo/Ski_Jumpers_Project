@@ -16,13 +16,11 @@
             <column autoIncrement="true" type="int" name="id">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="bib" type="int"/>
             <column name="fis_code" type="int"/>
             <column name="name" type="varchar(50)"/>
             <column name="birthday" type="date"/>
             <column name="gender" type="ENUM('male', 'female')"/>
             <column name="nationality" type="varchar(50)"/>
-            <column name="ski_club" type="varchar(50)"/>
             <column name="team" type="varchar(50)"/>
             <column name="martial_status" type="ENUM('maried','single')"/>
         </createTable>
@@ -61,7 +59,7 @@
                 <constraints nullable="true" foreignKeyName="category_id_category_fk" references="category(id)"/>
             </column>
             <column name="codex" type="varchar(250)"/>
-            <column name="gender" type="ENUM('male', 'female')"/>
+            <column name="gender" type="ENUM('MALE', 'FEMALE')"/>
             <column name="race_id" type="int">
                 <constraints unique="true" nullable="false"/>
             </column>

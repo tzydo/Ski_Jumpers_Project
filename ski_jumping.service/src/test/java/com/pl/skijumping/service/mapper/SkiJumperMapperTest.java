@@ -73,8 +73,7 @@ public class SkiJumperMapperTest {
     private SkiJumper createSkiJumper(Long value) {
         return new SkiJumper()
                 .id(value)
-                .fisCode(value.intValue() + 1)
-                .bib(value.intValue() + 2);
+                .fisCode(value.intValue() + 1);
     }
 
     private SkiJumperDTO createSkiJumperDTO(Long value) {
