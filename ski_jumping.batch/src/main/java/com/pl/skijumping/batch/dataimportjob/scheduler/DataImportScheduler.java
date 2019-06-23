@@ -15,24 +15,21 @@ import static com.pl.skijumping.batch.dataimportjob.configuration.DataImporterCo
 @Component
 public class DataImportScheduler {
 
-    private final JobLauncher jobLauncher;
-    private final Job dataImportJob;
-    private Boolean isEnable;
-    private final DiagnosticMonitor diagnosticMonitor;
+    private final JobRunner jobRunner;
 
     public DataImportScheduler(JobLauncher jobLauncher,
                                @Qualifier(DATA_IMPORT_JOB_NAME) Job dataImportJob,
                                @Value("${skijumping.settings.scheduler.importData.enable}") Boolean isEnable,
                                DiagnosticMonitor diagnosticMonitor) {
-        this.jobLauncher = jobLauncher;
-        this.dataImportJob = dataImportJob;
-        this.isEnable = isEnable;
-        this.diagnosticMonitor = diagnosticMonitor;
+        jobRunner = new JobRunner(isEnable, diagnosticMonitor, jobLauncher, dataImportJob, DATA_IMPORT_JOB_NAME);
     }
 
     @Scheduled(cron = "${skijumping.settings.scheduler.importData.cron}")
     public void importData() throws InternalServiceException {
-        JobRunner jobRunner = new JobRunner(isEnable, diagnosticMonitor, jobLauncher, dataImportJob, DATA_IMPORT_JOB_NAME);
         jobRunner.run();
+    }
+
+    public void addJobParameter(String key, String value) {
+        jobRunner.addJobParameter(key, value);
     }
 }

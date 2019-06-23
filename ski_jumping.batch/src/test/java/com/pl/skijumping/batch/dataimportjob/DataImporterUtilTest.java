@@ -3,6 +3,7 @@ package com.pl.skijumping.batch.dataimportjob;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,53 +12,39 @@ public class DataImporterUtilTest {
 
     @Test
     public void testGenerateSeasonCodeByPreviousMonthsWhenIncorrectYear() {
-        List<String> seasonCode = DataImporterUtil.generateSeasonCodeByPreviousMonths(123, 22, 4, "test");
-        Assertions.assertThat(seasonCode).isEmpty();
-        Assertions.assertThat(seasonCode).isEqualTo(new ArrayList<>());
+        List<LocalDate> localDates = DataImporterUtil.generateListOfDates(123, 22, 4);
+        Assertions.assertThat(localDates).isEmpty();
+        Assertions.assertThat(localDates).isEqualTo(new ArrayList<>());
     }
 
     @Test
-    public void testSeasonMonthAndCodeGenerator() {
-        String host = "test";
-        List<String> expectedList = Arrays.asList(
-                generate(2018, "04", host),
-                generate(2018, "03", host)
-        );
+    public void testSeasonMonthGenerator() {
+        List<LocalDate> localDates = DataImporterUtil.generateListOfDates(2018, 4, 2);
+        Assertions.assertThat(localDates).isNotNull();
+        Assertions.assertThat(localDates).hasSize(2);
+        Assertions.assertThat(localDates).containsAll(Arrays.asList(LocalDate.of(2018, 4, 1), LocalDate.of(2018, 3, 1)));
+    }
 
-        List<String> monthAndCodeGenerator = DataImporterUtil.generateSeasonCodeByPreviousMonths(2018, 4, 2, host);
+    @Test
+    public void testSeasonMonthGeneratorByPreviousYear() {
+        List<LocalDate> monthAndCodeGenerator = DataImporterUtil.generateListOfDates(2018, 1, 2);
         Assertions.assertThat(monthAndCodeGenerator).isNotNull();
         Assertions.assertThat(monthAndCodeGenerator).hasSize(2);
-        Assertions.assertThat(monthAndCodeGenerator).isEqualTo(expectedList);
+        Assertions.assertThat(monthAndCodeGenerator).containsAll(Arrays.asList(LocalDate.of(2018, 1, 1), LocalDate.of(2017, 12, 1)));
     }
 
     @Test
-    public void testSeasonMonthAndCodeGeneratorByPreviousYear() {
-        String host = "test";
-        List<String> expectedList = Arrays.asList(
-                generate(2018, "01", host),
-                generate(2017, "12", host)
-        );
-
-        List<String> monthAndCodeGenerator = DataImporterUtil.generateSeasonCodeByPreviousMonths(2018, 1, 2, host);
+    public void testSeasonMonthGeneratorWhenDecember() {
+        List<LocalDate> monthAndCodeGenerator = DataImporterUtil.generateListOfDates(2018, 12, 2);
         Assertions.assertThat(monthAndCodeGenerator).isNotNull();
         Assertions.assertThat(monthAndCodeGenerator).hasSize(2);
-        Assertions.assertThat(monthAndCodeGenerator.containsAll(expectedList)).isTrue();
+        Assertions.assertThat(monthAndCodeGenerator).containsAll(Arrays.asList(LocalDate.of(2018, 12, 1), LocalDate.of(2018, 11, 1)));
     }
 
     @Test
-    public void testGetNameFromHost() {
-        String testWord = DataImporterConst.SEASON_MONTH + "test";
-        String actualWord = DataImporterUtil.getFileNameFromHost(testWord);
-        Assertions.assertThat(actualWord).isEqualTo("test" + DataImporterConst.FILE_TYPE);
-    }
-
-    @Test
-    public void testGetNameFromNullHost() {
-        String actualWord = DataImporterUtil.getFileNameFromHost(null);
-        Assertions.assertThat(actualWord).isEqualTo(DataImporterConst.DEFAULT_FILE_NAME);
-    }
-
-    private String generate(Integer year, String month, String host) {
-        return String.format("%s%s%d%s%s-%d", host, DataImporterConst.SEASON_CODE, year + 1, DataImporterConst.SEASON_MONTH, month, year);
+    public void testSeasonMonthGeneratorWhenCurrentPreviousMonthsNull() {
+        List<LocalDate> monthAndCodeGenerator = DataImporterUtil.generateListOfDates(2018, 12, null);
+        Assertions.assertThat(monthAndCodeGenerator).isNotNull();
+        Assertions.assertThat(monthAndCodeGenerator).isEqualTo(new ArrayList<>());
     }
 }
