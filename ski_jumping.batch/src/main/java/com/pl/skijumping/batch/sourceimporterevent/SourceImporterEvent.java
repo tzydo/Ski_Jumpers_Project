@@ -3,7 +3,7 @@ package com.pl.skijumping.batch.sourceimporterevent;
 import com.pl.skijumping.client.HtmlDownloader;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.MessageDTO;
-import com.pl.skijumping.dto.MessageProperties;
+import com.pl.skijumping.dto.MessagePropertiesConst;
 import com.pl.skijumping.rabbitmq.producer.RabbitmqProducer;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.Exchange;
@@ -46,9 +46,9 @@ public class SourceImporterEvent {
             return;
         }
 
-        String url = (String) messageDTO.getProperties().get(MessageProperties.DOWNLOAD_SOURCE_URL.getValue());
-        String fileName = (String) messageDTO.getProperties().get(MessageProperties.FILE_NAME.getValue());
-        String destinationTarget = (String) messageDTO.getProperties().get(MessageProperties.DESTINATION_TARGET.getValue());
+        String url = messageDTO.getProperties().getStringValue(MessagePropertiesConst.DOWNLOAD_SOURCE_URL.getValue());
+        String fileName = messageDTO.getProperties().getStringValue(MessagePropertiesConst.FILE_NAME.getValue());
+        String destinationTarget = messageDTO.getProperties().getStringValue(MessagePropertiesConst.DESTINATION_TARGET.getValue());
         SourceDownloader sourceDownloader = new SourceDownloader(diagnosticMonitor, htmlDownloader);
         Path filePath = sourceDownloader.download(directoryPath, url, fileName);
         if(filePath == null) {
@@ -56,7 +56,7 @@ public class SourceImporterEvent {
             return;
         }
 
-        messageDTO.filePath(filePath.toUri().getPath());
+        messageDTO.filePath(filePath.toString());
         rabbitmqProducer.sendMessage(exchange, destinationTarget, messageDTO);
     }
 }

@@ -1,12 +1,12 @@
 package com.pl.skijumping.batch.reader;
 
-import com.pl.skijumping.common.util.FileUtil;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class DataReader {
@@ -25,7 +25,7 @@ public class DataReader {
         diagnosticMonitor.logInfo(String.format("Start reading from file %s", filePath));
         List<String> fileLines;
         try {
-            Path pathToFile = FileUtil.getPath(filePath);
+            Path pathToFile = Paths.get(filePath);
             if (!pathToFile.toFile().exists()) {
                 String errorMessage = "Cannot read from not existing file";
                 diagnosticMonitor.logError(errorMessage, getClass());

@@ -26,7 +26,7 @@
 
     <modules>
         <module>ski_jumping.domain</module>
-        <module>ski_jumping.client</module>
+        <module>ski_jumping.html_client</module>
         <module>ski_jumping.common</module>
         <module>ski_jumping.batch</module>
         <module>ski_jumping.service</module>

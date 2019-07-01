@@ -11,7 +11,7 @@ public class FileScannerConst {
     public static final String FILE_SKI_JUMPER = "ski_jumper_";
     private static final String FILE_EXTENSION = ".txt";
 
-    public static String prepapeFileName(String prefix, String fileName) {
+    public static String prepareFileName(String prefix, String fileName) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(prefix);
         stringBuilder.append(fileName);
