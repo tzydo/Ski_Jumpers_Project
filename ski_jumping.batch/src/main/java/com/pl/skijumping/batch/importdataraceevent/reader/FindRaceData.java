@@ -2,8 +2,8 @@ package com.pl.skijumping.batch.importdataraceevent.reader;
 
 import com.pl.skijumping.batch.importdataraceevent.FindRaceDataUtil;
 import com.pl.skijumping.batch.matchingword.MatchingWords;
-import com.pl.skijumping.batch.util.BasicDataParser;
-import com.pl.skijumping.batch.util.ValueChecker;
+import com.pl.skijumping.common.util.BasicDataParser;
+import com.pl.skijumping.common.util.ValueChecker;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.DataRaceDTO;
 import com.pl.skijumping.dto.JumpCategoryDTO;

@@ -1,7 +1,7 @@
 package com.pl.skijumping.batch.importjumpresultdataevent;
 
 import com.pl.skijumping.batch.matchingword.MatchingWords;
-import com.pl.skijumping.batch.util.BasicDataParser;
+import com.pl.skijumping.common.util.BasicDataParser;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.JumpResultDTO;
 

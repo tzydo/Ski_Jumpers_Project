@@ -2,7 +2,7 @@ package com.pl.skijumping.batch.importplaceevent;
 
 import com.pl.skijumping.batch.matchingword.MatchingWords;
 import com.pl.skijumping.batch.reader.DataReader;
-import com.pl.skijumping.batch.util.BasicDataParser;
+import com.pl.skijumping.common.util.BasicDataParser;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.CountryDTO;

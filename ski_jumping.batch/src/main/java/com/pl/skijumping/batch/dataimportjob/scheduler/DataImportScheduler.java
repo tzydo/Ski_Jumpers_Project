@@ -1,6 +1,6 @@
 package com.pl.skijumping.batch.dataimportjob.scheduler;
 
-import com.pl.skijumping.batch.util.JobRunner;
+import com.pl.skijumping.common.util.JobRunner;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import org.springframework.batch.core.Job;
