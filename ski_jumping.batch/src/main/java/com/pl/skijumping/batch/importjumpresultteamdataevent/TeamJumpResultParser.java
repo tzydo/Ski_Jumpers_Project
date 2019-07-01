@@ -1,7 +1,8 @@
-package com.pl.skijumping.batch.importjumpresultdataevent.team;
+package com.pl.skijumping.batch.importjumpresultteamdataevent;
 
 import com.pl.skijumping.batch.matchingword.MatchingWords;
 import com.pl.skijumping.batch.matchingword.RegexpPattern;
+import com.pl.skijumping.common.util.BasicDataParser;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.JumpResultDTO;
 
@@ -39,8 +40,9 @@ class TeamJumpResultParser {
     }
 
     private Set<JumpResultDTO> matchJumpResult(MatchingWords matchingWords, String template) {
+        Double teamResult = BasicDataParser.toDouble(matchingWords.getJumpResultTeamTotalPoints(template));
         return matchingWords.getTeamJumpResults(template).stream()
-                .map(value -> ResultParser.parseJumpResult(matchingWords, value))
+                .map(value -> ResultParser.parseJumpResult(matchingWords, value, teamResult))
                 .collect(Collectors.toSet());
     }
 }

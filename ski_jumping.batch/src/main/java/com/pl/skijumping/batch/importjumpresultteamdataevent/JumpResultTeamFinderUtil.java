@@ -1,6 +1,7 @@
-package com.pl.skijumping.batch.importjumpresultdataevent.team;
+package com.pl.skijumping.batch.importjumpresultteamdataevent;
 
 import com.pl.skijumping.batch.matchingword.RegexpPattern;
+import com.pl.skijumping.common.util.BasicDataParser;
 
 import java.util.HashSet;
 import java.util.Set;

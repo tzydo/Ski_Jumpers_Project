@@ -27,6 +27,7 @@ import java.util.Objects;
 @Component
 public class ImportDataRaceEventListener {
 
+    public static final String TEAM_PATTERN = "Team";
     private final RabbitmqProducer rabbitmqProducer;
     private final DiagnosticMonitor diagnosticMonitor;
     private final JumpCategoryService jumpCategoryService;
@@ -36,12 +37,14 @@ public class ImportDataRaceEventListener {
     private final String exchange;
     private final String importPlaceEventQueue;
     private final String importJumpResultEventQueue;
+    private final String importJumpResultTeamEventQueue;
     private final String sourceImportEventListener;
 
     public ImportDataRaceEventListener(RabbitmqProducer rabbitmqProducer,
                                        @Value("${skijumping.settings.jumpResultHost}") String jumpResultHost,
                                        @Value("${skijumping.rabbitmq.queues.importPlaceEventListener}") String importPlaceEventQueue,
                                        @Value("${skijumping.rabbitmq.queues.importJumpResultEventListener}") String importJumpResultEventQueue,
+                                       @Value("${skijumping.rabbitmq.queues.importJumpResultEventTeamListener}") String importJumpResultTeamEventQueue,
                                        @Value("${skijumping.rabbitmq.queues.sourceImportEventListener}") String sourceImportEventListener,
                                        @Value("${skijumping.rabbitmq.exchange}") String exchange,
                                        DiagnosticMonitor diagnosticMonitor,
@@ -52,6 +55,7 @@ public class ImportDataRaceEventListener {
         this.jumpResultHost = jumpResultHost;
         this.importPlaceEventQueue = importPlaceEventQueue;
         this.importJumpResultEventQueue = importJumpResultEventQueue;
+        this.importJumpResultTeamEventQueue = importJumpResultTeamEventQueue;
         this.sourceImportEventListener = sourceImportEventListener;
         this.exchange = exchange;
         this.diagnosticMonitor = diagnosticMonitor;
@@ -85,11 +89,15 @@ public class ImportDataRaceEventListener {
 
         dataRaceDTOS.stream()
                 .filter(Objects::nonNull)
-                .filter(race-> !race.getIsCancelled())
+                .filter(race -> !race.getIsCancelled())
                 .forEach(raceDTO -> {
-            importPlaceEvent(raceDTO, messageDTO.getFilePath());
-            importJumpResultData(raceDTO, messageDTO.getFilePath());
-        });
+                    importPlaceEvent(raceDTO, messageDTO.getFilePath());
+                    if (raceDTO.getCompetitionType().contains(TEAM_PATTERN)) {
+                        importTeamJumpResultData(raceDTO, messageDTO.getFilePath());
+                    } else {
+                        importJumpResultData(raceDTO, messageDTO.getFilePath());
+                    }
+                });
     }
 
     private void importPlaceEvent(DataRaceDTO dataRaceDTO, String filePath) {
@@ -106,6 +114,16 @@ public class ImportDataRaceEventListener {
                 .addProperties(MessagePropertiesConst.DARA_RACE_ID.getValue(), dataRaceDTO.getRaceId())
                 .addProperties(MessagePropertiesConst.DOWNLOAD_SOURCE_URL.getValue(), StringFormatter.format(jumpResultHost, dataRaceDTO.getRaceId()).getValue())
                 .addProperties(MessagePropertiesConst.DESTINATION_TARGET.getValue(), importJumpResultEventQueue)
+                .addProperties(MessagePropertiesConst.FILE_NAME.getValue(), FileScannerConst.prepareFileName(FileScannerConst.FILE_JUMP_RESULT, "_" + MessagePropertiesConst.DARA_RACE_ID.getValue()));
+        rabbitmqProducer.sendMessage(exchange, sourceImportEventListener, messageDTO);
+    }
+
+    private void importTeamJumpResultData(DataRaceDTO dataRaceDTO, String filePath) {
+        MessageDTO messageDTO = new MessageDTO()
+                .filePath(filePath)
+                .addProperties(MessagePropertiesConst.DARA_RACE_ID.getValue(), dataRaceDTO.getRaceId())
+                .addProperties(MessagePropertiesConst.DOWNLOAD_SOURCE_URL.getValue(), StringFormatter.format(jumpResultHost, dataRaceDTO.getRaceId()).getValue())
+                .addProperties(MessagePropertiesConst.DESTINATION_TARGET.getValue(), importJumpResultTeamEventQueue)
                 .addProperties(MessagePropertiesConst.FILE_NAME.getValue(), FileScannerConst.prepareFileName(FileScannerConst.FILE_JUMP_RESULT, "_" + MessagePropertiesConst.DARA_RACE_ID.getValue()));
         rabbitmqProducer.sendMessage(exchange, sourceImportEventListener, messageDTO);
     }
