@@ -1,38 +1,31 @@
 #second, minute, hour, day of month, month, day(s) of week
 skijumping:
   settings:
-    host: ${HOST:https://www.fis-ski.com/DB/ski-jumping/calendar-results.html}
-    eventHost: ${EVENT_HOST:https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=}
+    host: ${HOST:https://www.fis-ski.com/DB/ski-jumping/calendar-results.html?seasoncode=%s&seasonmonth=%02d-%s}
+    eventHost: ${EVENT_HOST:https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=%s&seasoncode=%s}
+    jumpResultHost: ${JUMP_RESULT_HOST:https://www.fis-ski.com/DB/general/results.html?sectorcode=JP&raceid=%s}
+
     hostWithFilterForYear: ${HOST:http://www.fis-ski.com/ski-jumping/events-and-places/results/?season=}
     skiJumpingResultsHost: ${HOST:https://data.fis-ski.com/dynamic/results.html?sector=JP&raceid=}
     directory: ${DIRECTORY:tmp}
     loadAllData: ${DOWNLOAD_ALL_BASIC_DATA:false}
     numberOfPreviousMonth: ${NUMBER_OF_PREVIOUSE_MONTH_TO_DOWNLOAD:1}
+    skiJumperDataHost: ${SKI_JUMPER_DATA_HOST:https://www.fis-ski.com/DB/general/athlete-biography.html?sectorcode=jp&competitorid=%s&type=result}
     scheduler:
-      #run all jobs in right order
-      synchronize:
-        cron: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_CRON:0 0 0 25 12 ?}
-        enable: ${SKI_JUMPING_SETTINGS_DATA_SYNCHRONIZER_ENABLE:true}
-      #first step
       importData:
-        cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0 0 25 12 ?}
+        cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/30 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:true}
-      #Second step
-      importEvent:
-        cron: ${SKI_JUMPING_SETTINGS_EVENT_IMPORT_CRON:0 0 0 25 12 ?}
-        enable: ${SKI_JUMPING_SETTINGS_EVENT_IMPORT_ENABLE:true}
-      #Third Step
-      findRaceData:
-        cron: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_CRON:0 0 0 25 12 ?}
-        enable: ${SKI_JUMPING_SETTINGS_FIND_RACE_DATA_ENABLE:false}
-      #Fourth Step
-      basicDataSynchronize:
-        cron: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_CRON:0 0 0 25 12 ?}
-        enable: ${SKI_JUMPING_SETTINGS_BASIC_DATA_SYNCHRONIZE_ENABLE:false}
-      #fifth Step
-      jumpResultSynchronize:
-        cron: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_CRON:0 0 0 25 12 ?}
-        enable: ${SKI_JUMPING_SETTINGS_RESULT_DATA_SYNCHRONIZE_ENABLE:false}
+  rabbitmq:
+    exchange: ${RABBITMQ_EXCHANGE:SkiJumping}
+    queues:
+      sourceImportEventListener: ${SKI_JUMPING_SOURCE_IMPORT_EVENT_LISTENER:sourceImportEventListener}
+      importEventIdListener: ${SKI_JUMPING_IMPORT_EVENT_ID_LISTENER:importEventIdListener}
+      importDataRaceEventListener: ${SKI_JUMPING_IMPORT_DATA_RACE_EVENT_LISTENER:importDataRaceEventListener}
+      importPlaceEventListener: ${SKI_JUMPING_IMPORT_PLACE_EVENT_LISTENER:importPlaceEventListener}
+      importJumpResultEventListener: ${SKI_JUMPING_IMPORT_JUMP_RESULT_EVENT_LISTENER:importJumpResultEventListener}
+      importJumpResultTeamEventListener: ${SKI_JUMPING_IMPORT_JUMP_RESULT_TEAM_EVENT_LISTENER:importJumpResultTeamEventListener}
+      importSkiJumperDataListener: ${IMPORT_SKI_JUMPER_DATA_LISTENER:importSkiJumperDataListener}
+
 spring:
   profiles:
     active: ${DEV_PROFILE:dev}
@@ -46,3 +39,11 @@ spring:
   batch:
     job:
       enabled: ${ENABLE:false}
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        default-requeue-rejected: false

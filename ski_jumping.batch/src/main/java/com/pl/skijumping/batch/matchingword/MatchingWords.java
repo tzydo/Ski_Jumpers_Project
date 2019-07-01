@@ -132,6 +132,12 @@ public class MatchingWords {
         return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_JUMP_RESULT_COMPETITOR_ID, false, 1).stream().findFirst().orElse(null);
     }
 
+    public String getJumpResultTeamTotalPoints(String words) {
+        if (isEmpty(words)) return null;
+        FindMatchingWords findMatchingWords = new FindMatchingWords(diagnosticMonitor);
+        return findMatchingWords.getMatchingWords(words, RegexpPattern.FIND_JUMP_RESULT_TEAM_TOTAL, false, 1).stream().findFirst().orElse(null);
+    }
+
 //    ---------------   TEAM JUMP RESULT  ---------------
 
     public Set<String> getTeamJumpResultGroups(String words) {

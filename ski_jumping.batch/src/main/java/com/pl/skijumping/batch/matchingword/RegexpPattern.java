@@ -27,6 +27,7 @@ public class RegexpPattern {
     static final String FIND_JUMP_RESULT_RANK = "gray\\sbold\">(.*?)<";
     static final String FIND_JUMP_RESULT_TOTAL = "blue bold\\s\">(.*?)<";
     static final String FIND_JUMP_RESULT_COMPETITOR_ID = "competitorid=(.*?)&";
+    static final String FIND_JUMP_RESULT_TEAM_TOTAL= "justify-right\">([0-9]*.?[0-9]*)</div>JUMP_RESULT";
 
     static final String FIND_TEAM_JUMP_RESULT_GROUPS = "#events-info-results(.*?)</main></div>";
     static final String FIND_TEAM_JUMP_RESULT_RANK= "justify-right gray pr-1\">(.*?)</div>";
