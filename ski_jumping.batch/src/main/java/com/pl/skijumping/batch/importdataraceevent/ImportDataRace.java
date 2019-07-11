@@ -51,6 +51,7 @@ class ImportDataRace {
                 .filter(Objects::nonNull)
                 .map(findRaceData::generateRaceData)
                 .filter(Objects::nonNull)
+                .filter(dataRaceDTO -> !dataRaceService.findByRaceId(dataRaceDTO.getRaceId()).isPresent())
                 .map(findRaceDataWriter::write)
                 .collect(Collectors.toList());
     }

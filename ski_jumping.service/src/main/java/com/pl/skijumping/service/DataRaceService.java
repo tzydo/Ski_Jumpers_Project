@@ -29,6 +29,12 @@ public class DataRaceService {
     }
 
     @Transactional
+    public Optional<DataRaceDTO> findByEventId(Long id) {
+        DataRace dataRace = dataRaceRepository.findByEventId(id);
+        return Optional.ofNullable(dataRaceMapper.toDTO(dataRace));
+    }
+
+    @Transactional
     public List<DataRaceDTO> findAll() {
         List<DataRace> dataRaceList = dataRaceRepository.findAll();
         if (dataRaceList == null) {

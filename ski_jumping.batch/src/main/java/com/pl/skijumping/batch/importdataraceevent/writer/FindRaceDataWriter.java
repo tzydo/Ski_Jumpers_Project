@@ -28,12 +28,8 @@ public class FindRaceDataWriter {
             return null;
         }
 
-        Optional<DataRaceDTO> existingRace = dataRaceService.findByRaceId(dataRaceDTO.getRaceId());
-        if (existingRace.isPresent()) {
-            return existingRace.get();
-        }
         checkExistCompetitionType(dataRaceDTO.getCompetitionType());
-         return dataRaceService.save(dataRaceDTO);
+        return dataRaceService.save(dataRaceDTO);
     }
 
     private void checkExistCompetitionType(String type) {

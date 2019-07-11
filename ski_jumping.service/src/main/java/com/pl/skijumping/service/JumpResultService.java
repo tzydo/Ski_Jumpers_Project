@@ -10,8 +10,6 @@ import com.querydsl.core.BooleanBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,5 +32,31 @@ public class JumpResultService {
         }
         JumpResult savedJumpResult = jumpResultRepository.save(jumpResultMapper.fromDTO(jumpResultDTO));
         return jumpResultMapper.toDTO(savedJumpResult);
+    }
+
+    public Optional<JumpResultDTO> findByJumpResult(JumpResultDTO jumpResultDTO) {
+        QJumpResult qJumpResult = QJumpResult.jumpResult;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        if (jumpResultDTO.getRank() != null) {
+            booleanBuilder.and(qJumpResult.rank.eq(jumpResultDTO.getRank()));
+        }
+        if (jumpResultDTO.getFirstJump() != null) {
+            booleanBuilder.and(qJumpResult.firstJump.eq(jumpResultDTO.getFirstJump()));
+        }
+        if (jumpResultDTO.getPointsForFirstJump() != null) {
+            booleanBuilder.and(qJumpResult.pointsForFirstJump.eq(jumpResultDTO.getPointsForFirstJump()));
+        }
+        if (jumpResultDTO.getSecondJump() != null) {
+            booleanBuilder.and(qJumpResult.secondJump.eq(jumpResultDTO.getSecondJump()));
+        }
+        if (jumpResultDTO.getPointsForSecondJump() != null) {
+            booleanBuilder.and(qJumpResult.pointsForSecondJump.eq(jumpResultDTO.getPointsForSecondJump()));
+        }
+        if (jumpResultDTO.getTotalPoints() != null) {
+            booleanBuilder.and(qJumpResult.totalPoints.eq(jumpResultDTO.getTotalPoints()));
+        }
+
+        return Optional.ofNullable(jumpResultMapper.toDTO(jumpResultRepository.findOne(booleanBuilder)));
     }
 }

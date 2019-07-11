@@ -1,17 +1,15 @@
 skijumping:
   settings:
-    host: ${HOST:https://www.fis-ski.com/DB/ski-jumping/calendar-results.html?seasoncode=%s&seasonmonth=%s}
-    hostWithFilterForYear: ${HOST:http://www.fis-ski.com/ski-jumping/events-and-places/results/?season=}
+    host: ${HOST:https://www.fis-ski.com/DB/ski-jumping/calendar-results.html?seasoncode=%s&seasonmonth=%02d-%s}
+    eventHost: ${EVENT_HOST:https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=%s&seasoncode=%s}
     jumpResultHost: ${JUMP_RESULT_HOST:https://www.fis-ski.com/DB/general/results.html?sectorcode=JP&raceid=%s}
-
-    skiJumpingResultsHost: ${HOST:https://www.fis-ski.com/DB/general/results.html?sectorcode=JP&raceid=}
-    directory: ${DIRECTORY:tmp}
-    loadAllData: ${DOWNLOAD_ALL_BASIC_DATA:false}
     numberOfPreviousMonth: ${NUMBER_OF_PREVIOUSE_MONTH_TO_DOWNLOAD:1}
+    directory: ${DIRECTORY:tmp}
+    skiJumperDataHost: ${SKI_JUMPER_DATA_HOST:https://www.fis-ski.com/DB/general/athlete-biography.html?sectorcode=jp&competitorid=%s&type=result}
     scheduler:
       importData:
         cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/30 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:false}
+        enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:true}
   rabbitmq:
     exchange: ${RABBITMQ_EXCHANGE:SkiJumping}
     queues:
@@ -23,6 +21,10 @@ skijumping:
       importJumpResultTeamEventListener: ${SKI_JUMPING_IMPORT_JUMP_RESULT_TEAM_EVENT_LISTENER:importJumpResultTeamEventListener}
       importSkiJumperDataListener: ${IMPORT_SKI_JUMPER_DATA_LISTENER:importSkiJumperDataListener}
 spring:
+  rabbitmq:
+    listener:
+      simple:
+        auto-startup: false
   jpa:
     database: ${DATABASE:H2}
     hibernate.ddl-auto: ${DDL-AUTO:none}

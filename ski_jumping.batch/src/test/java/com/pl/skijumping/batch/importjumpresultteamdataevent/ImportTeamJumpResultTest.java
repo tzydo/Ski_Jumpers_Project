@@ -13,6 +13,7 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.Set;
 
 public class ImportTeamJumpResultTest {
@@ -22,6 +23,7 @@ public class ImportTeamJumpResultTest {
         DiagnosticMonitor diagnosticMonitorMock = SetupUtilTests.getDiagnosticMonitorMock();
         JumpResultService mockJumpResultService = Mockito.mock(JumpResultService.class);
         Mockito.when(mockJumpResultService.save(Mockito.any())).then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(mockJumpResultService.findByJumpResult(Mockito.any())).thenReturn(Optional.empty());
 
         ImportTeamJumpResult importTeamJumpResult = new ImportTeamJumpResult(diagnosticMonitorMock, mockJumpResultService);
         String fileName = "team_jump_result.txt";
@@ -34,6 +36,7 @@ public class ImportTeamJumpResultTest {
         DiagnosticMonitor diagnosticMonitorMock = SetupUtilTests.getDiagnosticMonitorMock();
         JumpResultService mockJumpResultService = Mockito.mock(JumpResultService.class);
         Mockito.when(mockJumpResultService.save(Mockito.any())).then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(mockJumpResultService.findByJumpResult(Mockito.any())).thenReturn(Optional.empty());
 
         ImportTeamJumpResult importTeamJumpResult = new ImportTeamJumpResult(diagnosticMonitorMock, mockJumpResultService);
         String fileName = "importTeamResult.txt";

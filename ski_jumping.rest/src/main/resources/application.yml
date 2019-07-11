@@ -4,12 +4,8 @@ skijumping:
     host: ${HOST:https://www.fis-ski.com/DB/ski-jumping/calendar-results.html?seasoncode=%s&seasonmonth=%02d-%s}
     eventHost: ${EVENT_HOST:https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=%s&seasoncode=%s}
     jumpResultHost: ${JUMP_RESULT_HOST:https://www.fis-ski.com/DB/general/results.html?sectorcode=JP&raceid=%s}
-
-    hostWithFilterForYear: ${HOST:http://www.fis-ski.com/ski-jumping/events-and-places/results/?season=}
-    skiJumpingResultsHost: ${HOST:https://data.fis-ski.com/dynamic/results.html?sector=JP&raceid=}
-    directory: ${DIRECTORY:tmp}
-    loadAllData: ${DOWNLOAD_ALL_BASIC_DATA:false}
     numberOfPreviousMonth: ${NUMBER_OF_PREVIOUSE_MONTH_TO_DOWNLOAD:1}
+    directory: ${DIRECTORY:tmp}
     skiJumperDataHost: ${SKI_JUMPER_DATA_HOST:https://www.fis-ski.com/DB/general/athlete-biography.html?sectorcode=jp&competitorid=%s&type=result}
     scheduler:
       importData:
@@ -47,3 +43,5 @@ spring:
     listener:
       simple:
         default-requeue-rejected: false
+        retry:
+          max-attempts: 3

@@ -1,7 +1,6 @@
 package com.pl.skijumping.service;
 
 import com.pl.skijumping.dto.CompetitionTypeDTO;
-import com.pl.skijumping.service.mapper.CompetitionTypeMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;

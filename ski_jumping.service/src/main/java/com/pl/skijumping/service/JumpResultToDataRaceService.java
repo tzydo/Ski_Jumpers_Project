@@ -21,7 +21,6 @@ public class JumpResultToDataRaceService {
         if (jumpResultToDataRaceDTO == null) {
             return null;
         }
-
         JumpResultToDataRace jumpResultToDataRace = jumpResultToDataRaceRepository.save(jumpResultToDataRaceMapper.fromDTO(jumpResultToDataRaceDTO));
         return jumpResultToDataRaceMapper.toDTO(jumpResultToDataRace);
     }

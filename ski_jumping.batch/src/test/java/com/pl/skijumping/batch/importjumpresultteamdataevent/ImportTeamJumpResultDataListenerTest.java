@@ -19,6 +19,7 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -41,7 +42,7 @@ public class ImportTeamJumpResultDataListenerTest {
         String filePath = Paths.get(new ClassPathResource(FILE_NAME).getURI()).toString();
         DiagnosticMonitor mockDiagnosticMonitorMock = SetupUtilTests.getDiagnosticMonitorMock();
         Mockito.when(jumpResultService.save(Mockito.any())).then(AdditionalAnswers.returnsFirstArg());
-
+        Mockito.when(jumpResultService.findByJumpResult(Mockito.any())).thenReturn(Optional.empty());
         ImportTeamJumpResultDataListener importTeamJumpResultDataListener = new ImportTeamJumpResultDataListener(jumpResultService, mockDiagnosticMonitorMock, jumpResultToDataRaceService, rabbitmqProducer, SOURCE_IMPORT_EVENT_LISTENER, EXCHANGE);
 
         MessageDTO messageDTO = new MessageDTO()

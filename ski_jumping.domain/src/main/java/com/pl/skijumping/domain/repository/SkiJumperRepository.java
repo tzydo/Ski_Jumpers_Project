@@ -11,10 +11,5 @@ public interface SkiJumperRepository extends JpaRepository<SkiJumper, Long> {
 
     List<SkiJumper> findAll();
 
-    List<SkiJumper> findAllByName(String name);
-
-    SkiJumper findOneByName(String name);
-
     SkiJumper findByFisCode(Integer fisCode);
-    void deleteAll();
 }

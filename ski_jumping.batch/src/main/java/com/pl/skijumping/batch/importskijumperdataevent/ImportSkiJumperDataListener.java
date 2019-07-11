@@ -1,6 +1,9 @@
 package com.pl.skijumping.batch.importskijumperdataevent;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pl.skijumping.batch.util.FileScannerConst;
+import com.pl.skijumping.common.exception.InternalServiceException;
+import com.pl.skijumping.common.util.FileUtil;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.*;
 import com.pl.skijumping.rabbitmq.producer.RabbitmqProducer;
@@ -14,6 +17,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Component
@@ -27,6 +31,7 @@ public class ImportSkiJumperDataListener {
     private final String sourceImportEventListener;
     private final String exchange;
     private final String importSkiJumperDataListenerEvent;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public ImportSkiJumperDataListener(SkiJumperService skiJumperService,
                                        JumpResultToSkiJumperService jumpResultToSkiJumperService,
@@ -51,16 +56,17 @@ public class ImportSkiJumperDataListener {
             value = @Queue(value = "${skijumping.rabbitmq.queues.importSkiJumperDataListener}", durable = "true"),
             exchange = @Exchange(value = "${skijumping.rabbitmq.exchange}", type = ExchangeTypes.TOPIC, durable = "true")
     ))
-    public void importJumperData(MessageDTO messageDTO) {
+    public void importJumperData(MessageDTO messageDTO) throws IOException, InternalServiceException {
         if (messageDTO == null) {
             return;
         }
 
-        JumpResultDTO jumpResultDTO = (JumpResultDTO) messageDTO.getProperties().getObject(MessagePropertiesConst.JUMP_RESULT.getValue());
+        JumpResultDTO jumpResultDTO =  objectMapper.readValue(messageDTO.getProperties().getObject(MessagePropertiesConst.JUMP_RESULT.getValue()).toString(), JumpResultDTO.class);
         Optional<SkiJumperDTO> skiJumperDTO = skiJumperService.findByFisCode(jumpResultDTO.getFisCodeId());
 
         if (skiJumperDTO.isPresent()) {
             saveJumpResultToSkiJumper(skiJumperDTO.get(), jumpResultDTO);
+            FileUtil.deleteFile(FileUtil.getPath(messageDTO.getFilePath()));
             return;
         }
 
@@ -70,6 +76,7 @@ public class ImportSkiJumperDataListener {
         if (filePath != null && !filePath.isEmpty()) {
             SkiJumperDTO parsedSkiJumperDTO = skiJumperService.save(parseSkiJumperData.importData(jumpResultDTO, filePath));
             saveJumpResultToSkiJumper(parsedSkiJumperDTO, jumpResultDTO);
+            FileUtil.deleteFile(FileUtil.getPath(messageDTO.getFilePath()));
             return;
         }
         importFile(messageDTO, jumpResultDTO);

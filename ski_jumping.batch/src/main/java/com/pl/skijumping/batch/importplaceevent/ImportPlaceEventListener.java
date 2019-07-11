@@ -42,9 +42,9 @@ public class ImportPlaceEventListener {
             value = @Queue(value = "${skijumping.rabbitmq.queues.importPlaceEventListener}", durable = "true"),
             exchange = @Exchange(value = "${skijumping.rabbitmq.exchange}", type = ExchangeTypes.TOPIC, durable = "true")
     ))
-    public DataRaceToPlaceDTO importPlace(MessageDTO messageDTO) throws InternalServiceException {
+    public void importPlace(MessageDTO messageDTO) throws InternalServiceException {
         if (messageDTO == null) {
-            return null;
+            return;
         }
 
         Long dataRaceId = messageDTO.getProperties().getLongValue(MessagePropertiesConst.DARA_RACE_ID.getValue());
@@ -53,14 +53,18 @@ public class ImportPlaceEventListener {
         Optional<PlaceDTO> foundPlace = placeService.findByCityAndHillType(placeDTO);
         Paths.get(messageDTO.getFilePath()).toFile().deleteOnExit();
         if (foundPlace.isPresent()) {
-            return save(foundPlace.get(), dataRaceId);
+            save(foundPlace.get(), dataRaceId);
+            return;
         }
-        return save(placeService.save(placeDTO), dataRaceId);
+        save(placeService.save(placeDTO), dataRaceId);
     }
 
     private DataRaceToPlaceDTO save(PlaceDTO placeDTO, Long dataRaceId) {
         DataRaceToPlaceDTO dataRaceToPlaceDTO = new DataRaceToPlaceDTO().placeId(placeDTO.getId()).dataRaceId(dataRaceId);
-        return dataRaceToPlaceService.findByDataRaceToPlace(dataRaceToPlaceDTO)
-                .orElseGet(() -> dataRaceToPlaceService.save(dataRaceToPlaceDTO));
+        Optional<DataRaceToPlaceDTO> foundDataRaceToPlace = dataRaceToPlaceService.findByDataRaceToPlace(dataRaceToPlaceDTO);
+        if(foundDataRaceToPlace.isPresent()) {
+            return foundDataRaceToPlace.get();
+        }
+        return dataRaceToPlaceService.save(dataRaceToPlaceDTO);
     }
 }

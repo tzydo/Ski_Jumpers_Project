@@ -38,28 +38,14 @@ public class MatchingWordsTest {
     }
 
     @Test
-    public void getRaceDataTemplateTest() {
-        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-        String text ="<div class=\"table-row reset-padding\">test<span class=\"btn__label\">download" +
-                "<div class=\"table-row reset-padding\">test2<span class=\"btn__label\">download" +
-                "<div class=\"table-row reset-padding\">test3<span class=\"btn__label\">download";
-
-        Set<String> templateMatchingWords = matchingWords.getRaceDataTemplate(text);
-        Assertions.assertThat(templateMatchingWords.isEmpty()).isFalse();
-        Assertions.assertThat(templateMatchingWords.size()).isEqualTo(3);
-        Assertions.assertThat(templateMatchingWords).containsAll(Arrays.asList("test<span class=", "test2<span class=", "test3<span class="));
-    }
-
-    @Test
     public void getRaceDataTemplateFullTest() throws IOException {
-//        String filePath = Paths.get(new ClassPathResource("import_2_2019.txt").getURI()).toString();
         String filePath = Paths.get(new ClassPathResource("event2.txt").getURI()).toString();
 
         DataReader dataReader = new DataReader(diagnosticMonitor);
         String fileContent = dataReader.read(filePath);
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
         Set<String>templateSet = matchingWords.getRaceDataTemplate(fileContent);
-        Assertions.assertThat(templateSet).hasSize(16);
+        Assertions.assertThat(templateSet).hasSize(3);
 
     }
 
@@ -71,15 +57,6 @@ public class MatchingWordsTest {
         String templateMatchingWords = matchingWords.getRaceDataIdRace(text);
         Assertions.assertThat(templateMatchingWords.isEmpty()).isFalse();
         Assertions.assertThat(templateMatchingWords).isEqualTo("5179");
-    }
-
-    @Test
-    public void getRaceDataIdWhenNotContainTest() {
-        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-        String text ="px-md-1 px-lg-1 pl-xs-1 g-lg-2 g-md-3 g-sm-2 g-xs-4 justify-left\" href=\"https://www.fis-ski.com/DB/general/results.html?sectorcode=JP&raceid=5179\"";
-
-        String templateMatchingWords = matchingWords.getRaceDataIdRace(text);
-        Assertions.assertThat(templateMatchingWords).isNull();
     }
 
     @Test
@@ -122,16 +99,6 @@ public class MatchingWordsTest {
     }
 
     @Test
-    public void getRaceDataCodexTest() {
-        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-        String text = "t-padding\"><div class=\"link__text\" style=\"text-align:center\">3177</div>";
-        String jumpCategory = matchingWords.getRaceDataCodex(text);
-        Assertions.assertThat(jumpCategory).isNotNull();
-        Assertions.assertThat(jumpCategory).isNotEmpty();
-        Assertions.assertThat(jumpCategory).isEqualTo("3177");
-    }
-
-    @Test
     public void getRaceDataGenderTest() {
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
         String text = " <div class=\"gender\"><div class=\"gender__inner\"><div class=\"gender__item gender__item_m\">M</div></div></div></a>";
@@ -139,16 +106,6 @@ public class MatchingWordsTest {
         Assertions.assertThat(jumpCategory).isNotNull();
         Assertions.assertThat(jumpCategory).isNotEmpty();
         Assertions.assertThat(jumpCategory).isEqualTo("M");
-    }
-
-    @Test
-    public void getRaceDataCompetitionTypeTest() {
-        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-        String text = "class=\"split-row__item split-row__item_text_medium\"><div class=\"g-xs-24 justify-left\"><div class=\"clip\">HS140</div></div></div></div>";
-        String jumpCategory = matchingWords.getRaceDataCity(text);
-        Assertions.assertThat(jumpCategory).isNotNull();
-        Assertions.assertThat(jumpCategory).isNotEmpty();
-        Assertions.assertThat(jumpCategory).isEqualTo("HS140");
     }
 
     @Test
@@ -160,147 +117,4 @@ public class MatchingWordsTest {
         Assertions.assertThat(jumpCategory).isNotEmpty();
         Assertions.assertThat(jumpCategory).isEqualTo("Oberstdorf(GER)");
     }
-
-
-
-
-
-
-
-
-//
-//    @Test
-//    public void getRaceDataFirstStepTest() {
-//        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-//
-//        String text = "<div class=\"date\">testText<!-- date-content -->" +
-//                "<div class=\"date\">secondTestText<!-- date-content -->" +
-//                "<div class=\"date\">thirdTestText<!-- date-content -->";
-//
-//        Set<String> seasonDataMatchWords = matchingWords.getRaceDataFirstStep(text);
-//        Assertions.assertThat(seasonDataMatchWords.isEmpty()).isFalse();
-//        Assertions.assertThat(seasonDataMatchWords.size()).isEqualTo(3);
-//        Assertions.assertThat(seasonDataMatchWords).
-//                containsAll(Arrays.asList(
-//                        "<div class=\"date\">testText<!-- date-content -->",
-//                        "<div class=\"date\">secondTestText<!-- date-content -->",
-//                        "<div class=\"date\">thirdTestText<!-- date-content -->"));
-//    }
-//
-//    @Test
-//    public void getRaceDataSecondStepTest() {
-//        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-//
-//        String text = "data-race=\"testText<div id=\"mobile_race" +
-//                "data-race=\"secondTestText<div id=\"mobile_race" +
-//                "data-race=\"thirdTestText<div id=\"mobile_race";
-//
-//        Set<String> seasonDataMatchWords = matchingWords.getRaceDataSecondStep(text);
-//        Assertions.assertThat(seasonDataMatchWords.isEmpty()).isFalse();
-//        Assertions.assertThat(seasonDataMatchWords.size()).isEqualTo(3);
-//        Assertions.assertThat(seasonDataMatchWords)
-//                .containsAll(Arrays.asList("data-race=\"testText<div id=\"mobile_race",
-//                        "data-race=\"secondTestText<div id=\"mobile_race",
-//                        "data-race=\"thirdTestText<div id=\"mobile_race"));
-//    }
-//
-//    @Test
-//    public void getRaceDataThirdStepTest() {
-//        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-//        String words = "<div class=\"date-content\"><div class=\"date-race men active\"data-race=\"4961\"   data-race-sectorcode=\"JP\"><div class=\"date-flag\"><div><divclass=\"sprite-big-flag big-flag-SLO\"></div>SLO</div></div><div class=\"date-text\"><h6>Planica</h6><div>";
-//
-//        Set<String> raceDataThirdStep = matchingWords.getRaceDataThirdStep(words);
-//        Assertions.assertThat(raceDataThirdStep.isEmpty()).isFalse();
-//        Assertions.assertThat(raceDataThirdStep).hasSize(3);
-//        Assertions.assertThat(raceDataThirdStep).containsAll(Arrays.asList("4961", "SLO", "Planica"));
-//    }
-//
-//    @Test
-//    public void getRaceDataThirdStepWhenNullTest() {
-//        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-//        Set<String> raceDataThirdStep = matchingWords.getRaceDataThirdStep(null);
-//        Assertions.assertThat(raceDataThirdStep.isEmpty()).isTrue();
-//    }
-//
-//    @Test
-//    public void getRaceDataFourthStepTest() {
-//        String testWords =
-//                "<h6>Planica</h6><div><p>World Cup</p><p>Ski Jumping</p><p>Men's HS240</p></div></div>";
-//        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-//        Set<String> raceDataFourthStep = matchingWords.getRaceDataFourthStep(testWords);
-//        Assertions.assertThat(raceDataFourthStep.isEmpty()).isFalse();
-//        Assertions.assertThat(raceDataFourthStep).hasSize(3);
-//        Assertions.assertThat(raceDataFourthStep).containsAll(Arrays.asList("World Cup", "Ski Jumping", "Men's HS240"));
-//    }
-//
-//    @Test
-//    public void getRaceDataFourthStepWhenNullTest() {
-//        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-//        Set<String> raceDataFourthStep = matchingWords.getRaceDataFourthStep(null);
-//        Assertions.assertThat(raceDataFourthStep.isEmpty()).isTrue();
-//    }
-//
-//    @Test
-//    public void getRaceDateTest() {
-//        String words = " <div class=\"date\">" +
-//                "<div class=\"date-label\">" +
-//                "<span class=\"date-day\">25</span>" +
-//                "<span class=\"date-month\">MAR</span>" +
-//                "<span class=\"date-year\">2018</span>";
-//
-//        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-//        Set<String> raceDate = matchingWords.getRaceDate(words);
-//        Assertions.assertThat(raceDate.isEmpty()).isFalse();
-//        Assertions.assertThat(raceDate).hasSize(3);
-//        Assertions.assertThat(raceDate).containsAll(Arrays.asList("25", "MAR", "2018"));
-//    }
-//
-//    @Test
-//    public void getResultDataFilterTest() {
-//        String words = "<tbody><thead></thead><tr><th data-hide='phone'>Points</th></tr></tbody>values";
-//        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-//        Set<String> raceDate = matchingWords.getJumpResultDataFilter(words);
-//        Assertions.assertThat(raceDate.isEmpty()).isFalse();
-//        Assertions.assertThat(raceDate).isNotEmpty();
-//        Assertions.assertThat(raceDate).isEqualTo(Arrays.asList("<tr><th data-hide='phone'>Points</th></tr>"));
-//    }
-//
-//    @Test
-//    public void getResultDataFirstStepTest() {
-//        String words =
-//                "</thead><tr><td class='i0' align='right'></tr>" +
-//                        "<tr><td class='i1' align='right'></tr>"+
-//                        "<tr><td class='i0' align='right'></tr></thead>";
-//
-//        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-//        Set<String> raceDate = matchingWords.getJumpResultDataFirstStep(words);
-//        Assertions.assertThat(raceDate.isEmpty()).isFalse();
-//        Assertions.assertThat(raceDate).hasSize(3);
-//        Assertions.assertThat(raceDate).isEqualTo(Arrays.asList(
-//                "<td class='i0' align='right'>",
-//                "<td class='i1' align='right'>",
-//                "<td class='i0' align='right'>"));
-//    }
-//
-//    @Test
-//    public void getResultDataSecondStepTest() {
-//        String words =
-//                "<td class='i0' align='right'>1</td>" +
-//                 "<td class='i1' align='right'>2</td>";
-//
-//        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-//        Set<String> raceDate = matchingWords.getJumpResultDataSecondStep(words);
-//        Assertions.assertThat(raceDate.isEmpty()).isFalse();
-//        Assertions.assertThat(raceDate).hasSize(2);
-//        Assertions.assertThat(raceDate).isEqualTo(Arrays.asList("1","2"));
-//    }
-//
-//    @Test
-//    public void getSkiJumperNameTest() {
-//        String words = "test test <a test test>value value</a>test test";
-//        MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
-//        String raceDate = matchingWords.getSkiJumperName(words);
-//        Assertions.assertThat(raceDate).isNotEmpty();
-//        Assertions.assertThat(raceDate).isEqualTo("value value");
-//    }
 }

@@ -9,9 +9,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class JumpResultMapper {
-    public abstract JumpResultDTO toDTO(JumpResult jumpResultDTO);
+    public abstract JumpResultDTO toDTO(JumpResult jumpResult);
 
-    public abstract List<JumpResultDTO> toDTO(List<JumpResult> jumpResultDTOS);
+    public abstract List<JumpResultDTO> toDTO(List<JumpResult> jumpResult);
 
     @InheritInverseConfiguration
     public abstract JumpResult fromDTO(JumpResultDTO jumpResultDTO);

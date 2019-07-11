@@ -10,6 +10,4 @@ public interface JumpCategoryRepository extends JpaRepository<JumpCategory, Inte
     JumpCategory findById(Integer categoryId);
 
     JumpCategory findByShortName(String shortName);
-
-    JumpCategory findByName(String name);
 }

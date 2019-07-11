@@ -3,6 +3,7 @@ package com.pl.skijumping.batch.importdataraceevent;
 import com.pl.skijumping.batch.SetupUtilTests;
 import com.pl.skijumping.common.exception.InternalServiceException;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
+import com.pl.skijumping.domain.model.Gender;
 import com.pl.skijumping.dto.DataRaceDTO;
 import com.pl.skijumping.dto.JumpCategoryDTO;
 import com.pl.skijumping.dto.MessageDTO;
@@ -80,7 +81,7 @@ public class ImportDataRaceEventListenerTest {
                 .isCancelled(false)
                 .jumpCategoryId(1)
                 .codex("3828")
-                .gender("M")
+                .gender(Gender.MALE.name())
                 .date(LocalDate.of(2016, 12, 29))
                 .competitionType("HS137")
                 .raceId(4706L)
@@ -91,7 +92,7 @@ public class ImportDataRaceEventListenerTest {
                 .isCancelled(false)
                 .jumpCategoryId(1)
                 .codex("3829")
-                .gender("M")
+                .gender(Gender.MALE.name())
                 .date(LocalDate.of(2016, 12, 30))
                 .competitionType("HS137")
                 .raceId(4707L)
@@ -141,7 +142,7 @@ public class ImportDataRaceEventListenerTest {
                 .isCancelled(false)
                 .jumpCategoryId(1)
                 .codex("3186")
-                .gender("M")
+                .gender(Gender.MALE.name())
                 .date(LocalDate.of(2017, 2, 22))
                 .competitionType("HS130")
                 .raceId(5321L)
@@ -152,7 +153,7 @@ public class ImportDataRaceEventListenerTest {
                 .isCancelled(false)
                 .jumpCategoryId(1)
                 .codex("3187")
-                .gender("M")
+                .gender(Gender.MALE.name())
                 .date(LocalDate.of(2017, 2, 23))
                 .competitionType("HS130")
                 .raceId(5322L)
@@ -220,7 +221,7 @@ public class ImportDataRaceEventListenerTest {
                 .isCancelled(false)
                 .jumpCategoryId(1)
                 .codex("3113")
-                .gender("M")
+                .gender(Gender.MALE.name())
                 .date(LocalDate.of(2019, 2, 1))
                 .competitionType("HS235")
                 .raceId(5254L)
@@ -231,7 +232,7 @@ public class ImportDataRaceEventListenerTest {
                 .isCancelled(false)
                 .jumpCategoryId(1)
                 .codex("3114")
-                .gender("M")
+                .gender(Gender.MALE.name())
                 .date(LocalDate.of(2019, 2, 2))
                 .competitionType("HS235")
                 .raceId(5255L)
@@ -242,7 +243,7 @@ public class ImportDataRaceEventListenerTest {
                 .isCancelled(false)
                 .jumpCategoryId(1)
                 .codex("3115")
-                .gender("M")
+                .gender(Gender.MALE.name())
                 .date(LocalDate.of(2019, 2, 3))
                 .competitionType("HS235")
                 .raceId(5256L)

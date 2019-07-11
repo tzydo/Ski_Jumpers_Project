@@ -17,10 +17,7 @@ public class DataReaderTest {
 
     @Test
     public void readTest() throws IOException {
-        String expectedFileContent = "https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=39207&seasonCode=2017" +
-                "https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=39224&seasonCode=2017" +
-                "https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=39038&seasonCode=2017" +
-                "https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=39225&seasonCode=2017";
+        String expectedFileContent = "https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=39207&seasoncode=2017https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=39224&seasoncode=2017https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=39038&seasoncode=2017https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=39225&seasoncode=2017";
 
         DiagnosticMonitor diagnosticMonitor = SetupUtilTests.getDiagnosticMonitorMock();
         DataReader dataReader = new DataReader(diagnosticMonitor);

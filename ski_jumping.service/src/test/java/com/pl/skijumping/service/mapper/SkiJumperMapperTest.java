@@ -1,84 +1,68 @@
 package com.pl.skijumping.service.mapper;
 
 import com.pl.skijumping.domain.entity.SkiJumper;
+import com.pl.skijumping.domain.model.Gender;
+import com.pl.skijumping.domain.model.MaritalStatus;
 import com.pl.skijumping.dto.SkiJumperDTO;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.Arrays;
-import java.util.List;
+import java.time.LocalDate;
 
-import static org.junit.Assert.assertEquals;
-
-@SpringBootTest
-@ActiveProfiles("test")
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class SkiJumperMapperTest {
-    private static final Long FIRST_SKI_JUMPER_ID = 1L;
-    private static final String VALUES_ARE_NOT_EQUALS = "values are not equals";
-    private static final Long SECOND_SKI_JUMPER_ID = 2L;
-    private static final Long THIRD_SKI_JUMPER_ID = 3L;
-
-    @Autowired
-    private SkiJumperMapper skiJumperMapper;
 
     @Test
-    public void toDTOTest() {
-        SkiJumper skiJumper = createSkiJumper(FIRST_SKI_JUMPER_ID);
-        SkiJumperDTO skiJumperDTO = createSkiJumperDTO(FIRST_SKI_JUMPER_ID);
+    public void fromDTOMappingTest() {
+        SkiJumperDTO skiJumperDTO = new SkiJumperDTO()
+                .id(1L)
+                .fisCode(3333)
+                .birthday(LocalDate.of(2019, 1, 1))
+                .name("testName")
+                .nationality("Nationality")
+                .team("team")
+                .gender(Gender.FEMALE.name())
+                .martialStatus(MaritalStatus.IN_RELATIONSHIP.name());
 
-        assertEquals(VALUES_ARE_NOT_EQUALS, skiJumperDTO, skiJumperMapper.toDTO(skiJumper));
-    }
+        SkiJumper expectedSkiJumper = new SkiJumper()
+                .id(1L)
+                .fisCode(3333)
+                .birthday(LocalDate.of(2019, 1, 1))
+                .name("testName")
+                .nationality("Nationality")
+                .team("team")
+                .gender(Gender.FEMALE)
+                .martialStatus(MaritalStatus.IN_RELATIONSHIP);
 
-    @Test
-    public void toDTOListTest() {
-        List<SkiJumper> skiJumperList = Arrays.asList(createSkiJumper(FIRST_SKI_JUMPER_ID),
-                createSkiJumper(SECOND_SKI_JUMPER_ID),
-                createSkiJumper(THIRD_SKI_JUMPER_ID));
-
-
-        List<SkiJumperDTO> skiJumperDTOList = Arrays.asList(createSkiJumperDTO(FIRST_SKI_JUMPER_ID),
-                createSkiJumperDTO(SECOND_SKI_JUMPER_ID),
-                createSkiJumperDTO(THIRD_SKI_JUMPER_ID));
-
-        assertEquals(VALUES_ARE_NOT_EQUALS, skiJumperDTOList, skiJumperMapper.toDTO(skiJumperList));
+        SkiJumper actualSkiJumper = SkiJumperMapper.SKI_JUMPER_MAPPER.fromDTO(skiJumperDTO);
+        Assertions.assertThat(actualSkiJumper).isEqualToComparingFieldByFieldRecursively(expectedSkiJumper);
     }
 
     @Test
-    public void fromDTOTest() {
-        SkiJumperDTO skiJumperDTO = createSkiJumperDTO(FIRST_SKI_JUMPER_ID);
-        SkiJumper skiJumper = createSkiJumper(FIRST_SKI_JUMPER_ID);
+    public void fromObjectMappingTest() {
+        SkiJumper skiJumper = new SkiJumper()
+                .id(1L)
+                .fisCode(3333)
+                .birthday(LocalDate.of(2019, 1, 1))
+                .name("testName")
+                .nationality("Nationality")
+                .team("team")
+                .gender(Gender.FEMALE)
+                .martialStatus(MaritalStatus.IN_RELATIONSHIP);
 
-        assertEquals(VALUES_ARE_NOT_EQUALS, skiJumper, skiJumperMapper.fromDTO(skiJumperDTO));
-    }
+        SkiJumperDTO expectedSkiJumperDTO = new SkiJumperDTO()
+                .id(1L)
+                .fisCode(3333)
+                .birthday(LocalDate.of(2019, 1, 1))
+                .name("testName")
+                .nationality("Nationality")
+                .team("team")
+                .gender(Gender.FEMALE.name())
+                .martialStatus(MaritalStatus.IN_RELATIONSHIP.name());
 
-    @Test
-    public void fromDTOListTest() {
-        List<SkiJumper> skiJumperList = Arrays.asList(createSkiJumper(FIRST_SKI_JUMPER_ID),
-                createSkiJumper(SECOND_SKI_JUMPER_ID),
-                createSkiJumper(THIRD_SKI_JUMPER_ID));
-
-
-        List<SkiJumperDTO> skiJumperDTOList = Arrays.asList(createSkiJumperDTO(FIRST_SKI_JUMPER_ID),
-                createSkiJumperDTO(SECOND_SKI_JUMPER_ID),
-                createSkiJumperDTO(THIRD_SKI_JUMPER_ID));
-
-        assertEquals(VALUES_ARE_NOT_EQUALS, skiJumperList, skiJumperMapper.fromDTO(skiJumperDTOList));
-    }
-
-    private SkiJumper createSkiJumper(Long value) {
-        return new SkiJumper()
-                .id(value)
-                .fisCode(value.intValue() + 1);
-    }
-
-    private SkiJumperDTO createSkiJumperDTO(Long value) {
-        return new SkiJumperDTO()
-                .id(value)
-                .fisCode(value.intValue() + 1);
+        SkiJumperDTO actualSkiJumperDTO = SkiJumperMapper.SKI_JUMPER_MAPPER.toDTO(skiJumper);
+        Assertions.assertThat(actualSkiJumperDTO).isEqualToComparingFieldByFieldRecursively(expectedSkiJumperDTO);
     }
 }

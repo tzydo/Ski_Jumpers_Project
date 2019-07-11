@@ -9,9 +9,7 @@
             <column autoIncrement="true" type="int" name="id">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="city" type="varchar(100)">
-                <constraints nullable="false" unique="true"/>
-            </column>
+            <column name="city" type="varchar(100)"/>
             <column name="hill_size" type="number"/>
             <column name="hill_type" type="varchar(100)"/>
             <column name="country" type="int" defaultValue="null">

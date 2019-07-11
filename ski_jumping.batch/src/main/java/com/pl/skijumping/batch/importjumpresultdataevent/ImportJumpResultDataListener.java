@@ -1,5 +1,7 @@
 package com.pl.skijumping.batch.importjumpresultdataevent;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.JumpResultDTO;
 import com.pl.skijumping.dto.JumpResultToDataRaceDTO;
@@ -27,20 +29,21 @@ public class ImportJumpResultDataListener {
     private final DiagnosticMonitor diagnosticMonitor;
     private final JumpResultToDataRaceService jumpResultToDataRaceService;
     private final RabbitmqProducer rabbitmqProducer;
-    private final String sourceImportEventListener;
+    private final String importSkiJumperDataListener;
     private final String exchange;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public ImportJumpResultDataListener(JumpResultService jumpResultService,
                                         DiagnosticMonitor diagnosticMonitor,
                                         JumpResultToDataRaceService jumpResultToDataRaceService,
                                         RabbitmqProducer rabbitmqProducer,
-                                        @Value("${skijumping.rabbitmq.queues.sourceImportEventListener}") String sourceImportEventListener,
+                                        @Value("${skijumping.rabbitmq.queues.importSkiJumperDataListener}") String importSkiJumperDataListener,
                                         @Value("${skijumping.rabbitmq.exchange}") String exchange) {
         this.jumpResultService = jumpResultService;
         this.diagnosticMonitor = diagnosticMonitor;
         this.jumpResultToDataRaceService = jumpResultToDataRaceService;
         this.rabbitmqProducer = rabbitmqProducer;
-        this.sourceImportEventListener = sourceImportEventListener;
+        this.importSkiJumperDataListener = importSkiJumperDataListener;
         this.exchange = exchange;
     }
 
@@ -66,7 +69,12 @@ public class ImportJumpResultDataListener {
     }
 
     private void sendMessage(JumpResultDTO jumpResult) {
-        MessageDTO messageDTO = new MessageDTO().addProperties(MessagePropertiesConst.JUMP_RESULT.getValue(), jumpResult);
-        rabbitmqProducer.sendMessage(exchange, sourceImportEventListener, messageDTO);
+        MessageDTO messageDTO;
+        try {
+            messageDTO = new MessageDTO().addProperties(MessagePropertiesConst.JUMP_RESULT.getValue(), objectMapper.writeValueAsString(jumpResult));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        rabbitmqProducer.sendMessage(exchange, importSkiJumperDataListener, messageDTO);
     }
 }

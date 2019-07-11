@@ -8,6 +8,7 @@ import com.pl.skijumping.service.JumpResultService;
 
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,13 +35,20 @@ class ImportJumpResultData {
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
         JumpResultParser jumpResultParser = new JumpResultParser(diagnosticMonitor);
 
+        diagnosticMonitor.logInfo("Start parsing data from file: " + filePath);
         return matchingWords.getJumpResultTemplate(readSource).stream()
                 .filter(Objects::nonNull)
                 .map(jumpResultParser::parseData)
                 .collect(Collectors.toSet())
                 .stream()
                     .filter(Objects::nonNull)
-                    .map(jumpResultService::save)
+                    .map(jumpResult -> {
+                        Optional<JumpResultDTO> foundJumpResult = jumpResultService.findByJumpResult(jumpResult);
+                        if(foundJumpResult.isPresent()) {
+                            return jumpResult.id(foundJumpResult.get().getId());
+                        }
+                        return jumpResult.id(jumpResultService.save(jumpResult).getId());
+                    })
                     .collect(Collectors.toSet());
     }
 }

@@ -44,7 +44,6 @@ public class DataReader {
             return null;
         }
 
-        //todo refactor stream ?
         String fileContent = String.join("", fileLines);
 
         diagnosticMonitor.logInfo(String.format("Finish reading file from: %s", filePath));

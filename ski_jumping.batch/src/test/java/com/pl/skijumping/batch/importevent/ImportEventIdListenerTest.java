@@ -14,8 +14,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-
 public class ImportEventIdListenerTest {
 
     private static final String HOST = "host";

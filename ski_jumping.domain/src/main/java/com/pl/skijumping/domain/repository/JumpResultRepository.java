@@ -6,6 +6,6 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface JumpResultRepository extends JpaRepository<JumpResult, Long>, QueryDslPredicateExecutor {
+public interface JumpResultRepository extends JpaRepository<JumpResult, Long>, QueryDslPredicateExecutor<JumpResult> {
 
 }

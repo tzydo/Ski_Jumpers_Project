@@ -81,26 +81,6 @@ public class FileUtil {
         return Optional.of(pathToFile.toFile());
     }
 
-    public static List<File> getFiles(String directoryPath) {
-        if (directoryPath == null || directoryPath.isEmpty()) {
-            LOGGER.error("Cannot get file from null directory");
-            return new ArrayList<>();
-        }
-
-        Path pathToDirectory = Paths.get(directoryPath);
-        if (!pathToDirectory.toFile().isDirectory()) {
-            LOGGER.error("Cannot get file from not existing directory");
-            return new ArrayList<>();
-        }
-
-        try {
-            return Files.walk(pathToDirectory).filter(v -> v.toFile().isFile()).map(Path::toFile).collect(Collectors.toList());
-        } catch (IOException e) {
-            LOGGER.error("Error occurred getting file from directory {}", directoryPath);
-            return new ArrayList<>();
-        }
-    }
-
     public static List<File> getFiles(Path directoryPath) {
         if (directoryPath == null) {
             LOGGER.error("Cannot get file from null directory");
@@ -114,45 +94,6 @@ public class FileUtil {
 
         try {
             return Files.walk(directoryPath).filter(v -> v.toFile().isFile()).map(Path::toFile).collect(Collectors.toList());
-        } catch (IOException e) {
-            LOGGER.error("Error occurred getting file from directory {}", directoryPath);
-            return new ArrayList<>();
-        }
-    }
-
-    public static List<Path> getPaths(String directoryPath) {
-        if (directoryPath == null) {
-            LOGGER.error("Cannot get file from null directory");
-            return new ArrayList<>();
-        }
-
-        Path path = FileUtil.getPath(directoryPath);
-        if (!path.toFile().isDirectory()) {
-            LOGGER.error("Cannot get file from not existing directory");
-            return new ArrayList<>();
-        }
-
-        try {
-            return Files.walk(path).filter(v -> v.toFile().isFile()).collect(Collectors.toList());
-        } catch (IOException e) {
-            LOGGER.error("Error occurred getting file from directory {}", directoryPath);
-            return new ArrayList<>();
-        }
-    }
-
-    public static List<Path> getPathList(Path directoryPath) {
-        if (directoryPath == null) {
-            LOGGER.error("Cannot get file from null directory");
-            return new ArrayList<>();
-        }
-
-        if (!directoryPath.toFile().isDirectory()) {
-            LOGGER.error("Cannot get file from not existing directory");
-            return new ArrayList<>();
-        }
-
-        try {
-            return Files.walk(directoryPath).collect(Collectors.toList());
         } catch (IOException e) {
             LOGGER.error("Error occurred getting file from directory {}", directoryPath);
             return new ArrayList<>();
@@ -182,46 +123,10 @@ public class FileUtil {
         return DirectoryCreator.create(getResourcePath(), directoryName);
     }
 
-    public static Path createDirectory(Path directoryPath, String directoryName) {
-        if (directoryName == null || !directoryPath.toFile().isDirectory()) {
-            return null;
-        }
-        return DirectoryCreator.create(directoryPath, directoryName);
-    }
-
-    /***
-     * Create file in resources
-     */
-    public static Path createFile(String fileName) {
-        if (fileName == null) {
-            return null;
-        }
-        return FileCreator.create(getResourcePath(), fileName);
-    }
-
     public static Path createFile(Path directoryPath, String fileName) {
         if (fileName == null || !directoryPath.toFile().isDirectory()) {
             return null;
         }
         return FileCreator.create(directoryPath, fileName);
-    }
-
-    public static String getFileNameWithoutExtensions(Path file) {
-        if(file == null || file.getFileName() == null) {
-            return "random_empty";
-        }
-
-        String[] split = file.getFileName().toString().split("\\.");
-        return split[0];
-    }
-
-    public static Set<String> getFilesName(List<Path> pathList) {
-        if(pathList == null || pathList.isEmpty()) {
-            return new HashSet<>();
-        }
-
-        return pathList.stream()
-                .map(path -> path.getFileName().toString())
-                .collect(Collectors.toSet());
     }
 }

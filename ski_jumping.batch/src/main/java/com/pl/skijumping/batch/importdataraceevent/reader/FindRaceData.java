@@ -5,6 +5,7 @@ import com.pl.skijumping.batch.matchingword.MatchingWords;
 import com.pl.skijumping.common.util.BasicDataParser;
 import com.pl.skijumping.common.util.ValueChecker;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
+import com.pl.skijumping.domain.model.Gender;
 import com.pl.skijumping.dto.DataRaceDTO;
 import com.pl.skijumping.dto.JumpCategoryDTO;
 import com.pl.skijumping.service.JumpCategoryService;
@@ -40,7 +41,7 @@ public class FindRaceData {
                 .jumpCategoryId(ValueChecker.isNull(findJumpCategory(words, matchingWords), "Cannot match jump category"))
                 .codex(ValueChecker.isNull(findCodex(words, matchingWords), "Cannot match codex"))
                 .eventId(ValueChecker.isNull(BasicDataParser.parseLong(tournamentEventId), "Event id cannot be null!"))
-                .gender(ValueChecker.isNull(matchingWords.getRaceDataGender(words), "Cannot match gender status"))
+                .gender(Gender.getEnum(ValueChecker.isNull(matchingWords.getRaceDataGender(words), "Cannot match gender status")).name())
                 .competitionType(ValueChecker.isNull(matchingWords.getRaceDataCompetitionType(words), "Not found competition type"))
                 .seasonCode(ValueChecker.isNull(tournamentYear, "Season code cannot be null!"))
                 .date(ValueChecker.isNull(FindRaceDataUtil.generateDate(findDate(words, matchingWords), Integer.toString(tournamentYear - 1)), "Date cannot be null"));

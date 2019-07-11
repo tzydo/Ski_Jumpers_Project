@@ -59,6 +59,7 @@ public class ImportEventIdListener {
             diagnosticMonitor.logWarn("Cannot read event id from empty file");
             return;
         }
+
         MatchingWords matchingWords = new MatchingWords(diagnosticMonitor);
         matchingWords.getEventIds(readText)
                 .forEach(event -> sendMessage(event, seasonCode));

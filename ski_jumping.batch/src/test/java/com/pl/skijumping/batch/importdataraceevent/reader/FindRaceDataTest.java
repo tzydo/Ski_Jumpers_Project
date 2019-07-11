@@ -2,6 +2,7 @@ package com.pl.skijumping.batch.importdataraceevent.reader;
 
 import com.pl.skijumping.batch.SetupUtilTests;
 import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
+import com.pl.skijumping.domain.model.Gender;
 import com.pl.skijumping.dto.DataRaceDTO;
 import com.pl.skijumping.dto.JumpCategoryDTO;
 import com.pl.skijumping.service.JumpCategoryService;
@@ -65,7 +66,7 @@ public class FindRaceDataTest {
 
         DataRaceDTO expectedDataRaceDTO = new DataRaceDTO()
                 .raceId(5190L)
-                .gender("L")
+                .gender(Gender.FEMALE.name())
                 .isCancelled(false)
                 .codex("3051")
                 .eventId(123L)
@@ -89,7 +90,7 @@ public class FindRaceDataTest {
 
         DataRaceDTO expectedDataRaceDTO = new DataRaceDTO()
                 .raceId(5386L)
-                .gender("M")
+                .gender(Gender.MALE.name())
                 .isCancelled(false)
                 .codex("3243")
                 .eventId(123L)

@@ -6,7 +6,7 @@ public class RegexpPattern {
     }
 
     static final String EVENT_ID = "eventid=(.{5}?)";
-//<span class="btn__label">download</span>
+
     static final String FIND_RACE_DATA_TEMPLATE = "<div class=\"table-row reset-padding\">(.*?)g-xs-12 split-row stop-bubbling";
     static final String FIND_RACE_DATA_GET_RACE_ID = "raceid=(.*?)\"";
     static final String FIND_RACE_DATA_CHECK_CANCELLED = "<span class=\"status__item\" title=\"(.*?)cancelled\">";

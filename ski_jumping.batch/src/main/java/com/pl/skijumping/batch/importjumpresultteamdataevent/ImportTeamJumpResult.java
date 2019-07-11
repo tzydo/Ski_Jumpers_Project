@@ -8,6 +8,7 @@ import com.pl.skijumping.service.JumpResultService;
 
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,13 @@ public class ImportTeamJumpResult {
                 .collect(Collectors.toSet());
 
         return jumpResultDTOS.stream()
-                .map(jumpResultService::save)
+                .map(jumpResult -> {
+                    Optional<JumpResultDTO> foundJumpResult = jumpResultService.findByJumpResult(jumpResult);
+                    if(foundJumpResult.isPresent()) {
+                        return jumpResult.id(foundJumpResult.get().getId());
+                    }
+                    return jumpResult.id(jumpResultService.save(jumpResult).getId());
+                })
                 .collect(Collectors.toSet());
     }
 }

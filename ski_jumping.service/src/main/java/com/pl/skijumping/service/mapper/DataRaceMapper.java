@@ -45,7 +45,7 @@ public abstract class DataRaceMapper {
         if(dataRace == null) {
             return;
         }
-        dataRace.setGender(Gender.getValue(dataRaceDTO.getGender()));
+        dataRace.setGender(Gender.getEnum(dataRaceDTO.getGender()));
         Optional<CompetitionTypeDTO> competitionTypeDTO = competitionTypeService
                 .findByType(dataRaceDTO.getCompetitionType());
 

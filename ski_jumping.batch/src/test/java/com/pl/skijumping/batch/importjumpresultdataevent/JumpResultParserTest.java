@@ -23,6 +23,8 @@ public class JumpResultParserTest {
         JumpResultDTO expectedJumpResultDTO = new JumpResultDTO()
                 .rank(1)
                 .firstJump(96.0)
+                .secondJump(0.0)
+                .pointsForSecondJump(0.0)
                 .pointsForFirstJump(138.5)
                 .totalPoints(138.5)
                 .competitorId("153102")

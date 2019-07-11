@@ -44,7 +44,7 @@ public class ImportDataRaceEventListener {
                                        @Value("${skijumping.settings.jumpResultHost}") String jumpResultHost,
                                        @Value("${skijumping.rabbitmq.queues.importPlaceEventListener}") String importPlaceEventQueue,
                                        @Value("${skijumping.rabbitmq.queues.importJumpResultEventListener}") String importJumpResultEventQueue,
-                                       @Value("${skijumping.rabbitmq.queues.importJumpResultEventTeamListener}") String importJumpResultTeamEventQueue,
+                                       @Value("${skijumping.rabbitmq.queues.importJumpResultTeamEventListener}") String importJumpResultTeamEventQueue,
                                        @Value("${skijumping.rabbitmq.queues.sourceImportEventListener}") String sourceImportEventListener,
                                        @Value("${skijumping.rabbitmq.exchange}") String exchange,
                                        DiagnosticMonitor diagnosticMonitor,
@@ -111,20 +111,20 @@ public class ImportDataRaceEventListener {
     private void importJumpResultData(DataRaceDTO dataRaceDTO, String filePath) {
         MessageDTO messageDTO = new MessageDTO()
                 .filePath(filePath)
-                .addProperties(MessagePropertiesConst.DARA_RACE_ID.getValue(), dataRaceDTO.getRaceId())
+                .addProperties(MessagePropertiesConst.DARA_RACE_ID.getValue(), dataRaceDTO.getId())
                 .addProperties(MessagePropertiesConst.DOWNLOAD_SOURCE_URL.getValue(), StringFormatter.format(jumpResultHost, dataRaceDTO.getRaceId()).getValue())
                 .addProperties(MessagePropertiesConst.DESTINATION_TARGET.getValue(), importJumpResultEventQueue)
-                .addProperties(MessagePropertiesConst.FILE_NAME.getValue(), FileScannerConst.prepareFileName(FileScannerConst.FILE_JUMP_RESULT, "_" + MessagePropertiesConst.DARA_RACE_ID.getValue()));
+                .addProperties(MessagePropertiesConst.FILE_NAME.getValue(), FileScannerConst.prepareFileName(FileScannerConst.FILE_JUMP_RESULT, dataRaceDTO.getRaceId().toString()));
         rabbitmqProducer.sendMessage(exchange, sourceImportEventListener, messageDTO);
     }
 
     private void importTeamJumpResultData(DataRaceDTO dataRaceDTO, String filePath) {
         MessageDTO messageDTO = new MessageDTO()
                 .filePath(filePath)
-                .addProperties(MessagePropertiesConst.DARA_RACE_ID.getValue(), dataRaceDTO.getRaceId())
+                .addProperties(MessagePropertiesConst.DARA_RACE_ID.getValue(), dataRaceDTO.getId())
                 .addProperties(MessagePropertiesConst.DOWNLOAD_SOURCE_URL.getValue(), StringFormatter.format(jumpResultHost, dataRaceDTO.getRaceId()).getValue())
                 .addProperties(MessagePropertiesConst.DESTINATION_TARGET.getValue(), importJumpResultTeamEventQueue)
-                .addProperties(MessagePropertiesConst.FILE_NAME.getValue(), FileScannerConst.prepareFileName(FileScannerConst.FILE_JUMP_RESULT, "_" + MessagePropertiesConst.DARA_RACE_ID.getValue()));
+                .addProperties(MessagePropertiesConst.FILE_NAME.getValue(), FileScannerConst.prepareFileName(FileScannerConst.FILE_JUMP_RESULT, dataRaceDTO.getRaceId().toString()));
         rabbitmqProducer.sendMessage(exchange, sourceImportEventListener, messageDTO);
     }
 }
