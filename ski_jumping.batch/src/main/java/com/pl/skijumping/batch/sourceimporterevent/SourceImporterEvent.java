@@ -5,6 +5,8 @@ import com.pl.skijumping.diagnosticmonitor.DiagnosticMonitor;
 import com.pl.skijumping.dto.MessageDTO;
 import com.pl.skijumping.dto.MessagePropertiesConst;
 import com.pl.skijumping.rabbitmq.producer.RabbitmqProducer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
@@ -14,10 +16,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class SourceImporterEvent {
-
+    private static final Map<String, String> fileUrlMap = new HashMap<>();
     private final RabbitmqProducer rabbitmqProducer;
     private final DiagnosticMonitor diagnosticMonitor;
     private final HtmlDownloader htmlDownloader;
@@ -49,6 +53,12 @@ public class SourceImporterEvent {
         String url = messageDTO.getProperties().getStringValue(MessagePropertiesConst.DOWNLOAD_SOURCE_URL.getValue());
         String fileName = messageDTO.getProperties().getStringValue(MessagePropertiesConst.FILE_NAME.getValue());
         String destinationTarget = messageDTO.getProperties().getStringValue(MessagePropertiesConst.DESTINATION_TARGET.getValue());
+
+        if(fileUrlMap.containsKey(fileName)){
+            diagnosticMonitor.logWarn(String.format("File: %s was successfully download earlier!", fileName));
+            return;
+        }
+        fileUrlMap.put(fileName, url);
         SourceDownloader sourceDownloader = new SourceDownloader(diagnosticMonitor, htmlDownloader);
         Path filePath = sourceDownloader.download(directoryPath, url, fileName);
         if(filePath == null) {
