@@ -10,4 +10,5 @@
     <include file="/db/changelog/changes/importCountryList.xml"/>
     <include file="/db/changelog/changes/addPlaceEntity.xml"/>
     <include file="/db/changelog/changes/addDataRaceToPlaceEntity.xml"/>
+    <include file="/db/changelog/changes/addImportedFilesEntity.xml"/>
 </databaseChangeLog>

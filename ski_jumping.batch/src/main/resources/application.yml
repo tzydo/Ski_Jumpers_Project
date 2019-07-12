@@ -5,11 +5,11 @@ skijumping:
     eventHost: ${EVENT_HOST:https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=%s&seasoncode=%s}
     jumpResultHost: ${JUMP_RESULT_HOST:https://www.fis-ski.com/DB/general/results.html?sectorcode=JP&raceid=%s}
     directory: ${DIRECTORY:tmp}
-    numberOfPreviousMonth: ${NUMBER_OF_PREVIOUSE_MONTH_TO_DOWNLOAD:1}
+    numberOfPreviousMonth: ${NUMBER_OF_PREVIOUSE_MONTH_TO_DOWNLOAD:10}
     skiJumperDataHost: ${SKI_JUMPER_DATA_HOST:https://www.fis-ski.com/DB/general/athlete-biography.html?sectorcode=jp&competitorid=%s&type=result}
     scheduler:
       importData:
-        cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/1 * * * *}
+        cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/30 * * * *}
         enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:true}
   rabbitmq:
     exchange: ${RABBITMQ_EXCHANGE:SkiJumping}

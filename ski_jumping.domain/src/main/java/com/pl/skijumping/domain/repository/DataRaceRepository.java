@@ -6,6 +6,8 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface DataRaceRepository extends JpaRepository<DataRace, Long>, QueryDslPredicateExecutor {
 
@@ -14,4 +16,7 @@ public interface DataRaceRepository extends JpaRepository<DataRace, Long>, Query
 
     @Transactional
     DataRace findByEventId(Long eventId);
+
+    @Transactional
+    List<DataRace> findAllByIdIn(List<Long> dataRaceIds);
 }
