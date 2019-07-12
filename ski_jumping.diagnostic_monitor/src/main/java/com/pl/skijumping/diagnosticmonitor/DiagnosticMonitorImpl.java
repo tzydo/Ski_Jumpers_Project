@@ -2,15 +2,20 @@ package com.pl.skijumping.diagnosticmonitor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class DiagnosticMonitorImpl implements DiagnosticMonitor {
     private static final Logger LOGGER = LoggerFactory.getLogger(DiagnosticMonitorImpl.class);
     private final SlackClient slackClient;
 
-    public DiagnosticMonitorImpl() {
-        slackClient = new SlackClient();
+//    public DiagnosticMonitorImpl(@Value("${skijumping.slack.url}") Optional<String> slackUrl ) {
+    public DiagnosticMonitorImpl(@Value("${skijumping.slack.url}") String slackUrl ) {
+//        if(slackUrl.isPresent())
+        slackClient = new SlackClient(slackUrl);
     }
 
     @Override

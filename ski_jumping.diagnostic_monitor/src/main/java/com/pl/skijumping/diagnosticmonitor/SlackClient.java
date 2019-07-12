@@ -6,16 +6,19 @@ import com.github.seratch.jslack.api.webhook.Payload;
 import java.io.IOException;
 
 class SlackClient {
-    private static final String URL = "https://hooks.slack.com/services/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";
-    public SlackClient() {
+    private final Slack slack;
+    private final String url;
+
+    public SlackClient(String url) {
+        slack = Slack.getInstance();
+        this.url = url;
     }
 
     public void sendMessage(String message) {
-        Slack slack = Slack.getInstance();
         try {
-            slack.send(URL, createPayload(message));
+            slack.send(url, createPayload(message));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalStateException(e.getMessage());
         }
     }
 

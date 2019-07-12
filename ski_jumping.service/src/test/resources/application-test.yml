@@ -1,3 +1,6 @@
+skijumping:
+  slack:
+    url: test
 spring:
   jpa:
     database: ${DATABASE:H2}
