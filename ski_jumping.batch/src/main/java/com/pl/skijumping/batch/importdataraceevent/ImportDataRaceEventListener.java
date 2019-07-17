@@ -10,7 +10,6 @@ import com.pl.skijumping.rabbitmq.producer.RabbitmqProducer;
 import com.pl.skijumping.service.CompetitionTypeService;
 import com.pl.skijumping.service.DataRaceService;
 import com.pl.skijumping.service.JumpCategoryService;
-import com.sun.javafx.binding.StringFormatter;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
@@ -112,7 +111,7 @@ public class ImportDataRaceEventListener {
         MessageDTO messageDTO = new MessageDTO()
                 .filePath(filePath)
                 .addProperties(MessagePropertiesConst.DARA_RACE_ID.getValue(), dataRaceDTO.getId())
-                .addProperties(MessagePropertiesConst.DOWNLOAD_SOURCE_URL.getValue(), StringFormatter.format(jumpResultHost, dataRaceDTO.getRaceId()).getValue())
+                .addProperties(MessagePropertiesConst.DOWNLOAD_SOURCE_URL.getValue(), String.format(jumpResultHost, dataRaceDTO.getRaceId()))
                 .addProperties(MessagePropertiesConst.DESTINATION_TARGET.getValue(), importJumpResultEventQueue)
                 .addProperties(MessagePropertiesConst.FILE_NAME.getValue(), FileScannerConst.prepareFileName(FileScannerConst.FILE_JUMP_RESULT, dataRaceDTO.getRaceId().toString()));
         rabbitmqProducer.sendMessage(exchange, sourceImportEventListener, messageDTO);
@@ -122,7 +121,7 @@ public class ImportDataRaceEventListener {
         MessageDTO messageDTO = new MessageDTO()
                 .filePath(filePath)
                 .addProperties(MessagePropertiesConst.DARA_RACE_ID.getValue(), dataRaceDTO.getId())
-                .addProperties(MessagePropertiesConst.DOWNLOAD_SOURCE_URL.getValue(), StringFormatter.format(jumpResultHost, dataRaceDTO.getRaceId()).getValue())
+                .addProperties(MessagePropertiesConst.DOWNLOAD_SOURCE_URL.getValue(), String.format(jumpResultHost, dataRaceDTO.getRaceId()))
                 .addProperties(MessagePropertiesConst.DESTINATION_TARGET.getValue(), importJumpResultTeamEventQueue)
                 .addProperties(MessagePropertiesConst.FILE_NAME.getValue(), FileScannerConst.prepareFileName(FileScannerConst.FILE_JUMP_RESULT, dataRaceDTO.getRaceId().toString()));
         rabbitmqProducer.sendMessage(exchange, sourceImportEventListener, messageDTO);

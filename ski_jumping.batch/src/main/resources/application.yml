@@ -1,16 +1,16 @@
 #second, minute, hour, day of month, month, day(s) of week
 skijumping:
   settings:
-    host: ${HOST:https://www.fis-ski.com/DB/ski-jumping/calendar-results.html?seasoncode=%s&seasonmonth=%02d-%s}
-    eventHost: ${EVENT_HOST:https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=%s&seasoncode=%s}
+    host: ${SETTINGS_HOST:https://www.fis-ski.com/DB/ski-jumping/calendar-results.html?seasoncode=%s&seasonmonth=%02d-%s}
+    eventHost: ${SETTINGS_EVENT_HOST:https://www.fis-ski.com/DB/general/event-details.html?sectorcode=JP&eventid=%s&seasoncode=%s}
     jumpResultHost: ${JUMP_RESULT_HOST:https://www.fis-ski.com/DB/general/results.html?sectorcode=JP&raceid=%s}
     directory: ${DIRECTORY:tmp}
     numberOfPreviousMonth: ${NUMBER_OF_PREVIOUSE_MONTH_TO_DOWNLOAD:10}
     skiJumperDataHost: ${SKI_JUMPER_DATA_HOST:https://www.fis-ski.com/DB/general/athlete-biography.html?sectorcode=jp&competitorid=%s&type=result}
     scheduler:
       importData:
-        cron: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_CRON:0 0/30 * * * *}
-        enable: ${SKI_JUMPING_SETTINGS_DATA_IMPORT_ENABLE:true}
+        cron: ${IMPORT_DATA_CRON:0 0/30 * * * *}
+        enable: ${IMPORT_DATA_CRON_ENABLE:true}
   rabbitmq:
     exchange: ${RABBITMQ_EXCHANGE:SkiJumping}
     queues:
@@ -29,17 +29,17 @@ spring:
     hibernate:
       ddl-auto: ${hibernate.ddl-auto:none}
   datasource:
-    url: ${URL:jdbc:mysql://mariadb:3306/skijumper?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC}
-    username: ${USER:root}
-    password: ${PASSWORD:mortall1994}
+    url: ${URL:jdbc:mysql://${DB_HOST:mariadb}:${PORT:3306}/${DATABASE:skijumper}?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC}
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:rootPassword}
   batch:
     job:
-      enabled: ${ENABLE:false}
+      enabled: ${BATCH_JOB_ENABLE:true}
   rabbitmq:
-    host: rabbitmq
-    port: 5672
-    username: guest
-    password: guest
+    host: ${RABBITMQ_HOST:rabbitmq}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
     listener:
       simple:
         default-requeue-rejected: false

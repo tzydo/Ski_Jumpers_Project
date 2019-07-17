@@ -1,0 +1,44 @@
+version: "2.3"
+services:
+  db:
+    container_name: db
+    image: mariadb:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=p4$$WOrd
+      - MYSQL_DATABASE=skijumper
+      - MYSQL_USER=userRoot
+      - MYSQL_PASSWORD=userPassword
+    ports:
+      - '3306:3306'
+  rabbitmq:
+    container_name: rabbitmq
+    hostname: rabbitmq
+    image: rabbitmq:latest
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_VHOST=/
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+  skijumper:
+    container_name: skijumper
+    image: ski_jumper
+    depends_on:
+    - db
+    - rabbitmq
+    ports:
+    - '8000:8080'
+    environment:
+      - DB_HOST=db
+      - DATABASE=skijumper
+      - DB_USER=userRoot
+      - DB_PASSWORD=userPassword
+      - PORT=3306
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASSWORD=guest
+      - IMPORT_DATA_CRON_ENABLE=true
+      - NUMBER_OF_PREVIOUSE_MONTH_TO_DOWNLOAD=10
+      - BATCH_JOB_ENABLE=true
