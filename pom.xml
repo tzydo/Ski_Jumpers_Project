@@ -23,6 +23,7 @@
         <querydsl.version>4.2.1</querydsl.version>
         <jackson.version>2.9.8</jackson.version>
         <docker-maven-plugin.version>1.2.0</docker-maven-plugin.version>
+        <feign-okhttp.version>10.2.3</feign-okhttp.version>
     </properties>
 
     <modules>
@@ -36,6 +37,7 @@
         <module>ski_jumping.liquibase</module>
         <module>ski_jumping.rest</module>
         <module>ski_jumping.rabbitmq</module>
+        <module>ski_jumping.batchclient</module>
     </modules>
 
     <dependencyManagement>
@@ -217,6 +219,17 @@
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-okhttp</artifactId>
+                <version>${feign-okhttp.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.github.openfeign/feign-gson -->
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-gson</artifactId>
+                <version>${feign-okhttp.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

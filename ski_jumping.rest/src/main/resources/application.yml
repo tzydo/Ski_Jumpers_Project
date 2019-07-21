@@ -1,4 +1,8 @@
 #second, minute, hour, day of month, month, day(s) of week
+feign:
+  batch:
+    client:
+      url: localhost:8080
 skijumping:
   settings:
     host: ${HOST:https://www.fis-ski.com/DB/ski-jumping/calendar-results.html?seasoncode=%s&seasonmonth=%02d-%s}
@@ -32,8 +36,8 @@ spring:
       ddl-auto: ${hibernate.ddl-auto:none}
   datasource:
     url: ${URL:jdbc:mysql://mariadb:3306/skijumper?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC}
-    username: ${USER:root}
-    password: ${PASSWORD:mortall1994}
+    username: ${USER:userRoot}
+    password: ${PASSWORD:userPassword}
   batch:
     job:
       enabled: ${ENABLE:false}
@@ -47,3 +51,5 @@ spring:
         default-requeue-rejected: false
         retry:
           max-attempts: 3
+server:
+  port: 8081
