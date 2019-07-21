@@ -50,7 +50,8 @@ public class ImportTeamJumpResultDataListener {
     @RabbitListener(bindings =
     @QueueBinding(
             value = @Queue(value = "${skijumping.rabbitmq.queues.importJumpResultTeamEventListener}", durable = "true"),
-            exchange = @Exchange(value = "${skijumping.rabbitmq.exchange}", type = ExchangeTypes.TOPIC, durable = "true")
+            exchange = @Exchange(value = "${skijumping.rabbitmq.exchange}", type = ExchangeTypes.TOPIC, durable = "true"),
+            key = "importJumpResultTeamEventListener"
     ))
     public void importData(MessageDTO messageDTO) {
         if (messageDTO == null) {

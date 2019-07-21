@@ -46,13 +46,14 @@ public class SourceImporterEvent {
 
     @PostConstruct
     public void fillFileUrlMap() {
-        this.fileUrlMap = importedFileService.findAllInMap();
+        SourceImporterEvent.fileUrlMap = importedFileService.findAllInMap();
     }
 
     @RabbitListener(bindings =
     @QueueBinding(
             value = @Queue(value = "${skijumping.rabbitmq.queues.sourceImportEventListener}", durable = "true"),
-            exchange = @Exchange(value = "${skijumping.rabbitmq.exchange}", type = ExchangeTypes.TOPIC, durable = "true")
+            exchange = @Exchange(value = "${skijumping.rabbitmq.exchange}", type = ExchangeTypes.TOPIC, durable = "true"),
+            key = "sourceImportEventListener"
     ))
     public void sourceImport(MessageDTO messageDTO) {
         if(messageDTO == null) {

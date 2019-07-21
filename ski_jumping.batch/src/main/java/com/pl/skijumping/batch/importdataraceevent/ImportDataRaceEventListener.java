@@ -66,7 +66,8 @@ public class ImportDataRaceEventListener {
     @RabbitListener(bindings =
     @QueueBinding(
             value = @Queue(value = "${skijumping.rabbitmq.queues.importDataRaceEventListener}", durable = "true"),
-            exchange = @Exchange(value = "${skijumping.rabbitmq.exchange}", type = ExchangeTypes.TOPIC, durable = "true")
+            exchange = @Exchange(value = "${skijumping.rabbitmq.exchange}", type = ExchangeTypes.TOPIC, durable = "true"),
+            key = "importDataRaceEventListener"
     ))
     public void importDataRace(MessageDTO messageDTO) throws InternalServiceException {
         if (messageDTO == null) {
