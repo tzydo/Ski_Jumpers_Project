@@ -42,7 +42,7 @@ public class ImportEventIdListener {
     @RabbitListener(bindings =
     @QueueBinding(
             value = @Queue(value = "${skijumping.rabbitmq.queues.importEventIdListener}", durable = "true"),
-            exchange = @Exchange(value = "${skijumping.rabbitmq.exchange}", type = ExchangeTypes.TOPIC, durable = "true"),
+            exchange = @Exchange(value = "${skijumping.rabbitmq.exchange}", type = ExchangeTypes.DIRECT, durable = "true"),
             key = "importEventIdListener"
     ))
     public void importEvent(MessageDTO messageDTO) {

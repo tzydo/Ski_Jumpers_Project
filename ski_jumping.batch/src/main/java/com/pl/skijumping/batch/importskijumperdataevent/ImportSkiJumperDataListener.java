@@ -54,7 +54,7 @@ public class ImportSkiJumperDataListener {
     @RabbitListener(bindings =
     @QueueBinding(
             value = @Queue(value = "${skijumping.rabbitmq.queues.importSkiJumperDataListener}", durable = "true"),
-            exchange = @Exchange(value = "${skijumping.rabbitmq.exchange}", type = ExchangeTypes.TOPIC, durable = "true"),
+            exchange = @Exchange(value = "${skijumping.rabbitmq.exchange}", durable = "true"),
             key = "importSkiJumperDataListener"
     ))
     public void importJumperData(MessageDTO messageDTO) throws IOException, InternalServiceException {
