@@ -21,7 +21,7 @@
         <h2.version>1.4.197</h2.version>
         <liquibase.version>3.6.2</liquibase.version>
         <querydsl.version>4.2.1</querydsl.version>
-        <jackson.version>2.9.8</jackson.version>
+        <jackson.version>2.11.0</jackson.version>
         <docker-maven-plugin.version>1.2.0</docker-maven-plugin.version>
         <feign-okhttp.version>10.2.3</feign-okhttp.version>
     </properties>
